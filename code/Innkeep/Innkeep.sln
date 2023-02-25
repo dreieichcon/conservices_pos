@@ -8,8 +8,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{385CCCCE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Data.Tests", "Innkeep.Data.Tests\Innkeep.Data.Tests.csproj", "{6499CB19-F14A-4CF6-95D6-3AD95B805777}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Cryptography", "Innkeep.Cryptography\Innkeep.Cryptography.csproj", "{134C6095-6204-41C6-A7CC-28F0BEC3B55E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Core", "Innkeep.Core\Innkeep.Core.csproj", "{F4AFE62B-6D3C-40CD-A191-EFEA3E326826}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebUi", "WebUi", "{EF1BD89A-0099-4550-94E6-7946D358EDA4}"
@@ -34,10 +32,6 @@ Global
 		{6499CB19-F14A-4CF6-95D6-3AD95B805777}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6499CB19-F14A-4CF6-95D6-3AD95B805777}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6499CB19-F14A-4CF6-95D6-3AD95B805777}.Release|Any CPU.Build.0 = Release|Any CPU
-		{134C6095-6204-41C6-A7CC-28F0BEC3B55E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{134C6095-6204-41C6-A7CC-28F0BEC3B55E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{134C6095-6204-41C6-A7CC-28F0BEC3B55E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{134C6095-6204-41C6-A7CC-28F0BEC3B55E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F4AFE62B-6D3C-40CD-A191-EFEA3E326826}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F4AFE62B-6D3C-40CD-A191-EFEA3E326826}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4AFE62B-6D3C-40CD-A191-EFEA3E326826}.Release|Any CPU.ActiveCfg = Release|Any CPU
