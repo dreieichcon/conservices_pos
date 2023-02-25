@@ -1,0 +1,43 @@
+﻿@using Innkeep.Core.Interfaces.Services
+@using Innkeep.Core.DomainModels.Pretix
+@inject IPretixService PretixService;
+@inject IShoppingCartService ShoppingCartService;
+
+<div class="sales-wrapper">
+    <div class="sales-title">
+        Items
+    </div>
+    <div class="sales">
+        @foreach (var item in PretixService.SalesItems)
+        {
+            <div class="sales-item no-select" @onclick="(() => AddToCart(item))">
+                <div class="sales-item-title">
+                    @item.Name
+                </div>
+                <div class="sales-price">
+                    @item.DefaultPrice
+                    @PretixService.SelectedEvent?.Currency
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    
+    protected override void OnInitialized()
+    {
+        PretixService.ItemUpdated += StateChangedEvent;
+    }
+
+    private void StateChangedEvent(object? sender, EventArgs e)
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void AddToCart(PretixSalesItem item)
+    {
+        ShoppingCartService.Add(item);
+    }
+
+}

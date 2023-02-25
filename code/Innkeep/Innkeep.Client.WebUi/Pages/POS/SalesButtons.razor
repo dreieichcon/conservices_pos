@@ -1,0 +1,22 @@
+﻿@using Innkeep.Core.Interfaces.Services
+@inject IShoppingCartService ShoppingCartService
+
+<div class="button-group">
+    <div class="button pay drop2">
+        <div class="button-text">
+            PAY
+        </div>
+    </div>
+    <div class="button clear drop2" @onclick="Clear">
+        <div class="button-text">
+            CLEAR
+        </div>
+    </div>
+</div>
+
+@code {
+    private void Clear()
+    {
+        ShoppingCartService.Clear();
+    }
+}

@@ -1,0 +1,59 @@
+﻿:root{
+    --primary-color: #2E6171;
+    --secondary-color: #D90368;
+    --confirm-color: #14CC60;
+    --error-color: #A63D40;
+    --background-color: #fff;
+    --text: #32322C;
+    --borders: #32322C;
+    --gradient: linear-gradient(to left, var(--primary-color), var(--secondary-color));
+    --radius: 5px;
+}
+
+html, body{
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: var(--background-color);
+}
+
+.main{
+    width: 100vw;
+    height: 100vh;
+}
+
+.main-page{
+    height:100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.content{
+    flex: 1 1 auto;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.debug{
+    border: 1px solid red;
+}
+
+a, a:hover {
+    text-decoration: none;
+    color: var(--text);
+}
+
+.no-select {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+.drop2{
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1));
+}

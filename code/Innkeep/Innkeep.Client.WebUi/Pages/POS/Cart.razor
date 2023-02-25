@@ -1,0 +1,81 @@
+﻿@using Innkeep.Core.Interfaces.Services
+@using System.Collections.ObjectModel
+@using Innkeep.Core.DomainModels.Pretix
+@using RestSharp
+
+@inject IShoppingCartService ShoppingCartService
+@inject IPretixService PretixService;
+
+<div class="cart-wrapper">
+   <div class="cart-title">
+      Cart
+   </div>
+   <div class="cart">
+      @foreach (var item in ShoppingCartService.Cart)
+      {
+         <div class="item-row">
+            <div class="item-data">
+               <div class="item-count">
+                  <div class="item-highlight">@item.Count</div>
+                  <div class="item-highlight">x&nbsp;</div>
+               </div>
+               <div class="item-info">
+                  @item.Item.Name.German
+               </div>
+            </div>
+            <div class="price-info">
+               <div>@item.Price</div>
+               <div>@PretixService.SelectedEvent?.Currency</div>
+            </div>
+         </div>
+      }
+   </div>
+   <div class="cart-buttons">
+      
+   </div>
+   <div class="cart-total-wrapper">
+      <div class="item-row">
+         <div class="cart-total">
+            Total
+         </div>
+         <div class="cart-total">
+            @Total
+            <div>@PretixService.SelectedEvent?.Currency</div>
+         </div>
+      </div>
+      
+      <div class="item-row">
+         <div class="cart-tax">
+            Tax:
+         </div>
+         <div class="cart-tax">
+            @Tax
+            <div>@PretixService.SelectedEvent?.Currency</div>
+         </div>
+      </div>
+      <div class="item-row">
+         <div class="cart-net">
+         
+         </div>
+      </div>
+   </div>
+</div>
+
+
+@code {
+
+   private decimal Total => ShoppingCartService.Cart.Sum(x => x.Price);
+
+   private decimal Tax => ShoppingCartService.Cart.Sum(x => x.TaxPrice);
+
+   protected override void OnInitialized()
+   {
+      ShoppingCartService.CartUpdated += StateChangedEvent;
+   }
+
+   private void StateChangedEvent(object? sender, EventArgs e)
+   {
+      _ = InvokeAsync(StateHasChanged);
+   }
+
+}

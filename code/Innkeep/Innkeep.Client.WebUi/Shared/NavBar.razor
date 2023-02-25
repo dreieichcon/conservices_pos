@@ -1,0 +1,18 @@
+﻿<div class="navbar">
+    <div class="navbar-group">
+        <NavLink href="POS" ActiveClass="navbar-active" class="navbar-button" Match="NavLinkMatch.All">
+            <div class="navbar-button-text">
+                <span class="oi oi-plus" aria-hidden="true"></span> POS
+            </div>
+        </NavLink>
+    </div>
+</div>
+
+@code {
+
+    public bool IsActive(string href)
+    {
+        return true;
+    }
+    
+}
