@@ -1,0 +1,6 @@
+**/obj/*
+**/bin/*
+/Auth/*
+*.DotSettings.user
+**/.idea/*
+**/.vs/*
