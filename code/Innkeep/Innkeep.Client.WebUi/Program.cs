@@ -1,4 +1,3 @@
-using Innkeep.Client.WebUi.Data;
 using Innkeep.Core.Interfaces;
 using Innkeep.Core.Interfaces.Pretix;
 using Innkeep.Core.Interfaces.Repositories;
@@ -12,7 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 
 builder.Services.AddSingleton<IAuthenticationRepository, AuthenticationRepository>();
 builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
