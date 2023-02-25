@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Innkeep.Core\Innkeep.Core.csproj" />
+      <ProjectReference Include="..\Innkeep.DI\Innkeep.DI.csproj" />
+    </ItemGroup>
+
+</Project>
