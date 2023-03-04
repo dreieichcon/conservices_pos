@@ -32,7 +32,7 @@ public class AuthenticationRepository : IAuthenticationRepository
 
         return new AuthenticationInfo()
         {
-            PretixToken = token;
+            PretixToken = token
         };
     }
 

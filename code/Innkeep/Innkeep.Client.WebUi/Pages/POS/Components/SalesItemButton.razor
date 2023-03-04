@@ -1,0 +1,26 @@
+﻿@using Innkeep.Core.Interfaces.Services
+@using Innkeep.Core.DomainModels.Pretix
+@inject IShoppingCartService ShoppingCartService;
+@inject IPretixService PretixService;
+
+<div class="sales-item no-select" @onclick="AddToCart">
+    <div class="sales-item-title">
+        @Item.Name
+    </div>
+    <div class="sales-price">
+        @Item.DefaultPrice
+        @PretixService.SelectedEvent?.Currency
+    </div>
+</div>
+
+@code {
+    
+    [Parameter]
+    public PretixSalesItem Item { get; set; }
+
+    public void AddToCart()
+    {
+        ShoppingCartService.Add(Item);
+    }
+    
+}

@@ -1,29 +1,12 @@
-﻿.sales{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    flex: 1 1 auto;
-    justify-content: space-between;
-}
-
-.sales-item{
+﻿.sales-item{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border: 1px solid var(--borders);
     border-radius: var(--radius);
-    width: 200px;
+    width: 180px;
     height: 100px;
-}
-
-.sales-title{
-    font-size: 1.5rem;
-    font-weight: bold;
-    border-bottom: 1px solid;
-    border-image-source: var(--gradient);
-    border-image-slice: 1;
-    margin-bottom: 0.5rem;
 }
 
 .sales-item-title{
@@ -39,10 +22,4 @@
     width: 100%;
     border-top: 1px solid var(--borders);
     padding: 0.25rem;
-}
-
-.sales-wrapper{
-    display: flex;
-    flex-direction: column;
-    flex: 1 1 auto;
 }

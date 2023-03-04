@@ -1,0 +1,30 @@
+﻿.item-row{
+    display: flex;
+    padding: 0.5rem;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.cart-total-wrapper{
+    min-width: 33%;
+    max-width: 33%;
+    height: 140px;
+    border-top: 1px solid var(--borders);
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    margin-right: 1rem;
+}
+
+.cart-total{
+    display: flex;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.cart-tax{
+    display: flex;
+    font-size: 1.25rem;
+    font-weight: bold;
+}

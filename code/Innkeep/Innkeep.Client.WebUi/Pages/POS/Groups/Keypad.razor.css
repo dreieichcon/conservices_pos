@@ -1,0 +1,64 @@
+﻿.keypad-wrapper{
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 33%;
+}
+
+.keypad-title{
+    font-size: 1.5rem;
+    font-weight: bold;
+    border-bottom: 1px solid;
+    border-image-source: var(--gradient);
+    border-image-slice: 1;
+    margin-bottom: 0.5rem;
+}
+
+.keypad-group{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--borders);
+    border-radius: var(--radius);
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.keypad-row{
+    display: flex;
+    justify-content: center;
+}
+
+.keypad-button{
+    width: calc(160px + 0.5rem);
+    height: 110px;
+    margin: 0.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--radius);
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.ok{
+    color: var(--confirm-color);
+    border: 1px solid var(--confirm-color);
+}
+
+.cancel{
+    background: var(--error-color);
+}
+
+.keypad-display{
+    font-size: 1.5rem;
+    display:flex;
+    border: 1px solid var(--borders);
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+
+.amount-confirmed{
+    font-weight: bold;
+    color: var(--confirm-color);
+}

@@ -6,6 +6,7 @@
     --background-color: #fff;
     --text: #32322C;
     --borders: #32322C;
+    --button: #aaa;
     --gradient: linear-gradient(to left, var(--primary-color), var(--secondary-color));
     --radius: 5px;
 }

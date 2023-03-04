@@ -1,12 +1,16 @@
-﻿@page "/POS"
+﻿@using Innkeep.Client.WebUi.Pages.POS.Groups
+@page "/POS"
 
 <div class="pos-main">
-    <Cart/>
-    <div class="sales-side">
+    <div class="pos-top">
+        <Cart/>
         <SalesItemCollection/>
+        <Keypad/>
+    </div>
+    <div class="pos-bottom">
+        <CartTotal/>
         <SalesButtons/>
     </div>
-    
 </div>
 
 @code {

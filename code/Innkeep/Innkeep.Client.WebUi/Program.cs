@@ -5,6 +5,15 @@ using Innkeep.Core.Interfaces.Services;
 using Innkeep.Data.Repositories.FileOperations;
 using Innkeep.Data.Repositories.Pretix;
 using Innkeep.DI.Services;
+using Serilog;
+
+using var log =
+    new LoggerConfiguration()
+        .WriteTo.Console()
+        .WriteTo.Debug()
+        .WriteTo.Trace()
+        .MinimumLevel.Verbose()
+        .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +31,10 @@ builder.Services.AddSingleton<IPretixService, PretixService>();
 
 builder.Services.AddSingleton<IShoppingCartService, ShoppingCartService>();
 
+builder.Services.AddSingleton<IAmountKeypadService, AmountKeypadService>();
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

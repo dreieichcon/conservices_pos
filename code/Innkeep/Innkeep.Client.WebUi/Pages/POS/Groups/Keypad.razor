@@ -1,0 +1,84 @@
+﻿@using Innkeep.Client.WebUi.Pages.POS.Components
+@using System.Runtime.CompilerServices
+@using Innkeep.Core.Interfaces.Services
+
+@inject IAmountKeypadService AmountKeypadService
+@inject IShoppingCartService ShoppingCartService
+
+<div class="keypad-wrapper">
+    <div class="keypad-title">
+        Amount
+    </div>
+    <div class="keypad-display">
+        <div>
+             Amount:
+        </div>
+        <div class="@Confirmed">
+            @AmountKeypadService.Amount
+        </div>
+        
+    </div>
+    <div class="keypad-group">
+        <div class="keypad-row">
+            <KeypadButton Value="7"/>
+            <KeypadButton Value="8"/>
+            <KeypadButton Value="9"/>
+        </div>
+        <div class="keypad-row">
+            <KeypadButton Value="4"/>
+            <KeypadButton Value="5"/>
+            <KeypadButton Value="6"/>
+        </div>
+        <div class="keypad-row">
+            <KeypadButton Value="1"/>
+            <KeypadButton Value="2"/>
+            <KeypadButton Value="3"/>
+        </div>
+        <div class="keypad-row">
+            <KeypadButton Value="0"/>
+            <KeypadButton Value=""/>
+        </div>
+        <div class="keypad-row">
+            <div class="keypad-button ok" @onclick="CommitAmount">
+                Amount
+            </div>
+            <div class="keypad-button cancel" @onclick="ClearAmount">
+                Clear
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    
+    private string Confirmed => AmountKeypadService.IsConfirmed ? "amount-confirmed" : "";
+    
+
+    protected override void OnInitialized()
+    {
+        AmountKeypadService.AmountChanged += StateChangedEvent;
+    }
+
+    private void StateChangedEvent(object? sender, EventArgs e)
+    {
+        _ = InvokeAsync(StateHasChanged);
+    }
+
+    private void CommitAmount()
+    {
+        if (int.TryParse(AmountKeypadService.Amount, out var amount))
+        {
+            ShoppingCartService.Amount = amount;
+            AmountKeypadService.IsConfirmed = true;
+        }
+
+        StateChangedEvent(null, EventArgs.Empty);
+    }
+
+    private void ClearAmount()
+    {
+        AmountKeypadService.ClearAmount();
+        CommitAmount();
+    }
+
+}

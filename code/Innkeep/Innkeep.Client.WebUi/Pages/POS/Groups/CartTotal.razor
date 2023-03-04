@@ -1,0 +1,48 @@
+﻿@using Innkeep.DI.Services
+@using Innkeep.Core.Interfaces.Services
+@inject IPretixService PretixService
+@inject IShoppingCartService ShoppingCartService;
+
+<div class="cart-total-wrapper">
+   <div class="item-row">
+      <div class="cart-total">
+         Total
+      </div>
+      <div class="cart-total">
+         @Total
+         <div>@PretixService.SelectedEvent?.Currency</div>
+      </div>
+   </div>
+
+   <div class="item-row">
+      <div class="cart-tax">
+         Tax:
+      </div>
+      <div class="cart-tax">
+         @Tax
+         <div>@PretixService.SelectedEvent?.Currency</div>
+      </div>
+   </div>
+   <div class="item-row">
+      <div class="cart-net">
+
+      </div>
+   </div>
+</div>
+
+@code {
+
+   protected override void OnInitialized()
+   {
+      ShoppingCartService.CartUpdated += StateChangedEvent;
+   }
+
+   private void StateChangedEvent(object? sender, EventArgs e)
+   {
+      _ = InvokeAsync(StateHasChanged);
+   }
+
+   private decimal Total => ShoppingCartService.Cart.Sum(x => x.Price);
+
+   private decimal Tax => ShoppingCartService.Cart.Sum(x => x.TaxPrice);
+}

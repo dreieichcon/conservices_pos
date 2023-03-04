@@ -1,6 +1,8 @@
-﻿using Innkeep.Core.DomainModels.Pretix;
+﻿using System.Reflection.Metadata.Ecma335;
+using Innkeep.Core.DomainModels.Pretix;
 using Innkeep.Core.Interfaces.Pretix;
 using Innkeep.Core.Interfaces.Services;
+using Serilog;
 
 namespace Innkeep.DI.Services;
 
@@ -32,6 +34,8 @@ public class PretixService : IPretixService
         SelectedEvent = Events.FirstOrDefault(x => x.Slug == _applicationSettingsService.SelectedEventSetting);
         Initialized?.Invoke(null, EventArgs.Empty);
         ItemUpdated?.Invoke("SalesItems", EventArgs.Empty);
+
+        Log.Debug("Loaded {SalesItemCount} SalesItems from Pretix", SalesItems.Count());
     }
 
     public IEnumerable<PretixOrganizer> Organizers { get; set; }

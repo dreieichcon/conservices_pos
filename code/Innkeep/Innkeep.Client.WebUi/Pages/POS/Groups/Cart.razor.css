@@ -4,6 +4,7 @@
     max-width: 33%;
     height: 100%;
     flex-direction: column;
+    margin-right: 1rem;
 }
 
 .cart{
@@ -11,28 +12,6 @@
     flex: 1 1 auto;
     border: 1px solid var(--borders);
     border-radius: var(--radius);
-}
-
-.cart-total-wrapper{
-    width: 100%;
-    height: 140px;
-    border-top: 1px solid var(--borders);
-    display: flex;
-    flex-direction: column;
-    margin-top: 1rem;
-}
-
-.cart-total{
-    display: flex;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--primary-color);
-}
-
-.cart-tax{
-    display: flex;
-    font-size: 1.25rem;
-    font-weight: bold;
 }
 
 .cart-title{

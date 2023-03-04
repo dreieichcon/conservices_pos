@@ -30,43 +30,10 @@
          </div>
       }
    </div>
-   <div class="cart-buttons">
-      
-   </div>
-   <div class="cart-total-wrapper">
-      <div class="item-row">
-         <div class="cart-total">
-            Total
-         </div>
-         <div class="cart-total">
-            @Total
-            <div>@PretixService.SelectedEvent?.Currency</div>
-         </div>
-      </div>
-      
-      <div class="item-row">
-         <div class="cart-tax">
-            Tax:
-         </div>
-         <div class="cart-tax">
-            @Tax
-            <div>@PretixService.SelectedEvent?.Currency</div>
-         </div>
-      </div>
-      <div class="item-row">
-         <div class="cart-net">
-         
-         </div>
-      </div>
-   </div>
 </div>
 
 
 @code {
-
-   private decimal Total => ShoppingCartService.Cart.Sum(x => x.Price);
-
-   private decimal Tax => ShoppingCartService.Cart.Sum(x => x.TaxPrice);
 
    protected override void OnInitialized()
    {

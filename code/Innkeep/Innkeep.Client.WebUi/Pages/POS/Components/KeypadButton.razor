@@ -1,0 +1,36 @@
+﻿@using Innkeep.Core.Interfaces.Services
+@inject IAmountKeypadService AmountKeypadService
+
+<div class="@Class no-select h1" @onclick="AddValue">
+    <div class="text">
+        @Value
+    </div>
+</div>
+
+@code {
+    
+    [Parameter]
+    public string Value { get; set; }
+
+    public string Class
+    {
+        get
+        {
+            var value = Value switch
+            {
+                "0" => "button-large",
+                "" => "button invisible",
+                _ => "button"
+                };
+
+            return value;
+        }
+    }
+
+    private void AddValue()
+    {
+        if (!string.IsNullOrEmpty(Value))
+            AmountKeypadService.SetAmount(Value);
+    }
+
+}
