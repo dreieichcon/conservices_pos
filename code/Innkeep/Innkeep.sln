@@ -14,6 +14,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebUi", "WebUi", "{EF1BD89A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Client.WebUi", "Innkeep.Client.WebUi\Innkeep.Client.WebUi.csproj", "{AA212DAD-F2BC-4F8E-9FEE-A7991C2B4857}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Printer", "Innkeep.Printer\Innkeep.Printer.csproj", "{4772204C-5C27-474D-9463-F15408BDD92B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Printer.Tests", "Innkeep.Printer.Tests\Innkeep.Printer.Tests.csproj", "{EE4F940C-4AC1-49BE-AB71-2D477860A406}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,9 +44,18 @@ Global
 		{AA212DAD-F2BC-4F8E-9FEE-A7991C2B4857}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA212DAD-F2BC-4F8E-9FEE-A7991C2B4857}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA212DAD-F2BC-4F8E-9FEE-A7991C2B4857}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4772204C-5C27-474D-9463-F15408BDD92B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4772204C-5C27-474D-9463-F15408BDD92B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4772204C-5C27-474D-9463-F15408BDD92B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4772204C-5C27-474D-9463-F15408BDD92B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE4F940C-4AC1-49BE-AB71-2D477860A406}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE4F940C-4AC1-49BE-AB71-2D477860A406}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE4F940C-4AC1-49BE-AB71-2D477860A406}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE4F940C-4AC1-49BE-AB71-2D477860A406}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6499CB19-F14A-4CF6-95D6-3AD95B805777} = {385CCCCE-639D-431D-8CAF-0BCE68129303}
 		{AA212DAD-F2BC-4F8E-9FEE-A7991C2B4857} = {EF1BD89A-0099-4550-94E6-7946D358EDA4}
+		{EE4F940C-4AC1-49BE-AB71-2D477860A406} = {385CCCCE-639D-431D-8CAF-0BCE68129303}
 	EndGlobalSection
 EndGlobal
