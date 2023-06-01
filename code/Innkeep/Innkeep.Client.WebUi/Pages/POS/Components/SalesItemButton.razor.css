@@ -1,25 +1,28 @@
 ﻿.sales-item{
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
     align-items: center;
-    border: 1px solid var(--borders);
-    border-radius: var(--radius);
-    width: 180px;
-    height: 100px;
+    border-bottom: 3px solid var(--page-background);
+    flex:1;
 }
 
 .sales-item-title{
     flex: 1 1 auto;
-    padding: 0.25rem;
+    padding: 0.5rem;
     overflow: hidden;
-    width: 100%;
+    width: 200px;
+}
+
+.sales-item-spacer{
+    height: 60%;
+    border-right: 2px solid var(--borders);
+    margin-right: 1rem;
 }
 
 .sales-price{
     color: var(--primary-color);
     font-weight: bold;
-    width: 100%;
-    border-top: 1px solid var(--borders);
-    padding: 0.25rem;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
 }

@@ -6,7 +6,7 @@
 @inject IShoppingCartService ShoppingCartService
 @inject IPretixService PretixService;
 
-<div class="cart-wrapper">
+<div class="cart-wrapper drop2">
    <div class="cart-title">
       Cart
    </div>
@@ -14,15 +14,15 @@
       @foreach (var item in ShoppingCartService.Cart)
       {
          <div class="item-row">
-            <div class="item-data">
-               <div class="item-count">
-                  <div class="item-highlight">@item.Count</div>
-                  <div class="item-highlight">x&nbsp;</div>
-               </div>
-               <div class="item-info">
-                  @item.Item.Name.German
-               </div>
+            <div class="item-count">
+               <div class="item-highlight">@item.Count</div>
+               <div class="item-highlight">x&nbsp;</div>
             </div>
+            <div class="item-spacer"></div>
+            <div class="item-info">
+               @item.Item.Name.German
+            </div>
+            <div class="item-spacer"></div>
             <div class="price-info">
                <div>@item.Price</div>
                <div>@PretixService.SelectedEvent?.Currency</div>

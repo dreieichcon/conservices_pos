@@ -23,4 +23,8 @@
       <PackageReference Include="Serilog.Sinks.Trace" Version="3.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\img\money\" />
+    </ItemGroup>
+
 </Project>

@@ -2,6 +2,7 @@
 @using Innkeep.Core.Interfaces.Services
 @inject IPretixService PretixService
 @inject IShoppingCartService ShoppingCartService;
+@inject ITransactionService TransactionService;
 
 <div class="cart-total-wrapper drop2">
    <div class="item-row">
@@ -9,23 +10,23 @@
          Total
       </div>
       <div class="cart-total">
-         @Total &nbsp;
-         <div> @PretixService.SelectedEvent?.Currency</div>
-      </div>
-   </div>
-
-   <div class="item-row">
-      <div class="cart-tax">
-         Tax:
-      </div>
-      <div class="cart-tax">
-         @Tax &nbsp;
-         <div> @PretixService.SelectedEvent?.Currency</div>
+         @Total&nbsp;@TransactionService.Currency
       </div>
    </div>
    <div class="item-row">
-      <div class="cart-net">
-
+      <div class="cart-tax">
+         Given
+      </div>
+      <div class="cart-tax">
+         @Given&nbsp;@TransactionService.Currency
+      </div>
+   </div>
+   <div class="item-row">
+      <div class="cart-total">
+         Remaining
+      </div>
+      <div class="cart-total">
+         @Remaining&nbsp;@TransactionService.Currency
       </div>
    </div>
 </div>
@@ -34,7 +35,7 @@
 
    protected override void OnInitialized()
    {
-      ShoppingCartService.CartUpdated += StateChangedEvent;
+      TransactionService.TransactionUpdated += StateChangedEvent;
    }
 
    private void StateChangedEvent(object? sender, EventArgs e)
@@ -42,7 +43,10 @@
       _ = InvokeAsync(StateHasChanged);
    }
 
-   private decimal Total => ShoppingCartService.Cart.Sum(x => x.Price);
+   private decimal Total => TransactionService.AmountDue;
 
-   private decimal Tax => ShoppingCartService.Cart.Sum(x => x.TaxPrice);
+   private decimal Remaining => TransactionService.AmountDue - TransactionService.AmountGiven;
+
+   private decimal Given => TransactionService.AmountGiven;
+
 }

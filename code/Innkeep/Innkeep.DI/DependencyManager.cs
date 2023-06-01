@@ -34,9 +34,10 @@ public static class DependencyManager
         
         collection.AddSingleton<IPretixRepository, PretixRepository>();
         collection.AddSingleton<IPretixService, PretixService>();
+        
+        collection.AddSingleton<IPopupService, PopupService>();
 
         collection.AddSingleton<IShoppingCartService, ShoppingCartService>();
-
     }
 
     private static IServiceProvider Create(IServiceCollection serviceCollection)

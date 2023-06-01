@@ -5,8 +5,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    color: var(--background-color);
     border-radius: var(--radius);
-    background: var(--button);
+    background: var(--title-color-dark);
 }
 
 .button-large{
@@ -16,8 +17,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    color: var(--background-color);
     border-radius: var(--radius);
-    background: var(--button);
+    background: var(--title-color-dark);
 }
 
 .invisible{

@@ -1,0 +1,30 @@
+﻿@using Innkeep.Core.Interfaces.Services
+@inject ITransactionService TransactionService;
+@inject IPretixService PretixService;
+
+<div class="sales-item no-select" @onclick="AddToTransaction">
+    <div class="sales-image-wrapper">
+        <img class="sales-image drop2" src="@Src"/>
+    </div>
+    <div class="sales-item-spacer"></div>
+    <div class="sales-price-wrapper">
+        <div class="sales-price">
+            @Amount&nbsp;@PretixService.SelectedEvent?.Currency
+        </div>
+    </div>
+    
+</div>
+
+@code {
+    
+    [Parameter]
+    public decimal Amount { get; set; }
+
+    private string Src => $"img/money/{Amount}{PretixService.SelectedEvent?.Currency}.png";
+
+    private void AddToTransaction()
+    {
+        TransactionService.UpdateGivenAmount(Amount);
+    }
+    
+}

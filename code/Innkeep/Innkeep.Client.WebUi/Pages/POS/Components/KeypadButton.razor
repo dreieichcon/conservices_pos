@@ -11,6 +11,9 @@
     
     [Parameter]
     public string Value { get; set; }
+    
+    [Parameter]
+    public Action<string>? CommitAction { get; set; }
 
     public string Class
     {
@@ -29,6 +32,12 @@
 
     private void AddValue()
     {
+        if (CommitAction != null)
+        {
+            if (!string.IsNullOrEmpty(Value)) CommitAction.Invoke(Value);
+            return;
+        }
+        
         if (!string.IsNullOrEmpty(Value))
             AmountKeypadService.SetAmount(Value);
     }

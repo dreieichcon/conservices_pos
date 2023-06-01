@@ -1,14 +1,17 @@
 ﻿:root{
     --primary-color: #2E6171;
     --secondary-color: #D90368;
-    --confirm-color: #14CC60;
-    --error-color: #A63D40;
+    --confirm-color: #4CD9C0;
+    --error-color: #FF8989;
+    --tertiary-color: #7191a8;
     --background-color: #fff;
+    --page-background: #EFEFEF;
     --text: #32322C;
-    --borders: #32322C;
+    --borders: #dfdfdf;
     --button: #aaa;
     --gradient: linear-gradient(to left, var(--primary-color), var(--secondary-color));
     --radius: 5px;
+    --title-color-dark: #526E82;
 }
 
 html, body{
@@ -17,7 +20,7 @@ html, body{
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background: var(--background-color);
+    background: var(--page-background);
 }
 
 .main{
@@ -57,4 +60,26 @@ a, a:hover {
 
 .drop2{
     filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.1));
+}
+
+.fill-screen{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.on-top{
+    z-index: 1000;
+}
+
+.blurred{
+    backdrop-filter: blur(15px);
+}
+
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

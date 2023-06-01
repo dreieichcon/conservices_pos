@@ -1,0 +1,51 @@
+﻿@using Innkeep.Core.Interfaces.Services
+@using Innkeep.Client.WebUi.Pages.Base;
+@using Innkeep.Client.WebUi.Pages.POS.Groups
+@using Innkeep.Client.WebUi.Pages.POS.Components
+@using Innkeep.DI.Services
+@inherits PopupComponentBase
+@inject IShoppingCartService ShoppingCartService
+@inject IPopupService PopupService;
+@inject ITransactionService TransactionService;
+
+<div class="fill-screen on-top center drop2" style="@VisibilityClass">
+    <div class="popup-group">
+        <div class="pos-top">
+            <Cart/>
+            <MoneyItemCollection/>
+            <TransactionKeypad/>
+        </div>
+        <div class="pos-bottom">
+            <TransactionTotal/>
+            <TransactionButtons/>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    private string? Name => nameof(PayPopup);
+
+    protected override void OnInitialized()
+    {
+        PopupService.PopupChanged += PopupChangedEvent;
+    }
+    
+    private void PopupChangedEvent(object? sender, EventArgs e)
+    {
+        if (sender is not string propertyName) return;
+        if (propertyName != Name) return;
+        if (e is not PopupEventArgs pE) return;
+
+        if (!pE.Hide)
+        {
+            TransactionService.Initialize();
+            Show();
+            return;
+        }
+        
+        TransactionService.ClearTransaction();
+        Cancel();
+    }
+
+}

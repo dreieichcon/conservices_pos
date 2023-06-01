@@ -1,0 +1,41 @@
+﻿.sales-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    border-bottom: 3px solid var(--page-background);
+    flex:1;
+}
+
+.sales-image-wrapper{
+    display:flex;
+    max-width: 50%;
+    object-fit: contain;
+    justify-content: center;
+}
+
+.sales-image{
+    max-width: 80%;
+    object-fit: contain;
+}
+
+.sales-price-wrapper{
+    display:flex;
+    padding-right: 0.5rem;
+    width: 100px;
+}
+
+.sales-item-spacer{
+    height: 60%;
+    border-right: 2px solid var(--borders);
+    margin-right: 1rem;
+}
+
+.sales-price{
+    color: var(--primary-color);
+    font-weight: bold;
+    flex:1;
+    display: flex;
+    justify-content: flex-end;
+    font-size: 1.5rem;
+}

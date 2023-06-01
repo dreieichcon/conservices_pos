@@ -29,9 +29,13 @@ builder.Services.AddSingleton<IApplicationSettingsService, ApplicationSettingsSe
 builder.Services.AddSingleton<IPretixRepository, PretixRepository>();
 builder.Services.AddSingleton<IPretixService, PretixService>();
 
+builder.Services.AddSingleton<IPopupService, PopupService>();
+
 builder.Services.AddSingleton<IShoppingCartService, ShoppingCartService>();
 
 builder.Services.AddSingleton<IAmountKeypadService, AmountKeypadService>();
+
+builder.Services.AddSingleton<ITransactionService, TransactionService>();
 
 var app = builder.Build();
 

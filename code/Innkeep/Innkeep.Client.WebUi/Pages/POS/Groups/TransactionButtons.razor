@@ -1,42 +1,40 @@
 ﻿@using Innkeep.Core.Interfaces.Services
 @using Innkeep.Client.WebUi.Pages.POS.Components
-@inject IShoppingCartService ShoppingCartService
+@inject ITransactionService TransactionService
 @inject IPopupService PopupService
 
 <div class="button-group">
-    <div class="button no-select pay drop2" @onclick="Pay">
+    <div class="button no-select pay drop2" @onclick="Confirm">
         <div class="button-text">
-            PAY
+            CONFIRM
         </div>
     </div>
     <div class="button no-select clear drop2" @onclick="Clear">
         <div class="button-text">
-            CLEAR
+            CLEAR AMOUNT
         </div>
     </div>
-    <div class="button no-select print drop2" @onclick="Print">
+    <div class="button no-select clear drop2" @onclick="Cancel">
         <div class="button-text">
-            PRINT
+            CANCEL
         </div>
     </div>
 </div>
 
 @code {
-    private void Pay()
+    private void Confirm()
     {
-        if (ShoppingCartService.Cart.Any())
-            PopupService.Show(nameof(PayPopup));
+        
     }
     
     private void Clear()
     {
-        if (ShoppingCartService.Cart.Any())
-            PopupService.Show(nameof(ClearPopup));
+        TransactionService.UpdateGivenAmount(-TransactionService.AmountGiven);
     }
     
 
-    private void Print()
+    private void Cancel()
     {
-        
+        PopupService.Close(nameof(PayPopup));
     }
 }

@@ -1,0 +1,29 @@
+﻿@using Innkeep.Core.Interfaces.Services
+@using Innkeep.Client.WebUi.Pages.POS.Components
+
+<div class="sales-wrapper drop2">
+    <div class="sales-title">
+        Quick Currency
+    </div>
+    <div class="sales">
+        @foreach (var item in _amounts)
+        {
+            <MoneyItemButton Amount="@item"/>
+        }
+    </div>
+</div>
+
+@code {
+
+    private readonly List<decimal> _amounts = new List<decimal>()
+    {
+        1,
+        2,
+        5,
+        10,
+        20,
+        50,
+        100
+    };
+
+}

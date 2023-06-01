@@ -1,7 +1,10 @@
 ﻿@using Innkeep.Client.WebUi.Pages.POS.Groups
+@using Innkeep.Client.WebUi.Pages.POS.Components
 @page "/POS"
 
 <div class="pos-main">
+    <ClearPopup/>
+    <PayPopup/>
     <div class="pos-top">
         <Cart/>
         <SalesItemCollection/>

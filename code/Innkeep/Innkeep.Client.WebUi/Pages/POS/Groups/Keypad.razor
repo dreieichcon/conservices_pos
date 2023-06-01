@@ -5,18 +5,14 @@
 @inject IAmountKeypadService AmountKeypadService
 @inject IShoppingCartService ShoppingCartService
 
-<div class="keypad-wrapper">
+<div class="keypad-wrapper drop2">
     <div class="keypad-title">
-        Amount
-    </div>
-    <div class="keypad-display">
         <div>
-             Amount:
+            Amount:
         </div>
         <div class="@Confirmed">
             @AmountKeypadService.Amount
         </div>
-        
     </div>
     <div class="keypad-group">
         <div class="keypad-row">

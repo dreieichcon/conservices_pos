@@ -2,14 +2,20 @@
 @using Innkeep.Core.DomainModels.Pretix
 @inject IShoppingCartService ShoppingCartService;
 @inject IPretixService PretixService;
+@inject IAmountKeypadService AmountKeypadService;
 
 <div class="sales-item no-select" @onclick="AddToCart">
     <div class="sales-item-title">
         @Item.Name
     </div>
+    <div class="sales-item-spacer"></div>
     <div class="sales-price">
-        @Item.DefaultPrice
-        @PretixService.SelectedEvent?.Currency
+        <div>
+            @Item.DefaultPrice
+        </div>
+        <div>
+            @PretixService.SelectedEvent?.Currency
+        </div>
     </div>
 </div>
 
@@ -21,6 +27,7 @@
     public void AddToCart()
     {
         ShoppingCartService.Add(Item);
+        AmountKeypadService.ClearAmount();
     }
     
 }
