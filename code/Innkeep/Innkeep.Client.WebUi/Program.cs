@@ -1,9 +1,10 @@
+using Innkeep.Client.Data.Repositories.FileOperations;
+using Innkeep.Client.Data.Repositories.Pretix;
 using Innkeep.Core.Interfaces;
 using Innkeep.Core.Interfaces.Pretix;
 using Innkeep.Core.Interfaces.Repositories;
 using Innkeep.Core.Interfaces.Services;
-using Innkeep.Data.Repositories.FileOperations;
-using Innkeep.Data.Repositories.Pretix;
+using Innkeep.DI;
 using Innkeep.DI.Services;
 using Serilog;
 
@@ -21,24 +22,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
-builder.Services.AddSingleton<IAuthenticationRepository, AuthenticationRepository>();
-builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
-
-builder.Services.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>();
-
-builder.Services.AddSingleton<IPretixRepository, PretixRepository>();
-builder.Services.AddSingleton<IPretixService, PretixService>();
-
-builder.Services.AddSingleton<IPopupService, PopupService>();
-
-builder.Services.AddSingleton<IShoppingCartService, ShoppingCartService>();
-
-builder.Services.AddSingleton<IAmountKeypadService, AmountKeypadService>();
-
-builder.Services.AddSingleton<ITransactionService, TransactionService>();
+DependencyManager.InitializeClient(builder);
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

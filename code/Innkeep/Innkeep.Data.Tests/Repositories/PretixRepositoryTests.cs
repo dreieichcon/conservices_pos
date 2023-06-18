@@ -11,7 +11,7 @@ public class PretixRepositoryTests
     [TestInitialize]
     public void TestInit()
     {
-        DependencyManager.Initialize();
+        DependencyManager.InitializeTests();
     }
     
     [TestMethod]

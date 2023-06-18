@@ -1,4 +1,4 @@
-﻿namespace Innkeep.Data.Services;
+﻿namespace Innkeep.Client.Data.Services;
 
 public class AuthenticationService
 {

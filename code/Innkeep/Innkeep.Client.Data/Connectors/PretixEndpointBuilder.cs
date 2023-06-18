@@ -1,6 +1,6 @@
 ﻿using Innkeep.Core.DomainModels.Pretix;
 
-namespace Innkeep.Data.Connectors;
+namespace Innkeep.Client.Data.Connectors;
 
 public class PretixEndpointBuilder
 {

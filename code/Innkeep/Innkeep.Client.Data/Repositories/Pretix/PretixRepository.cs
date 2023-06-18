@@ -4,13 +4,13 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using Innkeep.Client.Data.Connectors;
 using Innkeep.Core.DomainModels.Pretix;
 using Innkeep.Core.Interfaces;
 using Innkeep.Core.Interfaces.Pretix;
-using Innkeep.Data.Connectors;
 using RestSharp;
 
-namespace Innkeep.Data.Repositories.Pretix;
+namespace Innkeep.Client.Data.Repositories.Pretix;
 
 public class PretixRepository : IPretixRepository
 {

@@ -2,7 +2,7 @@
 using Innkeep.Core.DomainModels.Authentication;
 using Innkeep.Core.Interfaces.Repositories;
 
-namespace Innkeep.Data.Repositories.FileOperations;
+namespace Innkeep.Client.Data.Repositories.FileOperations;
 
 public class AuthenticationRepository : IAuthenticationRepository
 {

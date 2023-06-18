@@ -1,7 +1,7 @@
 ﻿using RestSharp;
 using RestSharp.Authenticators;
 
-namespace Innkeep.Data.Authenticators;
+namespace Innkeep.Client.Data.Authenticators;
 
 public static class PretixAuthenticator
 {

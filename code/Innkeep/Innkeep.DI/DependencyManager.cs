@@ -2,9 +2,10 @@
 using Innkeep.Core.Interfaces.Pretix;
 using Innkeep.Core.Interfaces.Repositories;
 using Innkeep.Core.Interfaces.Services;
-using Innkeep.Data.Repositories.FileOperations;
-using Innkeep.Data.Repositories.Pretix;
+using Innkeep.Client.Data.Repositories.FileOperations;
+using Innkeep.Client.Data.Repositories.Pretix;
 using Innkeep.DI.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Innkeep.DI;
@@ -13,12 +14,12 @@ public static class DependencyManager
 {
     public static IServiceProvider ServiceProvider { get; private set; } = null!;
 
-    public static void Initialize()
+    public static void InitializeTests()
     {
-        ServiceProvider = Register();
+        ServiceProvider = RegisterTests();
     }
 
-    private static IServiceProvider Register()
+    private static IServiceProvider RegisterTests()
     {
         var serviceCollection = new ServiceCollection();
         
@@ -43,5 +44,34 @@ public static class DependencyManager
     private static IServiceProvider Create(IServiceCollection serviceCollection)
     {
         return serviceCollection.BuildServiceProvider();
+    }
+    
+    public static void InitializeClient(WebApplicationBuilder builder)
+    {
+        RegisterClient(builder);
+    }
+
+    private static void RegisterClient(WebApplicationBuilder builder)
+    {
+        ConfigureClientServices(builder.Services);
+    }
+    
+    private static void ConfigureClientServices(IServiceCollection collection)
+    {
+        collection.AddSingleton<IAuthenticationRepository, AuthenticationRepository>();
+        collection.AddSingleton<IAuthenticationService, AuthenticationService>();
+        
+        collection.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>();
+        
+        collection.AddSingleton<IPretixRepository, PretixRepository>();
+        collection.AddSingleton<IPretixService, PretixService>();
+
+        collection.AddSingleton<IPopupService, PopupService>();
+
+        collection.AddSingleton<IShoppingCartService, ShoppingCartService>();
+        
+        collection.AddSingleton<IAmountKeypadService, AmountKeypadService>();
+
+        collection.AddSingleton<ITransactionService, TransactionService>();
     }
 }
