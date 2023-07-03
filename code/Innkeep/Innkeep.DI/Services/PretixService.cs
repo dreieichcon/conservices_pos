@@ -1,7 +1,7 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using Innkeep.Core.DomainModels.Pretix;
-using Innkeep.Core.Interfaces.Pretix;
-using Innkeep.Core.Interfaces.Services;
+﻿using Innkeep.Core.Interfaces.Services;
+using Innkeep.Data.Pretix.Models;
+using Innkeep.Server.Interfaces.Services;
+using Innkeep.Server.Pretix.Interfaces;
 using Serilog;
 
 namespace Innkeep.DI.Services;

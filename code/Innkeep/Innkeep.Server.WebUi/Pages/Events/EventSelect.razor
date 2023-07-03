@@ -1,0 +1,25 @@
+﻿@using Innkeep.Server.Interfaces.Services
+@inject IPretixService PretixService;
+
+@page "/Events/Select"
+
+<h3>Select an Event</h3>
+
+<MudSelect T="string" Label="Price" AnchorOrigin="Origin.BottomCenter">
+    @foreach(var ev in Events)
+    {
+        <MudSelectItem Value="@ev"></MudSelectItem>
+    }
+    
+</MudSelect>
+
+@code {
+
+    public List<string> Events => PretixService.Events.Select(x => x.Name.GermanDefault).ToList();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+}

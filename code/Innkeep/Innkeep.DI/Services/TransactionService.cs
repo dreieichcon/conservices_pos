@@ -1,7 +1,8 @@
 ﻿using System.Collections.ObjectModel;
-using Innkeep.Core.DomainModels.Transaction;
-using Innkeep.Core.Interfaces.Services;
+using Innkeep.Client.Interfaces.Services;
 using Innkeep.Core.Interfaces.Transaction;
+using Innkeep.Server.Interfaces.Services;
+using Innkeep.Shared.Objects.Transaction;
 
 namespace Innkeep.DI.Services;
 

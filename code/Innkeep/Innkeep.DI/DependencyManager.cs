@@ -1,10 +1,14 @@
 ﻿using Innkeep.Core.Interfaces;
-using Innkeep.Core.Interfaces.Pretix;
 using Innkeep.Core.Interfaces.Repositories;
 using Innkeep.Core.Interfaces.Services;
 using Innkeep.Client.Data.Repositories.FileOperations;
-using Innkeep.Client.Data.Repositories.Pretix;
+using Innkeep.Client.Interfaces.Services;
 using Innkeep.DI.Services;
+using Innkeep.Server.Api.Register;
+using Innkeep.Server.Api.Transaction;
+using Innkeep.Server.Interfaces.Services;
+using Innkeep.Server.Pretix.Interfaces;
+using Innkeep.Server.Pretix.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -48,14 +52,21 @@ public static class DependencyManager
     
     public static void InitializeClient(WebApplicationBuilder builder)
     {
-        RegisterClient(builder);
-    }
-
-    private static void RegisterClient(WebApplicationBuilder builder)
-    {
         ConfigureClientServices(builder.Services);
     }
-    
+
+    public static void InitializeServer(WebApplicationBuilder builder)
+    {
+        ConfigureServerServices(builder.Services);
+    }
+
+    private static void ConfigureServerServices(IServiceCollection collection)
+    {
+        collection.AddScoped<RegisterDetectionController>();
+        collection.AddScoped<TransactionRequestController>();
+        collection.AddSingleton<IPretixService, PretixService>();
+    }
+
     private static void ConfigureClientServices(IServiceCollection collection)
     {
         collection.AddSingleton<IAuthenticationRepository, AuthenticationRepository>();
