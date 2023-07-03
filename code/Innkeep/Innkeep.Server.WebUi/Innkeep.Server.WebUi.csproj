@@ -6,4 +6,17 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="Api\" />
+      <Folder Include="Pages\Registers\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Innkeep.DI\Innkeep.DI.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MudBlazor" Version="6.5.0" />
+    </ItemGroup>
+
 </Project>

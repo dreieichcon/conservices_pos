@@ -1,8 +1,10 @@
 ﻿@using Innkeep.Core.Interfaces.Services
-@using Innkeep.Core.DomainModels.Pretix
+@using Innkeep.Client.Interfaces.Services
+@using Innkeep.Data.Pretix.Models
+@using Microsoft.AspNetCore.Hosting.Server
 @inject IShoppingCartService ShoppingCartService;
-@inject IPretixService PretixService;
 @inject IAmountKeypadService AmountKeypadService;
+@inject IServerConnectionService ServerConnectionService;
 
 <div class="sales-item no-select" @onclick="AddToCart">
     <div class="sales-item-title">
@@ -14,7 +16,7 @@
             @Item.DefaultPrice
         </div>
         <div>
-            @PretixService.SelectedEvent?.Currency
+            @ServerConnectionService.CurrentEvent?.Currency
         </div>
     </div>
 </div>

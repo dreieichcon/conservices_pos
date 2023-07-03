@@ -1,6 +1,7 @@
 ﻿@using Innkeep.Core.Interfaces.Services
+@using Innkeep.Client.Interfaces.Services
 @inject ITransactionService TransactionService;
-@inject IPretixService PretixService;
+@inject IServerConnectionService ServerConnectionService;
 
 <div class="sales-item no-select" @onclick="AddToTransaction">
     <div class="sales-image-wrapper">
@@ -9,7 +10,7 @@
     <div class="sales-item-spacer"></div>
     <div class="sales-price-wrapper">
         <div class="sales-price">
-            @Amount&nbsp;@PretixService.SelectedEvent?.Currency
+            @Amount&nbsp;@ServerConnectionService.CurrentEvent?.Currency
         </div>
     </div>
     
@@ -20,7 +21,7 @@
     [Parameter]
     public decimal Amount { get; set; }
 
-    private string Src => $"img/money/{Amount}{PretixService.SelectedEvent?.Currency}.png";
+    private string Src => $"img/money/{Amount}{ServerConnectionService.CurrentEvent?.Currency}.png";
 
     private void AddToTransaction()
     {

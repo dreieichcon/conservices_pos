@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using Innkeep.Core.DomainModels.Pretix;
-using Innkeep.Core.Interfaces.Services;
+using Innkeep.Client.Interfaces.Services;
+using Innkeep.Data.Pretix.Models;
 
 namespace Innkeep.DI.Services;
 
