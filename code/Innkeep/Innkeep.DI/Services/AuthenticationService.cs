@@ -1,6 +1,6 @@
 ﻿using Innkeep.Core.DomainModels.Authentication;
 using Innkeep.Core.Interfaces;
-using Innkeep.Core.Interfaces.Repositories;
+using Innkeep.Server.Interfaces.Services;
 
 namespace Innkeep.DI.Services;
 
@@ -15,14 +15,16 @@ public class AuthenticationService : IAuthenticationService
         _authenticationRepository = authenticationRepository;
         ReadAuthentication();
     }
-    
+
+    public bool AuthenticationSuccessful { get; set; }
+
     public void ReadAuthentication()
     {
-        AuthenticationInfo = _authenticationRepository.Read();
+        AuthenticationInfo = _authenticationRepository.Get();
     }
 
     public void SaveAuthentication()
     {
-        throw new NotImplementedException();
+        _authenticationRepository.Update(AuthenticationInfo);
     }
 }

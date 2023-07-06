@@ -23,9 +23,9 @@ public class PretixRepository : IPretixRepository
     
     public PretixRepository(IAuthenticationService authenticationService)
     {
-     Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-     
-     _authenticationService = authenticationService;
+         Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+         
+         _authenticationService = authenticationService;
         _pretixClient = new HttpClient();
     }
 

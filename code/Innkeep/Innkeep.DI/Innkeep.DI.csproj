@@ -16,6 +16,7 @@
       <ProjectReference Include="..\Innkeep.Core\Innkeep.Core.csproj" />
       <ProjectReference Include="..\Innkeep.Client.Data\Innkeep.Client.Data.csproj" />
       <ProjectReference Include="..\Innkeep.Server.Api\Innkeep.Server.Api.csproj" />
+      <ProjectReference Include="..\Innkeep.Server.Data\Innkeep.Server.Data.csproj" />
       <ProjectReference Include="..\Innkeep.Server.Interfaces\Innkeep.Server.Interfaces.csproj" />
       <ProjectReference Include="..\Innkeep.Server.Pretix\Innkeep.Server.Pretix.csproj" />
       <ProjectReference Include="..\Innkeep.Shared.Objects\Innkeep.Shared.Objects.csproj" />

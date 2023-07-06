@@ -5,12 +5,16 @@ namespace Innkeep.Server.Data.Context;
 
 public class InnkeepServerContext : DbContext
 {
+	public InnkeepServerContext()
+	{
+	}
+	
 	public InnkeepServerContext(DbContextOptions options) : base(options)
 	{
 		
 	}
 
-	public InnkeepServerContext Create()
+	public static InnkeepServerContext Create()
 	{
 		var optionsBuilder = new DbContextOptionsBuilder<InnkeepServerContext>();
 		optionsBuilder.UseSqlite("Data Source=InnkeepServer.db");
@@ -18,4 +22,6 @@ public class InnkeepServerContext : DbContext
 	}
 	
 	public DbSet<Transaction> Transactions { get; set; }
+	
+	public DbSet<Authentication> Authentications { get; set; }
 }
