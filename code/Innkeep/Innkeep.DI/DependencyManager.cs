@@ -1,15 +1,16 @@
 ﻿using Innkeep.Core.Interfaces;
-using Innkeep.Core.Interfaces.Repositories;
 using Innkeep.Core.Interfaces.Services;
-using Innkeep.Client.Data.Repositories.FileOperations;
 using Innkeep.Client.Interfaces.Services;
 using Innkeep.DI.Services;
 using Innkeep.Server.Api.Register;
 using Innkeep.Server.Api.Transaction;
+using Innkeep.Server.Data.Context;
+using Innkeep.Server.Data.Repositories;
 using Innkeep.Server.Interfaces.Services;
 using Innkeep.Server.Pretix.Interfaces;
 using Innkeep.Server.Pretix.Repositories;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Innkeep.DI;
@@ -62,8 +63,16 @@ public static class DependencyManager
 
     private static void ConfigureServerServices(IServiceCollection collection)
     {
+        collection.AddDbContext<InnkeepServerContext>((provider, builder) => builder.UseSqlite("Data Source=InnkeepServer.db"));
+        
         collection.AddScoped<RegisterDetectionController>();
         collection.AddScoped<TransactionRequestController>();
+
+        collection.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>();
+
+        collection.AddSingleton<IAuthenticationRepository, AuthenticationRepository>();
+        collection.AddSingleton<IAuthenticationService, AuthenticationService>();
+        collection.AddSingleton<IPretixRepository, PretixRepository>();
         collection.AddSingleton<IPretixService, PretixService>();
     }
 

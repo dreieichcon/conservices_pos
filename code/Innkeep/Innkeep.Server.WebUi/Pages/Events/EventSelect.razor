@@ -3,17 +3,31 @@
 
 @page "/Events/Select"
 
-<h3>Select an Event</h3>
+<h3>Select an Organizer</h3>
 
-<MudSelect T="string" Label="Price" AnchorOrigin="Origin.BottomCenter">
-    @foreach(var ev in Events)
+<MudSelect T="string" Label="Organizer" AnchorOrigin="Origin.BottomCenter">
+    
+    @foreach (var ev in Organizers)
     {
         <MudSelectItem Value="@ev"></MudSelectItem>
     }
+
+</MudSelect>
+
+<h3>Select an Event</h3>
+
+<MudSelect T="string" Label="Event" AnchorOrigin="Origin.BottomCenter">
     
+    @foreach (var ev in Events)
+    {
+        <MudSelectItem Value="@ev"></MudSelectItem>
+    }
+
 </MudSelect>
 
 @code {
+
+    public List<string> Organizers => PretixService.Organizers.Select(x => x.Name).ToList();
 
     public List<string> Events => PretixService.Events.Select(x => x.Name.GermanDefault).ToList();
 

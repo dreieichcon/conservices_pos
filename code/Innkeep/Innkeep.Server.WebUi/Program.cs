@@ -11,9 +11,6 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
 builder.Services.AddControllers();
-
-builder.Services.AddSingleton<WeatherForecastService>();
-
 builder.Services.AddMudServices();
 
 DependencyManager.InitializeServer(builder);

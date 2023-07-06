@@ -2,5 +2,14 @@
 
 public class AuthenticationInfo
 {
+    public AuthenticationInfo()
+    {
+    }
+
+    public AuthenticationInfo(string pretixToken)
+    {
+        PretixToken = pretixToken;
+    }
+
     public string PretixToken { get; set; }
 }
