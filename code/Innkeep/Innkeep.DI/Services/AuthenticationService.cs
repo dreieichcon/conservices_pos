@@ -1,5 +1,6 @@
 ﻿using Innkeep.Core.DomainModels.Authentication;
 using Innkeep.Core.Interfaces;
+using Innkeep.Server.Data.Interfaces;
 using Innkeep.Server.Interfaces.Services;
 
 namespace Innkeep.DI.Services;

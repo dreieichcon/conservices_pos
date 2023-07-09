@@ -1,5 +1,4 @@
 ﻿using Innkeep.Client.Interfaces.Services;
-using Innkeep.Core.Interfaces.Services;
 
 namespace Innkeep.DI.Services;
 

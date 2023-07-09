@@ -14,6 +14,8 @@ public interface IPretixService
 
     public IEnumerable<PretixSalesItem> SalesItems { get; set; }
 
+    public void Reload();
+
     public event EventHandler ItemUpdated;
 
     public event EventHandler Initialized;

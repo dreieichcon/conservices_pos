@@ -1,9 +1,17 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+@using Innkeep.Server.WebUi.Pages.Dashboard
 
-<h1>Hello, world!</h1>
+<PageTitle>Dashboard</PageTitle>
 
-Welcome to your new app.
+<MudGrid Spacing="2" Justify="Justify.Center">
+    <MudItem>
+        <EventInfoComponent></EventInfoComponent>
+    </MudItem>
+</MudGrid>
 
-<SurveyPrompt Title="How is Blazor working for you?"/>
+@code {
+
+    
+
+}

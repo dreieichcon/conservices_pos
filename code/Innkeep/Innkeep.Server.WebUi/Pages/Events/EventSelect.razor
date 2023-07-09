@@ -1,39 +1,91 @@
 ﻿@using Innkeep.Server.Interfaces.Services
+@using Innkeep.Server.Data.Interfaces
+@using Innkeep.Core.Interfaces
+@using Innkeep.Data.Pretix.Models
+
+@inject ISnackbar Snackbar
+
 @inject IPretixService PretixService;
+@inject IApplicationSettingsService ApplicationSettingsService;
+@inject IAuthenticationService AuthenticationService;
+@inject NavigationManager NavManager
 
 @page "/Events/Select"
 
-<h3>Select an Organizer</h3>
+<div>
+    <div class="d-flex flex-column gap-4">
+        <h3>Select an Organizer</h3>
+        <MudSelect T="PretixOrganizer" @bind-Value="SelectedOrganizer" ToStringFunc="@OrganizerString" Label="Organizer" AnchorOrigin="Origin.BottomCenter">
+        
+            @foreach (var ev in Organizers)
+            {
+                <MudSelectItem Value="@ev"></MudSelectItem>
+            }
+        
+        </MudSelect>
+        <h3>Select an Event</h3>
+        <MudSelect T="PretixEvent" @bind-Value="SelectedEvent" ToStringFunc="@EventString" Label="Event" AnchorOrigin="Origin.BottomCenter">
+            
+            @foreach (var ev in Events)
+            {
+                <MudSelectItem Value="@ev"></MudSelectItem>
+            }
+        
+        </MudSelect>
+        <div class="d-flex flex-row justify-end gap-1">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="Save">Save Changes</MudButton>
+        </div>
+    </div>
+</div>
 
-<MudSelect T="string" Label="Organizer" AnchorOrigin="Origin.BottomCenter">
-    
-    @foreach (var ev in Organizers)
-    {
-        <MudSelectItem Value="@ev"></MudSelectItem>
-    }
-
-</MudSelect>
-
-<h3>Select an Event</h3>
-
-<MudSelect T="string" Label="Event" AnchorOrigin="Origin.BottomCenter">
-    
-    @foreach (var ev in Events)
-    {
-        <MudSelectItem Value="@ev"></MudSelectItem>
-    }
-
-</MudSelect>
 
 @code {
 
-    public List<string> Organizers => PretixService.Organizers.Select(x => x.Name).ToList();
+    private List<PretixOrganizer> Organizers => PretixService.Organizers.ToList();
 
-    public List<string> Events => PretixService.Events.Select(x => x.Name.GermanDefault).ToList();
+    private PretixOrganizer? SelectedOrganizer
+    {
+        get => PretixService.SelectedOrganizer;
+        set => PretixService.SelectedOrganizer = value;
+    }
+
+    private static Func<PretixOrganizer?, string> OrganizerString => organizer => organizer != null ? organizer.Name : string.Empty;
+
+    private List<PretixEvent> Events => PretixService.Events.ToList();
+
+    private PretixEvent? SelectedEvent
+    {
+        get => PretixService.SelectedEvent;
+        set => PretixService.SelectedEvent = value;
+    }
+    
+    private static Func<PretixEvent?, string> EventString => ev => ev != null ? ev.Name.German : string.Empty;
 
     protected override void OnInitialized()
     {
+        if (!AuthenticationService.AuthenticationSuccessful)
+        {
+            NavManager.NavigateTo("/Settings/Token");
+        }
+        if (!PretixService.Organizers.Any())
+        {
+            PretixService.Reload();
+        }
+        
         base.OnInitialized();
     }
 
+    private void Save()
+    {
+        if (SelectedOrganizer != null && SelectedEvent != null)
+        {
+            ApplicationSettingsService.UpdateSetting(SelectedOrganizer, SelectedEvent);
+            Snackbar.Add("Organizer and Event Saved");
+            PretixService.Reload();
+            Snackbar.Add("Pretix Service Reloaded");
+            return;
+        }
+
+        Snackbar.Add("Please select both an event and an organizer", Severity.Error);
+    }
 }

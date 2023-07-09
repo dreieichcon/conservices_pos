@@ -1,12 +1,10 @@
 ﻿namespace Innkeep.Server.Data.Models;
 
-public class Event
+public class Organizer
 {
 	public int Id { get; set; }
 	
-	public Organizer Organizer { get; set; } = null!;
-	
-	public string Name { get; set; } = null!;
+	public string Name { get; set; }
 
 	public string Slug { get; set; } = null!;
 }
