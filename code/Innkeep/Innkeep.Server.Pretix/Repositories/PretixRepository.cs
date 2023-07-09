@@ -27,6 +27,17 @@ public class PretixRepository : IPretixRepository
          
          _authenticationService = authenticationService;
         _pretixClient = new HttpClient();
+
+        try
+        {
+            var result = Task.Run(TestConnection).Result;
+            if (result != null) _authenticationService.AuthenticationSuccessful = true;
+        }
+        catch
+        {
+            _authenticationService.AuthenticationSuccessful = false;
+        }
+        
     }
 
     public async Task<string?> TestConnection()

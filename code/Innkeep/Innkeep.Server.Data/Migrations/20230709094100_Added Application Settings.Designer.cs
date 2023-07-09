@@ -3,6 +3,7 @@ using System;
 using Innkeep.Server.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,33 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Innkeep.Server.Data.Migrations
 {
     [DbContext(typeof(InnkeepServerContext))]
-    partial class InnkeepServerContextModelSnapshot : ModelSnapshot
+    [Migration("20230709094100_Added Application Settings")]
+    partial class AddedApplicationSettings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.8");
-
-            modelBuilder.Entity("Innkeep.Server.Data.Models.ApplicationSetting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("SelectedEventId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("SelectedOrganizerId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SelectedEventId");
-
-                    b.HasIndex("SelectedOrganizerId");
-
-                    b.ToTable("ApplicationSettings");
-                });
 
             modelBuilder.Entity("Innkeep.Server.Data.Models.Authentication", b =>
                 {
@@ -59,6 +41,10 @@ namespace Innkeep.Server.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("EventSlug")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -66,15 +52,11 @@ namespace Innkeep.Server.Data.Migrations
                     b.Property<int>("OrganizerId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Slug")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.HasIndex("OrganizerId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Event");
                 });
 
             modelBuilder.Entity("Innkeep.Server.Data.Models.Organizer", b =>
@@ -93,7 +75,7 @@ namespace Innkeep.Server.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Organizers");
+                    b.ToTable("Organizer");
                 });
 
             modelBuilder.Entity("Innkeep.Server.Data.Models.Register", b =>
@@ -106,9 +88,14 @@ namespace Innkeep.Server.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("EventId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Registers");
+                    b.HasIndex("EventId");
+
+                    b.ToTable("Register");
                 });
 
             modelBuilder.Entity("Innkeep.Server.Data.Models.Transaction", b =>
@@ -120,14 +107,11 @@ namespace Innkeep.Server.Data.Migrations
                     b.Property<int>("DeviceId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("EventId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Items")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("OrganizerId")
+                    b.Property<int>("PretixEventId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("PretixOrderNumber")
@@ -148,26 +132,9 @@ namespace Innkeep.Server.Data.Migrations
 
                     b.HasIndex("DeviceId");
 
-                    b.HasIndex("EventId");
-
-                    b.HasIndex("OrganizerId");
+                    b.HasIndex("PretixEventId");
 
                     b.ToTable("Transactions");
-                });
-
-            modelBuilder.Entity("Innkeep.Server.Data.Models.ApplicationSetting", b =>
-                {
-                    b.HasOne("Innkeep.Server.Data.Models.Event", "SelectedEvent")
-                        .WithMany()
-                        .HasForeignKey("SelectedEventId");
-
-                    b.HasOne("Innkeep.Server.Data.Models.Organizer", "SelectedOrganizer")
-                        .WithMany()
-                        .HasForeignKey("SelectedOrganizerId");
-
-                    b.Navigation("SelectedEvent");
-
-                    b.Navigation("SelectedOrganizer");
                 });
 
             modelBuilder.Entity("Innkeep.Server.Data.Models.Event", b =>
@@ -181,6 +148,13 @@ namespace Innkeep.Server.Data.Migrations
                     b.Navigation("Organizer");
                 });
 
+            modelBuilder.Entity("Innkeep.Server.Data.Models.Register", b =>
+                {
+                    b.HasOne("Innkeep.Server.Data.Models.Event", null)
+                        .WithMany("AttachedRegisters")
+                        .HasForeignKey("EventId");
+                });
+
             modelBuilder.Entity("Innkeep.Server.Data.Models.Transaction", b =>
                 {
                     b.HasOne("Innkeep.Server.Data.Models.Register", "Device")
@@ -189,23 +163,20 @@ namespace Innkeep.Server.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Innkeep.Server.Data.Models.Event", "Event")
+                    b.HasOne("Innkeep.Server.Data.Models.Event", "PretixEvent")
                         .WithMany()
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Innkeep.Server.Data.Models.Organizer", "Organizer")
-                        .WithMany()
-                        .HasForeignKey("OrganizerId")
+                        .HasForeignKey("PretixEventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Device");
 
-                    b.Navigation("Event");
+                    b.Navigation("PretixEvent");
+                });
 
-                    b.Navigation("Organizer");
+            modelBuilder.Entity("Innkeep.Server.Data.Models.Event", b =>
+                {
+                    b.Navigation("AttachedRegisters");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,10 +1,10 @@
 ﻿using Innkeep.Core.Interfaces;
-using Innkeep.Core.Interfaces.Services;
 using Innkeep.Client.Interfaces.Services;
 using Innkeep.DI.Services;
 using Innkeep.Server.Api.Register;
 using Innkeep.Server.Api.Transaction;
 using Innkeep.Server.Data.Context;
+using Innkeep.Server.Data.Interfaces;
 using Innkeep.Server.Data.Repositories;
 using Innkeep.Server.Interfaces.Services;
 using Innkeep.Server.Pretix.Interfaces;
@@ -40,7 +40,7 @@ public static class DependencyManager
         
         collection.AddSingleton<IPretixRepository, PretixRepository>();
         collection.AddSingleton<IPretixService, PretixService>();
-        
+
         collection.AddSingleton<IPopupService, PopupService>();
 
         collection.AddSingleton<IShoppingCartService, ShoppingCartService>();
@@ -68,10 +68,15 @@ public static class DependencyManager
         collection.AddScoped<RegisterDetectionController>();
         collection.AddScoped<TransactionRequestController>();
 
+        collection.AddSingleton<IOrganizerRepository, OrganizerRepository>();
+        collection.AddSingleton<IEventRepository, EventRepository>();
+
+        collection.AddSingleton<IApplicationSettingsRepository, ApplicationSettingsRepository>();
         collection.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>();
 
         collection.AddSingleton<IAuthenticationRepository, AuthenticationRepository>();
         collection.AddSingleton<IAuthenticationService, AuthenticationService>();
+        
         collection.AddSingleton<IPretixRepository, PretixRepository>();
         collection.AddSingleton<IPretixService, PretixService>();
     }
@@ -82,9 +87,6 @@ public static class DependencyManager
         collection.AddSingleton<IAuthenticationService, AuthenticationService>();
         
         collection.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>();
-        
-        collection.AddSingleton<IPretixRepository, PretixRepository>();
-        collection.AddSingleton<IPretixService, PretixService>();
 
         collection.AddSingleton<IPopupService, PopupService>();
 

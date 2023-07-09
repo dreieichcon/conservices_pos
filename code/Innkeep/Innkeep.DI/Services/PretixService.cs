@@ -1,5 +1,5 @@
-﻿using Innkeep.Core.Interfaces.Services;
-using Innkeep.Data.Pretix.Models;
+﻿using Innkeep.Data.Pretix.Models;
+using Innkeep.Server.Data.Interfaces;
 using Innkeep.Server.Interfaces.Services;
 using Innkeep.Server.Pretix.Interfaces;
 using Serilog;
@@ -8,76 +8,88 @@ namespace Innkeep.DI.Services;
 
 public class PretixService : IPretixService
 {
-    private IPretixRepository _pretixRepository;
-    private readonly IApplicationSettingsService _applicationSettingsService;
+	private readonly IApplicationSettingsService _applicationSettingsService;
+	private readonly IPretixRepository _pretixRepository;
+	private PretixOrganizer? _selectedOrganizer;
+	private PretixEvent? _selectedEvent;
 
-    private PretixOrganizer? _selectedOrganizer;
-    private PretixEvent? _selectedEvent;
+	public PretixService(IApplicationSettingsService applicationSettingsService, IPretixRepository pretixRepository)
+	{
+		_applicationSettingsService = applicationSettingsService;
+		_pretixRepository = pretixRepository;
+		LoadFromSettings();
+	}
 
-    public PretixService(IPretixRepository pretixRepository, IApplicationSettingsService applicationSettingsService)
-    {
-        _pretixRepository = pretixRepository;
-        _applicationSettingsService = applicationSettingsService;
-        SalesItems = new List<PretixSalesItem>();
-        Initialize();
-        LoadFromSettings();
-    }
+	public IEnumerable<PretixOrganizer> Organizers { get; set; } = new List<PretixOrganizer>();
 
-    private void Initialize()
-    {
-        Organizers = Task.Run(() => _pretixRepository.GetOrganizers()).Result;
-    }
+	public IEnumerable<PretixEvent> Events { get; set; } = new List<PretixEvent>();
 
-    private void LoadFromSettings()
-    {
-        SelectedOrganizer = Organizers.FirstOrDefault(x => x.Slug == _applicationSettingsService.SelectedOrganizerSetting);
-        SelectedEvent = Events.FirstOrDefault(x => x.Slug == _applicationSettingsService.SelectedEventSetting);
-        Initialized?.Invoke(null, EventArgs.Empty);
-        ItemUpdated?.Invoke("SalesItems", EventArgs.Empty);
+	public PretixOrganizer? SelectedOrganizer
+	{
+		get => _selectedOrganizer;
+		set
+		{
+			_selectedOrganizer = value;
+			LoadEvent();
+		}
+	}
 
-        Log.Debug("Loaded {SalesItemCount} SalesItems from Pretix", SalesItems.Count());
-    }
+	public PretixEvent? SelectedEvent
+	{
+		get => _selectedEvent;
+		set
+		{
+			_selectedEvent = value;
+			LoadSalesItems();
+		}
+	}
 
-    public IEnumerable<PretixOrganizer> Organizers { get; set; }
-    
-    public IEnumerable<PretixEvent> Events { get; set; }
+	public IEnumerable<PretixSalesItem> SalesItems { get; set; } = new List<PretixSalesItem>();
 
-    public PretixOrganizer? SelectedOrganizer
-    {
-        get => _selectedOrganizer;
+	public void Reload()
+	{
+		LoadOrganizer();
+	}
 
-        set
-        {
-            _selectedOrganizer = value;
-            ItemUpdated?.Invoke("SelectedOrganizer", EventArgs.Empty);
+	public event EventHandler? ItemUpdated;
 
-            if (_selectedOrganizer is null) return;
-            
-            Events = Task.Run(() => _pretixRepository.GetEvents(_selectedOrganizer)).Result;
+	public event EventHandler? Initialized;
 
-            ItemUpdated?.Invoke("Events", EventArgs.Empty);
+	private void LoadFromSettings()
+	{
+		LoadOrganizer();
+	}
 
-        }
-    }
+	private void LoadOrganizer()
+	{
+		var selectedOrganizer = _applicationSettingsService.ActiveSetting.SelectedOrganizer;
+		Organizers = Task.Run(() => _pretixRepository.GetOrganizers()).Result;
+		
+		if (selectedOrganizer == null) return;
 
-    public PretixEvent? SelectedEvent
-    {
-        get => _selectedEvent;
-        set
-        {
-            _selectedEvent = value;
-            ItemUpdated?.Invoke("SelectedEvent", EventArgs.Empty);
+		SelectedOrganizer = Organizers.FirstOrDefault(x => x.Slug == selectedOrganizer.Slug);
+		ItemUpdated?.Invoke(nameof(SelectedOrganizer), EventArgs.Empty);
+	}
 
-            if (_selectedEvent is null) return;
-            if (_selectedOrganizer is null) return;
+	private void LoadEvent()
+	{
+		var selectedEvent = _applicationSettingsService.ActiveSetting.SelectedEvent;
 
-            SalesItems = Task.Run(() => _pretixRepository.GetItems(_selectedOrganizer, _selectedEvent)).Result;
-            ItemUpdated?.Invoke("SalesItems", EventArgs.Empty);
-        }
-    }
+		if (SelectedOrganizer == null) return;
 
-    public IEnumerable<PretixSalesItem> SalesItems { get; set; }
-    
-    public event EventHandler? ItemUpdated;
-    public event EventHandler? Initialized;
+		Events = Task.Run(() => _pretixRepository.GetEvents(SelectedOrganizer)).Result;
+
+		if (selectedEvent == null) return;
+
+		SelectedEvent = Events.FirstOrDefault(x => x.Slug == selectedEvent.Slug);
+		ItemUpdated?.Invoke(nameof(SelectedEvent), EventArgs.Empty);
+	}
+
+	private void LoadSalesItems()
+	{
+		if (SelectedOrganizer == null || SelectedEvent == null) return;
+
+		SalesItems = Task.Run(() => _pretixRepository.GetItems(SelectedOrganizer, SelectedEvent)).Result;
+		ItemUpdated?.Invoke(nameof(SalesItems), EventArgs.Empty);
+	}
 }

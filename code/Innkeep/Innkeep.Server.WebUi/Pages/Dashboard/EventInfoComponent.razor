@@ -1,0 +1,39 @@
+﻿@using Innkeep.Server.Interfaces.Services
+@inject IPretixService PretixService
+
+<div class="d-flex flex-column gap-4">
+    <div class="d-flex flex-column gap-1">
+        <div>Selected Organizer</div>
+        <div>@OrganizerName</div>
+    </div>
+    <div class="d-flex flex-column gap-1">
+        <div>Selected Event</div>
+        <div>@EventName</div>
+    </div>
+    <div class="d-flex flex-column gap-1">
+        <div>Available Sales Items</div>
+        <div>
+            @SalesItemCount
+        </div>
+    </div>
+</div>
+
+@code {
+    
+    private string OrganizerName => PretixService.SelectedOrganizer != null ? PretixService.SelectedOrganizer.Name : "No Organizer Selected";
+    private string EventName => PretixService.SelectedEvent != null ? PretixService.SelectedEvent.Name.German : "No Event Selected";
+
+    private string SalesItemCount => PretixService.SalesItems.Count().ToString();
+
+    protected override void OnInitialized()
+    {
+        Reload();
+        base.OnInitialized();
+    }
+
+    private void Reload()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+}

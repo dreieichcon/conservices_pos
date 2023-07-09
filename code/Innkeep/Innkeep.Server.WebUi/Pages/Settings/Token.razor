@@ -24,7 +24,6 @@
             <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="Test">Test Connection</MudButton>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="Save">Save Changes</MudButton>
         </div>
-       
     </div>
 </div>
 
@@ -56,10 +55,12 @@
         try
         {
             await PretixRepository.GetOrganizers();
+            AuthenticationService.AuthenticationSuccessful = true;
             Snackbar.Add("Authentication Successful", Severity.Success);
         }
         catch
         {
+            AuthenticationService.AuthenticationSuccessful = false;
             Snackbar.Add("Authentication Failed, please check your token.", Severity.Error);
         }
         
@@ -70,12 +71,14 @@
         AuthenticationService.SaveAuthentication();
         AuthenticationService.ReadAuthentication();
         Snackbar.Add("Token Saved");
+        Test();
         InvokeAsync(StateHasChanged);
     }
     
     protected override void OnInitialized()
     {
         _authenticationInfo = AuthenticationService.AuthenticationInfo;
+        if (!AuthenticationService.AuthenticationSuccessful) Snackbar.Add("Your Token is invalid. Please set a valid token.", Severity.Error);
         InvokeAsync(StateHasChanged);
     }
 
