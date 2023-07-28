@@ -15,4 +15,13 @@
       </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Innkeep.Core\Innkeep.Core.csproj" />
+      <ProjectReference Include="..\Innkeep.Server.Data\Innkeep.Server.Data.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Serilog" Version="3.0.1" />
+    </ItemGroup>
+
 </Project>

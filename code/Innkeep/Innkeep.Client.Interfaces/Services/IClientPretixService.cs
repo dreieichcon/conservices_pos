@@ -4,6 +4,8 @@ namespace Innkeep.Client.Interfaces.Services;
 
 public interface IClientPretixService
 {
+	public Task Reload();
+	
 	public PretixOrganizer? SelectedOrganizer { get; set; }
 	
 	public PretixEvent? SelectedEvent { get; set; }

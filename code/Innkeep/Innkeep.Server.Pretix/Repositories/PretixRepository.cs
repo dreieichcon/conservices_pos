@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using Innkeep.Core.Core;
 using Innkeep.Core.Interfaces;
 using Innkeep.Data.Pretix.Models;
 using Innkeep.Data.Pretix.Serialization;
@@ -13,21 +14,17 @@ using RestSharp;
 
 namespace Innkeep.Server.Pretix.Repositories;
 
-public class PretixRepository : IPretixRepository
+public class PretixRepository : BaseHttpRepository, IPretixRepository
 {
-    private readonly HttpClient _pretixClient;
-
+    
     private readonly IAuthenticationService _authenticationService;
-
     private string Token => _authenticationService.AuthenticationInfo.PretixToken;
     
     public PretixRepository(IAuthenticationService authenticationService)
     {
          Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
-         
          _authenticationService = authenticationService;
-        _pretixClient = new HttpClient();
-
+       
         try
         {
             var result = Task.Run(TestConnection).Result;
@@ -44,9 +41,9 @@ public class PretixRepository : IPretixRepository
     {
         using var message = new HttpRequestMessage(HttpMethod.Get, new PretixEndpointBuilder().WithEndpoint("organizers").Build());
         
-        PrepareHeaders(message);
+        PrepareGetHeaders(message);
 
-        var response = await _pretixClient.SendAsync(message);
+        var response = await Client.SendAsync(message);
 
         return await response.Content.ReadAsStringAsync();
     }
@@ -65,10 +62,9 @@ public class PretixRepository : IPretixRepository
 
     public async Task<IEnumerable<PretixEvent>> GetEvents(PretixOrganizer organizer)
     {
-        using var message = new HttpRequestMessage(HttpMethod.Get,
-            new PretixEndpointBuilder()
-                .WithOrganizer(organizer)
-                .WithEndpoint("events").Build());
+        using var message = CreateGetMessage(new PretixEndpointBuilder()
+                                             .WithOrganizer(organizer)
+                                             .WithEndpoint("events").Build());
 
         var content = await ExecuteGetRequest(message);
             
@@ -109,7 +105,7 @@ public class PretixRepository : IPretixRepository
                                                   .WithEndpoint("/orders/")
                                                   .Build();
 
-        var json = PretixCartSerializer.SerializeTransaction(cartItems, isTest);
+        var json = PretixCartSerializer.SerializeTransaction(cartItems, pretixEvent, isTest);
 
         var jsonContent = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -138,75 +134,14 @@ public class PretixRepository : IPretixRepository
         return deserialized?.Status == "ok";
     }
 
-    private async Task<string> ExecuteGetRequest(HttpRequestMessage message)
-    {
-        PrepareHeaders(message);
-        var response = await _pretixClient.SendAsync(message);
-
-        if (response.StatusCode == HttpStatusCode.OK)
-        {
-            var content = await response.Content.ReadAsStringAsync();
-            return content;
-        }
-        else
-        {
-            throw new HttpRequestException(response.StatusCode.ToString());
-        }
-    }
-    
-    private async Task<string> ExecutePostRequest(string endpoint, HttpContent jsonContent)
-    {
-        _pretixClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", Token);
-
-        var response = await _pretixClient.PostAsync(endpoint, jsonContent);
-
-        if (response.StatusCode is HttpStatusCode.OK or HttpStatusCode.Created)
-        {
-            var content = await response.Content.ReadAsStringAsync();
-            return content;
-        }
-        else
-        {
-            var debug = await response.Content.ReadAsStringAsync();
-            throw new HttpRequestException(debug);
-        }
-    }
-
-    private void PrepareHeaders(HttpRequestMessage message)
+    protected override void PrepareGetHeaders(HttpRequestMessage message)
     {
         message.Headers.Add("Accept", "application/json");
         message.Headers.Authorization = new AuthenticationHeaderValue("Token", Token);
     }
 
-    private void ConnectionLog(HttpRequestMessage message)
+    protected override void PreparePostHeaders()
     {
-        var sb = new StringBuilder();
-
-        sb.AppendLine($"Method: {message.Method}");
-        
-        sb.AppendLine($"Destinaton: {message.RequestUri}");
-        
-        sb.AppendLine("Headers:");
-        
-        foreach (var parameter in message.Headers)
-        {
-            sb.AppendLine($"{parameter.Key}: {parameter.Value.First()}");
-        }
-        
-        Trace.WriteLine(sb.ToString());
-    }
-
-    private void RequestLog(RestResponse response)
-    {
-        var sb = new StringBuilder();
-
-        sb.AppendLine(new string('-', 50));
-
-        foreach (var header in response.Headers)
-        {
-            sb.AppendLine($"{header.Name}: {header.Value}");
-        }
-
-        Trace.WriteLine(sb.ToString());
+        Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", Token);
     }
 }

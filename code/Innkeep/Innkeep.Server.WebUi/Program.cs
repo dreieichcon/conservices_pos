@@ -1,8 +1,14 @@
 using Innkeep.DI;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Innkeep.Server.WebUi.Data;
 using MudBlazor.Services;
+
+using Serilog;
+
+Log.Logger = new LoggerConfiguration()
+			.WriteTo.Console()
+			.WriteTo.Debug()
+			.WriteTo.Trace()
+			.MinimumLevel.Verbose()
+			.CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +22,8 @@ builder.Services.AddMudServices();
 DependencyManager.InitializeServer(builder);
 
 var app = builder.Build();
+
+app.UseHttpLogging();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

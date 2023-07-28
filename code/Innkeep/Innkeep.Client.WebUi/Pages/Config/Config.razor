@@ -15,6 +15,7 @@
         </MudItem>
         <MudButton Variant="Variant.Outlined" Color="Color.Primary" @onclick="AutoDiscoverUri">Auto Discover</MudButton>
         <MudButton Variant="Variant.Outlined" Color="Color.Primary" @onclick="TestConnection">Test Connection</MudButton>
+        <MudButton Variant="Variant.Outlined" Color="Color.Primary" @onclick="RegisterToServer">Register To Server</MudButton>
     </div>
     <div class="d-flex flex-row gap-2 flex-grow-1">
         <MudSelect Label="Select Printer COM" Variant="Variant.Outlined" @bind-Value="ClientSettingsService.Setting.PrinterComPort">
@@ -48,10 +49,18 @@
         set => ClientSettingsService.Setting.ServerUri = new Uri(value);
     }
 
-    private void TestConnection()
+    private async void TestConnection()
     {
-        if (ServerConnectionService.TestConnection()) Snackbar.Add("Connection Successful", Severity.Success);
+        if (await ServerConnectionService.TestConnection()) Snackbar.Add("Connection Successful", Severity.Success);
         else Snackbar.Add("Connection Failed, please check your URI or the Server.", Severity.Error);
+    }
+
+    private async void RegisterToServer()
+    {
+        if (await ServerConnectionService.RegisterToServer())
+            Snackbar.Add("Register Connected To Server", Severity.Success);
+        else
+            Snackbar.Add("Connection Failed, please check if you have added this register to the allowed clients on the server.", Severity.Error);
     }
 
     private void AutoDiscoverUri()

@@ -1,6 +1,10 @@
 ﻿using Innkeep.Core.Interfaces;
 using Innkeep.Client.Interfaces.Services;
 using Innkeep.DI.Services;
+using Innkeep.DI.Services.Client.Core;
+using Innkeep.DI.Services.Client.Hardware;
+using Innkeep.DI.Services.Server;
+using Innkeep.Server.Api.Pretix;
 using Innkeep.Server.Api.Register;
 using Innkeep.Server.Api.Transaction;
 using Innkeep.Server.Data.Context;
@@ -67,6 +71,10 @@ public static class DependencyManager
         
         collection.AddScoped<RegisterDetectionController>();
         collection.AddScoped<TransactionRequestController>();
+        collection.AddScoped<PretixRequestController>();
+
+        collection.AddSingleton<IRegisterRepository, RegisterRepository>();
+        collection.AddSingleton<IRegisterService, RegisterService>();
 
         collection.AddSingleton<IOrganizerRepository, OrganizerRepository>();
         collection.AddSingleton<IEventRepository, EventRepository>();
@@ -83,10 +91,13 @@ public static class DependencyManager
 
     private static void ConfigureClientServices(IServiceCollection collection)
     {
+        collection.AddSingleton<INetworkHardwareService, NetworkHardwareService>();
         collection.AddSingleton<IClientSettingsRepository, ClientSettingsRepository>();
         collection.AddSingleton<IClientSettingsService, ClientSettingsService>();
 
+        collection.AddSingleton<IClientServerConnectionRepository, ClientServerConnectionRepository>();
         collection.AddSingleton<IClientServerConnectionService, ClientServerConnectionService>();
+        
         collection.AddSingleton<ISerialPortRepository, SerialPortRepository>();
         collection.AddSingleton<IPrintService, PrintService>();
 
