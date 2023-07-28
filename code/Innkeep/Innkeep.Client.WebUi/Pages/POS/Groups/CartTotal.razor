@@ -1,7 +1,7 @@
 ﻿@using Innkeep.DI.Services
 @using Innkeep.Server.Interfaces.Services
 @using Innkeep.Client.Interfaces.Services
-@inject IServerConnectionService ServerConnectionService
+@inject IClientPretixService ClientPretixService
 @inject IShoppingCartService ShoppingCartService;
 
 <div class="cart-total-wrapper drop2">
@@ -11,7 +11,7 @@
       </div>
       <div class="cart-total">
          @Total &nbsp;
-         <div> @ServerConnectionService.CurrentEvent?.Currency</div>
+         <div> @ClientPretixService.SelectedEvent?.Currency</div>
       </div>
    </div>
 
@@ -21,7 +21,7 @@
       </div>
       <div class="cart-tax">
          @Tax &nbsp;
-         <div> @ServerConnectionService.CurrentEvent?.Currency</div>
+         <div> @ClientPretixService.SelectedEvent?.Currency</div>
       </div>
    </div>
    <div class="item-row">

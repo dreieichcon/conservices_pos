@@ -1,4 +1,5 @@
 using Innkeep.DI;
+using MudBlazor.Services;
 using Serilog;
 
 using var log =
@@ -14,6 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
+builder.Services.AddMudServices();
 
 DependencyManager.InitializeClient(builder);
 

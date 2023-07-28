@@ -87,6 +87,8 @@ public static class DependencyManager
         collection.AddSingleton<IClientSettingsService, ClientSettingsService>();
 
         collection.AddSingleton<IClientServerConnectionService, ClientServerConnectionService>();
+        collection.AddSingleton<ISerialPortRepository, SerialPortRepository>();
+        collection.AddSingleton<IPrintService, PrintService>();
 
         collection.AddSingleton<IClientPretixRepository, ClientPretixRepository>();
         collection.AddSingleton<IClientPretixService, ClientPretixService>();
@@ -97,7 +99,6 @@ public static class DependencyManager
         collection.AddSingleton<IPopupService, PopupService>();
 
         collection.AddSingleton<IShoppingCartService, ShoppingCartService>();
-        
         collection.AddSingleton<IAmountKeypadService, AmountKeypadService>();
 
         collection.AddSingleton<ITransactionService, TransactionService>();

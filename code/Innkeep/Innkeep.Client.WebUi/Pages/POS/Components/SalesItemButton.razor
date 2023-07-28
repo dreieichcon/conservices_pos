@@ -3,7 +3,7 @@
 @using Microsoft.AspNetCore.Hosting.Server
 @inject IShoppingCartService ShoppingCartService;
 @inject IAmountKeypadService AmountKeypadService;
-@inject IServerConnectionService ServerConnectionService;
+@inject IClientPretixService ClientPretixService;
 
 <div class="sales-item no-select" @onclick="AddToCart">
     <div class="sales-item-title">
@@ -15,7 +15,7 @@
             @Item.DefaultPrice
         </div>
         <div>
-            @ServerConnectionService.CurrentEvent?.Currency
+            @ClientPretixService.SelectedEvent?.Currency
         </div>
     </div>
 </div>
