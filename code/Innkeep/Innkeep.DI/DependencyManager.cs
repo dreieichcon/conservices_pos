@@ -83,10 +83,16 @@ public static class DependencyManager
 
     private static void ConfigureClientServices(IServiceCollection collection)
     {
+        collection.AddSingleton<IClientSettingsRepository, ClientSettingsRepository>();
+        collection.AddSingleton<IClientSettingsService, ClientSettingsService>();
+
+        collection.AddSingleton<IClientServerConnectionService, ClientServerConnectionService>();
+
+        collection.AddSingleton<IClientPretixRepository, ClientPretixRepository>();
+        collection.AddSingleton<IClientPretixService, ClientPretixService>();
+
         collection.AddSingleton<IAuthenticationRepository, AuthenticationRepository>();
         collection.AddSingleton<IAuthenticationService, AuthenticationService>();
-        
-        collection.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>();
 
         collection.AddSingleton<IPopupService, PopupService>();
 

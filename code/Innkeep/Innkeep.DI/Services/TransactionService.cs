@@ -9,7 +9,7 @@ namespace Innkeep.DI.Services;
 public class TransactionService : ITransactionService
 {
 	private readonly IShoppingCartService _shoppingCartService;
-	private readonly IPretixService _pretixService;
+	private readonly IClientPretixService _clientPretixService;
 
 	public decimal AmountDue { get; set; }
 	public decimal AmountGiven { get; set; }
@@ -20,10 +20,10 @@ public class TransactionService : ITransactionService
 
 	public event EventHandler? TransactionUpdated;
 
-	public TransactionService(IShoppingCartService shoppingCartService, IPretixService pretixService)
+	public TransactionService(IShoppingCartService shoppingCartService, IClientPretixService clientPretixService)
 	{
 		_shoppingCartService = shoppingCartService;
-		_pretixService = pretixService;
+		_clientPretixService = clientPretixService;
 	}
 
 	public void Initialize()
@@ -31,7 +31,7 @@ public class TransactionService : ITransactionService
 		AmountDue = _shoppingCartService.Cart.Sum(x => x.Price);
 		AmountDueTax = _shoppingCartService.Cart.Sum(x => x.TaxPrice);
 		AmountGiven = 0;
-		Currency = _pretixService.SelectedEvent!.Currency;
+		Currency = _clientPretixService.SelectedEvent!.Currency;
 
 		var items = _shoppingCartService.Cart.Select(x => new TransactionItem(x));
 		Items = new ObservableCollection<ITransactionItem>(items);

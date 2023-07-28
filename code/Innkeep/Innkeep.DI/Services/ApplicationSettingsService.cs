@@ -29,7 +29,7 @@ public class ApplicationSettingsService : IApplicationSettingsService
 
     public void UpdateSetting(PretixOrganizer pretixOrganizer, PretixEvent pretixEvent)
     {
-        using var db = _organizerRepository.CreateContext();
+        var db = _organizerRepository.CreateContext();
         
         var organizerFromDb = _organizerRepository.GetOrCreate(pretixOrganizer, db);
         var eventFromDb = _eventRepository.GetOrCreate(pretixEvent, organizerFromDb, db);
