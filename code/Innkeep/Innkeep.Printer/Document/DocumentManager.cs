@@ -8,7 +8,7 @@ namespace Innkeep.Printer.Document;
 public class DocumentManager
 {
 	private byte[] _commands = Array.Empty<byte>();
-	private string _port;
+	private readonly string _port;
 	
 	public DocumentManager(string port)
 	{

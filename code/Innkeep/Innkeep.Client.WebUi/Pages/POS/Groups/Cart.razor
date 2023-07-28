@@ -4,7 +4,7 @@
 @using RestSharp
 
 @inject IShoppingCartService ShoppingCartService
-@inject IServerConnectionService ServerConnectionService
+@inject IClientPretixService ClientPretixService
 
 <div class="cart-wrapper drop2">
    <div class="cart-title">
@@ -25,7 +25,7 @@
             <div class="item-spacer"></div>
             <div class="price-info">
                <div>@item.Price</div>
-               <div>@ServerConnectionService.CurrentEvent?.Currency</div>
+               <div>@ClientPretixService.SelectedEvent?.Currency</div>
             </div>
          </div>
       }

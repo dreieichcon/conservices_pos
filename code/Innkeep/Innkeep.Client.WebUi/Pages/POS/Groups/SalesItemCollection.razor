@@ -1,6 +1,6 @@
 ﻿@using Innkeep.Client.WebUi.Pages.POS.Components
 @using Innkeep.Client.Interfaces.Services
-@inject IServerConnectionService ServerConnectionService;
+@inject IClientPretixService ClientPretixService;
 
 
 <div class="sales-wrapper drop2">
@@ -8,7 +8,7 @@
         Items
     </div>
     <div class="sales">
-        @foreach (var item in ServerConnectionService.SalesItems)
+        @foreach (var item in ClientPretixService.SalesItems)
         {
             <SalesItemButton Item="@item"/>
         }
@@ -19,7 +19,7 @@
     
     protected override void OnInitialized()
     {
-        ServerConnectionService.ItemUpdated += StateChangedEvent;
+        ClientPretixService.ItemUpdated += StateChangedEvent;
     }
 
     private void StateChangedEvent(object? sender, EventArgs e)

@@ -1,12 +1,18 @@
 ﻿@inherits LayoutComponentBase
 
+<MudThemeProvider/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+
 <PageTitle>Innkeep Client</PageTitle>
 
-<div class="main">
-    <div class="main-page">
-        <NavBar/>
-        <div class="content">
-            @Body
+<MudLayout>
+    <div class="main">
+        <div class="main-page">
+            <NavBar/>
+            <div class="content">
+                @Body
+            </div>
         </div>
     </div>
-</div>
+</MudLayout>

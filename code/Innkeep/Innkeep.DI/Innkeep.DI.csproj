@@ -9,12 +9,14 @@
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
       <PackageReference Include="Serilog" Version="3.0.0-dev-01909" />
+      <PackageReference Include="System.IO.Ports" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Innkeep.Client.Interfaces\Innkeep.Client.Interfaces.csproj" />
       <ProjectReference Include="..\Innkeep.Core\Innkeep.Core.csproj" />
       <ProjectReference Include="..\Innkeep.Client.Data\Innkeep.Client.Data.csproj" />
+      <ProjectReference Include="..\Innkeep.Printer\Innkeep.Printer.csproj" />
       <ProjectReference Include="..\Innkeep.Server.Api\Innkeep.Server.Api.csproj" />
       <ProjectReference Include="..\Innkeep.Server.Data\Innkeep.Server.Data.csproj" />
       <ProjectReference Include="..\Innkeep.Server.Interfaces\Innkeep.Server.Interfaces.csproj" />

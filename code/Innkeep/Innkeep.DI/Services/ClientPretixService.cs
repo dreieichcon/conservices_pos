@@ -10,4 +10,6 @@ public class ClientPretixService : IClientPretixService
 	public PretixEvent? SelectedEvent { get; set; }
 
 	public IEnumerable<PretixSalesItem> SalesItems { get; set; } = new List<PretixSalesItem>();
+
+	public event EventHandler? ItemUpdated;
 }
