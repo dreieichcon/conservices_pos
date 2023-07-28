@@ -1,4 +1,6 @@
 ﻿@page "/POS"
+@using Innkeep.Client.Interfaces.Services
+@inject IClientPretixService ClientPretixService;
 
 <div class="pos-main">
     <ClearPopup/>
@@ -15,5 +17,11 @@
 </div>
 
 @code {
-    
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ClientPretixService.Reload();
+        base.OnInitializedAsync();
+    }
+
 }

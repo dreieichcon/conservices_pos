@@ -2,7 +2,9 @@
 
 public interface IClientServerConnectionService
 {
-	public bool TestConnection();
+	public Task<bool> TestConnection();
+
+	public Task<bool> RegisterToServer();
 
 	public bool AutoDiscover(out Uri? uri);
 }

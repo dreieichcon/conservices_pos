@@ -1,14 +1,16 @@
+using System.Net;
+using System.Net.Security;
+using Innkeep.Core.Validation;
 using Innkeep.DI;
 using MudBlazor.Services;
 using Serilog;
 
-using var log =
-    new LoggerConfiguration()
-        .WriteTo.Console()
-        .WriteTo.Debug()
-        .WriteTo.Trace()
-        .MinimumLevel.Verbose()
-        .CreateLogger();
+Log.Logger = new LoggerConfiguration()
+             .WriteTo.Console()
+             .WriteTo.Debug()
+             .WriteTo.Trace()
+             .MinimumLevel.Verbose()
+             .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 

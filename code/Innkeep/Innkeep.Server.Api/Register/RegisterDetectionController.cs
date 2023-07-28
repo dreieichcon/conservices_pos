@@ -1,10 +1,19 @@
 ﻿using System.Diagnostics;
+using Innkeep.Server.Data.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace Innkeep.Server.Api.Register;
 
 public class RegisterDetectionController
 {
+	private readonly IRegisterService _registerService;
+
+	public RegisterDetectionController(IRegisterService registerService)
+	{
+		_registerService = registerService;
+	}
+	
 	[Route("Register/Discover")]
 	public IActionResult Discover()
 	{
@@ -14,12 +23,18 @@ public class RegisterDetectionController
 	[Route("Register/Connect/{registerId}")]
 	public IActionResult Connect([FromRoute] string registerId)
 	{
-		Trace.WriteLine(registerId);
+		Log.Debug("Received Connection Request from Register: {RegisterId}", registerId);
 
-		// TODO - Check MAC against trusted items in DB
-		// If successful return pretix items
-		// else return unauthorized
+		if (_registerService.CurrentRegistersContains(registerId))
+		{
+			Log.Debug("Register {RegisterId} found in trusted clients", registerId);
+			return new OkObjectResult(registerId);
+		}
 		
-		return new OkObjectResult(registerId);
+		_registerService.AddPendingRegister(registerId);
+		Log.Debug("Register {RegisterId} not trusted", registerId);
+		Log.Debug("Please confirm register via register management");
+
+		return new UnauthorizedResult();
 	}
 }

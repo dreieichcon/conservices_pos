@@ -6,12 +6,14 @@ namespace Innkeep.Data.Pretix.Serialization;
 
 public static class PretixCartSerializer
 {
-	public static string SerializeTransaction(IEnumerable<PretixCartItem<PretixSalesItem>> salesItems, bool isTest = false)
+	public static string SerializeTransaction
+		(IEnumerable<PretixCartItem<PretixSalesItem>> salesItems, PretixEvent pretixEvent, bool isTest = false)
 	{
-		return JsonSerializer.Serialize(CreateOrder(salesItems, isTest));
+		return JsonSerializer.Serialize(CreateOrder(salesItems, pretixEvent, isTest));
 	}
 
-	private static PretixOrder CreateOrder(IEnumerable<PretixCartItem<PretixSalesItem>> salesItems, bool isTest = false)
+	private static PretixOrder CreateOrder
+		(IEnumerable<PretixCartItem<PretixSalesItem>> salesItems, PretixEvent pretixEvent, bool isTest = false)
 	{
 		var order = new PretixOrder()
 		{
@@ -24,6 +26,7 @@ public static class PretixCartSerializer
 			InvoiceAddress = null,
 			Positions = CreatePositions(salesItems),
 			Simulate = isTest,
+			TestMode = pretixEvent.IsTestMode
 		};
 
 		return order;

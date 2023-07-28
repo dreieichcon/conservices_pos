@@ -1,0 +1,50 @@
+﻿@page "/Registers/Settings"
+@using Innkeep.Server.Data.Interfaces
+@using Innkeep.Server.Data.Models
+@inject IRegisterService RegisterService
+
+<div class="d-flex flex-grow-1 flex-column gap-4">
+    <h3>Current Registers</h3>
+    <MudDataGrid Items="RegisterService.CurrentRegisters">
+        <Columns>
+            <PropertyColumn Property="x => x.Id" Title="Database Id"/>
+            <PropertyColumn Property="x => x.DeviceId" Title="Device Id"/>
+        </Columns>
+    </MudDataGrid>
+    <MudDivider/>
+    <h3>Pending Registers</h3>
+    <MudDataGrid T="Register" Items="RegisterService.PendingRegisters">
+        <Columns>
+            <PropertyColumn Property="x => x.DeviceId" Title="Device Id"/>
+            <TemplateColumn>
+                <CellTemplate>
+                    <MudStack Row>
+                        <MudButton Size="@Size.Small" Variant="Variant.Outlined" Color="Color.Success" @onclick="() => Accept(context.Item)">Accept</MudButton>
+                        <MudButton Size="@Size.Small" Variant="Variant.Outlined" Color="Color.Error" @onclick="() => Reject(context.Item)">Reject</MudButton>
+                </MudStack>
+                </CellTemplate>
+            </TemplateColumn>
+        </Columns>
+    </MudDataGrid>
+</div>
+
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        RegisterService.RegistersChanged += (_, _) => InvokeAsync(StateHasChanged);
+        base.OnInitialized();
+    }
+
+    private void Accept(Register register)
+    {
+        RegisterService.ConfirmPendingRegister(register);
+    }
+    
+    private void Reject(Register register)
+    {
+        RegisterService.RejectPendingRegister(register);
+    }
+
+}

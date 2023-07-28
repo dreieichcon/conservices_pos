@@ -26,6 +26,9 @@ public class PretixOrder
 	[JsonPropertyName("simulate")]
 	public bool Simulate { get; set; }
 	
+	[JsonPropertyName("testmode")]
+	public bool TestMode { get; set; }
+
 	[JsonPropertyName("customer")]
 	[JsonIgnore]
 	public PretixCustomer? Customer { get; set; }
