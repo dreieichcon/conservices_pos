@@ -9,7 +9,7 @@ public class EventRepository : BaseRepository<Event>, IEventRepository
 {
 	public Event GetOrCreate(PretixEvent pretixEvent, Organizer organizer, DbContext db)
 	{
-		db.Attach(organizer);
+		// db.Attach(organizer);
 		
 		var fromDb = GetCustom(x => x.Slug == pretixEvent.Slug, db);
 		if (fromDb is not null) return fromDb;
