@@ -1,2 +1,10 @@
 
 *.db
+
+**/bin/*
+
+**/obj/*
+
+**/release/*
+
+**/temp/*
