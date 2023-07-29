@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using System.Net.Sockets;
 using Innkeep.Client.Interfaces.Services;
+using Innkeep.Core.DomainModels.Print;
+using Innkeep.Shared.Objects.Transaction;
 using Serilog;
 
 namespace Innkeep.DI.Services.Client.Core;
@@ -40,6 +42,11 @@ public class ClientServerConnectionService : IClientServerConnectionService
 		
 		uri = null;
 		return false;
+	}
+
+	public async Task<Receipt?> SendTransaction(Transaction transaction)
+	{
+		return await _clientServerConnectionRepository.SendTransaction(transaction);
 	}
 
 	private string GetCurrentIp()

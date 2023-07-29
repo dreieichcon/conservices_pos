@@ -12,8 +12,7 @@ public class MultiString
 
     [JsonIgnore]
     public string German => string.IsNullOrEmpty(GermanDefault) ? GermanInformal : GermanDefault;
-
-
+    
     public override string ToString()
     {
         return German;

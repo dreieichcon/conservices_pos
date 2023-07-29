@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Innkeep.Data.Pretix\Innkeep.Data.Pretix.csproj" />
+      <ProjectReference Include="..\Innkeep.Shared.Objects\Innkeep.Shared.Objects.csproj" />
     </ItemGroup>
 
 </Project>

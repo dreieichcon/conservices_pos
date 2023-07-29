@@ -2,13 +2,16 @@
 using System.Net;
 using System.Net.Security;
 using System.Security.Authentication;
+using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Innkeep.Client.Interfaces.Services;
 using Innkeep.Core.Core;
+using Innkeep.Core.DomainModels.Print;
 using Innkeep.Core.Validation;
 using Innkeep.Data.Pretix.Models;
 using Innkeep.Server.Api.ServerEndpointBuilder;
+using Innkeep.Shared.Objects.Transaction;
 using Serilog;
 
 namespace Innkeep.DI.Services.Client.Core;
@@ -162,6 +165,31 @@ public class ClientServerConnectionRepository : BaseHttpRepository, IClientServe
 		{
 			Log.Error("Failed while retrieving SalesItems: {Exception}", ex);
 			throw new AuthenticationException(ex.Message);
+		}
+	}
+
+	public async Task<Receipt?> SendTransaction(Transaction transaction)
+	{
+		var endpoint = new ServerEndpointBuilder(_clientSettingsService.Setting.ServerUri)
+						.WithPretix()
+						.WithEndpoint("Transaction")
+						.WithEndpoint(_networkHardwareService.GetMacAddress())
+						.Build();
+		
+		try
+		{
+			var json = JsonSerializer.Serialize(transaction);
+			var jsonContent = new StringContent(json, Encoding.UTF8, "application/json");
+			
+			var result = await ExecutePostRequest(endpoint, jsonContent);
+
+			var deserialized = JsonSerializer.Deserialize<Receipt?>(result);
+			return deserialized;
+		}
+		catch (Exception ex)
+		{
+			Log.Error("Failed while committing Transaction: {Exception}", ex);
+			return null;
 		}
 	}
 

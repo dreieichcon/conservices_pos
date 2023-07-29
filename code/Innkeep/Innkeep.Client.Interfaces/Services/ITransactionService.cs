@@ -23,4 +23,6 @@ public interface ITransactionService
 
 	public void ClearTransaction();
 
+	public Task<bool> CommitTransaction();
+
 }

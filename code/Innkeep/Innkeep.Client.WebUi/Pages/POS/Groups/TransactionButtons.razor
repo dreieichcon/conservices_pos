@@ -1,40 +1,59 @@
 ﻿@using Innkeep.Client.WebUi.Pages.POS.Components
 @using Innkeep.Client.Interfaces.Services
+@using Innkeep.DI.Services
 @inject ITransactionService TransactionService
 @inject IPopupService PopupService
+@inject IShoppingCartService ShoppingCartService
 
 <div class="button-group">
-    <div class="button no-select pay drop2" @onclick="Confirm">
-        <div class="button-text">
-            CONFIRM
-        </div>
-    </div>
-    <div class="button no-select clear drop2" @onclick="Clear">
-        <div class="button-text">
-            CLEAR AMOUNT
-        </div>
-    </div>
-    <div class="button no-select clear drop2" @onclick="Cancel">
-        <div class="button-text">
-            CANCEL
-        </div>
-    </div>
+    <MudButton class="pay-button no-select" Color="Color.Success" Variant="Variant.Filled" @onclick="Confirm" Disabled="@ConfirmLocked" Style="width: 32%; height: 100%;">
+        CONFIRM
+    </MudButton>
+    <MudButton class="pay-button no-select" Color="Color.Error" Variant="Variant.Filled" @onclick="Clear" Style="width: 32%; height: 100%;">
+        CLEAR AMOUNT
+    </MudButton>
+    <MudButton class="pay-button no-select" Color="Color.Error" Variant="Variant.Filled" @onclick="Cancel" Style="width: 32%; height: 100%;">
+        CANCEL
+    </MudButton>
 </div>
 
 @code {
-    private void Confirm()
+
+    protected override void OnInitialized()
     {
-        
+        TransactionService.TransactionUpdated += (_, _) => InvokeAsync(StateHasChanged);
+        base.OnInitialized();
     }
-    
+
+    private bool ConfirmLocked => TransactionService.AmountGiven < TransactionService.AmountDue;
+
+    private async void Confirm()
+    {
+        if (TransactionService.AmountGiven >= TransactionService.AmountDue)
+            if (await TransactionService.CommitTransaction())
+            {
+                // TODO - Show Success
+                Clear();
+                ShoppingCartService.Clear();
+                PopupService.Close(nameof(PayPopup));
+                
+            }
+            else
+            {
+                // TODO - Show Error
+                return;
+            }
+        // SHOW ERROR about price
+    }
+
     private void Clear()
     {
         TransactionService.UpdateGivenAmount(-TransactionService.AmountGiven);
     }
-    
 
     private void Cancel()
     {
         PopupService.Close(nameof(PayPopup));
     }
+
 }

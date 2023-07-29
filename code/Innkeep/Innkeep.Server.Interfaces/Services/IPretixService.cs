@@ -1,4 +1,6 @@
-﻿using Innkeep.Data.Pretix.Models;
+﻿using Innkeep.Core.DomainModels.Print;
+using Innkeep.Data.Pretix.Models;
+using Innkeep.Shared.Objects.Transaction;
 
 namespace Innkeep.Server.Interfaces.Services;
 
@@ -13,6 +15,8 @@ public interface IPretixService
     public PretixEvent? SelectedEvent { get; set; }
 
     public IEnumerable<PretixSalesItem> SalesItems { get; set; }
+
+    public Task<Receipt?> CreateOrder(Transaction transaction);
 
     public void Reload();
 

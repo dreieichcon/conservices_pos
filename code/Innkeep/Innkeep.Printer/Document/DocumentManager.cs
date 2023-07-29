@@ -13,6 +13,7 @@ public class DocumentManager
 	public DocumentManager(string port)
 	{
 		_port = port;
+		PageSetup();
 	}
 
 	public DocumentManager AddTitle(string title, 
@@ -113,6 +114,11 @@ public class DocumentManager
 		var byteArray = bytes.Print(image);
 
 		return byteArray;
+	}
+
+	private void PageSetup()
+	{
+		Append(SelectCodeTable(CodeTable.Windows1252));
 	}
 
 	private void Append(byte[] command, int count = 1)

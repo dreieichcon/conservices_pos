@@ -18,6 +18,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Innkeep.Core\Innkeep.Core.csproj" />
       <ProjectReference Include="..\Innkeep.Server.Data\Innkeep.Server.Data.csproj" />
+      <ProjectReference Include="..\Innkeep.Shared.Objects\Innkeep.Shared.Objects.csproj" />
     </ItemGroup>
 
     <ItemGroup>

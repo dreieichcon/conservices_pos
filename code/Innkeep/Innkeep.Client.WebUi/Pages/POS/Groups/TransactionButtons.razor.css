@@ -8,13 +8,9 @@
     align-items: center;
 }
 
-.button{
-    width: 32%;
-    height: 100%;
-    border-radius: var(--radius);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.pay-button{
+    width: 32% !important;
+    height: 100% !important;
 }
 
 .button-text{
