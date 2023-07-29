@@ -16,7 +16,7 @@ public interface IPretixService
 
     public IEnumerable<PretixSalesItem> SalesItems { get; set; }
 
-    public Task<Receipt?> CreateOrder(Transaction transaction);
+    public Task<PretixOrderResponse> CreateOrder(Transaction transaction);
 
     public void Reload();
 

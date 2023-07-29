@@ -32,6 +32,8 @@
             }
         
         </MudSelect>
+        <h3>Enter Organizer Address</h3>
+        <MudTextField T="string" @bind-Value="OrganizerInfo" Lines="7"/>
         <div class="d-flex flex-row justify-end gap-1">
             <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="Save">Save Changes</MudButton>
         </div>
@@ -61,6 +63,12 @@
     
     private static Func<PretixEvent?, string> EventString => ev => ev != null ? ev.Name.German : string.Empty;
 
+    private string OrganizerInfo
+    {
+        get => ApplicationSettingsService.ActiveSetting.OrganizerInfo ?? string.Empty;
+        set => ApplicationSettingsService.ActiveSetting.OrganizerInfo = value;
+    }
+
     protected override void OnInitialized()
     {
         if (!AuthenticationService.AuthenticationSuccessful)
@@ -79,7 +87,7 @@
     {
         if (SelectedOrganizer != null && SelectedEvent != null)
         {
-            ApplicationSettingsService.UpdateSetting(SelectedOrganizer, SelectedEvent);
+            ApplicationSettingsService.UpdateSetting(SelectedOrganizer, SelectedEvent, OrganizerInfo);
             Snackbar.Add("Organizer and Event Saved");
             PretixService.Reload();
             Snackbar.Add("Pretix Service Reloaded");

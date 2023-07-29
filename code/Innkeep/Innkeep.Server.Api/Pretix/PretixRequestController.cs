@@ -62,25 +62,4 @@ public class PretixRequestController
 		Log.Debug("Register {RegisterId} not trusted", registerId);
 		return new UnauthorizedResult();
 	}
-
-	[HttpPost]
-	[Route("Pretix/Transaction/{registerId}")]
-	public async Task<IActionResult> ReceiveTransaction([FromRoute] string registerId, [FromBody]Shared.Objects.Transaction.Transaction transaction)
-	{
-		Log.Debug("Received Sales Items Request from Register: {RegisterId}", registerId);
-
-		if (_registerService.CurrentRegistersContains(registerId))
-		{
-			Log.Debug("Register {RegisterId} found in trusted clients, accepting transaction", registerId);
-
-			var receipt = await _pretixService.CreateOrder(transaction);
-			return new JsonResult(receipt);
-
-			// TODO - Create Transaction on Pretix Side, Send back Receipt if successful
-			// TODO - Create Receipt Settings
-		}
-		
-		Log.Debug("Register {RegisterId} not trusted", registerId);
-		return new UnauthorizedResult();
-	}
 }

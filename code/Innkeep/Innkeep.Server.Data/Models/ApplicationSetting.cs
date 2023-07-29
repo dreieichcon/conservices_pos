@@ -7,4 +7,6 @@ public class ApplicationSetting
 	public Organizer? SelectedOrganizer { get; set; }
 	
 	public Event? SelectedEvent { get; set; }
+	
+	public string? OrganizerInfo { get; set; }
 }

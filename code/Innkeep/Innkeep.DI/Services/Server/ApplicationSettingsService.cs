@@ -27,7 +27,7 @@ public class ApplicationSettingsService : IApplicationSettingsService
         ActiveSetting = _applicationSettingsRepository.GetSetting();
     }
 
-    public void UpdateSetting(PretixOrganizer pretixOrganizer, PretixEvent pretixEvent)
+    public void UpdateSetting(PretixOrganizer pretixOrganizer, PretixEvent pretixEvent, string organizerInfo)
     {
         var db = _organizerRepository.CreateContext();
         
@@ -36,6 +36,7 @@ public class ApplicationSettingsService : IApplicationSettingsService
 
         ActiveSetting.SelectedOrganizer = organizerFromDb;
         ActiveSetting.SelectedEvent = eventFromDb;
+        ActiveSetting.OrganizerInfo = organizerInfo;
         
         Save(db);
         db.Dispose();
