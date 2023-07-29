@@ -171,7 +171,7 @@ public class ClientServerConnectionRepository : BaseHttpRepository, IClientServe
 	public async Task<Receipt?> SendTransaction(Transaction transaction)
 	{
 		var endpoint = new ServerEndpointBuilder(_clientSettingsService.Setting.ServerUri)
-						.WithPretix()
+						.WithRegister()
 						.WithEndpoint("Transaction")
 						.WithEndpoint(_networkHardwareService.GetMacAddress())
 						.Build();

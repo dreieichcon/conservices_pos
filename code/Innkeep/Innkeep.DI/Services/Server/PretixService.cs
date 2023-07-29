@@ -95,46 +95,8 @@ public class PretixService : IPretixService
 		ItemUpdated?.Invoke(nameof(SalesItems), EventArgs.Empty);
 	}
 
-	public async Task<Receipt?> CreateOrder(Transaction transaction)
+	public async Task<PretixOrderResponse> CreateOrder(Transaction transaction)
 	{
-		var response = await _pretixRepository.CreateOrder(SelectedOrganizer!, SelectedEvent!, transaction.TransactionItems);
-
-		return CreateReceiptFromResponse(response, transaction);
-	}
-
-	private Receipt CreateReceiptFromResponse(PretixOrderResponse orderResponse, Transaction transaction)
-	{
-		var receipt = new Receipt();
-		
-		// TODO - Add this to receipt class directly.
-
-		var name = SelectedEvent.Name.German;
-		
-		receipt.Lines.Add(new PrintInfo(name, LineType.Title));
-		receipt.Lines.Add(new("", LineType.Blank));
-		receipt.Lines.Add(new("", LineType.Divider));
-
-		foreach (var item in transaction.TransactionItems)
-		{
-			receipt.Lines.Add(new(item.LineInfo(SelectedEvent.Currency), LineType.Line));	
-			receipt.Lines.Add(new("", LineType.Blank));
-		}
-		
-		receipt.Lines.Add(new("", LineType.Blank));
-		receipt.Lines.Add(new("", LineType.Divider));
-		
-		receipt.Lines.Add(new PrintInfo($"Summe: {transaction.Sum.ToString().PadLeft(5, ' ')}€", LineType.Sum));
-		receipt.Lines.Add(new PrintInfo($"Erhalten: {transaction.AmountGiven.ToString().PadLeft(5, ' ')}€", LineType.Sum));
-		receipt.Lines.Add(new PrintInfo($"Rück: {transaction.Return.ToString().PadLeft(5, ' ')}€", LineType.Sum));
-		
-		receipt.Lines.Add(new("", LineType.Blank));
-		receipt.Lines.Add(new("", LineType.Divider));
-		
-		receipt.Lines.Add(new($"Order ID: {orderResponse.Code}", LineType.Center));
-		
-		receipt.Lines.Add(new($"Datum / Uhrzeit:", LineType.Line));
-		receipt.Lines.Add(new($"{DateTime.Now.ToString()}", LineType.Line));
-
-		return receipt;
+		return await _pretixRepository.CreateOrder(SelectedOrganizer!, SelectedEvent!, transaction.TransactionItems);
 	}
 }

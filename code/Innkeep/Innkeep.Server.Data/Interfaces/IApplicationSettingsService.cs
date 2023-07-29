@@ -8,7 +8,7 @@ public interface IApplicationSettingsService
 {
 	public ApplicationSetting ActiveSetting { get; set; }
 
-	public void UpdateSetting(PretixOrganizer pretixOrganizer, PretixEvent pretixEvent);
+	public void UpdateSetting(PretixOrganizer pretixOrganizer, PretixEvent pretixEvent, string organizerInfo);
 
 	public void Save(DbContext db);
 }
