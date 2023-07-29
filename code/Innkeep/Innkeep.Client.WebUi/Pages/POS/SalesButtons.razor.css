@@ -8,7 +8,7 @@
     align-items: center;
 }
 
-.button{
+.pay-button{
     width: 32%;
     height: 100%;
     border-radius: var(--radius);

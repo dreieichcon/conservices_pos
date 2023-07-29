@@ -1,6 +1,3 @@
-using System.Net;
-using System.Net.Security;
-using Innkeep.Core.Validation;
 using Innkeep.DI;
 using MudBlazor.Services;
 using Serilog;
@@ -17,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
 
 builder.Services.AddMudServices();
 

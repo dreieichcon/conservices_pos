@@ -1,4 +1,7 @@
 ﻿@page "/"
+@using Innkeep.Client.Interfaces.Services
+@inject IClientServerConnectionService ConnectionService
+@inject NavigationManager Navigation
 
 <PageTitle>Index</PageTitle>
 
@@ -9,3 +12,15 @@ Welcome to your new app.
 <a href="/config">Go To Config</a>
 
 <SurveyPrompt Title="How is Blazor working for you?"/>
+
+
+@code{
+
+    protected override async Task OnInitializedAsync()
+    {
+        var connected = await ConnectionService.RegisterToServer();
+        if (!connected) Navigation.NavigateTo("/config");
+        await base.OnInitializedAsync();
+    }
+
+}

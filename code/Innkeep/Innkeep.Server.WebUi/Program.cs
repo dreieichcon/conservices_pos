@@ -1,6 +1,5 @@
 using Innkeep.DI;
 using MudBlazor.Services;
-
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
