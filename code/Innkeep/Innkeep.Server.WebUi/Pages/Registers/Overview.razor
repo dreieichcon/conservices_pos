@@ -1,0 +1,26 @@
+﻿@page "/Registers/Overview"
+@using Innkeep.Server.Data.Interfaces
+@using Innkeep.Core.DomainModels.Dashboard
+@inject ICashFlowService CashFlowService
+
+<div class="d-flex flex-grow-1 flex-column gap-4">
+    <h3>Register Cash Overview</h3>
+    <MudDataGrid T="RegisterCashInfo" Items="CashInfos">
+        <Columns>
+            <PropertyColumn Property="x => x.RegisterId" Title="Register"/>
+            <PropertyColumn Property="x => x.CashState" Title="Cash State" Format="C"/>
+        </Columns>
+    </MudDataGrid>
+</div>
+
+@code {
+
+    private List<RegisterCashInfo> CashInfos { get; set; } = new();
+    
+    protected override void OnInitialized()
+    {
+        CashInfos = CashFlowService.GetCurrentCashState();
+        base.OnInitialized();
+    }
+
+}

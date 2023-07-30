@@ -71,6 +71,10 @@ public static class DependencyManager
         collection.AddDbContext<InnkeepServerContext>((_, builder) => builder.UseSqlite("Data Source=InnkeepServer.db"));
         
         collection.AddSingleton<ITransactionRepository, TransactionRepository>();
+        
+        collection.AddSingleton<ITseService, TseService>();
+        collection.AddSingleton<ICashFlowRepository, CashFlowRepository>();
+        collection.AddSingleton<ICashFlowService, CashFlowService>();
 
         collection.AddScoped<RegisterDetectionController>();
         collection.AddScoped<PretixRequestController>();

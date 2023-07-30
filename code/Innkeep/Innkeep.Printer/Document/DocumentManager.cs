@@ -2,6 +2,8 @@
 using ESCPOS.Utils;
 using static ESCPOS.Commands;
 using System.Drawing;
+using System.Text;
+using Innkeep.Printer.Util;
 
 namespace Innkeep.Printer.Document;
 
@@ -24,7 +26,7 @@ public class DocumentManager
 	{
 		Append(SelectJustification(justification));
 		Append(SelectCharSize(width, height));
-		Append(title.ToBytes());
+		Append(title.GetBytes());
 		ResetFontAndJustification();
 		Append(LF);
 
@@ -34,7 +36,7 @@ public class DocumentManager
 	public DocumentManager AddLine(string lineText, 
 		Justification justification = Justification.Left)
 	{
-		Append(lineText.ToBytes());
+		Append(lineText.GetBytes());
 		Append(LF);
 		ResetJustification();
 		return this;
@@ -128,6 +130,4 @@ public class DocumentManager
 			_commands = _commands.Add(command);
 		}
 	}
-	
-	
 }

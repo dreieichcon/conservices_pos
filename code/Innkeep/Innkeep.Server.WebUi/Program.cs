@@ -18,6 +18,14 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddControllers();
 builder.Services.AddMudServices();
 
+builder.WebHost.ConfigureKestrel(
+	options =>
+	{
+		options.ListenAnyIP(1337);
+		options.ListenAnyIP(1338, configure => configure.UseHttps());
+	}
+);
+
 DependencyManager.InitializeServer(builder);
 
 var app = builder.Build();
