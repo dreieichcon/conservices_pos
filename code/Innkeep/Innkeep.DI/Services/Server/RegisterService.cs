@@ -47,6 +47,12 @@ public class RegisterService : IRegisterService
 		RegistersChanged?.Invoke(this, EventArgs.Empty);
 	}
 
+	public bool CurrentRegistersContains(string registerId, out Register? register)
+	{
+		register = CurrentRegisters.FirstOrDefault(x => x.DeviceId == registerId);
+		return register is not null;
+	}
+
 	public bool CurrentRegistersContains(string registerId) 
 		=> CurrentRegisters.Exists(x => x.DeviceId == registerId);
 

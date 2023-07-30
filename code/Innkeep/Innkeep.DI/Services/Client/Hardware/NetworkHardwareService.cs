@@ -33,6 +33,7 @@ public class NetworkHardwareService : INetworkHardwareService
 			macAddress = tempMac;
 		}
 
+		MacAddress = macAddress;
 		return macAddress;
 	}
 }

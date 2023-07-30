@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Innkeep.Server.Data.Repositories;
 
-public class TransactionRepository : BaseRepository<Transaction>, ITransactionRepository
+public class CashFlowRepository : BaseRepository<CashFlow>, ICashFlowRepository
 {
-	public new bool Create(Transaction item, DbContext? db = null)
+	public new bool Create(CashFlow item, DbContext? db = null)
 	{
 		using var context = InnkeepServerContext.Create();
 
-		context.Attach(item.Organizer);
 		context.Attach(item.Event);
-		context.Attach(item.Device);
+		context.Attach(item.Event.Organizer);
+		context.Attach(item.Register);
 
 		return base.Create(item, context);
 	}

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using Innkeep.Core.Interfaces.Transaction;
 using Innkeep.Data.Pretix.Models;
@@ -28,6 +29,13 @@ public class Transaction
 	public decimal Sum => TransactionItems.Sum(x => x.Price);
 
 	public decimal Return => Sum - AmountGiven;
+	
+	public DateTime TransactionStart { get; set; }
+
+	public string SerializeTransaction()
+	{
+		return JsonSerializer.Serialize(this);
+	}
 
 	public override string ToString()
 	{

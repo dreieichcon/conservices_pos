@@ -2,6 +2,7 @@
 @using Innkeep.Client.Interfaces.Services
 @inject IShoppingCartService ShoppingCartService
 @inject IPopupService PopupService
+@inject ITransactionService TransactionService
 
 <div class="button-group">
     <div class="pay-button no-select pay drop2" @onclick="Pay">
@@ -24,8 +25,10 @@
 @code {
     private void Pay()
     {
-        if (ShoppingCartService.Cart.Any())
-            PopupService.Show(nameof(PayPopup));
+        if (!ShoppingCartService.Cart.Any()) return;
+
+        TransactionService.TransactionStarted = DateTime.Now;
+        PopupService.Show(nameof(PayPopup));
     }
     
     private void Clear()

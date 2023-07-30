@@ -19,6 +19,8 @@ public class TransactionService : ITransactionService
 	public decimal AmountDueTax { get; set; }
 	public string Currency { get; set; }
 
+	public DateTime TransactionStarted { get; set; }
+
 	public ObservableCollection<ITransactionItem> Items { get; set; }
 
 	public event EventHandler? TransactionUpdated;

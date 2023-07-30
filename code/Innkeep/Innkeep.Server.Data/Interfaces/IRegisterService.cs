@@ -15,8 +15,10 @@ public interface IRegisterService
 	public void ConfirmPendingRegister(Register register);
 
 	public void RejectPendingRegister(Register register);
-
+	
 	public bool CurrentRegistersContains(string registerId);
+
+	public bool CurrentRegistersContains(string registerId, out Register? register);
 
 	public bool PendingRegistersContains(string registerId);
 }

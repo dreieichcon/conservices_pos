@@ -15,8 +15,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
-
 builder.Services.AddMudServices();
+
+builder.WebHost.ConfigureKestrel(
+	options =>
+	{
+		options.ListenAnyIP(1339);
+		options.ListenAnyIP(1340, configure => configure.UseHttps());
+	}
+);
 
 DependencyManager.InitializeClient(builder);
 

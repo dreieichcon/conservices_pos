@@ -31,6 +31,9 @@ public class InnkeepServerContext : DbContext
 		modelBuilder.Entity<Transaction>().Navigation(x => x.Event).AutoInclude();
 		modelBuilder.Entity<Transaction>().Navigation(x => x.Organizer).AutoInclude();
 		modelBuilder.Entity<Transaction>().Navigation(x => x.Device).AutoInclude();
+
+		modelBuilder.Entity<CashFlow>().Navigation(x => x.Event).AutoInclude();
+		modelBuilder.Entity<CashFlow>().Navigation(x => x.Register).AutoInclude();
 	}
 
 	public DbSet<Transaction> Transactions { get; set; }
@@ -44,5 +47,5 @@ public class InnkeepServerContext : DbContext
 
 	public DbSet<ApplicationSetting> ApplicationSettings { get; set; }
 	
-	
+	public DbSet<CashFlow> CashFlows { get; set; }
 }
