@@ -6,8 +6,5 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Innkeep.Data.Pretix\Innkeep.Data.Pretix.csproj" />
-    </ItemGroup>
 
 </Project>

@@ -1,8 +1,6 @@
-﻿using Innkeep.Server.Data.Models;
+﻿namespace Innkeep.Server.Data.Interfaces.Register;
 
-namespace Innkeep.Server.Data.Interfaces;
-
-public interface IRegisterRepository : IBaseRepository<Register>
+public interface IRegisterRepository : IBaseRepository<Models.Register>
 {
 	
 }

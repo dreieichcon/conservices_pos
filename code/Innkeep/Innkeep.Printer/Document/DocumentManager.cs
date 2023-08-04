@@ -2,7 +2,6 @@
 using ESCPOS.Utils;
 using static ESCPOS.Commands;
 using System.Drawing;
-using System.Text;
 using Innkeep.Printer.Util;
 
 namespace Innkeep.Printer.Document;

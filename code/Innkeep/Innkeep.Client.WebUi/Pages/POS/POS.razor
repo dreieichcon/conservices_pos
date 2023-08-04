@@ -1,6 +1,8 @@
 ﻿@page "/POS"
 @using Innkeep.Client.Services.Interfaces.Pretix
 @inject IClientPretixService ClientPretixService;
+@inject NavigationManager NavigationManager
+@inject ISnackbar Snackbar
 
 <div class="pos-main">
     <ClearPopup/>
@@ -20,8 +22,18 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await ClientPretixService.Reload();
-        base.OnInitializedAsync();
+        try
+        {
+            await ClientPretixService.Reload();
+            await base.OnInitializedAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            NavigationManager.NavigateTo("/config");
+            Snackbar.Add("Register is not connected to the Server. Please Connect First.", Severity.Error);
+        }
+        
     }
 
 }

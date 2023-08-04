@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Net.Sockets;
-using Innkeep.Api.Client.Interfaces;
 using Innkeep.Client.Services.Interfaces.File;
 using Innkeep.Client.Services.Interfaces.Server;
 using Innkeep.Models.Printer;

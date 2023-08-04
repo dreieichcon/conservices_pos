@@ -1,17 +1,17 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Innkeep.Data.Pretix.Models;
+namespace Innkeep.Api.Pretix.Models.Objects;
 
 public class PretixCheckin
 {
 	[JsonPropertyName("secret")]
-	public string Secret { get; set; }
+	public required string Secret { get; set; }
 	
 	[JsonPropertyName("source_type")]
-	public string SourceType { get; set; }
+	public required string SourceType { get; set; }
 	
 	[JsonPropertyName("type")]
-	public string Type { get; set; }
+	public required string Type { get; set; }
 
 	[JsonPropertyName("lists")]
 	public IList<string> Lists => new List<string>()

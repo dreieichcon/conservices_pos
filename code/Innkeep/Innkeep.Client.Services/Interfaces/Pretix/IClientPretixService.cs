@@ -1,5 +1,4 @@
 ﻿using Innkeep.Api.Pretix.Models.Objects;
-using Innkeep.Data.Pretix.Models;
 
 namespace Innkeep.Client.Services.Interfaces.Pretix;
 

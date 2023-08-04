@@ -6,8 +6,6 @@ namespace Innkeep.Api.Pretix.Models.Internal;
 
 public class PretixCartItem<T> where T : PretixSalesItem
 {
-	private const int MaxLength = 42;
-
 	private const int LineLength = 37;
 	
 	public PretixCartItem(T item)

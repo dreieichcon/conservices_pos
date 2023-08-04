@@ -3,7 +3,6 @@ using Innkeep.Client.Services.Interfaces.Hardware;
 using Innkeep.Client.Services.Interfaces.Pretix;
 using Innkeep.Client.Services.Interfaces.Server;
 using Innkeep.Client.Services.Interfaces.Transaction;
-using Innkeep.Core.Interfaces.Transaction;
 using Innkeep.Models.Transaction;
 
 namespace Innkeep.Client.Services.Services.Transaction;
@@ -18,11 +17,11 @@ public class TransactionService : ITransactionService
 	public decimal AmountDue { get; set; }
 	public decimal AmountGiven { get; set; }
 	public decimal AmountDueTax { get; set; }
-	public string Currency { get; set; }
+	public required string Currency { get; set; }
 
 	public DateTime TransactionStarted { get; set; }
 
-	public ObservableCollection<ITransactionItem> Items { get; set; }
+	public required ObservableCollection<TransactionItem> Items { get; set; }
 
 	public event EventHandler? TransactionUpdated;
 
@@ -45,7 +44,7 @@ public class TransactionService : ITransactionService
 		Currency = _clientPretixService.SelectedEvent!.Currency;
 
 		var items = _shoppingCartService.Cart.Select(x => new TransactionItem(x));
-		Items = new ObservableCollection<ITransactionItem>(items);
+		Items = new ObservableCollection<TransactionItem>(items);
 		
 		TransactionUpdated?.Invoke(null, EventArgs.Empty);
 	}

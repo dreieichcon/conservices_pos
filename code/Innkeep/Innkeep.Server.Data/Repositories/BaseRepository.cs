@@ -1,7 +1,5 @@
 ﻿using Innkeep.Server.Data.Context;
-using Innkeep.Server.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Serilog;
 
 namespace Innkeep.Server.Data.Repositories;

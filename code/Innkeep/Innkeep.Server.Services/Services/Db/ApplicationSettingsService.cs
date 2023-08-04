@@ -1,7 +1,6 @@
 ﻿using Innkeep.Api.Pretix.Models.Objects;
-using Innkeep.Data.Pretix.Models;
-using Innkeep.Server.Data.Interfaces;
 using Innkeep.Server.Data.Interfaces.ApplicationSettings;
+using Innkeep.Server.Data.Interfaces.Pretix;
 using Innkeep.Server.Data.Models;
 using Innkeep.Server.Services.Interfaces.Db;
 using Microsoft.EntityFrameworkCore;
@@ -51,5 +50,5 @@ public class ApplicationSettingsService : IApplicationSettingsService
         Load();
     }
     
-    public ApplicationSetting ActiveSetting { get; set; }
+    public required ApplicationSetting ActiveSetting { get; set; }
 }

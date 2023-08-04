@@ -1,6 +1,6 @@
 ﻿using Innkeep.Core.DomainModels.Authentication;
 
-namespace Innkeep.Server.Data.Interfaces;
+namespace Innkeep.Server.Data.Interfaces.ApplicationSettings;
 
 public interface IAuthenticationRepository
 {

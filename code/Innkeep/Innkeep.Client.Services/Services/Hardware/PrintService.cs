@@ -1,7 +1,6 @@
 ﻿using ESCPOS;
 using Innkeep.Client.Services.Interfaces.File;
 using Innkeep.Client.Services.Interfaces.Hardware;
-using Innkeep.Core.DomainModels.Print;
 using Innkeep.Models.Printer;
 using Innkeep.Printer.Document;
 

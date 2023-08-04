@@ -36,16 +36,16 @@ public class InnkeepServerContext : DbContext
 		modelBuilder.Entity<CashFlow>().Navigation(x => x.Register).AutoInclude();
 	}
 
-	public DbSet<Transaction> Transactions { get; set; }
-	public DbSet<Authentication> Authentications { get; set; }
+	public DbSet<Transaction> Transactions { get; set; } = null!;
+	public DbSet<Authentication> Authentications { get; set; } = null!;
 	
-	public DbSet<Organizer> Organizers { get; set; }
+	public DbSet<Organizer> Organizers { get; set; } = null!;
 	
-	public DbSet<Event> Events { get; set; }
+	public DbSet<Event> Events { get; set; } = null!;
 	
-	public DbSet<Register> Registers { get; set; }
+	public DbSet<Register> Registers { get; set; } = null!;
 
-	public DbSet<ApplicationSetting> ApplicationSettings { get; set; }
+	public DbSet<ApplicationSetting> ApplicationSettings { get; set; } = null!;
 	
-	public DbSet<CashFlow> CashFlows { get; set; }
+	public DbSet<CashFlow> CashFlows { get; set; } = null!;
 }

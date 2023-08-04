@@ -1,5 +1,5 @@
-﻿using Innkeep.Server.Api.Register;
-using Innkeep.Server.Controllers.Endpoints.Pretix;
+﻿using Innkeep.Server.Controllers.Endpoints.Pretix;
+using Innkeep.Server.Controllers.Endpoints.Register;
 using Innkeep.Server.Controllers.Endpoints.Transaction;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;

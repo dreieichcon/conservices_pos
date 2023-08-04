@@ -1,8 +1,6 @@
 ﻿@using Innkeep.Client.WebUi.Pages.Base;
 @using Innkeep.Client.WebUi.Pages.POS.Groups
 @using Innkeep.Client.WebUi.Pages.POS.Components
-@using Innkeep.DI.Services
-@using Innkeep.Client.Interfaces.Services
 @using Innkeep.Client.Services.Interfaces.Transaction
 @using Innkeep.Client.Services.Interfaces.Ui
 @using Innkeep.Client.Services.Services.Ui
@@ -27,7 +25,7 @@
 
 @code {
 
-    private string? Name => nameof(PayPopup);
+    private string Name => nameof(PayPopup);
 
     protected override void OnInitialized()
     {

@@ -1,11 +1,8 @@
-﻿using System.Text;
-using System.Xml;
-
-namespace Innkeep.Printer.Util;
+﻿namespace Innkeep.Printer.Util;
 
 public static class ByteConverter
 {
-	private static Dictionary<char, byte> LookupTable = new()
+	private static readonly Dictionary<char, byte> LookupTable = new()
 	{
 		{
 			'{', 0x7b

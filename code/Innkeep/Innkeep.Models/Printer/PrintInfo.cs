@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using Innkeep.Core.DomainModels.Print;
 
 namespace Innkeep.Models.Printer;
 

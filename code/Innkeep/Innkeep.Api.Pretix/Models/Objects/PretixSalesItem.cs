@@ -12,13 +12,13 @@ public class PretixSalesItem
     public int Id { get; set; }
 
     [JsonPropertyName("name")]
-    public MultiString Name { get; set; }
+    public required MultiString Name { get; set; }
 
     [JsonPropertyName("internal_name")]
-    public string InternalName { get; set; }
+    public string? InternalName { get; set; }
 
     [JsonPropertyName("sales_channels")]
-    public IEnumerable<string> SalesChannels { get; set; }
+    public required IEnumerable<string> SalesChannels { get; set; }
 
     [JsonPropertyName("default_price")]
     public string DefaultPriceString
@@ -56,9 +56,9 @@ public class PretixSalesItem
 
     [JsonPropertyName("description")]
     public MultiString? Description { get; set; }
-    
+
     [JsonIgnore]
-    public string Currency { get; set; }
+    public string Currency { get; set; } = "EUR";
 
     [JsonPropertyName("free_price")]
     public bool IsFreePrice { get; set; }
@@ -94,9 +94,8 @@ public class PretixSalesItem
     [JsonPropertyName("position")]
     public int Position { get; set; }
     
-    
     [JsonPropertyName("picture")]
-    public string Picture { get; set; }
+    public string? Picture { get; set; }
 
     [JsonPropertyName("available_from")]
     public DateTime? AvailableStart { get; set; }
@@ -104,8 +103,8 @@ public class PretixSalesItem
     [JsonPropertyName("available_until")]
     public DateTime? AvailableEnd { get; set; }
     
-    [JsonPropertyName("hidden_if_available")]
-    public object IsHiddenIfAvailable { get; set; }
+    [JsonIgnore]
+    public object? IsHiddenIfAvailable { get; set; }
     
     [JsonPropertyName("require_voucher")]
     public bool IsVoucherRequired { get; set; }

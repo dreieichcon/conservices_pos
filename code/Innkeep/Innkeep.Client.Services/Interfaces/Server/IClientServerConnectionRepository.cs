@@ -1,9 +1,8 @@
 ﻿using Innkeep.Api.Pretix.Models.Objects;
-using Innkeep.Data.Pretix.Models;
 using Innkeep.Models.Printer;
 using Innkeep.Models.Transaction;
 
-namespace Innkeep.Api.Client.Interfaces;
+namespace Innkeep.Client.Services.Interfaces.Server;
 
 public interface IClientServerConnectionRepository
 {

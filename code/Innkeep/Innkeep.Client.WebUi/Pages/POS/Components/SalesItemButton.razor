@@ -1,6 +1,4 @@
-﻿@using Innkeep.Client.Interfaces.Services
-@using Innkeep.Data.Pretix.Models
-@using Microsoft.AspNetCore.Hosting.Server
+﻿@using Microsoft.AspNetCore.Hosting.Server
 @using Innkeep.Api.Pretix.Models.Objects
 @using Innkeep.Client.Services.Interfaces.Pretix
 @using Innkeep.Client.Services.Interfaces.Transaction
@@ -27,7 +25,7 @@
 @code {
     
     [Parameter]
-    public PretixSalesItem Item { get; set; }
+    public required PretixSalesItem Item { get; set; }
 
     public void AddToCart()
     {

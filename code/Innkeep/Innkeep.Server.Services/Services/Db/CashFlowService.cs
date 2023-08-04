@@ -1,7 +1,7 @@
 ﻿using Innkeep.Core.DomainModels.Dashboard;
-using Innkeep.Server.Data.Interfaces;
 using Innkeep.Server.Data.Models;
 using Innkeep.Models.Transaction;
+using Innkeep.Server.Data.Interfaces.Transactions;
 using Innkeep.Server.Services.Interfaces.Db;
 
 namespace Innkeep.Server.Services.Services.Db;

@@ -1,8 +1,7 @@
 ﻿using Innkeep.Api.Pretix.Models.Objects;
-using Innkeep.Data.Pretix.Models;
 using Innkeep.Models.Transaction;
 
-namespace Innkeep.Server.Services.Interfaces;
+namespace Innkeep.Server.Services.Interfaces.Api;
 
 public interface IPretixService
 {
@@ -16,7 +15,7 @@ public interface IPretixService
 
     public IEnumerable<PretixSalesItem> SalesItems { get; set; }
 
-    public Task<PretixOrderResponse> CreateOrder(PretixTransaction pretixTransaction);
+    public Task<PretixOrderResponse?> CreateOrder(PretixTransaction pretixTransaction);
 
     public void Reload();
 

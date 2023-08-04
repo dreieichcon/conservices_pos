@@ -1,8 +1,7 @@
-﻿using Innkeep.Server.Data.Interfaces;
-using Innkeep.Server.Data.Interfaces.ApplicationSettings;
+﻿using Innkeep.Server.Data.Interfaces.ApplicationSettings;
 using Innkeep.Server.Data.Models;
 
-namespace Innkeep.Server.Data.Repositories;
+namespace Innkeep.Server.Data.Repositories.ApplicationSettings;
 
 public class ApplicationSettingsRepository : BaseRepository<ApplicationSetting>, IApplicationSettingsRepository
 {

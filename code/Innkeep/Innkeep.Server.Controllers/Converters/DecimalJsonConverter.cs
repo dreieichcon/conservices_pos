@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Innkeep.Server.Api.Converters;
+namespace Innkeep.Server.Controllers.Converters;
 
 public class DecimalJsonConverter : JsonConverter<Decimal>
 {
@@ -11,7 +11,7 @@ public class DecimalJsonConverter : JsonConverter<Decimal>
 		Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 		try
 		{
-			var value = reader.GetString().Replace(".", ",");
+			var value = reader.GetString()?.Replace(".", ",");
 			return decimal.Parse(value!);
 		}
 		catch

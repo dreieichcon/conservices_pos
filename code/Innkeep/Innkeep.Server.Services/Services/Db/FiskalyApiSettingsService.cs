@@ -14,7 +14,7 @@ public class FiskalyApiSettingsService : IFiskalyApiSettingsService
 		Read();
 	}
 	
-	public FiskalyApiSettings ApiSettings { get; set; }
+	public required FiskalyApiSettings ApiSettings { get; set; }
 
 	public bool AuthenticationSuccessful { get; set; }
 

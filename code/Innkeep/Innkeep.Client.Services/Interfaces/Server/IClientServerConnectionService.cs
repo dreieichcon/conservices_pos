@@ -1,5 +1,4 @@
-﻿using System.Transactions;
-using Innkeep.Models.Printer;
+﻿using Innkeep.Models.Printer;
 using Innkeep.Models.Transaction;
 
 namespace Innkeep.Client.Services.Interfaces.Server;

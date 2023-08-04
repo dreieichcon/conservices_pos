@@ -1,8 +1,6 @@
 ﻿@page "/Settings/Token"
-@using Innkeep.Core.Interfaces
 @using Innkeep.Core.DomainModels.Authentication
 @using Innkeep.Api.Pretix.Interfaces
-@using Innkeep.Server.Services.Interfaces.Db
 
 @inject IAuthenticationService AuthenticationService
 @inject IPretixRepository PretixRepository
@@ -30,9 +28,9 @@
 
 @code {
 
-    private AuthenticationInfo _authenticationInfo;
+    private AuthenticationInfo _authenticationInfo = null!;
 
-    private bool _showToken = false;
+    private bool _showToken;
     
     private InputType _tokenInput = InputType.Password;
     private string _tokenInputIcon = Icons.Material.Filled.VisibilityOff;
