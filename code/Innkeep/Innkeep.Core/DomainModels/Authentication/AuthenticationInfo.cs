@@ -2,10 +2,6 @@
 
 public class AuthenticationInfo
 {
-    public AuthenticationInfo()
-    {
-    }
-
     public AuthenticationInfo(string pretixToken)
     {
         PretixToken = pretixToken;

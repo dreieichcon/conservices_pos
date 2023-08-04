@@ -10,4 +10,8 @@
       <ProjectReference Include="..\Innkeep.Core\Innkeep.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Serialization\" />
+    </ItemGroup>
+
 </Project>

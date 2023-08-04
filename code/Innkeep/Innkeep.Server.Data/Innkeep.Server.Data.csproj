@@ -13,11 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Innkeep.Server.Interfaces\Innkeep.Server.Interfaces.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Repositories\Pretix\" />
+      <ProjectReference Include="..\Innkeep.Api.Pretix\Innkeep.Api.Pretix.csproj" />
     </ItemGroup>
 
 </Project>

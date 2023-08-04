@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Innkeep.Server.Controllers</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.AspNetCore.Http.Abstractions" />
+      <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions">
+        <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\7.0.7\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+      </Reference>
+      <Reference Include="Microsoft.AspNetCore.Mvc.Core">
+        <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\7.0.7\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Innkeep.Core\Innkeep.Core.csproj" />
+      <ProjectReference Include="..\Innkeep.Server.Data\Innkeep.Server.Data.csproj" />
+      <ProjectReference Include="..\Innkeep.Server.Services\Innkeep.Server.Services.csproj" />
+      <ProjectReference Include="..\Innkeep.Shared.Objects\Innkeep.Shared.Objects.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+      <PackageReference Include="Serilog" Version="3.0.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Endpoints\" />
+    </ItemGroup>
+
+</Project>
