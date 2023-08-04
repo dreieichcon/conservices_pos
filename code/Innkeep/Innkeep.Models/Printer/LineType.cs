@@ -1,4 +1,4 @@
-﻿namespace Innkeep.Core.DomainModels.Print;
+﻿namespace Innkeep.Models.Printer;
 
 public enum LineType
 {

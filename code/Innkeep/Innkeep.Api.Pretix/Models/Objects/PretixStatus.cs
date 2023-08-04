@@ -1,9 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Innkeep.Data.Pretix.Models;
+namespace Innkeep.Api.Pretix.Models.Objects;
 
 public class PretixStatus
 {
 	[JsonPropertyName("status")]
-	public string Status { get; set; }
+	public required string Status { get; set; }
 }

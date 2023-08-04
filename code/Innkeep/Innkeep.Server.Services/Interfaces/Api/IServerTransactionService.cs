@@ -1,9 +1,8 @@
-﻿using Innkeep.Core.DomainModels.Print;
-using Innkeep.Models.Printer;
-using Innkeep.Server.Data.Models;
+﻿using Innkeep.Models.Printer;
 using Innkeep.Models.Transaction;
+using Innkeep.Server.Data.Models;
 
-namespace Innkeep.Server.Services.Interfaces;
+namespace Innkeep.Server.Services.Interfaces.Api;
 
 public interface IServerTransactionService
 {

@@ -8,9 +8,9 @@ public class CashFlow
 	
 	public DateTime TimeStamp { get; set; }
 	
-	public Event Event { get; set; }
+	public required Event Event { get; set; }
 	
-	public Register Register { get; set; }
+	public required Register Register { get; set; }
 	public decimal MoneyAdded { get; set; }
 	
 	public decimal MoneyRemoved { get; set; }

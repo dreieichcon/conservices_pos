@@ -1,9 +1,7 @@
-﻿using Innkeep.Api.Client.Interfaces;
-using Innkeep.Api.Pretix.Models.Objects;
-using Innkeep.Client.Interfaces.Services;
-using Innkeep.Data.Pretix.Models;
+﻿using Innkeep.Api.Pretix.Models.Objects;
+using Innkeep.Client.Services.Interfaces.Server;
 
-namespace Innkeep.Api.Client.Repositories;
+namespace Innkeep.Client.Services.Services.Pretix;
 
 public class ClientPretixRepository : IClientPretixRepository
 {

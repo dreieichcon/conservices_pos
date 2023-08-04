@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using Innkeep.Core.Interfaces.Transaction;
+using Innkeep.Models.Transaction;
 
 namespace Innkeep.Client.Services.Interfaces.Transaction;
 
@@ -15,7 +15,7 @@ public interface ITransactionService
 	
 	public DateTime TransactionStarted { get; set; }
 	
-	public ObservableCollection<ITransactionItem> Items { get; set; }
+	public ObservableCollection<TransactionItem> Items { get; set; }
 
 	public event EventHandler TransactionUpdated;
 

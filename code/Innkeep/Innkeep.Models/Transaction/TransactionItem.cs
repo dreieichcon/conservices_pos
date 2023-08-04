@@ -1,10 +1,9 @@
 ﻿using Innkeep.Api.Pretix.Models.Internal;
 using Innkeep.Api.Pretix.Models.Objects;
-using Innkeep.Core.Interfaces.Transaction;
 
 namespace Innkeep.Models.Transaction;
 
-public class TransactionItem : ITransactionItem
+public class TransactionItem
 {
 	public decimal Price { get; set; }
 

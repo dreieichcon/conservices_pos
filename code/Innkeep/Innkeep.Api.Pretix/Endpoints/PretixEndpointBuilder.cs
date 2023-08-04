@@ -1,5 +1,4 @@
 ﻿using Innkeep.Api.Pretix.Models.Objects;
-using Innkeep.Data.Pretix.Models;
 using Innkeep.Endpoints.Base;
 
 namespace Innkeep.Api.Pretix.Endpoints;

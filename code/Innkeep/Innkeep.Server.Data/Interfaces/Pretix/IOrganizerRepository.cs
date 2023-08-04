@@ -2,7 +2,7 @@
 using Innkeep.Server.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Innkeep.Server.Data.Interfaces;
+namespace Innkeep.Server.Data.Interfaces.Pretix;
 
 public interface IOrganizerRepository : IBaseRepository<Organizer>
 {

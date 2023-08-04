@@ -1,9 +1,8 @@
-﻿using System.Diagnostics;
-using Innkeep.Server.Data.Interfaces;
+﻿using Innkeep.Server.Services.Interfaces.Db;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
-namespace Innkeep.Server.Api.Register;
+namespace Innkeep.Server.Controllers.Endpoints.Register;
 
 public class RegisterDetectionController
 {

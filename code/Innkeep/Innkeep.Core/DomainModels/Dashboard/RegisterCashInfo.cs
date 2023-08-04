@@ -2,7 +2,7 @@
 
 public class RegisterCashInfo
 {
-	public string RegisterId { get; set; }
+	public required string RegisterId { get; set; }
 	
 	public decimal CashState { get; set; }
 }

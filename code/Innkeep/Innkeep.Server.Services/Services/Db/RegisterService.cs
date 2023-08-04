@@ -1,5 +1,6 @@
-﻿using Innkeep.Server.Data.Interfaces;
+﻿using Innkeep.Server.Data.Interfaces.Register;
 using Innkeep.Server.Data.Models;
+using Innkeep.Server.Services.Interfaces.Db;
 
 namespace Innkeep.Server.Services.Services.Db;
 
@@ -14,7 +15,7 @@ public class RegisterService : IRegisterService
 		PendingRegisters = new List<Register>();
 	}
 	
-	public event EventHandler RegistersChanged;
+	public event EventHandler? RegistersChanged;
 	
 	public List<Register> CurrentRegisters { get; set; }
 	

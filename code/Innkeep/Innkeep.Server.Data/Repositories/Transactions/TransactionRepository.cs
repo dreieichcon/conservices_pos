@@ -1,9 +1,9 @@
 ﻿using Innkeep.Server.Data.Context;
-using Innkeep.Server.Data.Interfaces;
+using Innkeep.Server.Data.Interfaces.Transactions;
 using Innkeep.Server.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Innkeep.Server.Data.Repositories;
+namespace Innkeep.Server.Data.Repositories.Transactions;
 
 public class TransactionRepository : BaseRepository<Transaction>, ITransactionRepository
 {

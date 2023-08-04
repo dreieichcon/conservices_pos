@@ -4,7 +4,7 @@ public class Register
 {
 	public int Id { get; set; }
 
-	public string DeviceId { get; set; } = null!;
+	public required string DeviceId { get; set; }
 
 	public override bool Equals(object? obj)
 	{

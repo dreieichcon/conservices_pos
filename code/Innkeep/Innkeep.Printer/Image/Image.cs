@@ -11,7 +11,7 @@ public class Image
                 var threshold = 127;
                 var index = 0;
                 double multiplier = 576; // this depends on your printer model.
-                double scale = (double)(multiplier / (double)bmp.Width);
+                double scale = multiplier / bmp.Width;
                 int xheight = (int)(bmp.Height * scale);
                 int xwidth = (int)(bmp.Width * scale);
                 var dimensions = xwidth * xheight;

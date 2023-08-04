@@ -1,12 +1,10 @@
 ﻿using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Api.Pretix.Models.Objects;
-using Innkeep.Data.Pretix.Models;
-using Innkeep.Server.Data.Interfaces;
 using Innkeep.Models.Transaction;
-using Innkeep.Server.Services.Interfaces;
+using Innkeep.Server.Services.Interfaces.Api;
 using Innkeep.Server.Services.Interfaces.Db;
 
-namespace Innkeep.Server.Services.Services;
+namespace Innkeep.Server.Services.Services.Api;
 
 public class PretixService : IPretixService
 {
@@ -95,7 +93,7 @@ public class PretixService : IPretixService
 		ItemUpdated?.Invoke(nameof(SalesItems), EventArgs.Empty);
 	}
 
-	public async Task<PretixOrderResponse> CreateOrder(PretixTransaction pretixTransaction)
+	public async Task<PretixOrderResponse?> CreateOrder(PretixTransaction pretixTransaction)
 	{
 		return await _pretixRepository.CreateOrder(SelectedOrganizer!, SelectedEvent!, pretixTransaction.TransactionItems);
 	}

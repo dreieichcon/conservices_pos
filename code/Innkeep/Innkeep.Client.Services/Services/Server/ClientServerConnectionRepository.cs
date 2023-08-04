@@ -3,19 +3,18 @@ using System.Security.Authentication;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using Innkeep.Api.Client.Interfaces;
 using Innkeep.Api.Pretix.Models.Objects;
 using Innkeep.Client.Services.Interfaces.File;
 using Innkeep.Client.Services.Interfaces.Hardware;
+using Innkeep.Client.Services.Interfaces.Server;
 using Innkeep.Core.Core;
 using Innkeep.Core.Validation;
-using Innkeep.Data.Pretix.Models;
 using Innkeep.Endpoints.Server;
 using Innkeep.Models.Printer;
 using Innkeep.Models.Transaction;
 using Serilog;
 
-namespace Innkeep.Api.Client.Repositories;
+namespace Innkeep.Client.Services.Services.Server;
 
 public class ClientServerConnectionRepository : BaseHttpRepository, IClientServerConnectionRepository
 {
@@ -55,6 +54,7 @@ public class ClientServerConnectionRepository : BaseHttpRepository, IClientServe
 		}
 		catch (Exception ex)
 		{
+			Log.Error("Connection to Server {Endpoint} failed: {Exception}", endpoint, ex);
 			return false;
 		}
 
@@ -82,6 +82,7 @@ public class ClientServerConnectionRepository : BaseHttpRepository, IClientServe
 		}
 		catch (Exception ex)
 		{
+			Log.Error("Registering to Server {Endpoint} failed: {Exception}", endpoint, ex);
 			return false;
 		}
 
@@ -106,7 +107,8 @@ public class ClientServerConnectionRepository : BaseHttpRepository, IClientServe
 			using var message = CreateGetMessage(endpoint);
 			var result = await ExecuteGetRequest(message);
 
-			return JsonSerializer.Deserialize<PretixOrganizer>(result);
+			var deserialized = JsonSerializer.Deserialize<PretixOrganizer>(result);
+			return deserialized!;
 		}
 		catch (Exception ex)
 		{
@@ -133,7 +135,7 @@ public class ClientServerConnectionRepository : BaseHttpRepository, IClientServe
 			using var message = CreateGetMessage(endpoint);
 			var result = await ExecuteGetRequest(message);
 
-			return JsonSerializer.Deserialize<PretixEvent>(result);
+			return JsonSerializer.Deserialize<PretixEvent>(result)!;
 		}
 		catch (Exception ex)
 		{
@@ -160,7 +162,7 @@ public class ClientServerConnectionRepository : BaseHttpRepository, IClientServe
 			using var message = CreateGetMessage(endpoint);
 			var result = await ExecuteGetRequest(message);
 
-			return JsonSerializer.Deserialize<List<PretixSalesItem>>(FormatDecimals(result));
+			return JsonSerializer.Deserialize<List<PretixSalesItem>>(FormatDecimals(result))!;
 		}
 		catch (Exception ex)
 		{
@@ -169,7 +171,7 @@ public class ClientServerConnectionRepository : BaseHttpRepository, IClientServe
 		}
 	}
 
-	public async Task<Receipt?> SendTransaction(PretixTransaction pretixTransaction)
+	public async Task<Receipt?> SendTransaction(PretixTransaction transaction)
 	{
 		var endpoint = new ServerEndpointBuilder(_clientSettingsService.Setting.ServerUri)
 						.WithRegister()
@@ -179,7 +181,7 @@ public class ClientServerConnectionRepository : BaseHttpRepository, IClientServe
 		
 		try
 		{
-			var json = JsonSerializer.Serialize(pretixTransaction);
+			var json = JsonSerializer.Serialize(transaction);
 			var jsonContent = new StringContent(json, Encoding.UTF8, "application/json");
 			
 			var result = await ExecutePostRequest(endpoint, jsonContent);

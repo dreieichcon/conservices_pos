@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Text;
 using RestSharp;
 
@@ -9,8 +8,8 @@ namespace Innkeep.Core.Core;
 public abstract class BaseHttpRepository
 {
     protected HttpClient Client;
-    
-    public BaseHttpRepository()
+
+    protected BaseHttpRepository()
     {
         Client = new HttpClient();
     }
@@ -82,6 +81,12 @@ public abstract class BaseHttpRepository
 
         sb.AppendLine(new string('-', 50));
 
+        if (response.Headers is null)
+        {
+            Trace.WriteLine(sb.ToString());
+            return;
+        }
+        
         foreach (var header in response.Headers)
         {
             sb.AppendLine($"{header.Name}: {header.Value}");

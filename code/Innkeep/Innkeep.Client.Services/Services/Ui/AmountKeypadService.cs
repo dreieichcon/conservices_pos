@@ -1,7 +1,6 @@
-﻿using Innkeep.Client.Interfaces.Services;
-using Innkeep.Client.Services.Interfaces.Ui;
+﻿using Innkeep.Client.Services.Interfaces.Ui;
 
-namespace Innkeep.DI.Services;
+namespace Innkeep.Client.Services.Services.Ui;
 
 public class AmountKeypadService : IAmountKeypadService
 {

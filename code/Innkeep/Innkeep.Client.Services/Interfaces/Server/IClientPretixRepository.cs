@@ -1,7 +1,6 @@
 ﻿using Innkeep.Api.Pretix.Models.Objects;
-using Innkeep.Data.Pretix.Models;
 
-namespace Innkeep.Client.Interfaces.Services;
+namespace Innkeep.Client.Services.Interfaces.Server;
 
 public interface IClientPretixRepository
 {

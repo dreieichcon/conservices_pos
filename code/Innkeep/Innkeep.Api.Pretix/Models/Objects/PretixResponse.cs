@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Innkeep.Data.Pretix.Models;
+namespace Innkeep.Api.Pretix.Models.Objects;
 
 public class PretixResponse<T>
 {
@@ -14,5 +14,5 @@ public class PretixResponse<T>
     public object? Previous { get; set; }
     
     [JsonPropertyName("results")]
-    public IEnumerable<T> Results { get; set; }
+    public required IEnumerable<T> Results { get; set; }
 }

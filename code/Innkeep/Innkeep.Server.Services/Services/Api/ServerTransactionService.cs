@@ -1,14 +1,13 @@
-﻿using Innkeep.Core.DomainModels.Print;
-using Innkeep.Models.Printer;
-using Innkeep.Server.Data.Interfaces;
-using Innkeep.Server.Data.Models;
+﻿using Innkeep.Models.Printer;
 using Innkeep.Models.Transaction;
-using Innkeep.Server.Services.Interfaces;
+using Innkeep.Server.Data.Interfaces.Transactions;
+using Innkeep.Server.Data.Models;
+using Innkeep.Server.Services.Interfaces.Api;
 using Innkeep.Server.Services.Interfaces.Db;
 using Innkeep.Server.Services.Models;
 using Innkeep.Server.Services.Util;
 
-namespace Innkeep.Server.Services.Services;
+namespace Innkeep.Server.Services.Services.Api;
 
 public class ServerTransactionService : IServerTransactionService
 {
@@ -35,13 +34,14 @@ public class ServerTransactionService : IServerTransactionService
 	public async Task<Receipt> CreateTransaction(PretixTransaction pretixTransaction, Register register)
 	{
 		var pretixResult = await _pretixService.CreateOrder(pretixTransaction);
+		if (pretixResult is null) return new Receipt();
 
 		var tseResult = await _tseService.CreateEntry(pretixTransaction);
 		tseResult.StartTime = pretixTransaction.TransactionStart;
 
 		var guid = Guid.NewGuid();
 
-		var dbTransaction = new Innkeep.Server.Data.Models.Transaction()
+		var dbTransaction = new Transaction()
 		{
 			TseToken = tseResult.TseTransactionNumber,
 			PretixOrderNumber = pretixResult.Code,

@@ -1,9 +1,8 @@
 ﻿using Innkeep.Api.Pretix.Models.Objects;
-using Innkeep.Client.Interfaces.Services;
 using Innkeep.Client.Services.Interfaces.Pretix;
-using Innkeep.Data.Pretix.Models;
+using Innkeep.Client.Services.Interfaces.Server;
 
-namespace Innkeep.DI.Services.Client.Core;
+namespace Innkeep.Client.Services.Services.Pretix;
 
 public class ClientPretixService : IClientPretixService
 {

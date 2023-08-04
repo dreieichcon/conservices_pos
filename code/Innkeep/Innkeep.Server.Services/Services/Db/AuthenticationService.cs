@@ -1,12 +1,12 @@
 ﻿using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Core.DomainModels.Authentication;
-using Innkeep.Server.Data.Interfaces;
+using Innkeep.Server.Data.Interfaces.ApplicationSettings;
 
 namespace Innkeep.Server.Services.Services.Db;
 
 public class AuthenticationService : IAuthenticationService
 {
-    public AuthenticationInfo AuthenticationInfo { get; set; }
+    public required AuthenticationInfo AuthenticationInfo { get; set; }
 
     private readonly IAuthenticationRepository _authenticationRepository;
 

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Innkeep.Data.Pretix.Models;
+namespace Innkeep.Api.Pretix.Models.Objects;
 
 public class PretixOrderPosition
 {
@@ -17,5 +17,5 @@ public class PretixOrderPosition
 	public int? Variation { get; set; }
 	
 	[JsonPropertyName("attendee_name")]
-	public string AttendeeName { get; set; }
+	public required string AttendeeName { get; set; }
 }

@@ -1,20 +1,20 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Innkeep.Data.Pretix.Models;
+namespace Innkeep.Api.Pretix.Models.Objects;
 
 public class PretixOrder
 {
 	[JsonPropertyName("status")]
-	public string Status { get; set; }
+	public required string Status { get; set; }
 	
 	[JsonPropertyName("email")]
-	public string Mail { get; set; }
+	public required string Mail { get; set; }
 	
 	[JsonPropertyName("locale")]
-	public string Locale { get; set; }
+	public required string Locale { get; set; }
 	
 	[JsonPropertyName("sales_channel")]
-	public string SalesChannel { get; set; }
+	public required string SalesChannel { get; set; }
 
 	[JsonPropertyName("fees")] 
 	[JsonIgnore]
@@ -36,7 +36,7 @@ public class PretixOrder
 	[JsonPropertyName("invoice_address")]
 	[JsonIgnore]
 	public PretixInvoiceAddress? InvoiceAddress { get; set; }
-	
+
 	[JsonPropertyName("positions")]
-	public IList<PretixOrderPosition> Positions { get; set; }
+	public IList<PretixOrderPosition> Positions { get; set; } = new List<PretixOrderPosition>();
 }

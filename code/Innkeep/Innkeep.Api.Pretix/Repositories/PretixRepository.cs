@@ -6,9 +6,9 @@ using Innkeep.Api.Pretix.Endpoints;
 using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Api.Pretix.Models.Internal;
 using Innkeep.Api.Pretix.Models.Objects;
+using Innkeep.Api.Pretix.Serialization;
 using Innkeep.Core.Core;
-using Innkeep.Data.Pretix.Models;
-using Innkeep.Data.Pretix.Serialization;
+using Serilog;
 
 namespace Innkeep.Api.Pretix.Repositories;
 
@@ -72,7 +72,11 @@ public class PretixRepository : BaseHttpRepository, IPretixRepository
 
 		var deserialized = JsonSerializer.Deserialize<PretixResponse<PretixEvent>>(content);
 
-		return deserialized.Results;
+		if (deserialized is null)
+		{
+			Log.Debug("Received null response for PretixEvents for {Organizer}", organizer.Name);
+		}
+		return deserialized != null ? deserialized.Results : new List<PretixEvent>();
 	}
 
 	public async Task<IEnumerable<PretixSalesItem>> GetItems(PretixOrganizer organizer, PretixEvent pretixEvent)
@@ -86,6 +90,12 @@ public class PretixRepository : BaseHttpRepository, IPretixRepository
 
 		var deserialized = JsonSerializer.Deserialize<PretixResponse<PretixSalesItem>>(content);
 
+		if (deserialized is null)
+		{
+			Log.Debug("Received null response for PretixSalesItem for {Organizer}, {Event}", organizer.Name, pretixEvent.Name);
+			return new List<PretixSalesItem>();
+		}
+		
 		foreach (var pretixSalesItem in deserialized.Results)
 		{
 			pretixSalesItem.Currency = pretixEvent.Currency;
@@ -94,7 +104,7 @@ public class PretixRepository : BaseHttpRepository, IPretixRepository
 		return deserialized.Results;
 	}
 
-	public async Task<PretixOrderResponse> CreateOrder
+	public async Task<PretixOrderResponse?> CreateOrder
 	(PretixOrganizer organizer,
 	PretixEvent pretixEvent,
 	IEnumerable<PretixCartItem<PretixSalesItem>> cartItems,
@@ -113,7 +123,10 @@ public class PretixRepository : BaseHttpRepository, IPretixRepository
 
 		var deserialized = JsonSerializer.Deserialize<PretixOrderResponse>(response);
 
-		return deserialized;
+		if (deserialized is not null) return deserialized;
+
+		Log.Debug("Received null response for PretixOrderResponse for {Organizer}, {Event}", organizer.Name, pretixEvent.Name);
+		return null;
 	}
 
 	public async Task<bool> CheckIn(PretixOrganizer organizer, PretixOrderResponse orderResponse)

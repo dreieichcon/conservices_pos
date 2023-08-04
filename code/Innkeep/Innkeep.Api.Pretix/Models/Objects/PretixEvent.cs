@@ -2,24 +2,24 @@
 using Innkeep.Api.Pretix.Models.Base;
 using Innkeep.Core.Utilities;
 
-namespace Innkeep.Data.Pretix.Models;
+namespace Innkeep.Api.Pretix.Models.Objects;
 
 public class PretixEvent
 {
     [JsonPropertyName("name")]
-    public MultiString Name { get; set; }
+    public required MultiString Name { get; set; }
     
     [JsonPropertyName("slug")]
-    public string Slug { get; set; }
+    public required string Slug { get; set; }
     
     [JsonPropertyName("live")]
-    public bool IsLive { get; set; }
+    public required bool IsLive { get; set; }
     
     [JsonPropertyName("testmode")]
-    public bool IsTestMode { get; set; }
+    public required bool IsTestMode { get; set; }
     
     [JsonPropertyName("currency")]
-    public string Currency { get; set; }
+    public required string Currency { get; set; }
     
     [JsonPropertyName("date_from")]
     public DateTime? EventStart { get; set; }
@@ -28,7 +28,7 @@ public class PretixEvent
     public DateTime? EventEnd { get; set; }
     
     [JsonPropertyName("is_public")]
-    public bool IsPublic { get; set; }
+    public required bool IsPublic { get; set; }
     
     [JsonPropertyName("presale_start")]
     public DateTime? PresaleStart { get; set; }
@@ -40,7 +40,7 @@ public class PretixEvent
     public MultiString? Location { get; set; }
     
     [JsonPropertyName("sales_channels")]
-    public IEnumerable<string> SalesChannels { get; set; }
+    public required IEnumerable<string> SalesChannels { get; set; }
 
     public override string ToString()
     {

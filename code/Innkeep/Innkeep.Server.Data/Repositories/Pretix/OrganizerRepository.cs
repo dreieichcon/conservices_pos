@@ -1,10 +1,9 @@
 ﻿using Innkeep.Api.Pretix.Models.Objects;
-using Innkeep.Data.Pretix.Models;
-using Innkeep.Server.Data.Interfaces;
+using Innkeep.Server.Data.Interfaces.Pretix;
 using Innkeep.Server.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Innkeep.Server.Data.Repositories;
+namespace Innkeep.Server.Data.Repositories.Pretix;
 
 public class OrganizerRepository : BaseRepository<Organizer>, IOrganizerRepository
 {

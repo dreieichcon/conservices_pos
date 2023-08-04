@@ -1,12 +1,12 @@
 ﻿using Innkeep.Models.Transaction;
-using Innkeep.Server.Services.Interfaces;
+using Innkeep.Server.Services.Interfaces.Api;
 using Innkeep.Server.Services.Models;
 
-namespace Innkeep.Server.Services.Services;
+namespace Innkeep.Server.Services.Services.Api;
 
 public class TseService : ITseService
 {
-	public async Task<TseResult> CreateEntry(PretixTransaction pretixTransaction)
+	public async Task<TseResult> CreateEntry(PretixTransaction transaction)
 	{
 		return new TseResult()
 		{

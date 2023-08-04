@@ -1,9 +1,9 @@
 ﻿using Innkeep.Core.DomainModels.Authentication;
 using Innkeep.Server.Data.Context;
-using Innkeep.Server.Data.Interfaces;
+using Innkeep.Server.Data.Interfaces.ApplicationSettings;
 using Innkeep.Server.Data.Models;
 
-namespace Innkeep.Server.Data.Repositories;
+namespace Innkeep.Server.Data.Repositories.ApplicationSettings;
 
 public class AuthenticationRepository : IAuthenticationRepository
 {

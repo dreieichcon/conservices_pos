@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using Innkeep.Core.DomainModels.Print;
 using Innkeep.Models.Printer;
 using Innkeep.Server.Services.Models;
 
@@ -9,10 +8,12 @@ public static class ReceiptGenerator
 {
 	public static Receipt Generate(TransactionServiceResult result)
 	{
-		var receipt = new Receipt().AddTitle(result.EventName)
-							.AddLines(result.OrganizerInfo.Split(Environment.NewLine))
-							.AddBlank()
-							.AddDivider();
+		var receipt = new Receipt().AddTitle(result.EventName);
+		
+		if (result.OrganizerInfo != null) 
+			receipt.AddLines(result.OrganizerInfo.Split(Environment.NewLine));
+		
+		receipt.AddBlank().AddDivider();
 
 		foreach (var item in result.PretixTransaction.TransactionItems)
 		{
@@ -23,10 +24,10 @@ public static class ReceiptGenerator
 
 		receipt.AddBlank().AddDivider();
 
-		var sum = $"Summe:      {result.PretixTransaction.Sum.ToString().PadLeft(6, ' ')}€";
-		var bck = $"Rück:       {result.PretixTransaction.Return.ToString().PadLeft(6, ' ').Replace("-", "")}€";
+		var sum = $"Summe:      {result.PretixTransaction.Sum.ToString(CultureInfo.InvariantCulture),6}€";
+		var bck = $"Rück:       {result.PretixTransaction.Return.ToString(CultureInfo.InvariantCulture).PadLeft(6, ' ').Replace("-", "")}€";
 		
-		var giv = $"Erhalten:   {$"{result.PretixTransaction.AmountGiven:0.##}".PadLeft(6, ' ')}€";
+		var giv = $"Erhalten:   {$"{result.PretixTransaction.AmountGiven:0.##}",6}€";
 		
 		
 		receipt.AddSum(sum.PadLeft(42, ' '))
