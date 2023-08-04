@@ -1,7 +1,8 @@
 ﻿@page "/Settings/Token"
 @using Innkeep.Core.Interfaces
 @using Innkeep.Core.DomainModels.Authentication
-@using Innkeep.Server.Pretix.Interfaces
+@using Innkeep.Api.Pretix.Interfaces
+@using Innkeep.Server.Services.Interfaces.Db
 
 @inject IAuthenticationService AuthenticationService
 @inject IPretixRepository PretixRepository

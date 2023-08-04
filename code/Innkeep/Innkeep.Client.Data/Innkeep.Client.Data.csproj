@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="DomainModels\" />
       <Folder Include="Json\" />
     </ItemGroup>
 

@@ -13,14 +13,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Innkeep.Client.Interfaces\Innkeep.Client.Interfaces.csproj" />
+      <ProjectReference Include="..\Innkeep.Client.Services\Innkeep.Client.Services.csproj" />
       <ProjectReference Include="..\Innkeep.Core\Innkeep.Core.csproj" />
       <ProjectReference Include="..\Innkeep.Client.Data\Innkeep.Client.Data.csproj" />
       <ProjectReference Include="..\Innkeep.Printer\Innkeep.Printer.csproj" />
-      <ProjectReference Include="..\Innkeep.Server.Api\Innkeep.Server.Api.csproj" />
+      <ProjectReference Include="..\Innkeep.Server.Controllers\Innkeep.Server.Controllers.csproj" />
       <ProjectReference Include="..\Innkeep.Server.Data\Innkeep.Server.Data.csproj" />
-      <ProjectReference Include="..\Innkeep.Server.Interfaces\Innkeep.Server.Interfaces.csproj" />
-      <ProjectReference Include="..\Innkeep.Server.Pretix\Innkeep.Server.Pretix.csproj" />
+      <ProjectReference Include="..\Innkeep.Api.Pretix\Innkeep.Api.Pretix.csproj" />
       <ProjectReference Include="..\Innkeep.Shared.Objects\Innkeep.Shared.Objects.csproj" />
     </ItemGroup>
 
@@ -28,10 +27,6 @@
       <Reference Include="Microsoft.AspNetCore">
         <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\7.0.7\Microsoft.AspNetCore.dll</HintPath>
       </Reference>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Services\Abstract\" />
     </ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿@page "/Config"
-@using Innkeep.Client.Interfaces.Services
-@using System.IO.Ports
+@using Innkeep.Client.Services.Interfaces.File
+@using Innkeep.Client.Services.Interfaces.Hardware
+@using Innkeep.Client.Services.Interfaces.Server
 @inject IClientSettingsService ClientSettingsService
 @inject IClientServerConnectionService ServerConnectionService
 @inject ISerialPortRepository SerialPortRepository

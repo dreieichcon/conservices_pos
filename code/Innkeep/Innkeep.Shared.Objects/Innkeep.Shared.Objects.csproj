@@ -7,7 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Innkeep.Api.Pretix\Innkeep.Api.Pretix.csproj" />
       <ProjectReference Include="..\Innkeep.Data.Pretix\Innkeep.Data.Pretix.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Transaction\" />
     </ItemGroup>
 
 </Project>
