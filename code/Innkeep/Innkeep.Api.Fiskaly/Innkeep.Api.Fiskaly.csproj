@@ -6,8 +6,21 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+
+
     <ItemGroup>
-      <Folder Include="Models\" />
+      <ProjectReference Include="..\Innkeep.Core\Innkeep.Core.csproj" />
+      <ProjectReference Include="..\Innkeep.Endpoints\Innkeep.Endpoints.csproj" />
+      <ProjectReference Include="..\Innkeep.Server.Data\Innkeep.Server.Data.csproj" />
     </ItemGroup>
+
+
+
+
+    <ItemGroup>
+      <Folder Include="Endpoints\" />
+    </ItemGroup>
+
+
 
 </Project>

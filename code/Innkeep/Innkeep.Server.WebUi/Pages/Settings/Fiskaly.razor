@@ -1,0 +1,71 @@
+﻿@page "/Settings/Fiskaly"
+
+@using Innkeep.Server.Data.Models
+@using Innkeep.Api.Fiskaly.Interfaces
+@inject IFiskalyApiSettingsService FiskalyService
+
+<h3>Fiskaly Settings</h3>
+
+<div>
+    <div class="d-flex flex-column gap-4">
+        <MudTextField @bind-Value="_settings.Key"
+                      Label="Fiskaly Api Key"
+                      Variant="Variant.Outlined"/>
+        <MudTextField
+            @bind-Value="_settings.Secret"
+            Label="Fiskaly Api Secret"
+            Variant="Variant.Outlined"
+            InputType="@_secretInput"
+            Adornment="Adornment.End"
+            AdornmentIcon="@_secretInputIcon"
+            OnAdornmentClick="ToggleSecretVisibility"
+            AdornmentAriaLabel="Show Token"/>
+        <div class="d-flex flex-row justify-end gap-1">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="Test">Test Connection</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="Save">Save Changes</MudButton>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    private bool _showSecret;
+    
+    private InputType _secretInput = InputType.Password;
+    private string _secretInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    private FiskalyApiSettings _settings;
+
+    private void ToggleSecretVisibility()
+    {
+        if (_showSecret)
+        {
+            _showSecret = false;
+            _secretInputIcon = Icons.Material.Filled.VisibilityOff;
+            _secretInput = InputType.Password;
+        }
+
+        _showSecret = true;
+        _secretInputIcon = Icons.Material.Filled.Visibility;
+        _secretInput = InputType.Text;
+    }
+
+    private void Test()
+    {
+        
+    }
+
+    private void Save()
+    {
+        FiskalyService.ApiSettings = _settings;
+        FiskalyService.Save();
+    }
+    
+    protected override void OnInitialized()
+    {
+        FiskalyService.Read();
+        _settings = FiskalyService.ApiSettings;
+        InvokeAsync(StateHasChanged);
+    }
+
+}

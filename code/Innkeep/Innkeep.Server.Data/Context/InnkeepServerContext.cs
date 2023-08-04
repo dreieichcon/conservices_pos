@@ -48,4 +48,6 @@ public class InnkeepServerContext : DbContext
 	public DbSet<ApplicationSetting> ApplicationSettings { get; set; } = null!;
 	
 	public DbSet<CashFlow> CashFlows { get; set; } = null!;
+
+	public DbSet<FiskalyApiSettings> FiskalySettings { get; set; } = null!;
 }

@@ -3,6 +3,7 @@ using Innkeep.Server.Controllers;
 using Innkeep.Server.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Innkeep.DI;
 
@@ -23,6 +24,13 @@ public static class DependencyManager
 
 	public static void InitializeTests()
 	{
+		Log.Logger = new LoggerConfiguration()
+					.WriteTo.Console()
+					.WriteTo.Debug()
+					.WriteTo.Trace()
+					.MinimumLevel.Verbose()
+					.CreateLogger();
+		
 		var serviceCollection = new ServiceCollection();
 
 		ServerServiceManager.ConfigureServerServices(serviceCollection);

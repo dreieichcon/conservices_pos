@@ -2,7 +2,7 @@
 
 public abstract class BaseEndpointBuilder
 {
-	private readonly string _endpoint;
+	protected readonly string _endpoint;
 	protected readonly List<string> Endpoints = new();
 
 	protected BaseEndpointBuilder(string endpoint)

@@ -1,6 +1,6 @@
 ﻿using Innkeep.Server.Data.Models;
 
-namespace Innkeep.Server.Services.Interfaces.Db;
+namespace Innkeep.Api.Fiskaly.Interfaces;
 
 public interface IFiskalyApiSettingsService
 {
@@ -10,6 +10,6 @@ public interface IFiskalyApiSettingsService
 
 	public void Read();
 
-	public void Save();
+	public bool Save();
 
 }
