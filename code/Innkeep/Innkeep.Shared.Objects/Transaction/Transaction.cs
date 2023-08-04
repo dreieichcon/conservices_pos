@@ -13,10 +13,11 @@ public class Transaction
 		
 	}
 	
-	public Transaction(IEnumerable<PretixCartItem<PretixSalesItem>> transactionItems, decimal amountGiven)
+	public Transaction(IEnumerable<PretixCartItem<PretixSalesItem>> transactionItems, decimal amountGiven, DateTime transactionStart)
 	{
 		TransactionItems = transactionItems;
 		AmountGiven = amountGiven;
+		TransactionStart = transactionStart;
 	}
 
 	[JsonPropertyName("TransactionItems")]

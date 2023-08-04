@@ -9,7 +9,9 @@ using Innkeep.Server.Api.Register;
 using Innkeep.Server.Api.Transaction;
 using Innkeep.Server.Data.Context;
 using Innkeep.Server.Data.Interfaces;
+using Innkeep.Server.Data.Interfaces.Fiskaly;
 using Innkeep.Server.Data.Repositories;
+using Innkeep.Server.Data.Repositories.Fiskaly;
 using Innkeep.Server.Interfaces.Services;
 using Innkeep.Server.Pretix.Interfaces;
 using Innkeep.Server.Pretix.Repositories;
@@ -71,6 +73,8 @@ public static class DependencyManager
         collection.AddDbContext<InnkeepServerContext>((_, builder) => builder.UseSqlite("Data Source=InnkeepServer.db"));
         
         collection.AddSingleton<ITransactionRepository, TransactionRepository>();
+        collection.AddSingleton<IFiskalyApiSettingsRepository, FiskalyApiSettingsRepository>();
+        collection.AddSingleton<IFiskalyApiSettingsService, FiskalyApiSettingsService>();
         
         collection.AddSingleton<ITseService, TseService>();
         collection.AddSingleton<ICashFlowRepository, CashFlowRepository>();
