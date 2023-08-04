@@ -1,6 +1,6 @@
-﻿using Innkeep.Server.Data.Interfaces.Fiskaly;
+﻿using Innkeep.Api.Fiskaly.Interfaces;
+using Innkeep.Server.Data.Interfaces.Fiskaly;
 using Innkeep.Server.Data.Models;
-using Innkeep.Server.Services.Interfaces.Db;
 
 namespace Innkeep.Server.Services.Services.Db;
 
@@ -23,8 +23,8 @@ public class FiskalyApiSettingsService : IFiskalyApiSettingsService
 		ApiSettings = _apiSettingsRepository.GetOrCreate();
 	}
 
-	public void Save()
+	public bool Save()
 	{
-		throw new NotImplementedException();
+		return _apiSettingsRepository.Update(ApiSettings);
 	}
 }

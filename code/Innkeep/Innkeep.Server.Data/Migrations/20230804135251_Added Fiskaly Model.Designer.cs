@@ -3,6 +3,7 @@ using System;
 using Innkeep.Server.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Innkeep.Server.Data.Migrations
 {
     [DbContext(typeof(InnkeepServerContext))]
-    partial class InnkeepServerContextModelSnapshot : ModelSnapshot
+    [Migration("20230804135251_Added Fiskaly Model")]
+    partial class AddedFiskalyModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.8");
@@ -108,29 +111,6 @@ namespace Innkeep.Server.Data.Migrations
                     b.HasIndex("OrganizerId");
 
                     b.ToTable("Events");
-                });
-
-            modelBuilder.Entity("Innkeep.Server.Data.Models.FiskalyApiSettings", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Key")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Secret")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Token")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("TokenValidUntil")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FiskalySettings");
                 });
 
             modelBuilder.Entity("Innkeep.Server.Data.Models.Organizer", b =>

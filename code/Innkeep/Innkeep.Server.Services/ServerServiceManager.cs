@@ -1,4 +1,6 @@
-﻿using Innkeep.Api.Pretix.Interfaces;
+﻿using Innkeep.Api.Fiskaly.Interfaces;
+using Innkeep.Api.Fiskaly.Repositories;
+using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Api.Pretix.Repositories;
 using Innkeep.Server.Data.Context;
 using Innkeep.Server.Data.Interfaces.ApplicationSettings;
@@ -33,9 +35,12 @@ public static class ServerServiceManager
 		collection.AddDbContext<InnkeepServerContext>((_, builder) => builder.UseSqlite("Data Source=InnkeepServer.db"));
         
 		collection.AddSingleton<ITransactionRepository, TransactionRepository>();
+		
 		collection.AddSingleton<IFiskalyApiSettingsRepository, FiskalyApiSettingsRepository>();
 		collection.AddSingleton<IFiskalyApiSettingsService, FiskalyApiSettingsService>();
-        
+
+		collection.AddSingleton<IFiskalyAuthenticationRepository, FiskalyAuthenticationRepository>();
+		
 		collection.AddSingleton<ITseService, TseService>();
 		collection.AddSingleton<ICashFlowRepository, CashFlowRepository>();
 		collection.AddSingleton<ICashFlowService, CashFlowService>();
@@ -56,6 +61,5 @@ public static class ServerServiceManager
 		collection.AddSingleton<IPretixService, PretixService>();
         
 		collection.AddSingleton<IServerTransactionService, ServerTransactionService>();
-		
 	}
 }

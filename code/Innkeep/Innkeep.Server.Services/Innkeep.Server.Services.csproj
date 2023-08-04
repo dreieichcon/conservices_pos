@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Innkeep.Api.Fiskaly\Innkeep.Api.Fiskaly.csproj" />
       <ProjectReference Include="..\Innkeep.Server.Data\Innkeep.Server.Data.csproj" />
       <ProjectReference Include="..\Innkeep.Models\Innkeep.Models.csproj" />
     </ItemGroup>
