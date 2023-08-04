@@ -64,7 +64,7 @@ public class TransactionService : ITransactionService
 
 	public async Task<bool> CommitTransaction()
 	{
-		var transaction = new Transaction(_shoppingCartService.Cart, AmountGiven);
+		var transaction = new Transaction(_shoppingCartService.Cart, AmountGiven, TransactionStarted);
 
 		var result = await _clientServerConnectionService.SendTransaction(transaction);
 		if (result != null)
