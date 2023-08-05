@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Innkeep.Api.Fiskaly.Data;
 using Innkeep.Api.Fiskaly.Interfaces;
 using Innkeep.Api.Fiskaly.Models;
@@ -26,14 +27,27 @@ public class FiskalyTransactionRepository : BaseHttpRepository, IFiskalyTransact
 						.WithTransaction(pretixTransaction.TransactionId.ToString())
 						.WithRevision("1").Build();
 
-		var requestModel = TransactionStartSerializer.CreateTransactionStart(pretixTransaction);
+		var requestModel = TransactionStartSerializer.CreateTransactionStart(pretixTransaction, _settingsService.ApiSettings.ClientId);
 		
-		var json = JsonSerializer.Serialize(requestModel);
+		var json = JsonSerializer.Serialize(requestModel, new JsonSerializerOptions()
+		{
+			Converters =
+			{
+				new JsonStringEnumConverter()
+			}
+		});
+		
 		var jsonContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 		var response = await ExecutePutRequest(endpoint, jsonContent);
 
-		var deserialized = JsonSerializer.Deserialize<TransactionResponseModel>(response);
+		var deserialized = JsonSerializer.Deserialize<TransactionResponseModel>(response, new JsonSerializerOptions()
+		{
+			Converters =
+			{
+				new JsonStringEnumConverter()
+			}
+		});
 
 		if (deserialized is not null) return deserialized;
 		Serilog.Log.Debug("Received null response for TransactionStart for {TransactionId}", pretixTransaction.TransactionId);
@@ -47,7 +61,14 @@ public class FiskalyTransactionRepository : BaseHttpRepository, IFiskalyTransact
 						.WithTransaction(transactionId)
 						.WithRevision("2").Build();
 		
-		var json = JsonSerializer.Serialize(requestModel);
+		var json = JsonSerializer.Serialize(requestModel, new JsonSerializerOptions()
+		{
+			Converters =
+			{
+				new JsonStringEnumConverter()
+			}
+		});
+		
 		var jsonContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 		var response = await ExecutePutRequest(endpoint, jsonContent);
@@ -64,9 +85,16 @@ public class FiskalyTransactionRepository : BaseHttpRepository, IFiskalyTransact
 		var endpoint = new FiskalyTransactionEndpointBuilder()
 						.WithTss(_settingsService.ApiSettings.TseId)
 						.WithTransaction(transactionId)
-						.WithRevision("2").Build();
+						.WithRevision("3").Build();
 		
-		var json = JsonSerializer.Serialize(requestModel);
+		var json = JsonSerializer.Serialize(requestModel, new JsonSerializerOptions()
+		{
+			Converters =
+			{
+				new JsonStringEnumConverter()
+			}
+		});
+		
 		var jsonContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 		var response = await ExecutePutRequest(endpoint, jsonContent);

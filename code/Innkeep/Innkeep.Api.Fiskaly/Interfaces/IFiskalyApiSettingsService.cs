@@ -12,6 +12,6 @@ public interface IFiskalyApiSettingsService
 
 	public bool Save();
 
-	public string GetToken();
+	public string? GetToken();
 
 }

@@ -24,7 +24,7 @@ public static class TransactionUpdateSerializer
 							new()
 							{
 								PaymentType = PaymentType.CASH,
-								Amount = transaction.Sum,
+								DecimalAmount = transaction.Sum,
 							}
 						}
 					}
@@ -45,7 +45,7 @@ public static class TransactionUpdateSerializer
 		{
 			amountsPerVatRate.Add(new AmountsPerVatRate()
 			{
-				Amount = group.Sum(x => x.Price),
+				DecimalAmount = group.Sum(x => x.Price),
 				VatRate = VatRateConverter.Get(group.First().Item.TaxRate)
 			});
 		}
