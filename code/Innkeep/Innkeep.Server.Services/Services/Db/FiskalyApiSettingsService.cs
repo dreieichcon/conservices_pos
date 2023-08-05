@@ -28,5 +28,5 @@ public class FiskalyApiSettingsService : IFiskalyApiSettingsService
 		return _apiSettingsRepository.Update(ApiSettings);
 	}
 
-	public string GetToken() => throw new NotImplementedException();
+	public string? GetToken() => ApiSettings.Token;
 }

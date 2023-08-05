@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Globalization;
+using System.Text.Json.Serialization;
 using Innkeep.Api.Fiskaly.Enums;
 
 namespace Innkeep.Api.Fiskaly.Models.Fiskaly;
@@ -9,7 +10,14 @@ public class AmountsPerPaymentType
 	public PaymentType PaymentType { get; set; }
 	
 	[JsonPropertyName("amount")]
-	public decimal Amount { get; set; }
+	public string Amount { get; set; }
+    
+	[JsonIgnore]
+	public decimal DecimalAmount
+	{
+		get => decimal.TryParse(Amount, out var amount) ? amount : 0;
+		set => Amount = value.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
+	}
 	
 	[JsonPropertyName("currency_code")]
 	public CurrencyCode CurrencyCode { get; set; }

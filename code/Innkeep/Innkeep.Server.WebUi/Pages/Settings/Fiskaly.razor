@@ -20,6 +20,8 @@
             AdornmentIcon="@_secretInputIcon"
             OnAdornmentClick="ToggleSecretVisibility"
             AdornmentAriaLabel="Show Token"/>
+        <MudTextField @bind-Value="_settings.TseId" Label="Fiskaly TSE Id"/>
+        <MudTextField @bind-Value="_settings.ClientId" Label="Fiskaly Client Id"/>
         <div class="d-flex flex-row justify-end gap-1">
             <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="Test">Test Connection</MudButton>
             <MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="Save">Save Changes</MudButton>

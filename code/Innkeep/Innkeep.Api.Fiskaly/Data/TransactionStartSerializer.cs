@@ -6,11 +6,11 @@ namespace Innkeep.Api.Fiskaly.Data;
 
 public static class TransactionStartSerializer
 {
-	public static TransactionStartRequestModel CreateTransactionStart(PretixTransaction transaction)
+	public static TransactionStartRequestModel CreateTransactionStart(PretixTransaction transaction, string clientId)
 	{
 		return new TransactionStartRequestModel()
 		{
-			ClientId = transaction.TransactionId,
+			ClientId = Guid.Parse(clientId),
 			State = TransactionState.ACTIVE,
 		};
 	}
