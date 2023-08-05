@@ -12,7 +12,7 @@ public class LineItem
 	public decimal QuantityDecimal
 	{
 		get => decimal.TryParse(Quantity, out var amount) ? amount : 0;
-		set => Quantity = value.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
+		set => Quantity = value.ToString("0.00").Replace(",",".");
 	}
 	
 	[JsonPropertyName("text")]
@@ -25,8 +25,6 @@ public class LineItem
 	public decimal PricePerUnitDecimal
 	{
 		get => decimal.TryParse(PricePerUnit, out var amount) ? amount : 0;
-		set => PricePerUnit = value.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
+		set => PricePerUnit = value.ToString("0.00").Replace(",",".");
 	}
-		
-	
 }

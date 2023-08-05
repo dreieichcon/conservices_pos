@@ -16,9 +16,9 @@ public class AmountsPerPaymentType
 	public decimal DecimalAmount
 	{
 		get => decimal.TryParse(Amount, out var amount) ? amount : 0;
-		set => Amount = value.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
+		set => Amount = value.ToString("0.00").Replace(",",".");
 	}
-	
+
 	[JsonPropertyName("currency_code")]
 	public CurrencyCode CurrencyCode { get; set; }
 }
