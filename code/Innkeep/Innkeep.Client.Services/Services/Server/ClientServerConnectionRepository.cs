@@ -211,6 +211,9 @@ public class ClientServerConnectionRepository : BaseHttpRepository, IClientServe
 	{
 		// do nothing
 	}
-	
-	
+
+	protected override void PreparePutHeaders()
+	{
+		// do nothing
+	}
 }

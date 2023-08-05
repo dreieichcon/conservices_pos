@@ -3,8 +3,7 @@ using Innkeep.Server.Services.Models;
 
 namespace Innkeep.Server.Services.Interfaces.Api;
 
-public interface ITseService
+public interface IFiskalyService
 {
-	public Task<TseResult?> CreateEntry(PretixTransaction transaction);
-
+	public Task<TseResult?> CreateTransaction(PretixTransaction transaction);
 }

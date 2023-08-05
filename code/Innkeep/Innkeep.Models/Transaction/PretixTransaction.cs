@@ -32,6 +32,8 @@ public class PretixTransaction
 	public decimal Return => Sum - AmountGiven;
 	
 	public DateTime TransactionStart { get; set; }
+	
+	public Guid TransactionId { get; set; }
 
 	public string SerializeTransaction()
 	{

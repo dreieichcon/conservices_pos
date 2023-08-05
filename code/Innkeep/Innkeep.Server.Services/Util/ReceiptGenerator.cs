@@ -40,9 +40,13 @@ public static class ReceiptGenerator
 				.AddBlank()
 				.AddDivider();
 
-		receipt.AddLine($"TSE Transaktionsnummer: {result.TseResult.TseTransactionNumber}")
-				.AddLine($"Seriennr. Kasse: {result.RegisterId}")
-				.AddLine($"Prüfwert: {result.TseResult.Checksum}")
+		/// TSE DATA
+		receipt.AddLine($"TSE-Signatur: {result.TseResult.Signature}")
+				.AddLine($"TSE-Transaktionsnummer: {result.TseResult.TseTransactionNumber}")
+				.AddLine($"TSE-Start: {result.TseResult.StartTime}")
+				.AddLine($"TSE-Finish: {result.TseResult.EndTime}")
+				.AddLine($"TSE-Seriennummer: {result.TseResult.TseSerialNumber}")
+				.AddLine($"TSE-Signaturcount: {result.TseResult}")
 				.AddLine($"Signaturzähler: {result.TseResult.Signature}")
 				.AddLine($"Startzeit: {result.TseResult.StartTime}")
 				.AddLine($"Endzeit: {result.TseResult.EndTime}")
