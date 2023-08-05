@@ -64,7 +64,10 @@ public class TransactionService : ITransactionService
 
 	public async Task<bool> CommitTransaction()
 	{
-		var transaction = new PretixTransaction(_shoppingCartService.Cart, AmountGiven, TransactionStarted);
+		var transaction = new PretixTransaction(_shoppingCartService.Cart, AmountGiven, TransactionStarted)
+		{
+			TransactionId = Guid.NewGuid()
+		};
 
 		var result = await _clientServerConnectionService.SendTransaction(transaction);
 		if (result != null)

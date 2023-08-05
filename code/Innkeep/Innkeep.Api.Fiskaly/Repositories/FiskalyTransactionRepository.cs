@@ -63,6 +63,7 @@ public class FiskalyTransactionRepository : BaseHttpRepository, IFiskalyTransact
 		
 		var json = JsonSerializer.Serialize(requestModel, new JsonSerializerOptions()
 		{
+			DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
 			Converters =
 			{
 				new JsonStringEnumConverter()
@@ -73,7 +74,14 @@ public class FiskalyTransactionRepository : BaseHttpRepository, IFiskalyTransact
 
 		var response = await ExecutePutRequest(endpoint, jsonContent);
 
-		var deserialized = JsonSerializer.Deserialize<TransactionResponseModel>(response);
+		var deserialized = JsonSerializer.Deserialize<TransactionResponseModel>(response, new JsonSerializerOptions()
+		{
+			DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+			Converters =
+			{
+				new JsonStringEnumConverter()
+			}
+		});
 
 		if (deserialized is not null) return deserialized;
 		Serilog.Log.Debug("Received null response for TransactionUpdate for {TransactionId}", transactionId);
@@ -89,6 +97,7 @@ public class FiskalyTransactionRepository : BaseHttpRepository, IFiskalyTransact
 		
 		var json = JsonSerializer.Serialize(requestModel, new JsonSerializerOptions()
 		{
+			DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
 			Converters =
 			{
 				new JsonStringEnumConverter()
@@ -99,7 +108,14 @@ public class FiskalyTransactionRepository : BaseHttpRepository, IFiskalyTransact
 
 		var response = await ExecutePutRequest(endpoint, jsonContent);
 
-		var deserialized = JsonSerializer.Deserialize<TransactionResponseModel>(response);
+		var deserialized = JsonSerializer.Deserialize<TransactionResponseModel>(response, new JsonSerializerOptions()
+		{
+			DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+			Converters =
+			{
+				new JsonStringEnumConverter()
+			}
+		});
 
 		if (deserialized is not null) return deserialized;
 		Serilog.Log.Debug("Received null response for TransactionEnd for {TransactionId}", transactionId);

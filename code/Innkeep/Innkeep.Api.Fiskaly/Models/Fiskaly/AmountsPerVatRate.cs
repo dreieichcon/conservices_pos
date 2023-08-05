@@ -16,6 +16,6 @@ public class AmountsPerVatRate
 	public decimal DecimalAmount
 	{
 		get => decimal.TryParse(Amount, out var amount) ? amount : 0;
-		set => Amount = value.ToString(CultureInfo.InvariantCulture).Replace(",", ".");
+		set => Amount = value.ToString("0.00").Replace(",",".");
 	}
 }
