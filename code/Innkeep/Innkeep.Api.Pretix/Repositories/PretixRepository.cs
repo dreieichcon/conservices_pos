@@ -157,4 +157,9 @@ public class PretixRepository : BaseHttpRepository, IPretixRepository
 	{
 		Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", Token);
 	}
+
+	protected override void PreparePutHeaders()
+	{
+		throw new NotImplementedException();
+	}
 }

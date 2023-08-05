@@ -40,6 +40,9 @@ public static class ServerServiceManager
 		collection.AddSingleton<IFiskalyApiSettingsService, FiskalyApiSettingsService>();
 
 		collection.AddSingleton<IFiskalyAuthenticationRepository, FiskalyAuthenticationRepository>();
+		collection.AddSingleton<IFiskalyTransactionRepository, FiskalyTransactionRepository>();
+
+		collection.AddSingleton<IFiskalyService, FiskalyService>();
 		
 		collection.AddSingleton<ITseService, TseService>();
 		collection.AddSingleton<ICashFlowRepository, CashFlowRepository>();
@@ -61,5 +64,6 @@ public static class ServerServiceManager
 		collection.AddSingleton<IPretixService, PretixService>();
         
 		collection.AddSingleton<IServerTransactionService, ServerTransactionService>();
+		
 	}
 }

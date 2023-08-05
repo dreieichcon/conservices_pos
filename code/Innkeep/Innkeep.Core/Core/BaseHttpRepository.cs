@@ -46,16 +46,32 @@ public abstract class BaseHttpRepository
             var content = await response.Content.ReadAsStringAsync();
             return content;
         }
-        else
+       
+        var debug = await response.Content.ReadAsStringAsync();
+        throw new HttpRequestException(debug);
+    }
+
+    protected async Task<string> ExecutePutRequest(string endpoint, HttpContent jsonContent)
+    {
+        PreparePutHeaders();
+
+        var response = await Client.PutAsync(endpoint, jsonContent);
+
+        if (response.StatusCode is HttpStatusCode.OK)
         {
-            var debug = await response.Content.ReadAsStringAsync();
-            throw new HttpRequestException(debug);
+            var content = await response.Content.ReadAsStringAsync();
+            return content;
         }
+        
+        var debug = await response.Content.ReadAsStringAsync();
+        throw new HttpRequestException(debug);
     }
 
     protected abstract void PrepareGetHeaders(HttpRequestMessage message);
 
     protected abstract void PreparePostHeaders();
+
+    protected abstract void PreparePutHeaders();
 
     protected void ConnectionLog(HttpRequestMessage message)
     {

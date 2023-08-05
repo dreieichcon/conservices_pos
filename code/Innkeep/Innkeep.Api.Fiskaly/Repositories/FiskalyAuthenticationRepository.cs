@@ -27,6 +27,11 @@ public class FiskalyAuthenticationRepository : BaseHttpRepository, IFiskalyAuthe
 		// do nothing
 	}
 
+	protected override void PreparePutHeaders()
+	{
+		// do nothing
+	}
+
 	public async Task<AuthenticateApiResponseModel?> AuthenticateApi()
 	{
 		var endpoint = new FiskalyAuthenticationEndpointBuilder().WithApiAuthentication().Build();

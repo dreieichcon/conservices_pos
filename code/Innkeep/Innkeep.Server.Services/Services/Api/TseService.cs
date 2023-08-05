@@ -6,14 +6,15 @@ namespace Innkeep.Server.Services.Services.Api;
 
 public class TseService : ITseService
 {
-	public async Task<TseResult> CreateEntry(PretixTransaction transaction)
+	private readonly IFiskalyService _fiskalyService;
+
+	public TseService(IFiskalyService fiskalyService)
 	{
-		return new TseResult()
-		{
-			Checksum = "checksum",
-			EndTime = DateTime.Now,
-			Signature = "signature",
-			TseTransactionNumber = $"{Guid.NewGuid().ToString().Replace("-", "")}"
-		};
+		_fiskalyService = fiskalyService;
+	}
+	
+	public async Task<TseResult?> CreateEntry(PretixTransaction transaction)
+	{
+		return await _fiskalyService.CreateTransaction(transaction);
 	}
 }
