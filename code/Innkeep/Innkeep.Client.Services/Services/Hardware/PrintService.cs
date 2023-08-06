@@ -9,6 +9,8 @@ namespace Innkeep.Client.Services.Services.Hardware;
 public class PrintService : IPrintService
 {
 	private readonly IClientSettingsService _clientSettingsService;
+	
+	public Receipt? LastReceipt { get; set; }
 
 	public PrintService(IClientSettingsService clientSettingsService)
 	{
@@ -24,12 +26,18 @@ public class PrintService : IPrintService
 
 	}
 
-	public void Print(Receipt result)
+	public void Drawer()
+	{
+		var manager = new DocumentManager(_clientSettingsService.Setting.PrinterComPort);
+		manager.Drawer();
+	}
+
+	public void Print()
 	{
 		if (string.IsNullOrEmpty(_clientSettingsService.Setting.PrinterComPort)) return;
 		var manager = new DocumentManager(_clientSettingsService.Setting.PrinterComPort);
 
-		foreach (var line in result.Lines)
+		foreach (var line in LastReceipt.Lines)
 		{
 			switch (line.LineType)
 			{
@@ -55,6 +63,10 @@ public class PrintService : IPrintService
 
 				case LineType.Cut:
 					manager.Cut();
+					break;
+				
+				case LineType.Qr:
+					manager.AddQr(line.Content);
 					break;
 
 				case LineType.Divider:

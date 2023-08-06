@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text;
 using System.Text.Json.Serialization;
 using Innkeep.Api.Pretix.Models.Base;
 using Innkeep.Core.Utilities;
@@ -189,6 +190,13 @@ public class PretixSalesItem
     
     public override string ToString()
     {
-        return ClassDebugger.CreateDebugString(this);
+        var sb = new StringBuilder();
+        
+        sb.AppendLine(new('-', 50));
+        sb.AppendLine($"Name: {Name}");
+        sb.AppendLine($"Price: {DefaultPrice}");
+        sb.AppendLine($"Currency: {Currency}");
+
+        return sb.ToString();
     }
 }

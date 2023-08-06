@@ -18,5 +18,9 @@ public class TseResult
 	public required string HashAlgorithm { get; set; }
 	
 	public required string QrCode { get; set; }
+	
+	public required int SignatureCount { get; set; }
+	
+	public required string PublicKey { get; set; }
     
 }

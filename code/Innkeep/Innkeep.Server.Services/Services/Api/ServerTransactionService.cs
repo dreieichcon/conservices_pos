@@ -37,7 +37,6 @@ public class ServerTransactionService : IServerTransactionService
 		if (pretixResult is null) return new Receipt();
 
 		var tseResult = await _tseService.CreateEntry(pretixTransaction);
-		tseResult.StartTime = pretixTransaction.TransactionStart;
 
 		var guid = Guid.NewGuid();
 

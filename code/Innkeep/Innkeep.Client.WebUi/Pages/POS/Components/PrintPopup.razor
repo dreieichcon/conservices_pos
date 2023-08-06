@@ -1,14 +1,14 @@
 ﻿@using Innkeep.Client.WebUi.Pages.Base;
-@using Innkeep.Client.Services.Interfaces.Transaction
 @using Innkeep.Client.Services.Interfaces.Ui
+@using Innkeep.Client.Services.Interfaces.Hardware
 @inherits PopupComponentBase
-@inject IShoppingCartService ShoppingCartService
+@inject IPrintService PrintService
 @inject IPopupService PopupService;
 
 <div class="fill-screen on-top blurred center drop2" style="@VisibilityClass">
     <div class="popup-group">
         <div class="popup-title">
-            Really Clear?
+            Print Receipt?
         </div>
         <div class="popup-buttons">
             <div class="button yes drop2 no-select" @onclick="Confirm">
@@ -23,11 +23,11 @@
 
 @code {
 
-    private string Name => nameof(ClearPopup);
+    private string Name => nameof(PrintPopup);
 
     protected override void OnInitialized()
     {
-        ConfirmAction = () => ShoppingCartService.Clear();
+        ConfirmAction = () => PrintService.Print();
         PopupService.PopupChanged += PopupChangedEvent;
     }
     

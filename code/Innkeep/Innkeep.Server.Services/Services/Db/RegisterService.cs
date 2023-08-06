@@ -33,6 +33,13 @@ public class RegisterService : IRegisterService
 		RegistersChanged?.Invoke(this, EventArgs.Empty);
 	}
 
+	public void UpdateRegister(Register register)
+	{
+		_registerRepository.Update(register);
+		CurrentRegisters = _registerRepository.GetAll().ToList();
+		RegistersChanged?.Invoke(this, EventArgs.Empty);
+	}
+
 	public void ConfirmPendingRegister(Register register)
 	{
 		_registerRepository.Create(register);

@@ -28,6 +28,17 @@ public class Receipt
 		Lines.Add(new PrintInfo(content, LineType.Line));
 		return this;
 	}
+	
+	public Receipt AddJustifiedLine(string contentLeft, string contentRight)
+	{
+		const int lineWidth = 42;
+		var remainingSpace = lineWidth - contentRight.Length;
+
+		var paddedLeft = contentLeft.PadRight(remainingSpace, ' ');
+		
+		Lines.Add(new PrintInfo($"{paddedLeft}{contentRight}", LineType.Line));
+		return this;
+	}
 
 	public Receipt AddLines(string[] lines)
 	{
@@ -61,6 +72,12 @@ public class Receipt
 	public Receipt AddCenteredLine(string content)
 	{
 		Lines.Add(new PrintInfo(content, LineType.Center));
+		return this;
+	}
+
+	public Receipt AddQr(string content)
+	{
+		Lines.Add(new PrintInfo(content, LineType.Qr));
 		return this;
 	}
 }

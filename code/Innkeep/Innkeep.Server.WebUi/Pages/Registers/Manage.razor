@@ -1,14 +1,22 @@
 ﻿@page "/Registers/Settings"
 @using Innkeep.Server.Data.Models
 @using Innkeep.Server.Services.Interfaces.Db
+@using Innkeep.Server.WebUi.Popup
 @inject IRegisterService RegisterService
+@inject IDialogService DialogService
 
 <div class="d-flex flex-grow-1 flex-column gap-4">
     <h3>Current Registers</h3>
-    <MudDataGrid Items="RegisterService.CurrentRegisters">
+    <MudDataGrid T="Register" Items="RegisterService.CurrentRegisters">
         <Columns>
             <PropertyColumn Property="x => x.Id" Title="Database Id"/>
             <PropertyColumn Property="x => x.DeviceId" Title="Device Id"/>
+            <PropertyColumn Property="x => x.RegisterName" Title="Register Name"/>
+            <TemplateColumn>
+                <CellTemplate>
+                    <MudButton OnClick="() => Edit(context.Item)">Edit</MudButton>
+                </CellTemplate>
+            </TemplateColumn>
         </Columns>
     </MudDataGrid>
     <MudDivider/>
@@ -21,7 +29,7 @@
                     <MudStack Row>
                         <MudButton Size="@Size.Small" Variant="Variant.Outlined" Color="Color.Success" @onclick="() => Accept(context.Item)">Accept</MudButton>
                         <MudButton Size="@Size.Small" Variant="Variant.Outlined" Color="Color.Error" @onclick="() => Reject(context.Item)">Reject</MudButton>
-                </MudStack>
+                    </MudStack>
                 </CellTemplate>
             </TemplateColumn>
         </Columns>
@@ -35,6 +43,18 @@
     {
         RegisterService.RegistersChanged += (_, _) => InvokeAsync(StateHasChanged);
         base.OnInitialized();
+    }
+
+    private async void Edit(Register register)
+    {
+        var parameters = new DialogParameters<RegisterEditPopup> { { x => x.Register, register } };
+        var dialog = await DialogService.ShowAsync<RegisterEditPopup>("Edit", parameters);
+        
+        var result = await dialog.Result;
+
+        if (result.Canceled) return;
+        
+        RegisterService.UpdateRegister((Register)result.Data);
     }
 
     private void Accept(Register register)

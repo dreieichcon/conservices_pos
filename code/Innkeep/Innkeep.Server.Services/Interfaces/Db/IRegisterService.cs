@@ -12,6 +12,8 @@ public interface IRegisterService
 
 	public void AddPendingRegister(string registerId);
 
+	public void UpdateRegister(Register register);
+
 	public void ConfirmPendingRegister(Register register);
 
 	public void RejectPendingRegister(Register register);

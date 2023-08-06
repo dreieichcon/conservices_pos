@@ -1,0 +1,81 @@
+﻿@using Innkeep.Server.Data.Models
+@using System.Globalization
+
+<MudDialog class="pa-3">
+    <DialogContent>
+        <MudForm Model="@CashFlow" @ref="_form">
+            <MudTextField 
+                @bind-Value="CashFlow.Register.DeviceId"
+                ReadOnly="true"
+                Label="Device Id"
+                Immediate="true"/>
+            <MudTextField 
+                @bind-Value="CashFlow.Register.RegisterName"
+                ReadOnly="true"
+                Label="Device Name"
+                Immediate="true"/>
+            <MudTextField
+                @bind-Value="CashFlow.MoneyAdded"
+                Label="Money Added"
+                Immediate="true"/>
+            <MudTextField
+                @bind-Value="CashFlow.MoneyRemoved"
+                Label="Money Removed"
+                Immediate="true"/>
+            <MudTextField
+                T="decimal"
+                Text="@Resulting.ToString(CultureInfo.InvariantCulture)"
+                ReadOnly="true"
+                Label="Resulting Cash State"
+                Format="C"
+                Immediate="true"/>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="Ok">Commit</MudButton>
+        <MudButton Color="Color.Error" OnClick="Cancel">Cancel</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        InvokeAsync(StateHasChanged);
+    }
+
+    MudForm _form;
+    private decimal _currentState;
+
+    private decimal Resulting => CurrentState + CashFlow.TotalMoney;
+    
+    private void Ok()
+    {
+        if(_form.IsValid)
+            MudDialog.Close(DialogResult.Ok(CashFlow));
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+    
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public CashFlow CashFlow { get; set; }
+
+    [Parameter]
+    public decimal CurrentState
+    {
+        get => _currentState;
+        set
+        {
+            _currentState = value;
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+}

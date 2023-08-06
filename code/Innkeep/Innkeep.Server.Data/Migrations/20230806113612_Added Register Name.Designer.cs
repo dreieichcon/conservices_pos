@@ -3,6 +3,7 @@ using System;
 using Innkeep.Server.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Innkeep.Server.Data.Migrations
 {
     [DbContext(typeof(InnkeepServerContext))]
-    partial class InnkeepServerContextModelSnapshot : ModelSnapshot
+    [Migration("20230806113612_Added Register Name")]
+    partial class AddedRegisterName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.8");
