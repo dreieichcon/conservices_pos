@@ -32,6 +32,11 @@ public class CashFlowService : ICashFlowService
 		);
 	}
 
+	public void CreateCashFlow(CashFlow cashFlow)
+	{
+		_cashFlowRepository.Create(cashFlow);
+	}
+
 	public List<RegisterCashInfo> GetCurrentCashState()
 	{
 		if (_applicationSettingsService.ActiveSetting.SelectedEvent == null) return new List<RegisterCashInfo>();
@@ -48,6 +53,8 @@ public class CashFlowService : ICashFlowService
 		return cashFlows.Select(
 							grouping => new RegisterCashInfo()
 							{
+								Register = grouping.Key,
+								Event = grouping.First().Event,
 								RegisterId = grouping.Key.DeviceId,
 								CashState = grouping.Sum(x => x.TotalMoney),
 							}

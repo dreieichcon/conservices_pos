@@ -63,6 +63,8 @@ public class FiskalyService : IFiskalyService
 			Signature = finish.Signature.value,
 			TseTimestampFormat = finish.Log.TimestampFormat,
 			QrCode = finish.QrCodeData,
+			SignatureCount = finish.Signature.counter,
+			PublicKey = finish.Signature.public_key
 		};
 	}
 }

@@ -1,10 +1,16 @@
 ﻿@page "/POS"
 @using Innkeep.Client.Services.Interfaces.Pretix
+@using Innkeep.Client.Services.Interfaces.Hardware
 @inject IClientPretixService ClientPretixService;
 @inject NavigationManager NavigationManager
+@inject INetworkHardwareService NetworkHardwareService
 @inject ISnackbar Snackbar
 
 <div class="pos-main">
+    <div class="pin-top">
+        @NetworkHardwareService.MacAddress
+    </div>
+    <PrintPopup/>
     <ClearPopup/>
     <PayPopup/>
     <div class="pos-top">
@@ -26,6 +32,7 @@
         {
             await ClientPretixService.Reload();
             await base.OnInitializedAsync();
+            await InvokeAsync(StateHasChanged);
         }
         catch (Exception e)
         {

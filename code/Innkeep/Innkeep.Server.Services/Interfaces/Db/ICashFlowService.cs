@@ -8,5 +8,7 @@ public interface ICashFlowService
 {
 	public void CreateCashFlow(Register register, PretixTransaction transaction);
 
+	public void CreateCashFlow(CashFlow cashFlow);
+	
 	public List<RegisterCashInfo> GetCurrentCashState();
 }

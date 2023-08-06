@@ -1,9 +1,11 @@
 ﻿@using Innkeep.Client.WebUi.Pages.POS.Components
 @using Innkeep.Client.Services.Interfaces.Transaction
 @using Innkeep.Client.Services.Interfaces.Ui
+@using Innkeep.Client.Services.Interfaces.Hardware
 @inject IShoppingCartService ShoppingCartService
 @inject IPopupService PopupService
 @inject ITransactionService TransactionService
+@inject IPrintService PrintService
 
 <div class="button-group">
     <div class="pay-button no-select pay drop2" @onclick="Pay">
@@ -18,7 +20,7 @@
     </div>
     <div class="pay-button no-select print drop2" @onclick="Print">
         <div class="button-text">
-            PRINT
+            PRINT LAST
         </div>
     </div>
 </div>
@@ -41,6 +43,7 @@
 
     private void Print()
     {
-        
+        if (PrintService.LastReceipt != null)
+            PrintService.Print();
     }
 }

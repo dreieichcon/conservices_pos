@@ -5,9 +5,9 @@ namespace Innkeep.Api.Pretix.Models.Base;
 public class MultiString
 {
     [JsonPropertyName("de-informal")]
-    public string GermanInformal { get; set; } = "Empty";
+    public string GermanInformal { get; set; } = string.Empty;
 
-    [JsonPropertyName("de")] public string? GermanDefault { get; set; } = "Empty";
+    [JsonPropertyName("de")] public string? GermanDefault { get; set; }
 
     [JsonIgnore]
     public string German => string.IsNullOrEmpty(GermanDefault) ? GermanInformal : GermanDefault;

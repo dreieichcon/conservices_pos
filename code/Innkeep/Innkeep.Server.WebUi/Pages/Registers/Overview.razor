@@ -1,14 +1,23 @@
 ﻿@page "/Registers/Overview"
 @using Innkeep.Core.DomainModels.Dashboard
+@using Innkeep.Server.Data.Models
 @using Innkeep.Server.Services.Interfaces.Db
+@using Innkeep.Server.WebUi.Popup
 @inject ICashFlowService CashFlowService
+@inject IDialogService DialogService
 
 <div class="d-flex flex-grow-1 flex-column gap-4">
     <h3>Register Cash Overview</h3>
     <MudDataGrid T="RegisterCashInfo" Items="CashInfos">
         <Columns>
-            <PropertyColumn Property="x => x.RegisterId" Title="Register"/>
+            <PropertyColumn Property="x => x.Register.DeviceId" Title="Register"/>
+            <PropertyColumn Property="x => x.Register.RegisterName" Title="Register Name"/>
             <PropertyColumn Property="x => x.CashState" Title="Cash State" Format="C"/>
+            <TemplateColumn>
+                <CellTemplate>
+                    <MudButton @onclick="() => Edit(context.Item)">Edit</MudButton>
+                </CellTemplate>
+            </TemplateColumn>
         </Columns>
     </MudDataGrid>
 </div>
@@ -16,6 +25,30 @@
 @code {
 
     private List<RegisterCashInfo> CashInfos { get; set; } = new();
+
+    private async void Edit(RegisterCashInfo cashInfo)
+    {
+        var cashFlow = new CashFlow()
+        {
+            Register = cashInfo.Register,
+            Event = cashInfo.Event,
+            TimeStamp = DateTime.Now,
+        };
+        
+        var parameters = new DialogParameters<CashStatePopup>
+        {
+            { x => x.CashFlow, cashFlow }, {x => x.CurrentState, cashInfo.CashState}
+        };
+        var dialog = await DialogService.ShowAsync<CashStatePopup>("Create Cashflow", parameters);
+        
+        var result = await dialog.Result;
+
+        if (result.Canceled) return;
+        
+        CashFlowService.CreateCashFlow((CashFlow)result.Data);
+        
+        Reload();
+    }
     
     protected override void OnInitialized()
     {
@@ -23,4 +56,9 @@
         base.OnInitialized();
     }
 
+    private void Reload()
+    {
+        CashInfos = CashFlowService.GetCurrentCashState();
+        InvokeAsync(StateHasChanged);
+    }
 }

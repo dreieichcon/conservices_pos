@@ -11,4 +11,10 @@
     </ItemGroup>
 
 
+    <ItemGroup>
+      <Reference Include="Innkeep.Server.Data">
+        <HintPath>..\Innkeep.Client.WebUi\bin\Debug\net7.0\Innkeep.Server.Data.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

@@ -70,14 +70,15 @@ public class TransactionService : ITransactionService
 		};
 
 		var result = await _clientServerConnectionService.SendTransaction(transaction);
-		if (result != null)
+
+		if (result == null)
 		{
-			
-			// TODO - PRINT
-			_printService.Print(result);
-			return true;
+			_printService.LastReceipt = null;
+			return false;
 		}
 
-		return false;
+		_printService.LastReceipt = result;
+		return true;
+
 	}
 }

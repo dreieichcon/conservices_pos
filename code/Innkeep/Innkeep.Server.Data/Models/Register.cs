@@ -6,6 +6,8 @@ public class Register
 
 	public required string DeviceId { get; set; }
 
+	public string RegisterName { get; set; } = string.Empty;
+
 	public override bool Equals(object? obj)
 	{
 		if (obj is Register register)

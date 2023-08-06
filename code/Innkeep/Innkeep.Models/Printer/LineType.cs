@@ -8,5 +8,6 @@ public enum LineType
 	Cut,
 	Divider,
 	Center,
-	Sum
+	Sum,
+	Qr
 }

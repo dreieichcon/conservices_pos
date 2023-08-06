@@ -3,6 +3,7 @@ using ESCPOS.Utils;
 using static ESCPOS.Commands;
 using System.Drawing;
 using Innkeep.Printer.Util;
+using Font = ESCPOS.Font;
 
 namespace Innkeep.Printer.Document;
 
@@ -77,6 +78,13 @@ public class DocumentManager
 		return this;
 	}
 
+	public DocumentManager AddQr(string qr)
+	{
+		Append(PrintQRCode(qr, QRCodeModel.Model2, qrCodeSize: QRCodeSize.Large));
+		Append(LF);
+		return this;
+	}
+
 	public void Print()
 	{
 		_commands.Print(_port);
@@ -128,5 +136,11 @@ public class DocumentManager
 		{
 			_commands = _commands.Add(command);
 		}
+	}
+
+	public void Drawer()
+	{
+		Append(OpenDrawer);
+		Print();
 	}
 }

@@ -64,8 +64,9 @@ public class TransactionResponseModel
     public Signature Signature { get; set; }
 
     [JsonIgnore]
-    public DateTime StartTime => DateTimeOffset.FromUnixTimeSeconds(TimeStart).DateTime;
+    public DateTime StartTime => TimeZoneInfo.ConvertTime(DateTimeOffset.FromUnixTimeSeconds(TimeStart), TimeZoneInfo.Local).DateTime;
 
     [JsonIgnore]
-    public DateTime EndTime => DateTimeOffset.FromUnixTimeSeconds(TimeEnd).DateTime;
+    public DateTime EndTime =>
+        TimeZoneInfo.ConvertTime(DateTimeOffset.FromUnixTimeSeconds(TimeEnd), TimeZoneInfo.Local).DateTime;
 }

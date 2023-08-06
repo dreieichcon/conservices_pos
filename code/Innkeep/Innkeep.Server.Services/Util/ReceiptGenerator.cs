@@ -22,36 +22,34 @@ public static class ReceiptGenerator
 					.AddBlank();
 		}
 
-		receipt.AddBlank().AddDivider();
+		receipt.AddDivider();
 
-		var sum = $"Summe:      {result.PretixTransaction.Sum.ToString(CultureInfo.InvariantCulture),6}€";
-		var bck = $"Rück:       {result.PretixTransaction.Return.ToString(CultureInfo.InvariantCulture).PadLeft(6, ' ').Replace("-", "")}€";
-		
-		var giv = $"Erhalten:   {$"{result.PretixTransaction.AmountGiven:0.##}",6}€";
+		var sum = $"{"Summe:",-20}{result.PretixTransaction.Sum.ToString(CultureInfo.InvariantCulture),6}€";
+		var bck = $"{"Rück:",-20}{result.PretixTransaction.Return.ToString(CultureInfo.InvariantCulture).PadLeft(6, ' ').Replace("-", " ")}€";
+		var giv = $"{"Erhalten:",-20}{$"{result.PretixTransaction.AmountGiven:0.00}",6}€";
 		
 		
 		receipt.AddSum(sum.PadLeft(42, ' '))
 				.AddSum(giv.PadLeft(42, ' '))
 				.AddSum(bck.PadLeft(42, ' '))
-				.AddBlank()
 				.AddDivider()
 				.AddCenteredLine($"Order ID: {result.OrderResponse.Code}")
 				.AddCenteredLine($"Order GUID: {result.Guid}")
-				.AddBlank()
 				.AddDivider();
 
 		/// TSE DATA
-		receipt.AddLine($"TSE-Signatur: {result.TseResult.Signature}")
-				.AddLine($"TSE-Transaktionsnummer: {result.TseResult.TseTransactionNumber}")
-				.AddLine($"TSE-Start: {result.TseResult.StartTime}")
-				.AddLine($"TSE-Finish: {result.TseResult.EndTime}")
-				.AddLine($"TSE-Seriennummer: {result.TseResult.TseSerialNumber}")
-				.AddLine($"TSE-Signaturcount: {result.TseResult}")
-				.AddLine($"Signaturzähler: {result.TseResult.Signature}")
-				.AddLine($"Startzeit: {result.TseResult.StartTime}")
-				.AddLine($"Endzeit: {result.TseResult.EndTime}")
-				.AddBlank()
-				.AddDivider();
+		receipt.AddJustifiedLine("TSE-Anbieter:", "fiskaly GmbH")
+			.AddLine($"TSE-Signatur: {result.TseResult.Signature}")
+			.AddJustifiedLine("TSE-Erstbestellung:",$"{result.PretixTransaction.TransactionStart}")
+			.AddJustifiedLine("TSE-Transaktionsnummer:",$"{result.TseResult.TseTransactionNumber}")
+			.AddJustifiedLine("TSE-Start:", $"{result.TseResult.StartTime}")
+			.AddJustifiedLine("TSE-Finish:", $"{result.TseResult.EndTime}")
+			.AddJustifiedLine("TSE-Zeitformat:",$"{result.TseResult.TseTimestampFormat}")
+			.AddLine($"TSE-Seriennummer: {result.TseResult.TseSerialNumber}")
+			.AddJustifiedLine("TSE-Signaturcount:", $"{result.TseResult.SignatureCount}")
+			.AddJustifiedLine("TSE-Algorithmus:", $"{result.TseResult.HashAlgorithm}")
+			.AddLine($"TSE-PublicKey: {result.TseResult.PublicKey}")
+			.AddDivider();
 		
 		receipt.AddLine("Datum / Uhrzeit:")
 				.AddLine(DateTime.Now.ToString(CultureInfo.GetCultureInfoByIetfLanguageTag("de")));
