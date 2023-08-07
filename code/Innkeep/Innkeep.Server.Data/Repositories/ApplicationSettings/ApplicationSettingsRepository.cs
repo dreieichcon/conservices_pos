@@ -1,5 +1,7 @@
-﻿using Innkeep.Server.Data.Interfaces.ApplicationSettings;
+﻿using Innkeep.Server.Data.Context;
+using Innkeep.Server.Data.Interfaces.ApplicationSettings;
 using Innkeep.Server.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Innkeep.Server.Data.Repositories.ApplicationSettings;
 
@@ -7,12 +9,13 @@ public class ApplicationSettingsRepository : BaseRepository<ApplicationSetting>,
 {
 	public ApplicationSetting GetSetting()
 	{
-		var item = Get();
+		using var db = InnkeepServerContext.Create();
 
+		var item = db.ApplicationSettings.FirstOrDefault();
 		if (item is not null) return item;
 		
 		Create(new ApplicationSetting());
 
-		return Get()!;
+		return db.ApplicationSettings.Include(x => x.SelectedEvent).Include(x => x.SelectedOrganizer).FirstOrDefault()!;
 	}
 }
