@@ -63,7 +63,7 @@ public class BaseRepository<T> where T : class
 		db.ChangeTracker.Clear();
 
 		var set = GetDbSetFromContext(db);
-
+		
 		set.Update(item);
 
 		return TrySave(db);

@@ -31,9 +31,6 @@ public class InnkeepServerContext : DbContext
 	{
 		modelBuilder.Entity<Event>().Navigation(x => x.Organizer).AutoInclude();
 
-		modelBuilder.Entity<ApplicationSetting>().Navigation(x => x.SelectedOrganizer).AutoInclude();
-		modelBuilder.Entity<ApplicationSetting>().Navigation(x => x.SelectedEvent).AutoInclude();
-
 		modelBuilder.Entity<Transaction>().Navigation(x => x.Event).AutoInclude();
 		modelBuilder.Entity<Transaction>().Navigation(x => x.Organizer).AutoInclude();
 		modelBuilder.Entity<Transaction>().Navigation(x => x.Device).AutoInclude();
