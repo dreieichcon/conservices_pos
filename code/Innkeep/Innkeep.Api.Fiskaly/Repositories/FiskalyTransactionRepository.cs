@@ -5,8 +5,8 @@ using System.Text.Json.Serialization;
 using Innkeep.Api.Fiskaly.Data;
 using Innkeep.Api.Fiskaly.Interfaces;
 using Innkeep.Api.Fiskaly.Models;
-using Innkeep.Core.Core;
 using Innkeep.Endpoints.Fiskaly;
+using Innkeep.Http;
 using Innkeep.Models.Transaction;
 
 namespace Innkeep.Api.Fiskaly.Repositories;

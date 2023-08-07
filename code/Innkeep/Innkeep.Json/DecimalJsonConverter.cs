@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Innkeep.Server.Controllers.Converters;
+namespace Innkeep.Json;
 
 public class DecimalJsonConverter : JsonConverter<Decimal>
 {

@@ -3,7 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Innkeep.Api.Pretix.Models.Internal;
 using Innkeep.Api.Pretix.Models.Objects;
-using Innkeep.Server.Controllers.Converters;
+using Innkeep.Json;
 
 namespace Innkeep.Models.Transaction;
 

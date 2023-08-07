@@ -1,7 +1,7 @@
 ﻿@page "/Registers/Overview"
-@using Innkeep.Core.DomainModels.Dashboard
 @using Innkeep.Server.Data.Models
 @using Innkeep.Server.Services.Interfaces.Db
+@using Innkeep.Server.WebUi.Models
 @using Innkeep.Server.WebUi.Popup
 @inject ICashFlowService CashFlowService
 @inject IDialogService DialogService
@@ -52,13 +52,14 @@
     
     protected override void OnInitialized()
     {
-        CashInfos = CashFlowService.GetCurrentCashState();
+        Reload();
         base.OnInitialized();
     }
 
     private void Reload()
     {
-        CashInfos = CashFlowService.GetCurrentCashState();
+        
+        CashInfos = RegisterCashInfo.GetCashInfo(CashFlowService.GetCashFlows());
         InvokeAsync(StateHasChanged);
     }
 }

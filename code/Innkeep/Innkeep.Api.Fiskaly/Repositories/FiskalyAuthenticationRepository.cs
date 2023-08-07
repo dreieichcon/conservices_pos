@@ -2,8 +2,8 @@
 using System.Text.Json;
 using Innkeep.Api.Fiskaly.Interfaces;
 using Innkeep.Api.Fiskaly.Models;
-using Innkeep.Core.Core;
 using Innkeep.Endpoints.Fiskaly;
+using Innkeep.Http;
 using Serilog;
 
 namespace Innkeep.Api.Fiskaly.Repositories;
