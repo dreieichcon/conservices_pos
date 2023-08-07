@@ -10,5 +10,5 @@ public interface IApplicationSettingsService
 
 	public void UpdateSetting(PretixOrganizer pretixOrganizer, PretixEvent pretixEvent, string organizerInfo);
 
-	public void Save(DbContext db);
+	public void Save();
 }
