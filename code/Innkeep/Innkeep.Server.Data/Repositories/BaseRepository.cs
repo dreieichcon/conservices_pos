@@ -22,11 +22,13 @@ public class BaseRepository<T> where T : class
 		try
 		{
 			db.SaveChanges();
+			db.Dispose();
 			return true;
 		}
 		catch(Exception ex)
 		{
 			Log.Error("Error while saving {Type}:{Exception}", typeof(T), ex);
+			db.Dispose();
 			return false;
 		}
 	}
@@ -58,6 +60,7 @@ public class BaseRepository<T> where T : class
 	public bool Update(T item)
 	{
 		using var db = InnkeepServerContext.Create();
+		db.ChangeTracker.Clear();
 
 		var set = GetDbSetFromContext(db);
 
