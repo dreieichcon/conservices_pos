@@ -62,13 +62,20 @@ public class PretixService : IPretixService
 
 	private void LoadOrganizer()
 	{
-		var selectedOrganizer = _applicationSettingsService.ActiveSetting.SelectedOrganizer;
-		Organizers = Task.Run(() => _pretixRepository.GetOrganizers()).Result;
-		
-		if (selectedOrganizer == null) return;
+		try
+		{
+			var selectedOrganizer = _applicationSettingsService.ActiveSetting.SelectedOrganizer;
+			Organizers = Task.Run(() => _pretixRepository.GetOrganizers()).Result;
 
-		SelectedOrganizer = Organizers.FirstOrDefault(x => x.Slug == selectedOrganizer.Slug);
-		ItemUpdated?.Invoke(nameof(SelectedOrganizer), EventArgs.Empty);
+			if (selectedOrganizer == null) return;
+
+			SelectedOrganizer = Organizers.FirstOrDefault(x => x.Slug == selectedOrganizer.Slug);
+			ItemUpdated?.Invoke(nameof(SelectedOrganizer), EventArgs.Empty);
+		}
+		catch
+		{
+			// do nothing
+		}
 	}
 
 	private void LoadEvent()

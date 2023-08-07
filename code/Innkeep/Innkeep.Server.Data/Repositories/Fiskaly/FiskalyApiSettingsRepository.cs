@@ -11,7 +11,11 @@ public class FiskalyApiSettingsRepository : BaseRepository<FiskalyApiSettings>, 
 
 		if (setting is not null) return setting;
 
-		var newSetting = new FiskalyApiSettings();
+		var newSetting = new FiskalyApiSettings()
+		{
+			TseId = string.Empty,
+			ClientId = string.Empty
+		};
 
 		Create(newSetting);
 
