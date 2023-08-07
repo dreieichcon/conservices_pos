@@ -75,7 +75,7 @@ class Build : NukeBuild
                  
                  var rootPath = Path.Combine(Solution.Directory, "Innkeep.Server.WebUi", "InnkeepServer.db");
                  if (File.Exists(rootPath))
-                    CopyFile(rootPath, Path.Combine(rootPath, OutputDirectory, "InnkeepServer.db"), FileExistsPolicy.Overwrite);
+                    CopyFile(rootPath, Path.Combine(rootPath, OutputDirectory, "InnkeepServer.db"), FileExistsPolicy.Skip);
              }
          );
 
