@@ -7,7 +7,7 @@ namespace Innkeep.Server.Data.Repositories.Transactions;
 
 public class TransactionRepository : BaseRepository<Transaction>, ITransactionRepository
 {
-	public new bool Create(Transaction item, DbContext? db = null)
+	public new bool Create(Transaction item)
 	{
 		using var context = InnkeepServerContext.Create();
 
@@ -15,6 +15,10 @@ public class TransactionRepository : BaseRepository<Transaction>, ITransactionRe
 		context.Attach(item.Event);
 		context.Attach(item.Device);
 
-		return base.Create(item, context);
+		var set = GetDbSetFromContext(context);
+
+		set.Add(item);
+
+		return TrySave(context);
 	}
 }

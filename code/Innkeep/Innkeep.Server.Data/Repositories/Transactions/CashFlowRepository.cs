@@ -7,7 +7,7 @@ namespace Innkeep.Server.Data.Repositories.Transactions;
 
 public class CashFlowRepository : BaseRepository<CashFlow>, ICashFlowRepository
 {
-	public new bool Create(CashFlow item, DbContext? db = null)
+	public new bool Create(CashFlow item)
 	{
 		using var context = InnkeepServerContext.Create();
 
@@ -15,6 +15,10 @@ public class CashFlowRepository : BaseRepository<CashFlow>, ICashFlowRepository
 		context.Attach(item.Event.Organizer);
 		context.Attach(item.Register);
 
-		return base.Create(item, context);
+		var set = GetDbSetFromContext(context);
+
+		set.Add(item);
+
+		return TrySave(context);
 	}
 }

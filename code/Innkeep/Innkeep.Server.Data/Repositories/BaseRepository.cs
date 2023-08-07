@@ -12,12 +12,12 @@ public class BaseRepository<T> where T : class
 		return InnkeepServerContext.Create();
 	}
 
-	private static DbSet<T> GetDbSetFromContext(DbContext db)
+	protected static DbSet<T> GetDbSetFromContext(DbContext db)
 	{
 		return db.Set<T>();
 	}
 
-	private static bool TrySave(DbContext db)
+	protected static bool TrySave(DbContext db)
 	{
 		try
 		{
