@@ -7,9 +7,9 @@ namespace Innkeep.Server.Data.Repositories.Pretix;
 
 public class OrganizerRepository : BaseRepository<Organizer>, IOrganizerRepository
 {
-	public Organizer GetOrCreate(PretixOrganizer pretixOrganizer, DbContext db)
+	public Organizer GetOrCreate(PretixOrganizer pretixOrganizer)
 	{
-		var fromDb = GetCustom(x => x.Slug == pretixOrganizer.Slug, db);
+		var fromDb = GetCustom(x => x.Slug == pretixOrganizer.Slug);
 		if (fromDb is not null) return fromDb;
 
 		var toDb = new Organizer()
@@ -18,7 +18,7 @@ public class OrganizerRepository : BaseRepository<Organizer>, IOrganizerReposito
 			Slug = pretixOrganizer.Slug
 		};
 
-		Create(toDb, db);
+		Create(toDb);
 		return GetCustom(x => x.Slug == pretixOrganizer.Slug)!;
 	}
 }

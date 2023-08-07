@@ -6,5 +6,5 @@ namespace Innkeep.Server.Data.Interfaces.Pretix;
 
 public interface IEventRepository : IBaseRepository<Event>
 {
-	public Event GetOrCreate(PretixEvent pretixEvent, Organizer organizer, DbContext db);
+	public Event GetOrCreate(PretixEvent pretixEvent, Organizer organizer);
 }
