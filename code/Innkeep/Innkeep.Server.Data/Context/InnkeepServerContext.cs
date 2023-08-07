@@ -5,20 +5,26 @@ namespace Innkeep.Server.Data.Context;
 
 public class InnkeepServerContext : DbContext
 {
+	private static bool _created;
+	
 	public InnkeepServerContext()
 	{
 	}
 	
-	public InnkeepServerContext(DbContextOptions options) : base(options)
+	public InnkeepServerContext(DbContextOptions options, bool ensure = false) : base(options)
 	{
-		
+		if (!ensure) return;
+		if (_created) return;
+
+		_created = true;
+		Database.EnsureCreated();
 	}
 
-	public static InnkeepServerContext Create()
+	public static InnkeepServerContext Create(bool ensure = false)
 	{
 		var optionsBuilder = new DbContextOptionsBuilder<InnkeepServerContext>();
 		optionsBuilder.UseSqlite("Data Source=InnkeepServer.db");
-		return new InnkeepServerContext(optionsBuilder.Options);
+		return new InnkeepServerContext(optionsBuilder.Options, ensure);
 	}
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)

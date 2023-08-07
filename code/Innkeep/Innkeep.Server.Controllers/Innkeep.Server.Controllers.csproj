@@ -8,6 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Reference Include="Innkeep.Server.Services">
+        <HintPath>..\Innkeep.Client.WebUi\bin\Debug\net7.0\Innkeep.Server.Services.dll</HintPath>
+      </Reference>
       <Reference Include="Microsoft.AspNetCore.Http.Abstractions" />
       <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions">
         <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\7.0.7\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>

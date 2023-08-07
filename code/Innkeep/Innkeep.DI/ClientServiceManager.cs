@@ -13,7 +13,7 @@ using Innkeep.Client.Services.Services.Ui;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Innkeep.Client.Services;
+namespace Innkeep.DI;
 
 public static class ClientServiceManager
 {

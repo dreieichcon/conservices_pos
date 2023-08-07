@@ -1,6 +1,4 @@
-﻿using Innkeep.Client.Services;
-using Innkeep.Server.Controllers;
-using Innkeep.Server.Services;
+﻿using Innkeep.Server.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;

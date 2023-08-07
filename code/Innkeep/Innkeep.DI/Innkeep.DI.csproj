@@ -25,9 +25,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="Microsoft.AspNetCore">
-        <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\7.0.7\Microsoft.AspNetCore.dll</HintPath>
+      <Reference Include="Innkeep.Client.Services">
+        <HintPath>..\Innkeep.Client.WebUi\bin\Debug\net7.0\Innkeep.Client.Services.dll</HintPath>
       </Reference>
     </ItemGroup>
-
+    
 </Project>
