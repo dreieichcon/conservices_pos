@@ -12,7 +12,7 @@ public class FiskalyApiSettings
 	
 	public DateTime? TokenValidUntil { get; set; }
 	
-	public string TseId { get; set; }
+	public required string TseId { get; set; }
 	
-	public string ClientId { get; set; }
+	public required string ClientId { get; set; }
 }
