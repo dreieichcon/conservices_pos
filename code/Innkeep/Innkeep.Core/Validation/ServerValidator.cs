@@ -7,7 +7,7 @@ public static class ServerValidator
 {
 	public static bool ValidateServerCertificate(object sender,X509Certificate? certificate,X509Chain? chain,SslPolicyErrors sslPolicyErrors)
 	{
-		return sslPolicyErrors is SslPolicyErrors.RemoteCertificateNameMismatch or SslPolicyErrors.None;
+		return true;
 
 		// ask to trust here?
 	}
