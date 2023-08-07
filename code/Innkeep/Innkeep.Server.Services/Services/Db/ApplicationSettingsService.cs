@@ -33,8 +33,8 @@ public class ApplicationSettingsService : IApplicationSettingsService
     {
         var db = _organizerRepository.CreateContext();
         
-        var organizerFromDb = _organizerRepository.GetOrCreate(pretixOrganizer, db);
-        var eventFromDb = _eventRepository.GetOrCreate(pretixEvent, organizerFromDb, db);
+        var organizerFromDb = _organizerRepository.GetOrCreate(pretixOrganizer);
+        var eventFromDb = _eventRepository.GetOrCreate(pretixEvent, organizerFromDb);
 
         ActiveSetting.SelectedOrganizer = organizerFromDb;
         ActiveSetting.SelectedEvent = eventFromDb;
