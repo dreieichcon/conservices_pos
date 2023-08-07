@@ -21,7 +21,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Innkeep.Server.Services;
+namespace Innkeep.DI;
 
 public static class ServerServiceManager
 {
@@ -32,6 +32,11 @@ public static class ServerServiceManager
 	
 	public static void ConfigureServerServices(IServiceCollection collection)
 	{
+		
+		#if RELEASE
+		using var context = InnkeepServerContext.Create(true)
+		#endif
+		
 		collection.AddDbContext<InnkeepServerContext>((_, builder) => builder.UseSqlite("Data Source=InnkeepServer.db"));
         
 		collection.AddSingleton<ITransactionRepository, TransactionRepository>();
