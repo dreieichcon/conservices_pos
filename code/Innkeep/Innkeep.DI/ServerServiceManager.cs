@@ -34,7 +34,7 @@ public static class ServerServiceManager
 	{
 		
 		#if RELEASE
-		using var context = InnkeepServerContext.Create(true)
+		using var context = InnkeepServerContext.Create(true);
 		#endif
 		
 		collection.AddDbContext<InnkeepServerContext>((_, builder) => builder.UseSqlite("Data Source=InnkeepServer.db"));
