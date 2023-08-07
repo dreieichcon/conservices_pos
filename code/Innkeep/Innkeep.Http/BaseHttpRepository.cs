@@ -3,7 +3,7 @@ using System.Net;
 using System.Text;
 using RestSharp;
 
-namespace Innkeep.Core.Core;
+namespace Innkeep.Http;
 
 public abstract class BaseHttpRepository
 {

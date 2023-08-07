@@ -7,7 +7,7 @@ using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Api.Pretix.Models.Internal;
 using Innkeep.Api.Pretix.Models.Objects;
 using Innkeep.Api.Pretix.Serialization;
-using Innkeep.Core.Core;
+using Innkeep.Http;
 using Serilog;
 
 namespace Innkeep.Api.Pretix.Repositories;

@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using Innkeep.Json;
 using Innkeep.Models.Transaction;
-using Innkeep.Server.Controllers.Converters;
 using Innkeep.Server.Services.Interfaces.Api;
 using Innkeep.Server.Services.Interfaces.Db;
 using Microsoft.AspNetCore.Mvc;

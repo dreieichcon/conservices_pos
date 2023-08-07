@@ -1,4 +1,4 @@
-﻿using Innkeep.Core.DomainModels.Dashboard;
+﻿
 using Innkeep.Server.Data.Models;
 using Innkeep.Models.Transaction;
 using Innkeep.Server.Data.Interfaces.Transactions;
@@ -37,28 +37,12 @@ public class CashFlowService : ICashFlowService
 		_cashFlowRepository.Create(cashFlow);
 	}
 
-	public List<RegisterCashInfo> GetCurrentCashState()
+	public IEnumerable<IGrouping<Register, CashFlow>> GetCashFlows()
 	{
-		if (_applicationSettingsService.ActiveSetting.SelectedEvent == null) return new List<RegisterCashInfo>();
-
 		var cashFlows = _cashFlowRepository
 						.GetAllCustom(x => x.Event.Slug == _applicationSettingsService.ActiveSetting.SelectedEvent.Slug)
 						.GroupBy(x => x.Register);
 
-		return GetCashInfo(cashFlows);
-	}
-
-	private List<RegisterCashInfo> GetCashInfo(IEnumerable<IGrouping<Register, CashFlow>> cashFlows)
-	{
-		return cashFlows.Select(
-							grouping => new RegisterCashInfo()
-							{
-								Register = grouping.Key,
-								Event = grouping.First().Event,
-								RegisterId = grouping.Key.DeviceId,
-								CashState = grouping.Sum(x => x.TotalMoney),
-							}
-						)
-						.ToList();
+		return cashFlows;
 	}
 }
