@@ -10,20 +10,25 @@ public class EventRepository : BaseRepository<Event>, IEventRepository
 {
 	public Event GetOrCreate(PretixEvent pretixEvent, Organizer organizer)
 	{
-		var db = InnkeepServerContext.Create();
+		var context = InnkeepServerContext.Create();
 		
 		var fromDb = GetCustom(x => x.Slug == pretixEvent.Slug);
 		if (fromDb is not null) return fromDb;
 
-		db.Attach(organizer);
-		var toDb = new Event()
+		context.Attach(organizer);
+		var item = new Event()
 		{
 			Organizer = organizer,
 			Name = pretixEvent.Name.German,
 			Slug = pretixEvent.Slug
 		};
 
-		Create(toDb, db);
+		var set = GetDbSetFromContext(context);
+
+		set.Add(item);
+
+		TrySave(context);
+		
 		return GetCustom(x => x.Slug == pretixEvent.Slug)!;
 	}
 }
