@@ -31,33 +31,33 @@ public class BaseRepository<T> where T : class
 		}
 	}
 
-	public T? Get(DbContext? db = null)
+	public T? Get()
 	{
-		db ??= InnkeepServerContext.Create();
+		using var db = InnkeepServerContext.Create();
 		return GetDbSetFromContext(db).FirstOrDefault();
 	}
 
-	public T? GetCustom(Func<T, bool> match, DbContext? db = null)
+	public T? GetCustom(Func<T, bool> match)
 	{
-		db ??= InnkeepServerContext.Create();
+		using var db = InnkeepServerContext.Create();
 		return GetDbSetFromContext(db).AsEnumerable().FirstOrDefault(match.Invoke);
 	}
 
-	public IEnumerable<T> GetAll(DbContext? db = null)
+	public IEnumerable<T> GetAll()
 	{
-		db ??= InnkeepServerContext.Create();
+		using var db = InnkeepServerContext.Create();
 		return GetDbSetFromContext(db).ToArray();
 	}
 
-	public IEnumerable<T> GetAllCustom(Func<T, bool> match, DbContext? db = null)
+	public IEnumerable<T> GetAllCustom(Func<T, bool> match)
 	{
-		db ??= InnkeepServerContext.Create();
+		using var db = InnkeepServerContext.Create();
 		return GetDbSetFromContext(db).AsEnumerable().Where(match.Invoke).ToArray();
 	}
 
-	public bool Update(T item, DbContext? db = null)
+	public bool Update(T item)
 	{
-		db ??= InnkeepServerContext.Create();
+		using var db = InnkeepServerContext.Create();
 
 		var set = GetDbSetFromContext(db);
 
@@ -66,9 +66,9 @@ public class BaseRepository<T> where T : class
 		return TrySave(db);
 	}
 
-	public bool Create(T item, DbContext? db = null)
+	public bool Create(T item)
 	{
-		db ??= InnkeepServerContext.Create();
+		using var db = InnkeepServerContext.Create();
 		var set = GetDbSetFromContext(db);
 
 		set.Add(item);
@@ -76,9 +76,9 @@ public class BaseRepository<T> where T : class
 		return TrySave(db);
 	}
 
-	public bool Delete(T item, DbContext? db = null)
+	public bool Delete(T item)
 	{
-		db ??= InnkeepServerContext.Create();
+		using var db = InnkeepServerContext.Create();
 		var set = GetDbSetFromContext(db);
 
 		set.Remove(item);
