@@ -53,14 +53,14 @@ Costs:
 
 
 ### TSE
-#### Swissbit TSE USB
-https://www.swissbit.com/de/produkte/security-produkte/swissbit-tse/pu-50n-tse/
+#### Fiskaly GmbH Cloud TSE
+[Fiskaly Website](https://www.fiskaly.com/)
 
-optional Middleware: https://www.tse-easy.de/index.php/tse
+Using Api: [SIGN DE API V2](https://developer.fiskaly.com/api/kassensichv/v2)
 
-Cost: 229,00€ => Central TSE Server to which all POS-Apps connect to
+There is a one time cost per activation and a monthly cost while activated, which is low enough for small organizations/clubs.
 
-TSE must be interchangeable, as it is locked to a specific company / association
+
 
 ## Hardware
 If possible: 19" Racks for easier transport. Initial Build: 1 Central Module and 1-2 POS Modules
