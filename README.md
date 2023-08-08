@@ -16,7 +16,7 @@ Which Tickets for which price should be sold is configured via the pretix websho
 Innkeep (logo see files)
 
 
-## Ressouces
+## Ressources
 ### Pretix API
 
 Documentation: https://docs.pretix.eu/en/latest/
@@ -92,7 +92,7 @@ If possible: 19" Racks for easier transport. Initial Build: 1 Central Module and
 #### 4-Color-Laser-Printer Module
 
 #### Badge-Printer-Module
-- Based arround Zebra / Entrust (formerly Datacard) or similar direct card printer
+- Based around Zebra / Entrust (formerly Datacard) or similar direct card printer
 
 
 ## Racks:
