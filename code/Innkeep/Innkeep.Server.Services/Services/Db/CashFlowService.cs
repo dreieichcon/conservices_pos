@@ -24,7 +24,7 @@ public class CashFlowService : ICashFlowService
 			new CashFlow()
 			{
 				TimeStamp = DateTime.Now,
-				Event = _applicationSettingsService.ActiveSetting.SelectedEvent,
+				Event = _applicationSettingsService.ActiveSetting.SelectedEvent!,
 				Register = register,
 				MoneyAdded = pretixTransaction.AmountGiven,
 				MoneyRemoved = Math.Abs(pretixTransaction.Return),
@@ -34,6 +34,7 @@ public class CashFlowService : ICashFlowService
 
 	public void CreateCashFlow(CashFlow cashFlow)
 	{
+		cashFlow.Event = _applicationSettingsService.ActiveSetting.SelectedEvent!;
 		_cashFlowRepository.Create(cashFlow);
 	}
 
