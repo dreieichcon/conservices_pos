@@ -10,6 +10,7 @@ using Innkeep.Client.Services.Interfaces.Server;
 using Innkeep.Core.Validation;
 using Innkeep.Endpoints.Server;
 using Innkeep.Http;
+using Innkeep.Json;
 using Innkeep.Models.Printer;
 using Innkeep.Models.Transaction;
 using Serilog;
@@ -162,7 +163,10 @@ public class ClientServerConnectionRepository : BaseHttpRepository, IClientServe
 			using var message = CreateGetMessage(endpoint);
 			var result = await ExecuteGetRequest(message);
 
-			return JsonSerializer.Deserialize<List<PretixSalesItem>>(FormatDecimals(result))!;
+			return JsonSerializer.Deserialize<List<PretixSalesItem>>(FormatDecimals(result), new JsonSerializerOptions()
+			{
+				Converters = { new DecimalJsonConverter() }
+			})!;
 		}
 		catch (Exception ex)
 		{

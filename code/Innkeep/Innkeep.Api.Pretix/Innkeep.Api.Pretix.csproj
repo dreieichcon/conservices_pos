@@ -16,6 +16,7 @@
       <ProjectReference Include="..\Innkeep.Core\Innkeep.Core.csproj" />
       <ProjectReference Include="..\Innkeep.Endpoints\Innkeep.Endpoints.csproj" />
       <ProjectReference Include="..\Innkeep.Http\Innkeep.Http.csproj" />
+      <ProjectReference Include="..\Innkeep.Json\Innkeep.Json.csproj" />
     </ItemGroup>
 
 </Project>
