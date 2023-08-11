@@ -12,7 +12,7 @@ public class EventRepository : BaseRepository<Event>, IEventRepository
 	{
 		var context = InnkeepServerContext.Create();
         
-		var fromDb = context.Events.Include(x => x.Organizer).FirstOrDefault(x => x.Slug == pretixEvent.Slug);
+		var fromDb = context.Events.FirstOrDefault(x => x.Slug == pretixEvent.Slug);
 		if (fromDb is not null) return fromDb;
 
 		context.Attach(organizer);
