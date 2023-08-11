@@ -8,6 +8,7 @@ using Innkeep.Api.Pretix.Models.Internal;
 using Innkeep.Api.Pretix.Models.Objects;
 using Innkeep.Api.Pretix.Serialization;
 using Innkeep.Http;
+using Innkeep.Json;
 using Serilog;
 
 namespace Innkeep.Api.Pretix.Repositories;
@@ -88,7 +89,10 @@ public class PretixRepository : BaseHttpRepository, IPretixRepository
 
 		var content = await ExecuteGetRequest(message);
 
-		var deserialized = JsonSerializer.Deserialize<PretixResponse<PretixSalesItem>>(content);
+		var deserialized = JsonSerializer.Deserialize<PretixResponse<PretixSalesItem>>(content, new JsonSerializerOptions()
+		{
+			Converters = { new DecimalJsonConverter() }
+		});
 
 		if (deserialized is null)
 		{

@@ -97,6 +97,15 @@ public class PretixService : IPretixService
 		if (SelectedOrganizer == null || SelectedEvent == null) return;
 
 		SalesItems = Task.Run(() => _pretixRepository.GetItems(SelectedOrganizer, SelectedEvent)).Result;
+
+		foreach (var salesItem in SalesItems)
+		{
+			if (salesItem.DefaultPrice > 100)
+			{
+				salesItem.DefaultPrice /= 100;
+			}
+		}
+		
 		ItemUpdated?.Invoke(nameof(SalesItems), EventArgs.Empty);
 	}
 
