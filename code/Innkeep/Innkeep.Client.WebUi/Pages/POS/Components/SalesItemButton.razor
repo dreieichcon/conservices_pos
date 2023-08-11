@@ -30,6 +30,7 @@
     public void AddToCart()
     {
         ShoppingCartService.Add(Item);
+        ShoppingCartService.Amount = 1;
         AmountKeypadService.ClearAmount();
     }
     

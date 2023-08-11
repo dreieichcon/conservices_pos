@@ -4,6 +4,7 @@ using Innkeep.Server.Data.Interfaces.Pretix;
 using Innkeep.Server.Data.Models;
 using Innkeep.Server.Services.Interfaces.Db;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Innkeep.Server.Services.Services.Db;
 
@@ -41,9 +42,14 @@ public class ApplicationSettingsService : IApplicationSettingsService
         Save();
     }
 
+    public void Reload()
+    {
+        Load();
+    }
+
     public void Save()
     {
-        _applicationSettingsRepository.Update(ActiveSetting);
+        _applicationSettingsRepository.SaveSetting(ActiveSetting);
         Load();
     }
     

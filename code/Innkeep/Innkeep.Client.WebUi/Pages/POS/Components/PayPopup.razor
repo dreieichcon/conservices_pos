@@ -4,10 +4,12 @@
 @using Innkeep.Client.Services.Interfaces.Transaction
 @using Innkeep.Client.Services.Interfaces.Ui
 @using Innkeep.Client.Services.Services.Ui
+@using Innkeep.Client.Services.Interfaces.Hardware
 @inherits PopupComponentBase
 @inject IShoppingCartService ShoppingCartService
 @inject IPopupService PopupService;
 @inject ITransactionService TransactionService;
+@inject IDisplayService DisplayService;
 
 <div class="fill-screen on-top center drop2" style="@VisibilityClass">
     <div class="popup-group">
@@ -41,10 +43,13 @@
         if (!pE.Hide)
         {
             TransactionService.Initialize();
+            DisplayService.ShowText($"Zu zahlen: {TransactionService.AmountDue} EUR");
             Show();
             return;
         }
         
+        DisplayService.ClearText();
+        DisplayService.ShowText("Willkommen beim Ratcon 2023");
         TransactionService.ClearTransaction();
         Cancel();
     }

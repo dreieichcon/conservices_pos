@@ -7,6 +7,7 @@
 @inject ISerialPortRepository SerialPortRepository
 @inject IPrintService PrintService
 @inject ISnackbar Snackbar
+@inject IDisplayService DisplayService
 
 <div class="d-flex flex-column justify-content-center align-content-center gap-4 flex-grow-1">
     <h3>Edit Client Settings</h3>
@@ -35,6 +36,19 @@
                 <MudSelectItem Value="@port"/>
             } 
         </MudSelect>
+    </div>
+    <div class="d-flex flex-row gap-2 flex-grow-1">
+        <MudSelect Label="Select Display COM" Variant="Variant.Outlined" @bind-Value="ClientSettingsService.Setting.DisplayComPort">
+            @foreach (var port in Ports)
+            {
+                <MudSelectItem Value="@port"/>
+            } 
+        </MudSelect>
+         <MudItem>
+            <MudTextField Label="Display Baud" @bind-Value="ClientSettingsService.Setting.DisplayBaudRate"></MudTextField>
+        </MudItem>
+        <MudButton Variant="Variant.Outlined" Color="Color.Primary" @onclick="TestDisplay">Test Display</MudButton>
+        <MudButton Variant="Variant.Outlined" Color="Color.Primary" @onclick="DisplayService.ClearText">Clear Display</MudButton>
     </div>
     <div class="d-flex flex-row gap-2 align-content-end flex-grow-1">
         <MudButton Variant="Variant.Outlined" Color="Color.Success" @onclick="Save">Save Settings</MudButton>
@@ -97,6 +111,11 @@
     {
         Ports = SerialPortRepository.GetPorts();
         base.OnInitialized();
+    }
+
+    private void TestDisplay()
+    {
+        DisplayService.TestDisplay();
     }
 
 }

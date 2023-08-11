@@ -11,4 +11,6 @@ public interface IApplicationSettingsService
 	public void UpdateSetting(PretixOrganizer pretixOrganizer, PretixEvent pretixEvent, string organizerInfo);
 
 	public void Save();
+
+	public void Reload();
 }

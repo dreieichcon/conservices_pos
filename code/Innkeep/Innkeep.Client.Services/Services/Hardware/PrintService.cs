@@ -3,6 +3,7 @@ using Innkeep.Client.Services.Interfaces.File;
 using Innkeep.Client.Services.Interfaces.Hardware;
 using Innkeep.Models.Printer;
 using Innkeep.Printer.Document;
+using Serilog;
 
 namespace Innkeep.Client.Services.Services.Hardware;
 
@@ -19,8 +20,13 @@ public class PrintService : IPrintService
 	
 	public void TestPage()
 	{
-		if (string.IsNullOrEmpty(_clientSettingsService.Setting.PrinterComPort)) return;
+		if (string.IsNullOrEmpty(_clientSettingsService.Setting.PrinterComPort))
+		{
+			Log.Debug("No Com Port in Settings - Aborting Print.");
+			return;
+		}
 
+		Log.Debug("Test Page Printing.");
 		var manager = new DocumentManager(_clientSettingsService.Setting.PrinterComPort);
 		manager.AddTitle("Test Page").Cut().Print();
 
