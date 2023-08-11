@@ -18,7 +18,7 @@ public class DisplayService : IDisplayService
 	{
 		var text = "Display Test INNKEEP";
 		var port = GetSerialPort();
-		port?.Write("\n");
+		port?.Write("\r\n");
 		port?.Write(text);
 		port?.Close();
 	}
@@ -26,7 +26,7 @@ public class DisplayService : IDisplayService
 	public void ShowText(string text)
 	{
 		var port = GetSerialPort();
-		port?.Write("\n");
+		port?.Write("\r\n");
 		port?.Write(text);
 		port?.Close();
 	}
@@ -34,7 +34,7 @@ public class DisplayService : IDisplayService
 	public void ClearText()
 	{
 		var port = GetSerialPort();
-		port?.Write("\n");
+		port?.Write("\r\n");
 		port?.Write(new string(' ', 20));
 		port?.Close();
 	}
