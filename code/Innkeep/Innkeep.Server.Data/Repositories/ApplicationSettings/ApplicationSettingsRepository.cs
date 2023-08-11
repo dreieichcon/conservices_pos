@@ -11,7 +11,7 @@ public class ApplicationSettingsRepository : BaseRepository<ApplicationSetting>,
 	{
 		using var db = InnkeepServerContext.Create();
 
-		var item = db.ApplicationSettings.FirstOrDefault();
+		var item = db.ApplicationSettings.Include(x => x.SelectedEvent).Include(x => x.SelectedOrganizer).FirstOrDefault();
 		if (item is not null) return item;
 		
 		Create(new ApplicationSetting());
@@ -28,6 +28,8 @@ public class ApplicationSettingsRepository : BaseRepository<ApplicationSetting>,
 		db.ChangeTracker.Clear();
 
 		db.Update(fromDb);
+		db.Attach(setting.SelectedOrganizer);
+		db.Attach(setting.SelectedEvent);
 
 		fromDb.OrganizerInfo = setting.OrganizerInfo;
 		fromDb.SelectedEvent = setting.SelectedEvent;
