@@ -17,24 +17,62 @@ public class DisplayService : IDisplayService
 	public void TestDisplay()
 	{
 		var text = "Display Test INNKEEP";
-		GetSerialPort().Write(text);
+		var port = GetSerialPort();
+		port?.Write(text);
+		port?.Close();
 	}
 
 	public void ShowText(string text)
 	{
-		GetSerialPort().Write(text);
+		var port = GetSerialPort();
+		port?.Write(text);
+		port?.Close();
 	}
 
 	public void ClearText()
 	{
-		GetSerialPort().Write(string.Empty);
+		var port = GetSerialPort();
+		port?.Write(string.Empty);
+		port?.Close();
 	}
 
-	private SerialPort GetSerialPort()
+	private SerialPort? GetSerialPort()
 	{
-		return new SerialPort(
-			_clientSettingsService.Setting.DisplayComPort,
-			_clientSettingsService.Setting.DisplayBaudRate
-		);
+		try
+		{
+			var port = new SerialPort(
+				_clientSettingsService.Setting.DisplayComPort,
+				_clientSettingsService.Setting.DisplayBaudRate
+			);
+
+			try
+			{
+				port.Open();
+				port.Write(string.Empty);
+				return port;
+			}
+			catch
+			{
+				port.Close();
+
+				try
+				{
+					port.Open();
+					port.Write(string.Empty);
+
+					return port;
+				}
+				catch
+				{
+					return null;
+				}
+			}
+		}
+		catch
+		{
+			return null;
+		}
+
+		return null;
 	}
 }
