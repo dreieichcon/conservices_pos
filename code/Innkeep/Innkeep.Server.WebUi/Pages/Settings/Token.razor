@@ -1,10 +1,13 @@
 ﻿@page "/Settings/Token"
 @using Innkeep.Core.DomainModels.Authentication
 @using Innkeep.Api.Pretix.Interfaces
+@using Innkeep.Server.Services.Interfaces.Api
+@using Innkeep.Server.Services.Services.Api
 
 @inject IAuthenticationService AuthenticationService
 @inject IPretixRepository PretixRepository
 @inject ISnackbar Snackbar
+@inject IPretixService PretixService
 
 <h3>Set the Pretix Token here</h3>
 
@@ -69,6 +72,7 @@
     {
         AuthenticationService.SaveAuthentication();
         AuthenticationService.ReadAuthentication();
+        PretixService.Reload();
         Snackbar.Add("Token Saved");
         Test();
         InvokeAsync(StateHasChanged);

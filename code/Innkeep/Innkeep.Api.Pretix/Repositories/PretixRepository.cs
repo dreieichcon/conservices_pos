@@ -101,7 +101,7 @@ public class PretixRepository : BaseHttpRepository, IPretixRepository
 			pretixSalesItem.Currency = pretixEvent.Currency;
 		}
 
-		return deserialized.Results;
+		return deserialized.Results.Where(x => x.SalesChannels.Contains("pretixpos"));
 	}
 
 	public async Task<PretixOrderResponse?> CreateOrder

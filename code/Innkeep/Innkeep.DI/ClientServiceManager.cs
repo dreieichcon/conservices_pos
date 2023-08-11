@@ -33,6 +33,7 @@ public static class ClientServiceManager
         
 		collection.AddSingleton<ISerialPortRepository, SerialPortRepository>();
 		collection.AddSingleton<IPrintService, PrintService>();
+		collection.AddSingleton<IDisplayService, DisplayService>();
 
 		collection.AddSingleton<IClientPretixRepository, ClientPretixRepository>();
 		collection.AddSingleton<IClientPretixService, ClientPretixService>();

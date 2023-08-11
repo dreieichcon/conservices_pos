@@ -5,4 +5,6 @@ namespace Innkeep.Server.Data.Interfaces.ApplicationSettings;
 public interface IApplicationSettingsRepository : IBaseRepository<ApplicationSetting>
 {
 	public ApplicationSetting GetSetting();
+
+	public bool SaveSetting(ApplicationSetting setting);
 }

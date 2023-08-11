@@ -29,7 +29,6 @@ public class InnkeepServerContext : DbContext
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		modelBuilder.Entity<Event>().Navigation(x => x.Organizer).AutoInclude();
 
 		modelBuilder.Entity<Transaction>().Navigation(x => x.Event).AutoInclude();
 		modelBuilder.Entity<Transaction>().Navigation(x => x.Organizer).AutoInclude();

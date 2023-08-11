@@ -69,6 +69,5 @@ public static class ServerServiceManager
 		collection.AddSingleton<IPretixService, PretixService>();
         
 		collection.AddSingleton<IServerTransactionService, ServerTransactionService>();
-		
 	}
 }

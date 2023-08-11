@@ -18,4 +18,21 @@ public class ApplicationSettingsRepository : BaseRepository<ApplicationSetting>,
 
 		return db.ApplicationSettings.Include(x => x.SelectedEvent).Include(x => x.SelectedOrganizer).FirstOrDefault()!;
 	}
+
+	public bool SaveSetting(ApplicationSetting setting)
+	{
+		using var db = InnkeepServerContext.Create();
+
+		var fromDb = db.ApplicationSettings.First();
+		
+		db.ChangeTracker.Clear();
+
+		db.Update(fromDb);
+
+		fromDb.OrganizerInfo = setting.OrganizerInfo;
+		fromDb.SelectedEvent = setting.SelectedEvent;
+		fromDb.SelectedOrganizer = setting.SelectedOrganizer;
+
+		return TrySave(db);
+	}
 }

@@ -7,4 +7,8 @@ public class ClientSetting
 	public string PrinterComPort { get; set; } = "";
 
 	public string CardReaderComPort { get; set; } = "";
+
+	public string DisplayComPort { get; set; } = "";
+
+	public int DisplayBaudRate { get; set; } = 9600;
 }
