@@ -5,9 +5,9 @@ namespace Innkeep.Server.Services.Interfaces.Db;
 
 public interface ICashFlowService
 {
-	public void CreateCashFlow(Register register, PretixTransaction transaction);
+	public void CreateTransactionCashFlow(Register register, PretixTransaction transaction);
 
-	public void CreateCashFlow(CashFlow cashFlow);
+	public Task CreateServerCashFlow(CashFlow cashFlow);
 
 	public IEnumerable<IGrouping<Register, CashFlow>> GetCashFlows();
 }

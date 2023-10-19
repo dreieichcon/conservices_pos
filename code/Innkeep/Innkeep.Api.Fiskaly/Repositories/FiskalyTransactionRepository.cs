@@ -27,7 +27,7 @@ public class FiskalyTransactionRepository : BaseHttpRepository, IFiskalyTransact
 						.WithTransaction(pretixTransaction.TransactionId.ToString())
 						.WithRevision("1").Build();
 
-		var requestModel = TransactionStartSerializer.CreateTransactionStart(pretixTransaction, _settingsService.ApiSettings.ClientId);
+		var requestModel = TransactionStartSerializer.CreateTransactionStart(_settingsService.ApiSettings.ClientId);
 		
 		var json = JsonSerializer.Serialize(requestModel, new JsonSerializerOptions()
 		{
@@ -51,6 +51,40 @@ public class FiskalyTransactionRepository : BaseHttpRepository, IFiskalyTransact
 
 		if (deserialized is not null) return deserialized;
 		Serilog.Log.Debug("Received null response for TransactionStart for {TransactionId}", pretixTransaction.TransactionId);
+		return null;
+	}
+
+	public async Task<TransactionResponseModel?> StartFromCashFlow(Guid transactionId)
+	{
+		var endpoint = new FiskalyTransactionEndpointBuilder()
+			.WithTss(_settingsService.ApiSettings.TseId)
+			.WithTransaction(transactionId.ToString())
+			.WithRevision("1").Build();
+
+		var requestModel = TransactionStartSerializer.CreateTransactionStart(_settingsService.ApiSettings.ClientId);
+		
+		var json = JsonSerializer.Serialize(requestModel, new JsonSerializerOptions()
+		{
+			Converters =
+			{
+				new JsonStringEnumConverter()
+			}
+		});
+		
+		var jsonContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+		var response = await ExecutePutRequest(endpoint, jsonContent);
+
+		var deserialized = JsonSerializer.Deserialize<TransactionResponseModel>(response, new JsonSerializerOptions()
+		{
+			Converters =
+			{
+				new JsonStringEnumConverter()
+			}
+		});
+
+		if (deserialized is not null) return deserialized;
+		Serilog.Log.Debug("Received null response for TransactionStart for {TransactionId}", transactionId);
 		return null;
 	}
 

@@ -53,7 +53,7 @@ public class ServerTransactionService : IServerTransactionService
 		};
 
 		_transactionRepository.Create(dbTransaction);
-		_cashFlowService.CreateCashFlow(register, pretixTransaction);
+		_cashFlowService.CreateTransactionCashFlow(register, pretixTransaction);
 
 		return ReceiptGenerator.Generate(
 			new TransactionServiceResult()
