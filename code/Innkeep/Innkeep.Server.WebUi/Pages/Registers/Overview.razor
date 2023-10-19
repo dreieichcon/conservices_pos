@@ -26,7 +26,7 @@
 
     private List<RegisterCashInfo> CashInfos { get; set; } = new();
 
-    private async void Edit(RegisterCashInfo cashInfo)
+    private async Task Edit(RegisterCashInfo cashInfo)
     {
         var cashFlow = new CashFlow()
         {
@@ -45,7 +45,7 @@
 
         if (result.Canceled) return;
         
-        CashFlowService.CreateCashFlow((CashFlow)result.Data);
+        await CashFlowService.CreateServerCashFlow((CashFlow)result.Data);
         
         Reload();
     }

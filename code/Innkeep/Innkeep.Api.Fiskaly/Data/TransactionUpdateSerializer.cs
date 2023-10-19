@@ -2,6 +2,7 @@
 using Innkeep.Api.Fiskaly.Models;
 using Innkeep.Api.Fiskaly.Models.Fiskaly;
 using Innkeep.Models.Transaction;
+using Innkeep.Server.Data.Models;
 
 namespace Innkeep.Api.Fiskaly.Data;
 
@@ -25,6 +26,41 @@ public static class TransactionUpdateSerializer
 							{
 								PaymentType = PaymentType.CASH,
 								DecimalAmount = transaction.Sum,
+							}
+						}
+					}
+				}
+			},
+			State = TransactionState.ACTIVE,
+			ClientId = clientId
+		};
+	}
+
+	public static TransactionUpdateRequestModel CreateFromCashFlow(string clientId, CashFlow cashFlow)
+	{
+		return new TransactionUpdateRequestModel()
+		{
+			Schema = new Schema()
+			{
+				StandardV1 = new StandardV1()
+				{
+					receipt = new Receipt()
+					{
+						ReceiptType = "TRANSFER",
+						AmountsPerVatRate = new List<AmountsPerVatRate>()
+						{
+							new()
+							{
+								VatRate = VatRate.NULL,
+								DecimalAmount = cashFlow.TotalMoney
+							}	
+						},
+						AmountsPerPaymentType = new List<AmountsPerPaymentType>()
+						{
+							new()
+							{
+								PaymentType = PaymentType.CASH,
+								DecimalAmount = cashFlow.TotalMoney,
 							}
 						}
 					}

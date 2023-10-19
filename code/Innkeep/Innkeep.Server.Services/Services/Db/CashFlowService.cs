@@ -2,6 +2,7 @@
 using Innkeep.Server.Data.Models;
 using Innkeep.Models.Transaction;
 using Innkeep.Server.Data.Interfaces.Transactions;
+using Innkeep.Server.Services.Interfaces.Api;
 using Innkeep.Server.Services.Interfaces.Db;
 
 namespace Innkeep.Server.Services.Services.Db;
@@ -10,15 +11,17 @@ public class CashFlowService : ICashFlowService
 {
 	private readonly ICashFlowRepository _cashFlowRepository;
 	private readonly IApplicationSettingsService _applicationSettingsService;
+	private readonly IFiskalyService _fiskalyService;
 
 	public CashFlowService
-		(ICashFlowRepository cashFlowRepository, IApplicationSettingsService applicationSettingsService)
+		(ICashFlowRepository cashFlowRepository, IApplicationSettingsService applicationSettingsService, IFiskalyService fiskalyService)
 	{
 		_cashFlowRepository = cashFlowRepository;
 		_applicationSettingsService = applicationSettingsService;
+		_fiskalyService = fiskalyService;
 	}
 	
-	public void CreateCashFlow(Register register, PretixTransaction pretixTransaction)
+	public void CreateTransactionCashFlow(Register register, PretixTransaction pretixTransaction)
 	{
 		_cashFlowRepository.Create(
 			new CashFlow()
@@ -32,9 +35,10 @@ public class CashFlowService : ICashFlowService
 		);
 	}
 
-	public void CreateCashFlow(CashFlow cashFlow)
+	public async Task CreateServerCashFlow(CashFlow cashFlow)
 	{
 		cashFlow.Event = _applicationSettingsService.ActiveSetting.SelectedEvent!;
+		await _fiskalyService.CreateCashFlow(cashFlow);
 		_cashFlowRepository.Create(cashFlow);
 	}
 
