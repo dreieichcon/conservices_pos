@@ -1,0 +1,34 @@
+@page "/Print"
+@using Innkeep.Client.Services.Interfaces.Hardware
+@using Innkeep.Models.Printer
+@inject IPrintService PrintService
+
+<MudPaper Class="w-100">
+    <MudStack Class="m-3" Spacing="5">
+        <h3>Print</h3>
+        <MudTextField @bind-Value="ToPrint" Lines="20">
+            
+        </MudTextField>
+        <MudButton @onclick="PrintContent" Color="Color.Success" Variant="Variant.Outlined">Print</MudButton>
+    </MudStack>
+</MudPaper>
+
+@code {
+
+    private string ToPrint { get; set; }
+
+    public void PrintContent()
+    {
+        var temp = PrintService.LastReceipt;
+        
+        PrintService.LastReceipt = new Receipt()
+        {
+            Lines = ToPrint.Split(Environment.NewLine).Select(x => new PrintInfo(x, LineType.Line)).ToList(),
+        };
+        
+        PrintService.Print();
+
+        PrintService.LastReceipt = temp;
+    }
+
+}
