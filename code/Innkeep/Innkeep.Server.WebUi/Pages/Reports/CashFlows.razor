@@ -2,7 +2,9 @@
 @using Innkeep.Server.Data.Models
 @using Innkeep.Server.Data.Interfaces.Transactions
 @using Innkeep.Server.Services.Interfaces.Db
+@using Innkeep.Server.Data.Interfaces.Register
 @inject ICashFlowRepository CashFlowRepository
+@inject IRegisterRepository RegisterRepository
 @inject IApplicationSettingsService ApplicationSettingsService
 
 <div class="d-flex flex-column gap-4">
@@ -51,7 +53,7 @@
         Items = CashFlowRepository
             .GetAllCustom(x => x.Event.Slug == ApplicationSettingsService.ActiveSetting.SelectedEvent.Slug);
 
-        Registers = Items.Select(x => x.Register).Distinct();
+        Registers = RegisterRepository.GetAll();
         
         base.OnInitialized();
     }

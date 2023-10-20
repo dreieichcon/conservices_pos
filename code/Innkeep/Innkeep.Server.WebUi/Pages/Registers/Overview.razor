@@ -4,7 +4,9 @@
 @using Innkeep.Server.WebUi.Models
 @using Innkeep.Server.WebUi.Popup
 @inject ICashFlowService CashFlowService
+@inject IRegisterService RegisterService
 @inject IDialogService DialogService
+@inject IApplicationSettingsService ApplicationSettingsService
 
 <div class="d-flex flex-grow-1 flex-column gap-4">
     <h3>Register Cash Overview</h3>
@@ -58,8 +60,24 @@
 
     private void Reload()
     {
-        
         CashInfos = RegisterCashInfo.GetCashInfo(CashFlowService.GetCashFlows());
+
+        var registers = RegisterService.CurrentRegisters;
+
+        foreach (var register in registers)
+        {
+            if (!CashInfos.Any(x => x.Register.Equals(register)))
+            {
+                CashInfos.Add(new RegisterCashInfo()
+                {
+                    CashState = 0,
+                    Event = ApplicationSettingsService.ActiveSetting.SelectedEvent!,
+                    Register = register,
+                    RegisterId = register.DeviceId
+                });
+            }
+        }
+        
         InvokeAsync(StateHasChanged);
     }
 }
