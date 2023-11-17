@@ -27,6 +27,7 @@
 
     <ItemGroup>
       <Folder Include="wwwroot\img\money\" />
+      <Folder Include="wwwroot\img\print\" />
     </ItemGroup>
 
 </Project>

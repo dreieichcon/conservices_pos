@@ -1,0 +1,62 @@
+﻿@using Innkeep.Api.Pretix.Models.Objects
+
+@if (Show)
+{
+    <MudStack Spacing="4">
+        <MudPaper Class="p-3" Style="background: red; opacity: 100%">
+            <MudText Typo="Typo.h1" Style="color:white; font-weight: bolder">
+                @Text
+            </MudText>
+        </MudPaper>
+        <MudPaper Class="p-5 animate__animated animate__flash" Style="background: red"></MudPaper> 
+    </MudStack>
+}
+
+@code {
+
+    private PeriodicTimer _timer = null!;
+    
+    private bool Show { get; set; }
+    
+    private string Text { get; set; }
+    
+    public async Task ShowError(PretixCheckinResponse response)
+    {
+        _timer = new PeriodicTimer(TimeSpan.FromSeconds(3));
+        Show = true;
+        Text = ParseResponse(response.Reason);
+        await InvokeAsync(StateHasChanged);
+        Task.Run(() => Run());
+    }
+
+    private string ParseResponse(string response)
+    {
+        return response switch
+        {
+            "invalid" => "Ungültiges Ticket!",
+            "unpaid" => "Unbezahltes Ticket!",
+            "blocked" => "Ticket gesperrt!",
+            "invalid_time" => "Checkin Ungültig!",
+            "canceled" => "Ticket storniert oder abgelaufen!",
+            "already_redeemed" => "Bereits eingelöst!",
+            "product" => "Ticket kann nicht gescannt werden.",
+            "rules" => "Checkin verhindert.",
+            "ambiguous" => "Zuordnung nicht möglich!",
+            "revoked" => "Ticket wurde Widerrufen.",
+            "error" => "Interner Fehler.",
+            _ => response,
+            };
+    }
+
+    private async Task Run()
+    {
+        while (await _timer.WaitForNextTickAsync())
+        {
+            Show = false;
+            Text = string.Empty;
+            await InvokeAsync(StateHasChanged);
+            _timer.Dispose();
+        }
+    }
+
+}

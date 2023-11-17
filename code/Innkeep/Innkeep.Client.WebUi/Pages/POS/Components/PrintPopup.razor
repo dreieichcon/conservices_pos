@@ -1,12 +1,17 @@
 ﻿@using Innkeep.Client.WebUi.Pages.Base;
 @using Innkeep.Client.Services.Interfaces.Ui
 @using Innkeep.Client.Services.Interfaces.Hardware
+@using Innkeep.Client.Services.Interfaces.Transaction
 @inherits PopupComponentBase
 @inject IPrintService PrintService
+@inject ITransactionService TransactionService
 @inject IPopupService PopupService;
 
 <div class="fill-screen on-top blurred center drop2" style="@VisibilityClass">
     <div class="popup-group">
+        <MudStack Row="true" Class="p-3" Justify="Justify.Center">
+            <MudText Typo="Typo.h2">Rück: @AmountBack.ToString("C")</MudText>
+        </MudStack>
         <div class="popup-title">
             Print Receipt?
         </div>
@@ -14,7 +19,7 @@
             <div class="button yes drop2 no-select" @onclick="Confirm">
                 Yes
             </div>
-             <div class="button no drop2 no-select" @onclick="Cancel">
+            <div class="button no drop2 no-select" @onclick="Cancel">
                 No
             </div>
         </div>
@@ -22,6 +27,8 @@
 </div>
 
 @code {
+
+    private decimal AmountBack => TransactionService.AmountBack;
 
     private string Name => nameof(PrintPopup);
 

@@ -10,12 +10,32 @@
             
         </MudTextField>
         <MudButton @onclick="PrintContent" Color="Color.Success" Variant="Variant.Outlined">Print</MudButton>
+        
+        <MudStack Row="true" Justify="Justify.Center" AlignItems="AlignItems.Center">
+            <MudSelect @bind-Value="CurrentFile">
+                <MudSelectItem Value="string.Empty">None</MudSelectItem>
+                @foreach (var file in Directory.GetFiles("./wwwroot/img/print"))
+                {
+                    <MudSelectItem Value="file">@file</MudSelectItem>
+                }
+            </MudSelect>
+            <MudButton @onclick="PrintImage" Variant="Variant.Outlined">Print Image</MudButton>
+        </MudStack>
+        
     </MudStack>
 </MudPaper>
 
 @code {
 
     private string ToPrint { get; set; }
+    
+    private string CurrentFile { get; set; }
+
+    public void PrintImage()
+    {
+       if (!string.IsNullOrEmpty(CurrentFile))
+           PrintService.PrintImage(CurrentFile);
+    }
 
     public void PrintContent()
     {

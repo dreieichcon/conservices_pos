@@ -14,11 +14,8 @@ public class PretixCheckin
 	public required string Type { get; set; }
 
 	[JsonPropertyName("lists")]
-	public IList<string> Lists => new List<string>()
-	{
-		"POS"
-	};
-	
+	public IList<int> Lists { get; set; }
+
 	[JsonPropertyName("force")]
 	public bool Force { get; set; }
 }

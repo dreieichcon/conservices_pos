@@ -57,12 +57,34 @@ public class DocumentManager
 		return this;
 	}
 
-	public DocumentManager AddImage(string path)
+	public DocumentManager AddImageFromStream(Stream imageStream)
 	{
-		Append(CreateImageArray(new Bitmap(path)));
+		Append(CreateImageArray(new Bitmap(imageStream)));
 		Append(LF);
 
 		return this;
+	}
+
+	public DocumentManager AddImage(string path)
+	{
+		
+		if (path.EndsWith(".bmp"))
+			Append(CreateImageArray(new Bitmap(path)));
+		
+		else
+			Append(CreateImageArray(ConvertToBitmap(path)));
+		Append(LF);
+
+		return this;
+	}
+
+	private Bitmap ConvertToBitmap(string path)
+	{
+		using var bmpStream = File.Open(path, FileMode.Open );
+
+		System.Drawing.Image image = System.Drawing.Image.FromStream(bmpStream);
+
+		return new Bitmap(image);
 	}
 
 	public DocumentManager Cut()

@@ -16,5 +16,9 @@ public interface IClientServerConnectionRepository
 
 	public Task<IEnumerable<PretixSalesItem>> GetSalesItems();
 
+	public Task<IEnumerable<PretixCheckinList>> GetCheckinLists();
+
+	public Task<PretixCheckinResponse?> SendCheckIn(PretixCheckin checkin);
+
 	public Task<Receipt?> SendTransaction(PretixTransaction transaction);
 }

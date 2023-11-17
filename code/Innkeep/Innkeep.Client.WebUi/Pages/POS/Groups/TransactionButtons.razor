@@ -35,7 +35,9 @@
         if (TransactionService.AmountGiven >= TransactionService.AmountDue)
             if (await TransactionService.CommitTransaction())
             {
-                PrintService.Drawer();
+                if (TransactionService.AmountDue != 0)
+                    PrintService.Drawer();
+                
                 PopupService.Show(nameof(PrintPopup));
                 Snackbar.Add("Transaction Completed", Severity.Success);
                 Clear();

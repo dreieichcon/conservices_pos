@@ -37,19 +37,23 @@ public static class ReceiptGenerator
 				.AddCenteredLine($"Order GUID: {result.Guid}")
 				.AddDivider();
 
-		/// TSE DATA
-		receipt.AddJustifiedLine("TSE-Anbieter:", "fiskaly GmbH")
-			.AddLine($"TSE-Signatur: {result.TseResult.Signature}")
-			.AddJustifiedLine("TSE-Erstbestellung:",$"{result.PretixTransaction.TransactionStart}")
-			.AddJustifiedLine("TSE-Transaktionsnummer:",$"{result.TseResult.TseTransactionNumber}")
-			.AddJustifiedLine("TSE-Start:", $"{result.TseResult.StartTime}")
-			.AddJustifiedLine("TSE-Finish:", $"{result.TseResult.EndTime}")
-			.AddJustifiedLine("TSE-Zeitformat:",$"{result.TseResult.TseTimestampFormat}")
-			.AddLine($"TSE-Seriennummer: {result.TseResult.TseSerialNumber}")
-			.AddJustifiedLine("TSE-Signaturcount:", $"{result.TseResult.SignatureCount}")
-			.AddJustifiedLine("TSE-Algorithmus:", $"{result.TseResult.HashAlgorithm}")
-			.AddLine($"TSE-PublicKey: {result.TseResult.PublicKey}")
-			.AddDivider();
+		if (result.TseResult is not null)
+		{
+			/// TSE DATA
+			receipt.AddJustifiedLine("TSE-Anbieter:", "fiskaly GmbH")
+					.AddLine($"TSE-Signatur: {result.TseResult.Signature}")
+					.AddJustifiedLine("TSE-Erstbestellung:",$"{result.PretixTransaction.TransactionStart}")
+					.AddJustifiedLine("TSE-Transaktionsnummer:",$"{result.TseResult.TseTransactionNumber}")
+					.AddJustifiedLine("TSE-Start:", $"{result.TseResult.StartTime}")
+					.AddJustifiedLine("TSE-Finish:", $"{result.TseResult.EndTime}")
+					.AddJustifiedLine("TSE-Zeitformat:",$"{result.TseResult.TseTimestampFormat}")
+					.AddLine($"TSE-Seriennummer: {result.TseResult.TseSerialNumber}")
+					.AddJustifiedLine("TSE-Signaturcount:", $"{result.TseResult.SignatureCount}")
+					.AddJustifiedLine("TSE-Algorithmus:", $"{result.TseResult.HashAlgorithm}")
+					.AddLine($"TSE-PublicKey: {result.TseResult.PublicKey}")
+					.AddDivider();
+		}
+		
 		
 		receipt.AddLine("Datum / Uhrzeit:")
 				.AddLine(DateTime.Now.ToString(CultureInfo.GetCultureInfoByIetfLanguageTag("de")));

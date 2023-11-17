@@ -19,6 +19,26 @@ public class PretixRequestController
 		_pretixService = pretixService;
 	}
 
+	[Route("Pretix/Organizer/CheckIn/{secret}")]
+	public IActionResult CheckIn()
+	{
+		return new OkObjectResult("Ok");
+	}
+	
+	[Route("Pretix/CheckinLists/{registerId}")]
+	public IActionResult GetCheckinLists([FromRoute] string registerId)
+	{
+		Log.Debug("Received Checkin List Request from Register: {RegisterId}", registerId);
+		if (_registerService.CurrentRegistersContains(registerId))
+		{
+			Log.Debug("Register {RegisterId} found in trusted clients, sending Checkin Lists", registerId);
+			return new OkObjectResult(JsonSerializer.Serialize(_pretixService.CheckinLists));
+		}
+
+		Log.Debug("Register {RegisterId} not trusted", registerId);
+		return new UnauthorizedResult();
+	}
+
 	[Route("Pretix/Organizer/{registerId}")]
 	public IActionResult GetOrganizer([FromRoute] string registerId)
 	{

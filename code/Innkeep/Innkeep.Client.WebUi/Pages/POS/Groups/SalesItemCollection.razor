@@ -8,7 +8,7 @@
         Items
     </div>
     <div class="sales">
-        @foreach (var item in ClientPretixService.SalesItems)
+        @foreach (var item in ClientPretixService.SalesItems.Where(x => x.SalesChannels.Contains("pretixpos")))
         {
             <SalesItemButton Item="@item"/>
         }

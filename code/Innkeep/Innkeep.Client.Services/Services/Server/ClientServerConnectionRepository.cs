@@ -175,6 +175,61 @@ public class ClientServerConnectionRepository : BaseHttpRepository, IClientServe
 		}
 	}
 
+	public async Task<IEnumerable<PretixCheckinList>> GetCheckinLists()
+	{
+		if (string.IsNullOrEmpty(_registerId))
+		{
+			throw new AuthenticationException("Register has not been connected to server.");
+		}
+		
+		var endpoint = new ServerEndpointBuilder(_clientSettingsService.Setting.ServerUri)
+						.WithPretix()
+						.WithEndpoint("CheckinLists")
+						.WithEndpoint(_networkHardwareService.GetMacAddress())
+						.Build();
+
+		try
+		{
+			using var message = CreateGetMessage(endpoint);
+			var result = await ExecuteGetRequest(message);
+
+			return JsonSerializer.Deserialize<List<PretixCheckinList>>(FormatDecimals(result), new JsonSerializerOptions()
+			{
+				Converters = { new DecimalJsonConverter() }
+			})!;
+		}
+		catch (Exception ex)
+		{
+			Log.Error("Failed while retrieving SalesItems: {Exception}", ex);
+			throw new AuthenticationException(ex.Message);
+		}
+	}
+
+	public async Task<PretixCheckinResponse?> SendCheckIn(PretixCheckin checkIn)
+	{
+		var endpoint = new ServerEndpointBuilder(_clientSettingsService.Setting.ServerUri)
+						.WithRegister()
+						.WithEndpoint("CheckIn")
+						.WithEndpoint(_networkHardwareService.GetMacAddress())
+						.Build();
+		
+		try
+		{
+			var json = JsonSerializer.Serialize(checkIn);
+			var jsonContent = new StringContent(json, Encoding.UTF8, "application/json");
+			
+			var result = await ExecutePostRequest(endpoint, jsonContent);
+
+			var deserialized = JsonSerializer.Deserialize<PretixCheckinResponse>(result);
+			return deserialized;
+		}
+		catch (Exception ex)
+		{
+			Log.Error("Failed while committing CheckIn: {Exception}", ex);
+			return null;
+		}
+	}
+
 	public async Task<Receipt?> SendTransaction(PretixTransaction transaction)
 	{
 		var endpoint = new ServerEndpointBuilder(_clientSettingsService.Setting.ServerUri)

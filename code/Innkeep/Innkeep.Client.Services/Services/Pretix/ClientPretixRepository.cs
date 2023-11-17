@@ -24,4 +24,9 @@ public class ClientPretixRepository : IClientPretixRepository
 	{
 		return await _clientServerConnectionRepository.GetSalesItems();
 	}
+
+	public async Task<IEnumerable<PretixCheckinList>> GetCheckinLists()
+	{
+		return await _clientServerConnectionRepository.GetCheckinLists();
+	}
 }

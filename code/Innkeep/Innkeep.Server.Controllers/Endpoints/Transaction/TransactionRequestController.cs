@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using Innkeep.Api.Pretix.Models.Objects;
 using Innkeep.Json;
 using Innkeep.Models.Transaction;
 using Innkeep.Server.Services.Interfaces.Api;
@@ -15,13 +16,51 @@ public class TransactionRequestController : ControllerBase
 {
 	private readonly IRegisterService _registerService;
 	private readonly IServerTransactionService _serverTransactionService;
+	private readonly IPretixService _pretixService;
 
 	public TransactionRequestController
-		(IRegisterService registerService, IServerTransactionService serverTransactionService)
+		(IRegisterService registerService, IServerTransactionService serverTransactionService, 
+		IPretixService pretixService)
 	{
 		Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 		_registerService = registerService;
 		_serverTransactionService = serverTransactionService;
+		_pretixService = pretixService;
+	}
+	
+	[Route("/Register/CheckIn/{registerId}")]
+	[HttpPost]
+	public async Task<IActionResult> CheckIn([FromRoute] string registerId)
+	{
+		Log.Debug("Received CheckIn Request from Register: {RegisterId}", registerId);
+
+		if (_registerService.CurrentRegistersContains(registerId, out var register))
+		{
+			Log.Debug("Register {RegisterId} found in trusted clients, accepting transaction", registerId);
+
+			var reader = new StreamReader(Request.Body);
+			var body = await reader.ReadToEndAsync();
+			var formatted = FormatDecimals(body);
+
+			var checkInItem = JsonSerializer.Deserialize<PretixCheckin>(
+				formatted,
+				new JsonSerializerOptions()
+				{
+					Converters =
+					{
+						new DecimalJsonConverter()
+					}
+				}
+			);
+
+			var response = await _pretixService.CheckIn(checkInItem);
+
+			return new JsonResult(response);
+		}
+
+		Log.Debug("Register {RegisterId} not trusted", registerId);
+
+		return new UnauthorizedResult();
 	}
 
 	[Route("/Register/Transaction/{registerId}")]

@@ -8,6 +8,8 @@ public interface IPretixRepository
     public Task<IEnumerable<PretixOrganizer>> GetOrganizers();
     public Task<IEnumerable<PretixEvent>> GetEvents(PretixOrganizer organizer);
     public Task<IEnumerable<PretixSalesItem>> GetItems(PretixOrganizer organizer, PretixEvent pretixEvent);
+	
+	public Task<IEnumerable<PretixCheckinList>> GetCheckinLists(PretixOrganizer organizer, PretixEvent pretixEvent);
 
 	public Task<PretixOrderResponse?> CreateOrder
 	(PretixOrganizer organizer,
@@ -15,6 +17,6 @@ public interface IPretixRepository
 	IEnumerable<PretixCartItem<PretixSalesItem>> cartItems,
 	bool isTest = false);
 	
-	public Task<bool> CheckIn(PretixOrganizer organizer, PretixOrderResponse orderResponse);
+	public Task<PretixCheckinResponse?> CheckIn(PretixOrganizer organizer, PretixCheckin pretixCheckin);
 
 }

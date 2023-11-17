@@ -9,4 +9,6 @@ public interface IClientPretixRepository
 	public Task<PretixEvent> GetEvent();
 
 	public Task<IEnumerable<PretixSalesItem>> GetSalesItems();
+
+	public Task<IEnumerable<PretixCheckinList>> GetCheckinLists();
 }

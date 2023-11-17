@@ -1,4 +1,5 @@
-﻿using Innkeep.Models.Printer;
+﻿using Innkeep.Api.Pretix.Models.Objects;
+using Innkeep.Models.Printer;
 using Innkeep.Models.Transaction;
 
 namespace Innkeep.Client.Services.Interfaces.Server;
@@ -11,4 +12,6 @@ public interface IClientServerConnectionService
 
 	public bool AutoDiscover(out Uri? uri);
 	public Task<Receipt?> SendTransaction(PretixTransaction transaction);
+
+	public Task<PretixCheckinResponse?> SendCheckIn(PretixCheckin checkin);
 }

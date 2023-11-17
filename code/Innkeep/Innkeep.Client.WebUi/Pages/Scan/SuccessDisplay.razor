@@ -1,0 +1,63 @@
+﻿@using Innkeep.Api.Pretix.Models.Objects
+
+@if (Show)
+{
+    <MudStack Spacing="4">
+        <MudPaper Class="p-3" Style="background: green; opacity: 100%">
+            <MudText Typo="Typo.h1" Style="color:white; font-weight: bolder">
+                Check In Ok
+            </MudText>
+        </MudPaper>
+        @if (ShowAttention)
+        {
+            <MudPaper Class="p-5 animate__animated animate__flash" Style="background: greenyellow">
+                <MudText Typo="Typo.h1" Style="font-weight: bolder">
+                    ACHTUNG!
+                </MudText>
+            </MudPaper> 
+        }
+        
+    </MudStack>
+}
+
+@code {
+
+    private PeriodicTimer _timer = null!;
+    
+    private bool Show { get; set; }
+    
+    private bool ShowAttention { get; set; }
+    
+    private string Text { get; set; }
+    
+    public async Task ShowSuccess(PretixCheckinResponse response)
+    {
+        _timer = new PeriodicTimer(TimeSpan.FromSeconds(3));
+        Show = true;
+        ShowAttention = response.RequireAttention;
+        Text = ParseResponse(response.Reason);
+        await InvokeAsync(StateHasChanged);
+        Task.Run(() => Run());
+    }
+
+    private string ParseResponse(string response)
+    {
+        return response switch
+        {
+            "already_redeemed" => "Bereits eingelöst",
+            _ => response,
+            };
+    }
+
+    private async Task Run()
+    {
+        while (await _timer.WaitForNextTickAsync())
+        {
+            Show = false;
+            Text = string.Empty;
+            await InvokeAsync(StateHasChanged);
+            _timer.Dispose();
+        }
+    }
+
+}

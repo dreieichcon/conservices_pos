@@ -14,8 +14,14 @@ public interface IPretixService
     public PretixEvent? SelectedEvent { get; set; }
 
     public IEnumerable<PretixSalesItem> SalesItems { get; set; }
+    
+    public List<string> SelectedCheckinLists { get; set; }
+
+    public IEnumerable<PretixCheckinList> CheckinLists { get; set; }
 
     public Task<PretixOrderResponse?> CreateOrder(PretixTransaction pretixTransaction);
+
+    public Task<PretixCheckinResponse?> CheckIn(PretixCheckin checkin);
 
     public void Reload();
 

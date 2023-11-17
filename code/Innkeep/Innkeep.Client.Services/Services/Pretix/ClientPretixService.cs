@@ -19,6 +19,7 @@ public class ClientPretixService : IClientPretixService
 		SelectedOrganizer = await _clientPretixRepository.GetOrganizer();
 		SelectedEvent = await _clientPretixRepository.GetEvent();
 		SalesItems = await _clientPretixRepository.GetSalesItems();
+		CheckinLists = await _clientPretixRepository.GetCheckinLists();
 	}
 	
 	public PretixOrganizer? SelectedOrganizer { get; set; }
@@ -26,6 +27,10 @@ public class ClientPretixService : IClientPretixService
 	public PretixEvent? SelectedEvent { get; set; }
 
 	public IEnumerable<PretixSalesItem> SalesItems { get; set; } = new List<PretixSalesItem>();
+
+	public IEnumerable<PretixCheckinList> CheckinLists { get; set; } = new List<PretixCheckinList>();
+	
+	public int SelectedCheckinList { get; set; }
 
 	public event EventHandler? ItemUpdated;
 }

@@ -1,0 +1,16 @@
+﻿.flash{
+    animation: flash 1s infinite;
+    background: red;
+}
+
+@keyframes flash{
+    0%{
+        background: white;
+    }
+    50%{
+        background: red;
+    }
+    100%{
+        background: white;
+    }
+}

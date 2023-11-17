@@ -41,10 +41,20 @@ public class PretixService : IPretixService
 		{
 			_selectedEvent = value;
 			LoadSalesItems();
+			LoadCheckinLists();
 		}
 	}
 
+	public List<string> SelectedCheckinLists { get; set; } = new();
+
+	public IEnumerable<PretixCheckinList> CheckinLists { get; set; } = new List<PretixCheckinList>(); 
+
 	public IEnumerable<PretixSalesItem> SalesItems { get; set; } = new List<PretixSalesItem>();
+
+	public async Task<PretixCheckinResponse?> CheckIn(PretixCheckin checkin)
+	{
+		return await _pretixRepository.CheckIn(SelectedOrganizer!, checkin);
+	}
 
 	public void Reload()
 	{
@@ -107,6 +117,15 @@ public class PretixService : IPretixService
 		}
 		
 		ItemUpdated?.Invoke(nameof(SalesItems), EventArgs.Empty);
+	}
+
+	private void LoadCheckinLists()
+	{
+		if (SelectedOrganizer == null || SelectedEvent == null) return;
+
+		CheckinLists = Task.Run(() => _pretixRepository.GetCheckinLists(SelectedOrganizer, SelectedEvent)).Result;
+		
+		ItemUpdated?.Invoke(nameof(CheckinLists), EventArgs.Empty);
 	}
 
 	public async Task<PretixOrderResponse?> CreateOrder(PretixTransaction pretixTransaction)

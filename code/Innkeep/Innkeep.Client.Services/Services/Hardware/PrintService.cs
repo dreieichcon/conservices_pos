@@ -34,8 +34,17 @@ public class PrintService : IPrintService
 
 	public void Drawer()
 	{
+		Log.Debug("OPENING DRAWER");
 		var manager = new DocumentManager(_clientSettingsService.Setting.PrinterComPort);
 		manager.Drawer();
+	}
+
+	public void PrintImage(string path)
+	{
+		var manager = new DocumentManager(_clientSettingsService.Setting.PrinterComPort);
+		manager.AddImage(path)
+				.Cut()
+				.Print();
 	}
 
 	public void Print()

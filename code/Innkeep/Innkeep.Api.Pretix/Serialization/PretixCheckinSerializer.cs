@@ -10,6 +10,11 @@ public static class PretixCheckinSerializer
 		return JsonSerializer.Serialize(GenerateCheckin(orderResponse));
 	}
 
+	public static string SerializeCheckin(PretixCheckin pretixCheckin)
+	{
+		return JsonSerializer.Serialize(pretixCheckin);
+	}
+
 	private static PretixCheckin GenerateCheckin(PretixOrderResponse orderResponse)
 	{
 		return new PretixCheckin()

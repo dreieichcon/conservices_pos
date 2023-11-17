@@ -33,7 +33,7 @@
 
     <ItemGroup>
       <Folder Include="Converters\" />
-      <Folder Include="Endpoints\" />
+      <Folder Include="Endpoints\CheckIn\" />
     </ItemGroup>
 
 </Project>

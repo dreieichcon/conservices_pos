@@ -11,6 +11,10 @@ public interface IClientPretixService
 	public PretixEvent? SelectedEvent { get; set; }
 	
 	public IEnumerable<PretixSalesItem> SalesItems { get; set; }
+	
+	public IEnumerable<PretixCheckinList> CheckinLists { get; set; }
+	
+	public int SelectedCheckinList { get; set; }
 
 	public event EventHandler ItemUpdated;
 }

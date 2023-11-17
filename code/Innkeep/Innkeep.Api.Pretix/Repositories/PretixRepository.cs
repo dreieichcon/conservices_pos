@@ -105,7 +105,33 @@ public class PretixRepository : BaseHttpRepository, IPretixRepository
 			pretixSalesItem.Currency = pretixEvent.Currency;
 		}
 
-		return deserialized.Results.Where(x => x.SalesChannels.Contains("pretixpos"));
+		return deserialized.Results;
+	}
+
+	public async Task<IEnumerable<PretixCheckinList>> GetCheckinLists(
+		PretixOrganizer organizer,
+		PretixEvent pretixEvent
+	)
+	{
+		using var message = new HttpRequestMessage(
+			HttpMethod.Get,
+			new PretixEndpointBuilder().WithOrganizer(organizer).WithEvent(pretixEvent).WithEndpoint("checkinlists").Build()
+		);
+
+		var content = await ExecuteGetRequest(message);
+		
+		var deserialized = JsonSerializer.Deserialize<PretixResponse<PretixCheckinList>>(content, new JsonSerializerOptions()
+		{
+			Converters = { new DecimalJsonConverter() }
+		});
+		
+		if (deserialized is null)
+		{
+			Log.Debug("Received null response for CheckinLists for {Organizer}, {Event}", organizer.Name, pretixEvent.Name);
+			return new List<PretixCheckinList>();
+		}
+
+		return deserialized.Results;
 	}
 
 	public async Task<PretixOrderResponse?> CreateOrder
@@ -133,22 +159,32 @@ public class PretixRepository : BaseHttpRepository, IPretixRepository
 		return null;
 	}
 
-	public async Task<bool> CheckIn(PretixOrganizer organizer, PretixOrderResponse orderResponse)
+	public async Task<PretixCheckinResponse?> CheckIn(PretixOrganizer organizer, PretixCheckin pretixCheckin)
 	{
 		var endpoint = new PretixEndpointBuilder().WithOrganizer(organizer)
 												.WithEndpoint("/checkinrpc/")
 												.WithEndpoint("/redeem/")
 												.Build();
 
-		var json = PretixCheckinSerializer.SerializeCheckin(orderResponse);
+		var json = PretixCheckinSerializer.SerializeCheckin(pretixCheckin);
 
 		var jsonContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-		var response = await ExecutePostRequest(endpoint, jsonContent);
+		string response;
+		
+		try
+		{
+			response = await ExecutePostRequest(endpoint, jsonContent);
+		}
+		catch (HttpRequestException e)
+		{
+			response = e.Message;
+		}
+		
 
-		var deserialized = JsonSerializer.Deserialize<PretixStatus>(response);
+		var deserialized = JsonSerializer.Deserialize<PretixCheckinResponse>(response);
 
-		return deserialized?.Status == "ok";
+		return deserialized;
 	}
 
 	protected override void PrepareGetHeaders(HttpRequestMessage message)

@@ -11,4 +11,6 @@ public interface IPrintService
 	void Print();
 
 	void Drawer();
+
+	public void PrintImage(string path);
 }

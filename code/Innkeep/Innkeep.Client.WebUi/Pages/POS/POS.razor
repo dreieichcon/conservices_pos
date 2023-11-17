@@ -1,10 +1,20 @@
 ﻿@page "/POS"
 @using Innkeep.Client.Services.Interfaces.Pretix
 @using Innkeep.Client.Services.Interfaces.Hardware
+@using Innkeep.Client.Services.Interfaces.Transaction
 @inject IClientPretixService ClientPretixService;
 @inject NavigationManager NavigationManager
 @inject INetworkHardwareService NetworkHardwareService
 @inject ISnackbar Snackbar
+@inject ITransactionService TransactionService
+
+@if (TransactionService.TestMode)
+{
+    <div class="testmode-overlay">
+        <MudText Typo="Typo.h1" Color="Color.Error" Style="font-weight: bold">REGISTER IN TEST MODE</MudText>
+    </div>
+}
+
 
 <div class="pos-main">
     <div class="pin-top">

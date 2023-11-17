@@ -1,9 +1,13 @@
 ﻿using System.Collections.ObjectModel;
+using Innkeep.Api.Pretix.Models.Objects;
 using Innkeep.Client.Services.Interfaces.Hardware;
 using Innkeep.Client.Services.Interfaces.Pretix;
 using Innkeep.Client.Services.Interfaces.Server;
 using Innkeep.Client.Services.Interfaces.Transaction;
+using Innkeep.Models.Printer;
 using Innkeep.Models.Transaction;
+using Innkeep.Server.Services.Models;
+using Innkeep.Server.Services.Util;
 
 namespace Innkeep.Client.Services.Services.Transaction;
 
@@ -14,9 +18,13 @@ public class TransactionService : ITransactionService
 	private readonly IClientServerConnectionService _clientServerConnectionService;
 	private readonly IPrintService _printService;
 
+	public bool TestMode { get; set; }
 	public decimal AmountDue { get; set; }
 	public decimal AmountGiven { get; set; }
 	public decimal AmountDueTax { get; set; }
+
+	public decimal AmountBack { get; set; }
+
 	public required string Currency { get; set; }
 
 	public DateTime TransactionStarted { get; set; }
@@ -64,9 +72,39 @@ public class TransactionService : ITransactionService
 
 	public async Task<bool> CommitTransaction()
 	{
+
+		AmountBack = AmountGiven - AmountDue;
+		
+		if (TestMode)
+		{
+			_printService.LastReceipt = ReceiptGenerator.Generate(
+				new TransactionServiceResult()
+				{
+					EventName = _clientPretixService.SelectedEvent!.Name.German,
+					RegisterId = "TEST KASSE",
+					OrganizerInfo = _clientPretixService.SelectedOrganizer!.Name,
+					PretixTransaction = new PretixTransaction()
+					{
+						AmountGiven = AmountGiven,
+						TransactionId = Guid.Empty,
+						TransactionItems = _shoppingCartService.Cart,
+					},
+					OrderResponse = new PretixOrderResponse()
+					{
+						Code = "TESTBUCHUNG",
+						Secret = "TESTBUCHUNG",
+					},
+					TseResult = null,
+					Guid = Guid.Empty,
+				}
+			);
+
+			return true;
+		}
+		
 		var transaction = new PretixTransaction(_shoppingCartService.Cart, AmountGiven, TransactionStarted)
 		{
-			TransactionId = Guid.NewGuid()
+			TransactionId = Guid.NewGuid(),
 		};
 
 		var result = await _clientServerConnectionService.SendTransaction(transaction);

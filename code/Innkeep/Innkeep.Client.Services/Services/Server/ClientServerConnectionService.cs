@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Sockets;
+using Innkeep.Api.Pretix.Models.Objects;
 using Innkeep.Client.Services.Interfaces.File;
 using Innkeep.Client.Services.Interfaces.Server;
 using Innkeep.Models.Printer;
@@ -48,6 +49,11 @@ public class ClientServerConnectionService : IClientServerConnectionService
 	public async Task<Receipt?> SendTransaction(PretixTransaction pretixTransaction)
 	{
 		return await _clientServerConnectionRepository.SendTransaction(pretixTransaction);
+	}
+
+	public async Task<PretixCheckinResponse?> SendCheckIn(PretixCheckin checkin)
+	{
+		return await _clientServerConnectionRepository.SendCheckIn(checkin);
 	}
 
 	private string GetCurrentIp()
