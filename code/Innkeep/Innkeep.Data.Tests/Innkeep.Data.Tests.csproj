@@ -20,7 +20,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Innkeep.DI\Innkeep.DI.csproj" />
-      <ProjectReference Include="..\Innkeep.Api.Pretix\Innkeep.Api.Pretix.csproj" />
+      <ProjectReference Include="..\Innkeep.Api.Pretix.Legacy\Innkeep.Api.Pretix.Legacy.csproj" />
     </ItemGroup>
 
 </Project>

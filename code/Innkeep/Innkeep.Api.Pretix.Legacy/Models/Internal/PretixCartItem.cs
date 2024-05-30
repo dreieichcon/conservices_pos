@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 using System.Text;
-using Innkeep.Api.Pretix.Models.Objects;
+using Innkeep.Api.Pretix.Legacy.Models.Objects;
 
-namespace Innkeep.Api.Pretix.Models.Internal;
+namespace Innkeep.Api.Pretix.Legacy.Models.Internal;
 
 public class PretixCartItem<T> where T : PretixSalesItem
 {

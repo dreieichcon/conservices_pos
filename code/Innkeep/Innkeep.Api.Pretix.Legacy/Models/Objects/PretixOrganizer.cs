@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json.Serialization;
 
-namespace Innkeep.Api.Pretix.Models.Objects;
+namespace Innkeep.Api.Pretix.Legacy.Models.Objects;
 
 public class PretixOrganizer
 {

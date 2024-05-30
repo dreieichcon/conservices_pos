@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using Innkeep.Api.Pretix.Models.Internal;
-using Innkeep.Api.Pretix.Models.Objects;
+using Innkeep.Api.Pretix.Legacy.Models.Internal;
+using Innkeep.Api.Pretix.Legacy.Models.Objects;
 
 namespace Innkeep.Client.Services.Interfaces.Transaction;
 

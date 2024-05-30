@@ -1,10 +1,8 @@
-﻿using Innkeep.Api.Pretix.Models.Objects;
+﻿using Innkeep.Api.Pretix.Legacy.Models.Objects;
 using Innkeep.Server.Data.Interfaces.ApplicationSettings;
 using Innkeep.Server.Data.Interfaces.Pretix;
 using Innkeep.Server.Data.Models;
 using Innkeep.Server.Services.Interfaces.Db;
-using Microsoft.EntityFrameworkCore;
-using Serilog;
 
 namespace Innkeep.Server.Services.Services.Db;
 

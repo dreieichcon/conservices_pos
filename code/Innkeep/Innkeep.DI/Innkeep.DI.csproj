@@ -21,7 +21,7 @@
       <ProjectReference Include="..\Innkeep.Printer\Innkeep.Printer.csproj" />
       <ProjectReference Include="..\Innkeep.Server.Controllers\Innkeep.Server.Controllers.csproj" />
       <ProjectReference Include="..\Innkeep.Server.Data\Innkeep.Server.Data.csproj" />
-      <ProjectReference Include="..\Innkeep.Api.Pretix\Innkeep.Api.Pretix.csproj" />
+      <ProjectReference Include="..\Innkeep.Api.Pretix.Legacy\Innkeep.Api.Pretix.Legacy.csproj" />
     </ItemGroup>
 
     <ItemGroup>

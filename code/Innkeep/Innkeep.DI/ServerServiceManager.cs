@@ -1,7 +1,7 @@
 ﻿using Innkeep.Api.Fiskaly.Interfaces;
 using Innkeep.Api.Fiskaly.Repositories;
-using Innkeep.Api.Pretix.Interfaces;
-using Innkeep.Api.Pretix.Repositories;
+using Innkeep.Api.Pretix.Legacy.Interfaces;
+using Innkeep.Api.Pretix.Legacy.Repositories;
 using Innkeep.Server.Data.Context;
 using Innkeep.Server.Data.Interfaces.ApplicationSettings;
 using Innkeep.Server.Data.Interfaces.Fiskaly;

@@ -1,4 +1,4 @@
-﻿using Innkeep.Api.Pretix.Interfaces;
+﻿using Innkeep.Api.Pretix.Legacy.Interfaces;
 using Innkeep.Core.DomainModels.Authentication;
 using Innkeep.Server.Data.Interfaces.ApplicationSettings;
 

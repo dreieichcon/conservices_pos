@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
-using Innkeep.Api.Pretix.Models.Objects;
+using Innkeep.Api.Pretix.Legacy.Models.Objects;
 
-namespace Innkeep.Api.Pretix.Serialization;
+namespace Innkeep.Api.Pretix.Legacy.Serialization;
 
 public static class PretixCheckinSerializer
 {

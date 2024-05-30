@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using Innkeep.Api.Pretix.Models.Objects;
+using Innkeep.Api.Pretix.Legacy.Models.Objects;
 using Innkeep.Json;
 using Innkeep.Models.Transaction;
 using Innkeep.Server.Services.Interfaces.Api;

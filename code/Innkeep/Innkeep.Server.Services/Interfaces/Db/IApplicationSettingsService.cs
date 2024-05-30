@@ -1,6 +1,5 @@
-﻿using Innkeep.Api.Pretix.Models.Objects;
+﻿using Innkeep.Api.Pretix.Legacy.Models.Objects;
 using Innkeep.Server.Data.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Innkeep.Server.Services.Interfaces.Db;
 

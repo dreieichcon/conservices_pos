@@ -1,8 +1,8 @@
 ﻿using System.Text.Json;
-using Innkeep.Api.Pretix.Models.Internal;
-using Innkeep.Api.Pretix.Models.Objects;
+using Innkeep.Api.Pretix.Legacy.Models.Internal;
+using Innkeep.Api.Pretix.Legacy.Models.Objects;
 
-namespace Innkeep.Api.Pretix.Serialization;
+namespace Innkeep.Api.Pretix.Legacy.Serialization;
 
 public static class PretixCartSerializer
 {
