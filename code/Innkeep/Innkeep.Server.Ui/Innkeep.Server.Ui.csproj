@@ -1,17 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
-        <TargetFramework>net8.0-windows</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <UseWpf>true</UseWpf>
-        <RootNamespace>Innkeep.Client.Ui</RootNamespace>
+        <RootNamespace>Innkeep.Server.Ui</RootNamespace>
     </PropertyGroup>
+    
+    <ItemGroup>
+        <SupportedPlatform Include="browser"/>
+    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="8.0.40" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.6" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.4"/>
         <PackageReference Include="MudBlazor" Version="6.19.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Modules\Registers\" />
     </ItemGroup>
 
 </Project>
