@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json;
 using Innkeep.Api.Auth;
 using Innkeep.Api.Core.Http;
+using Innkeep.Api.Json;
 using Innkeep.Api.Models.Pretix.Response;
 
 namespace Innkeep.Api.Pretix.Repositories.Core;
@@ -32,8 +33,19 @@ public class BasePretixRepository<T>(IPretixAuthenticationService authentication
 
 	protected override HttpContent CreatePutMessage(string content) => throw new NotImplementedException();
 
-	protected PretixResponse<T>? Deserialize(string content)
+	protected PretixResponse<T>? Deserialize(string? content)
 	{
-		return JsonSerializer.Deserialize<PretixResponse<T>>(content);
+		return content is null ? null : JsonSerializer.Deserialize<PretixResponse<T>>(content, GetOptions());
+	}
+
+	private static JsonSerializerOptions GetOptions()
+	{
+		return new JsonSerializerOptions()
+		{
+			Converters =
+			{
+				new PretixDecimalJsonConverter(),
+			},
+		};
 	}
 }
