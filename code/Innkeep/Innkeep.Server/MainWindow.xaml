@@ -3,10 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Innkeep.Server"
+        xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation/blazor"
+        xmlns:components="clr-namespace:Innkeep.Server.Ui.Components;assembly=Innkeep.Server.Ui"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        Title="Innkeep Server" Height="1080" Width="1920">
+    <wpf:BlazorWebView HostPage="wwwroot\index.html" Services="{DynamicResource services}">
+        <wpf:BlazorWebView.RootComponents>
+            <wpf:RootComponent Selector="#app" ComponentType="{x:Type components:ServerUi}"/>
+        </wpf:BlazorWebView.RootComponents>
+    </wpf:BlazorWebView>
 </Window>
