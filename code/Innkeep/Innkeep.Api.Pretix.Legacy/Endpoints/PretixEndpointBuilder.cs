@@ -1,7 +1,7 @@
-﻿using Innkeep.Api.Pretix.Models.Objects;
+﻿using Innkeep.Api.Pretix.Legacy.Models.Objects;
 using Innkeep.Endpoints.Base;
 
-namespace Innkeep.Api.Pretix.Endpoints;
+namespace Innkeep.Api.Pretix.Legacy.Endpoints;
 
 public class PretixEndpointBuilder : BaseEndpointBuilder
 {
