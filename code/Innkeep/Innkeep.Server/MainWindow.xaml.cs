@@ -8,6 +8,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Innkeep.Server.Db.Context;
+using Innkeep.Startup.Database;
+using Innkeep.Startup.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 
@@ -18,15 +22,10 @@ namespace Innkeep.Server;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    public MainWindow(IServiceProvider provider)
     {
         InitializeComponent();
         
-        var collection = new ServiceCollection();
-        collection.AddWpfBlazorWebView();
-        collection.AddBlazorWebViewDeveloperTools();
-        collection.AddMudServices();
-        
-        Resources.Add("services", collection.BuildServiceProvider());
+        Resources.Add("services", provider);
     }
 }
