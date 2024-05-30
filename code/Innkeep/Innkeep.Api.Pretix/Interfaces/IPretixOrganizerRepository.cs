@@ -1,6 +1,6 @@
-﻿using Innkeep.Api.Interfaces.Repository;
-using Innkeep.Api.Interfaces.Repository.Core;
-using Innkeep.Api.Models.Pretix;
+﻿using Innkeep.Api.Interfaces.Repository.Core;
+using Innkeep.Api.Models.Pretix.Objects;
+using Innkeep.Api.Models.Pretix.Objects.General;
 
 namespace Innkeep.Api.Pretix.Interfaces;
 

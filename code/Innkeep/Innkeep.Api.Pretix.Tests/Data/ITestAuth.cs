@@ -5,4 +5,8 @@ public interface ITestAuth
 	public string PretixTestToken { get; }
 	
 	public string PretixTestOrganizerSlug { get; }
+	
+	public string PretixTestEventSlug { get; }
+	
+	public string PretixTestItemName { get; }
 }
