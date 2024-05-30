@@ -3,7 +3,7 @@ using System.Security.Authentication;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using Innkeep.Api.Pretix.Models.Objects;
+using Innkeep.Api.Pretix.Legacy.Models.Objects;
 using Innkeep.Client.Services.Interfaces.File;
 using Innkeep.Client.Services.Interfaces.Hardware;
 using Innkeep.Client.Services.Interfaces.Server;

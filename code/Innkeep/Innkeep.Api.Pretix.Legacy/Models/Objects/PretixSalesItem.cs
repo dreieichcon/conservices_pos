@@ -1,10 +1,10 @@
 ﻿using System.Globalization;
 using System.Text;
 using System.Text.Json.Serialization;
-using Innkeep.Api.Pretix.Models.Base;
+using Innkeep.Api.Pretix.Legacy.Models.Base;
 using Innkeep.Core.Utilities;
 
-namespace Innkeep.Api.Pretix.Models.Objects;
+namespace Innkeep.Api.Pretix.Legacy.Models.Objects;
 
 public class PretixSalesItem
 {

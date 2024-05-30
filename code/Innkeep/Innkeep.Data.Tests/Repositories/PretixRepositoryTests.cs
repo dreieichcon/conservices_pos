@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
-using Innkeep.Api.Pretix.Interfaces;
-using Innkeep.Api.Pretix.Models.Internal;
-using Innkeep.Api.Pretix.Models.Objects;
+using Innkeep.Api.Pretix.Legacy.Interfaces;
+using Innkeep.Api.Pretix.Legacy.Models.Internal;
+using Innkeep.Api.Pretix.Legacy.Models.Objects;
 using Innkeep.DI;
 using Microsoft.Extensions.DependencyInjection;
 

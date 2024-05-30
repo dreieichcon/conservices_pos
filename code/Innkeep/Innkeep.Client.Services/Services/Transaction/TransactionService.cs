@@ -1,10 +1,9 @@
 ﻿using System.Collections.ObjectModel;
-using Innkeep.Api.Pretix.Models.Objects;
+using Innkeep.Api.Pretix.Legacy.Models.Objects;
 using Innkeep.Client.Services.Interfaces.Hardware;
 using Innkeep.Client.Services.Interfaces.Pretix;
 using Innkeep.Client.Services.Interfaces.Server;
 using Innkeep.Client.Services.Interfaces.Transaction;
-using Innkeep.Models.Printer;
 using Innkeep.Models.Transaction;
 using Innkeep.Server.Services.Models;
 using Innkeep.Server.Services.Util;

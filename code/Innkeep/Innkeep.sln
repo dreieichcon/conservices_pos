@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.DI", "Innkeep.DI\Innkeep.DI.csproj", "{F23C01D4-2370-46DF-BBE7-B0E39E26D729}"
 EndProject
@@ -26,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{5DB82360-52F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Server.Controllers", "Innkeep.Server.Controllers\Innkeep.Server.Controllers.csproj", "{85C58B80-B913-45B7-8EBB-9158F3F5812B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Api.Pretix", "Innkeep.Api.Pretix\Innkeep.Api.Pretix.csproj", "{CFBD32B8-34CF-45C8-9ADC-17C727E4E714}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Api.Pretix.Legacy", "Innkeep.Api.Pretix.Legacy\Innkeep.Api.Pretix.Legacy.csproj", "{CFBD32B8-34CF-45C8-9ADC-17C727E4E714}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{F0DC0218-6BDD-4BF8-869B-1D0574A10067}"
 EndProject

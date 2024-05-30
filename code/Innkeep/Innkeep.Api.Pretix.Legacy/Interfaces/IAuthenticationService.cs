@@ -1,6 +1,6 @@
 ﻿using Innkeep.Core.DomainModels.Authentication;
 
-namespace Innkeep.Api.Pretix.Interfaces;
+namespace Innkeep.Api.Pretix.Legacy.Interfaces;
 
 public interface IAuthenticationService
 {

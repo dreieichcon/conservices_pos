@@ -2,16 +2,16 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using Innkeep.Api.Pretix.Endpoints;
-using Innkeep.Api.Pretix.Interfaces;
-using Innkeep.Api.Pretix.Models.Internal;
-using Innkeep.Api.Pretix.Models.Objects;
-using Innkeep.Api.Pretix.Serialization;
+using Innkeep.Api.Pretix.Legacy.Endpoints;
+using Innkeep.Api.Pretix.Legacy.Interfaces;
+using Innkeep.Api.Pretix.Legacy.Models.Internal;
+using Innkeep.Api.Pretix.Legacy.Models.Objects;
+using Innkeep.Api.Pretix.Legacy.Serialization;
 using Innkeep.Http;
 using Innkeep.Json;
 using Serilog;
 
-namespace Innkeep.Api.Pretix.Repositories;
+namespace Innkeep.Api.Pretix.Legacy.Repositories;
 
 public class PretixRepository : BaseHttpRepository, IPretixRepository
 {

@@ -1,4 +1,4 @@
-﻿using Innkeep.Api.Pretix.Models.Objects;
+﻿using Innkeep.Api.Pretix.Legacy.Models.Objects;
 using Innkeep.Client.Services.Interfaces.Server;
 
 namespace Innkeep.Client.Services.Services.Pretix;
