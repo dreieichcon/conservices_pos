@@ -10,6 +10,8 @@ namespace Innkeep.Api.Pretix.Repositories.Core;
 
 public class BasePretixRepository<T>(IPretixAuthenticationService authenticationService) : BaseHttpRepository
 {
+	protected override async Task PrepareRequest() => await authenticationService.Load();
+
 	private string Token => authenticationService.AuthenticationInfo.PretixToken;
 	
 	protected override void InitializeGetHeaders(HttpRequestMessage message)

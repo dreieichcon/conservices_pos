@@ -5,9 +5,13 @@ namespace Innkeep.Api.Core.Http;
 
 public abstract partial class BaseHttpRepository
 {
+    protected abstract Task PrepareRequest();
+    
     private async Task<HttpResponseMessage> SendRequest(RequestType requestType, string uri, string content)
     {
         HttpResponseMessage response;
+
+        await PrepareRequest();
         
         switch (requestType)
         {

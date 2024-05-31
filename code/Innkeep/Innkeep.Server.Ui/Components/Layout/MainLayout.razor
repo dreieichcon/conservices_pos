@@ -1,21 +1,31 @@
-﻿@inherits LayoutComponentBase
+﻿@using Innkeep.Services.Interfaces
+@using Innkeep.Server.Db.Models
+@inherits LayoutComponentBase
 
 <MudDialogProvider/>
 <MudSnackbarProvider/>
-<MudThemeProvider IsDarkMode="true"/>
+<MudThemeProvider IsDarkMode="false"/>
+
+@inject IDbService<PretixConfig> PretixConfigService;
 
 <MudLayout>
     <MudAppBar Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudText Typo="Typo.h5" Class="ml-3">Innkeep Server</MudText>
+        <MudSpacer/>
+        <MudStack Row="true">
+            <MudText>Organizer: @PretixConfigService.CurrentItem.SelectedOrganizerName</MudText>
+            <MudText>Event: @PretixConfigService.CurrentItem.SelectedEventName</MudText>
+        </MudStack>
+        <MudSpacer/>
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
         <NavMenu/>
     </MudDrawer>
     <MudMainContent Class="d-flex">
-        <MudPaper Elevation="0" Class="vh-100 vw-100 mw-100 mh-100 overflow-hidden" Square="true">
+        <MudPaper Elevation="0" Class="vh-100 vw-100 mw-100 mh-100 overflow-hidden">
             <div class="h-100 w-100 mw-100 mh-100 d-flex flex-column overflow-hidden">
-                <div class="p-3 h-100 w-100 mw-100 mh-100 overflow-scroll">
+                <div class="d-flex p-3 h-100 w-100 mw-100 mh-100 overflow-scroll">
                     @Body
                 </div>
             </div>
@@ -24,6 +34,13 @@
 </MudLayout>
 
 @code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await PretixConfigService.Load();
+        PretixConfigService.ItemsUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
+    }
+
     bool _drawerOpen = true;
 
     void DrawerToggle()

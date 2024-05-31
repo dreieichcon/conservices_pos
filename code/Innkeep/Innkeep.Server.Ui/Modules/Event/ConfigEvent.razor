@@ -1,0 +1,26 @@
+﻿@page "/config/event"
+@using Innkeep.Api.Models.Pretix.Objects.General
+
+@inject ISnackbar Snackbar;
+
+<ConfigPage PageTitle="Configure Organizer and Event">
+    <ChildContent>
+        <MudStack Class="p-1 flex-grow-1" Justify="Justify.FlexStart">
+            <MudSelect T="PretixOrganizer" @bind-Value="@SelectedOrganizer" Variant="Variant.Outlined" Label="Select Organizer">
+                @foreach (var organizer in AvailableOrganizers)
+                {
+                    <MudSelectItem T="PretixOrganizer" Value="@organizer">@organizer.Name</MudSelectItem>
+                }
+            </MudSelect>
+            <MudSelect T="PretixEvent" @bind-Value="@SelectedEvent" Variant="Variant.Outlined" Label="Select Event">
+                @foreach (var evt in AvailableEvents)
+                {
+                    <MudSelectItem T="PretixEvent" Value="@evt">@evt.Name</MudSelectItem>
+                }
+            </MudSelect>
+        </MudStack>
+    </ChildContent>
+    <ActionBar>
+        <MudButton @onclick="Save" Variant="Variant.Outlined" Color="Color.Success">Save</MudButton>
+    </ActionBar>
+</ConfigPage>
