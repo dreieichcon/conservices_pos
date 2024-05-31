@@ -1,0 +1,32 @@
+﻿<MudStack Style="max-height: calc(100% - 3rem);" Class="flex-grow-1">
+    <MudPaper Class="p-2">
+        <MudStack Justify="Justify.Center" Class="flex-grow-1">
+            <MudText Typo="Typo.h5">@PageTitle</MudText>
+        </MudStack>
+    </MudPaper>
+    <MudPaper Class="d-flex flex-grow-1 p-2">
+        @ChildContent
+    </MudPaper>
+    @if (ActionBar is not null)
+    {
+        <MudPaper>
+            <MudStack Row="true" Justify="Justify.FlexEnd" Class="p-2">
+                @ActionBar
+            </MudStack>
+        </MudPaper>
+    }
+</MudStack>
+
+
+@code {
+
+    [Parameter]
+    public required string PageTitle { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment? ActionBar { get; set; }
+
+}

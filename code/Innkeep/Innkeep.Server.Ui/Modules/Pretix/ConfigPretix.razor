@@ -1,0 +1,56 @@
+﻿@page "/config/pretix"
+@using Innkeep.Services.Interfaces
+@using Innkeep.Server.Db.Models
+@using Innkeep.Api.Interfaces.Repository.Auth
+
+@inject IDbService<PretixConfig> PretixConfigService;
+@inject IPretixAuthRepository PretixAuthRepository;
+@inject ISnackbar Snackbar;
+
+<ConfigPage PageTitle="Pretix Config">
+    <ChildContent>
+        <MudStack Class="flex-grow-1">
+            <MudStack>
+                <MudTextField T="string" @bind-Text="@ConfigItem.PretixAccessToken" Label="Pretix Access Token" Variant="Variant.Outlined" InputType="InputType.Password"/>
+                <MudStack Row="true" Justify="Justify.FlexEnd">
+                    <MudButton Variant="Variant.Outlined" @onclick="Test">Test Connection</MudButton>
+                </MudStack>
+            </MudStack>
+        </MudStack>
+    </ChildContent>
+    <ActionBar>
+        <MudButton Color="Color.Success" Variant="Variant.Outlined" @onclick="Save">Save</MudButton>
+    </ActionBar>
+</ConfigPage>
+
+@code {
+
+    private PretixConfig? ConfigItem => PretixConfigService.CurrentItem;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await PretixConfigService.Load();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task Save()
+    {
+        var result = await PretixConfigService.Save();
+
+        if (result)
+            Snackbar.Add("Saved Successfully", Severity.Success);
+    }
+
+    private async Task Test()
+    {
+        var result = await PretixAuthRepository.Authenticate();
+
+        if (!result)
+            Snackbar.Add("Error authenticating. Please check your credentials.", Severity.Error);
+
+        else
+            Snackbar.Add("Authentication successful.", Severity.Success);
+    }
+
+}

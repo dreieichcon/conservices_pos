@@ -13,3 +13,7 @@ code/Innkeep/Innkeep.Client.WebUi/config.json
 code/Innkeep/Innkeep.Client.WebUi/esc_pos.temp
 
 **/TestAuth.cs
+
+*.db-shm
+
+*.db-wal
