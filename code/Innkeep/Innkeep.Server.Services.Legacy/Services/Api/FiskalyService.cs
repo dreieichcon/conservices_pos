@@ -3,11 +3,11 @@ using Innkeep.Api.Fiskaly.Enums;
 using Innkeep.Api.Fiskaly.Interfaces;
 using Innkeep.Models.Transaction;
 using Innkeep.Server.Data.Models;
-using Innkeep.Server.Services.Interfaces.Api;
-using Innkeep.Server.Services.Models;
-using Innkeep.Server.Services.Services.Db;
+using Innkeep.Server.Services.Legacy.Interfaces.Api;
+using Innkeep.Server.Services.Legacy.Models;
+using Innkeep.Server.Services.Legacy.Services.Db;
 
-namespace Innkeep.Server.Services.Services.Api;
+namespace Innkeep.Server.Services.Legacy.Services.Api;
 
 public class FiskalyService : IFiskalyService
 {

@@ -1,7 +1,7 @@
 ﻿using Innkeep.Api.Pretix.Legacy.Models.Objects;
 using Innkeep.Models.Transaction;
 
-namespace Innkeep.Server.Services.Models;
+namespace Innkeep.Server.Services.Legacy.Models;
 
 public class TransactionServiceResult
 {

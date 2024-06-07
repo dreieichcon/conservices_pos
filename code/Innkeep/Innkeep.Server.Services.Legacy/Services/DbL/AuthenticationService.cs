@@ -2,7 +2,7 @@
 using Innkeep.Core.DomainModels.Authentication;
 using Innkeep.Server.Data.Interfaces.ApplicationSettings;
 
-namespace Innkeep.Server.Services.Services.Db;
+namespace Innkeep.Server.Services.Legacy.Services.Db;
 
 public class AuthenticationService : IAuthenticationService
 {

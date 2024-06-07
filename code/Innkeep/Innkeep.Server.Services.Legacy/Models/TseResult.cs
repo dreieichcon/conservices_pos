@@ -1,4 +1,4 @@
-﻿namespace Innkeep.Server.Services.Models;
+﻿namespace Innkeep.Server.Services.Legacy.Models;
 
 public class TseResult
 {

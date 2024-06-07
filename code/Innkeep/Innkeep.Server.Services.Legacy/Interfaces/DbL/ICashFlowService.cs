@@ -1,7 +1,7 @@
 ﻿using Innkeep.Server.Data.Models;
 using Innkeep.Models.Transaction;
 
-namespace Innkeep.Server.Services.Interfaces.Db;
+namespace Innkeep.Server.Services.Legacy.Interfaces.Db;
 
 public interface ICashFlowService
 {

@@ -1,0 +1,33 @@
+﻿@page "/config/sales"
+<ConfigPage PageTitle="Sales Items">
+    <ChildContent>
+        <MudStack Wrap="Wrap.Wrap">
+            <MudText>Loaded Items:</MudText>
+            <MudGrid>
+                @foreach (var salesItem in SalesItems)
+                {
+                    <MudItem xs="4">
+                        <MudCard Class="p-1">
+                            <MudCardHeader>
+                                <MudText>@salesItem.Name</MudText>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudText>Price: @salesItem.Price @salesItem.Currency</MudText>
+                                <MudText>Tax: @salesItem.TaxRate %</MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </MudItem>
+                }
+            </MudGrid>
+        </MudStack>
+    </ChildContent>
+    <ActionBar>
+        <MudButton Variant="Variant.Outlined" Color="Color.Primary">Reload</MudButton>
+    </ActionBar>
+</ConfigPage>
+
+@code {
+
+    
+
+}

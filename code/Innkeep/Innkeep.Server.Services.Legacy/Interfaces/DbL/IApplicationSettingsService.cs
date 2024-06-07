@@ -1,7 +1,7 @@
 ﻿using Innkeep.Api.Pretix.Legacy.Models.Objects;
 using Innkeep.Server.Data.Models;
 
-namespace Innkeep.Server.Services.Interfaces.Db;
+namespace Innkeep.Server.Services.Legacy.Interfaces.Db;
 
 public interface IApplicationSettingsService
 {

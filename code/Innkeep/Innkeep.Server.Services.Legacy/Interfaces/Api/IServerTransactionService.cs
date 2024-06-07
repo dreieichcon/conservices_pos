@@ -2,7 +2,7 @@
 using Innkeep.Models.Transaction;
 using Innkeep.Server.Data.Models;
 
-namespace Innkeep.Server.Services.Interfaces.Api;
+namespace Innkeep.Server.Services.Legacy.Interfaces.Api;
 
 public interface IServerTransactionService
 {

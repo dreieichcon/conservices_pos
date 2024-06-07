@@ -62,8 +62,8 @@ public partial class ConfigEvent
 	protected override async Task OnInitializedAsync()
 	{
 		await PretixConfigService.Load();
+		
 		AvailableOrganizers = await PretixOrganizerRepository.GetOrganizers();
-
 		SelectedOrganizer = AvailableOrganizers.FirstOrDefault(x => x.Slug == ConfigItem?.SelectedOrganizerSlug);
 
 		await base.OnInitializedAsync();

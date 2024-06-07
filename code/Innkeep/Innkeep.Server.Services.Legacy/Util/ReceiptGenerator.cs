@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 using Innkeep.Models.Printer;
-using Innkeep.Server.Services.Models;
+using Innkeep.Server.Services.Legacy.Models;
 
-namespace Innkeep.Server.Services.Util;
+namespace Innkeep.Server.Services.Legacy.Util;
 
 public static class ReceiptGenerator
 {
