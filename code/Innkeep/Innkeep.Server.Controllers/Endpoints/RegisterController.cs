@@ -2,8 +2,10 @@
 
 namespace Innkeep.Server.Controllers.Endpoints;
 
+
 public class RegisterController : Controller
 {
+	[HttpGet]
 	[Route("register/discover")]
 	public IActionResult Discover()
 	{
