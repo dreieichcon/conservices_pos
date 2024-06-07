@@ -1,28 +1,33 @@
 ﻿using Innkeep.Startup.Services;
-using MudBlazor.Services;
 
 namespace Innkeep.Server.Startup;
 
 public static class KestrelBuilder
 {
-	public static WebApplication Build()
+	public static IHost Build()
 	{
-		var builder = WebApplication.CreateBuilder();
+		var builder = Host.CreateDefaultBuilder();
 
-		builder.Services.AddEndpointsApiExplorer();
-		
-		ServerServiceManager.ConfigureServices(builder.Services, true);
-		
-		builder.WebHost.ConfigureKestrel(
-			options => options.ListenAnyIP(1337, configure => configure.UseHttps()));
+		builder.ConfigureServices(
+			services =>
+			{
+				services.AddEndpointsApiExplorer();
+				ServerServiceManager.ConfigureServices(services, true);
+				WpfBuilder.ConfigureServices(services);
 
-		var app = builder.Build();
+				services.AddEndpointsApiExplorer();
+				services.AddSwaggerGen();
+			}
+		);
 
-		app.UseHttpsRedirection();
-		app.UseStaticFiles();
-		
-		app.MapControllers();
+		builder.ConfigureWebHostDefaults(
+			whb =>
+			{
+				whb.ConfigureKestrel(options => options.ListenAnyIP(1337, configure => configure.UseHttps()));
+				whb.UseStartup<KestrelStartup>();
+			}
+		);
 
-		return app;
+		return builder.Build();
 	}
 }

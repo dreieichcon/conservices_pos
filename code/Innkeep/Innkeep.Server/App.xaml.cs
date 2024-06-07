@@ -2,10 +2,7 @@
 using Innkeep.Server.Db.Context;
 using Innkeep.Server.Startup;
 using Innkeep.Startup.Database;
-using Innkeep.Startup.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using MudBlazor.Services;
 
 namespace Innkeep.Server;
 
@@ -19,14 +16,11 @@ public partial class App : Application
 	{
 		base.OnStartup(e);
 
-		var app = KestrelBuilder.Build();
-		var provider = WpfBuilder.Build();
+		var host = KestrelBuilder.Build();
 
-		DatabaseCreator.EnsureDbCreated(provider.GetRequiredService<IDbContextFactory<InnkeepServerContext>>());
+		DatabaseCreator.EnsureDbCreated(host.Services.GetRequiredService<IDbContextFactory<InnkeepServerContext>>());
 		
-		_ = app.RunAsync();
-		
-		var mainWindow = new MainWindow(provider);
+		var mainWindow = new MainWindow(host);
 		mainWindow.Show();
 	}
 }

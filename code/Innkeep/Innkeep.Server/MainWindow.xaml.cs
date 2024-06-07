@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 
 namespace Innkeep.Server;
 
@@ -7,10 +8,22 @@ namespace Innkeep.Server;
 /// </summary>
 public partial class MainWindow : Window
 {
-	public MainWindow(IServiceProvider provider)
+	private readonly IHost _host;
+	
+	public MainWindow(IHost host)
 	{
+		_host = host;
+		
 		InitializeComponent();
 
-		Resources.Add("services", provider);
+		Resources.Add("services", _host.Services);
+
+		_ = _host.StartAsync(CancellationToken.None);
+	}
+
+	protected override void OnClosing(CancelEventArgs e)
+	{
+		_host.Dispose();
+		base.OnClosing(e);
 	}
 }
