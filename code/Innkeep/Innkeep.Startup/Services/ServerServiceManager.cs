@@ -5,6 +5,7 @@ using Innkeep.Api.Pretix.Repositories.Auth;
 using Innkeep.Api.Pretix.Repositories.General;
 using Innkeep.Api.Pretix.Repositories.Sales;
 using Innkeep.Db.Interfaces;
+using Innkeep.Server.Controllers.Endpoints;
 using Innkeep.Server.Db.Context;
 using Innkeep.Server.Db.Models;
 using Innkeep.Server.Db.Repositories.Config;
@@ -20,13 +21,21 @@ namespace Innkeep.Startup.Services;
 
 public static class ServerServiceManager
 {
-	public static void ConfigureServices(IServiceCollection collection)
+	public static void ConfigureServices(IServiceCollection collection, bool isKestrel = false)
 	{
 		ConfigureDatabase(collection);
 		ConfigureDbRepositories(collection);
 		ConfigureDbServices(collection);
 		ConfigureHttpRepositories(collection);
 		ConfigureHttpServices(collection);
+		
+		if (isKestrel)
+			ConfigureControllers(collection);
+	}
+
+	private static void ConfigureControllers(IServiceCollection collection)
+	{
+		collection.AddControllers().AddApplicationPart(typeof(RegisterController).Assembly);
 	}
 
 	private static void ConfigureDatabase(IServiceCollection collection)

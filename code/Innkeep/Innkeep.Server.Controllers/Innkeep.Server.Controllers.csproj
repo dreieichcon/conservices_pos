@@ -1,39 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>Innkeep.Server.Controllers</RootNamespace>
+        <OutputType>Library</OutputType>
     </PropertyGroup>
-
-    <ItemGroup>
-      <Reference Include="Innkeep.Server.Services">
-        <HintPath>..\Innkeep.Client.WebUi\bin\Debug\net7.0\Innkeep.Server.Services.dll</HintPath>
-      </Reference>
-      <Reference Include="Microsoft.AspNetCore.Http.Abstractions" />
-      <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions">
-        <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\7.0.7\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
-      </Reference>
-      <Reference Include="Microsoft.AspNetCore.Mvc.Core">
-        <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\7.0.7\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
-      </Reference>
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Innkeep.Core\Innkeep.Core.csproj" />
-      <ProjectReference Include="..\Innkeep.Server.Data\Innkeep.Server.Data.csproj" />
-      <ProjectReference Include="..\Innkeep.Server.Services.Legacy\Innkeep.Server.Services.Legacy.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-      <PackageReference Include="Serilog" Version="3.0.1" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Converters\" />
-      <Folder Include="Endpoints\CheckIn\" />
-    </ItemGroup>
 
 </Project>
