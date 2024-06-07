@@ -4,8 +4,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{385CCCCE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Core", "Innkeep.Core\Innkeep.Core.csproj", "{F4AFE62B-6D3C-40CD-A191-EFEA3E326826}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebUi", "WebUi", "{EF1BD89A-0099-4550-94E6-7946D358EDA4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Printer", "Innkeep.Printer\Innkeep.Printer.csproj", "{4772204C-5C27-474D-9463-F15408BDD92B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Printer.Tests", "Innkeep.Printer.Tests\Innkeep.Printer.Tests.csproj", "{EE4F940C-4AC1-49BE-AB71-2D477860A406}"
@@ -16,7 +14,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Server.Data", "Innk
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{5DB82360-52FE-44E4-977C-58D64C4304EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Server.Controllers", "Innkeep.Server.Controllers\Innkeep.Server.Controllers.csproj", "{85C58B80-B913-45B7-8EBB-9158F3F5812B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Server.Controllers.Legacy", "Innkeep.Server.Controllers.Legacy\Innkeep.Server.Controllers.Legacy.csproj", "{85C58B80-B913-45B7-8EBB-9158F3F5812B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Api.Pretix.Legacy", "Innkeep.Api.Pretix.Legacy\Innkeep.Api.Pretix.Legacy.csproj", "{CFBD32B8-34CF-45C8-9ADC-17C727E4E714}"
 EndProject
@@ -77,6 +75,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Services", "Innkeep.Services\Innkeep.Services.csproj", "{3C0E18DA-B504-4D00-ABE2-A8168F39C7F6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Server.Services", "Innkeep.Server.Services\Innkeep.Server.Services.csproj", "{739EC107-1F59-460A-BFB7-94BB1F136CE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Server.Controllers", "Innkeep.Server.Controllers\Innkeep.Server.Controllers.csproj", "{705ADCC0-B0F0-41C6-A3D3-DC565F019A70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{128FDF40-21B9-4F66-83FF-46F905355CA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -190,6 +192,14 @@ Global
 		{739EC107-1F59-460A-BFB7-94BB1F136CE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{739EC107-1F59-460A-BFB7-94BB1F136CE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{739EC107-1F59-460A-BFB7-94BB1F136CE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{705ADCC0-B0F0-41C6-A3D3-DC565F019A70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{705ADCC0-B0F0-41C6-A3D3-DC565F019A70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{705ADCC0-B0F0-41C6-A3D3-DC565F019A70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{705ADCC0-B0F0-41C6-A3D3-DC565F019A70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{128FDF40-21B9-4F66-83FF-46F905355CA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{128FDF40-21B9-4F66-83FF-46F905355CA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{128FDF40-21B9-4F66-83FF-46F905355CA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{128FDF40-21B9-4F66-83FF-46F905355CA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EE4F940C-4AC1-49BE-AB71-2D477860A406} = {385CCCCE-639D-431D-8CAF-0BCE68129303}
@@ -218,5 +228,7 @@ Global
 		{41236896-0695-4C6B-AC12-77697815915B} = {3C298AA5-E5C7-443E-A995-A9871F5E2A0F}
 		{3C0E18DA-B504-4D00-ABE2-A8168F39C7F6} = {F0DC0218-6BDD-4BF8-869B-1D0574A10067}
 		{739EC107-1F59-460A-BFB7-94BB1F136CE2} = {F0DC0218-6BDD-4BF8-869B-1D0574A10067}
+		{705ADCC0-B0F0-41C6-A3D3-DC565F019A70} = {5440EE94-6503-4B77-B3F3-0883F3989121}
+		{128FDF40-21B9-4F66-83FF-46F905355CA1} = {BB97250B-9758-4AB2-A4D6-3C539A46C16B}
 	EndGlobalSection
 EndGlobal

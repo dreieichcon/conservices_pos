@@ -5,7 +5,7 @@ using Innkeep.Server.Services.Legacy.Interfaces.Db;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
-namespace Innkeep.Server.Controllers.Endpoints.Pretix;
+namespace Innkeep.Server.Controllers.Legacy.Endpoints.Pretix;
 
 public class PretixRequestController
 {

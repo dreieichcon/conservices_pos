@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Innkeep.Server.Db.Context;
+using Innkeep.Server.Startup;
 using Innkeep.Startup.Database;
 using Innkeep.Startup.Services;
 using Microsoft.EntityFrameworkCore;
@@ -13,21 +14,18 @@ namespace Innkeep.Server;
 /// </summary>
 public partial class App : Application
 {
+	
 	protected override void OnStartup(StartupEventArgs e)
 	{
 		base.OnStartup(e);
-		
-		var collection = new ServiceCollection();
-		collection.AddWpfBlazorWebView();
-		collection.AddBlazorWebViewDeveloperTools();
-		collection.AddMudServices();
-        
-		ServerServiceManager.ConfigureServices(collection);
 
-		var provider = collection.BuildServiceProvider();
-        
+		var app = KestrelBuilder.Build();
+		var provider = WpfBuilder.Build();
+
 		DatabaseCreator.EnsureDbCreated(provider.GetRequiredService<IDbContextFactory<InnkeepServerContext>>());
-
+		
+		_ = app.RunAsync();
+		
 		var mainWindow = new MainWindow(provider);
 		mainWindow.Show();
 	}

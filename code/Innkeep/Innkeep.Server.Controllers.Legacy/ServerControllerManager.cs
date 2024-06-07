@@ -1,10 +1,10 @@
-﻿using Innkeep.Server.Controllers.Endpoints.Pretix;
-using Innkeep.Server.Controllers.Endpoints.Register;
-using Innkeep.Server.Controllers.Endpoints.Transaction;
+﻿using Innkeep.Server.Controllers.Legacy.Endpoints.Pretix;
+using Innkeep.Server.Controllers.Legacy.Endpoints.Register;
+using Innkeep.Server.Controllers.Legacy.Endpoints.Transaction;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Innkeep.Server.Controllers;
+namespace Innkeep.Server.Controllers.Legacy;
 
 public class ServerControllerManager
 {

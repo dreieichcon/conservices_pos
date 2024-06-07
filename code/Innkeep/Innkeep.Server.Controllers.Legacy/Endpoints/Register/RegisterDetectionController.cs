@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
-namespace Innkeep.Server.Controllers.Endpoints.Register;
+namespace Innkeep.Server.Controllers.Legacy.Endpoints.Register;
 
 public class RegisterDetectionController
 {
