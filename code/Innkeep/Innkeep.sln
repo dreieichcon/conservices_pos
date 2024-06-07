@@ -30,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controllers", "Controllers"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Endpoints", "Innkeep.Endpoints\Innkeep.Endpoints.csproj", "{A41FAFA9-FF38-423F-9E8F-09F7289A6151}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Server.Services", "Innkeep.Server.Services\Innkeep.Server.Services.csproj", "{69186A00-E4C7-47C0-A991-74A228741489}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Server.Services.Legacy", "Innkeep.Server.Services.Legacy\Innkeep.Server.Services.Legacy.csproj", "{69186A00-E4C7-47C0-A991-74A228741489}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{BDB8839F-9570-4B16-9422-904F1B470357}"
 EndProject
@@ -75,6 +75,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Startup", "Innkeep.Startup\Innkeep.Startup.csproj", "{41236896-0695-4C6B-AC12-77697815915B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Services", "Innkeep.Services\Innkeep.Services.csproj", "{3C0E18DA-B504-4D00-ABE2-A8168F39C7F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Server.Services", "Innkeep.Server.Services\Innkeep.Server.Services.csproj", "{739EC107-1F59-460A-BFB7-94BB1F136CE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -184,6 +186,10 @@ Global
 		{3C0E18DA-B504-4D00-ABE2-A8168F39C7F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C0E18DA-B504-4D00-ABE2-A8168F39C7F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C0E18DA-B504-4D00-ABE2-A8168F39C7F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{739EC107-1F59-460A-BFB7-94BB1F136CE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{739EC107-1F59-460A-BFB7-94BB1F136CE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{739EC107-1F59-460A-BFB7-94BB1F136CE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{739EC107-1F59-460A-BFB7-94BB1F136CE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EE4F940C-4AC1-49BE-AB71-2D477860A406} = {385CCCCE-639D-431D-8CAF-0BCE68129303}
@@ -211,5 +217,6 @@ Global
 		{514E0240-9EF8-40B9-9ACC-51A6DD571BDE} = {64D4538E-D9F3-4119-910A-1908DE63615D}
 		{41236896-0695-4C6B-AC12-77697815915B} = {3C298AA5-E5C7-443E-A995-A9871F5E2A0F}
 		{3C0E18DA-B504-4D00-ABE2-A8168F39C7F6} = {F0DC0218-6BDD-4BF8-869B-1D0574A10067}
+		{739EC107-1F59-460A-BFB7-94BB1F136CE2} = {F0DC0218-6BDD-4BF8-869B-1D0574A10067}
 	EndGlobalSection
 EndGlobal

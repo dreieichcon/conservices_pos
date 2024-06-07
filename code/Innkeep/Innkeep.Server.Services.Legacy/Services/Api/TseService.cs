@@ -1,8 +1,8 @@
 ﻿using Innkeep.Models.Transaction;
-using Innkeep.Server.Services.Interfaces.Api;
-using Innkeep.Server.Services.Models;
+using Innkeep.Server.Services.Legacy.Interfaces.Api;
+using Innkeep.Server.Services.Legacy.Models;
 
-namespace Innkeep.Server.Services.Services.Api;
+namespace Innkeep.Server.Services.Legacy.Services.Api;
 
 public class TseService : ITseService
 {

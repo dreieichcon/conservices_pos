@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.Json;
-using Innkeep.Server.Services.Interfaces.Api;
-using Innkeep.Server.Services.Interfaces.Db;
+using Innkeep.Server.Services.Legacy.Interfaces.Api;
+using Innkeep.Server.Services.Legacy.Interfaces.Db;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 

@@ -2,10 +2,10 @@
 using Innkeep.Server.Data.Models;
 using Innkeep.Models.Transaction;
 using Innkeep.Server.Data.Interfaces.Transactions;
-using Innkeep.Server.Services.Interfaces.Api;
-using Innkeep.Server.Services.Interfaces.Db;
+using Innkeep.Server.Services.Legacy.Interfaces.Api;
+using Innkeep.Server.Services.Legacy.Interfaces.Db;
 
-namespace Innkeep.Server.Services.Services.Db;
+namespace Innkeep.Server.Services.Legacy.Services.Db;
 
 public class CashFlowService : ICashFlowService
 {

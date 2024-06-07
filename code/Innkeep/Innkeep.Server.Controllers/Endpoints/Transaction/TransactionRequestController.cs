@@ -4,8 +4,8 @@ using System.Text.RegularExpressions;
 using Innkeep.Api.Pretix.Legacy.Models.Objects;
 using Innkeep.Json;
 using Innkeep.Models.Transaction;
-using Innkeep.Server.Services.Interfaces.Api;
-using Innkeep.Server.Services.Interfaces.Db;
+using Innkeep.Server.Services.Legacy.Interfaces.Api;
+using Innkeep.Server.Services.Legacy.Interfaces.Db;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 

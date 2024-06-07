@@ -1,8 +1,8 @@
 ﻿using Innkeep.Models.Transaction;
 using Innkeep.Server.Data.Models;
-using Innkeep.Server.Services.Models;
+using Innkeep.Server.Services.Legacy.Models;
 
-namespace Innkeep.Server.Services.Interfaces.Api;
+namespace Innkeep.Server.Services.Legacy.Interfaces.Api;
 
 public interface IFiskalyService
 {

@@ -40,18 +40,8 @@ public class PretixSalesItem
 
     [JsonPropertyName("free_price")]
     public bool IsFreePrice { get; set; }
-
-    [JsonPropertyName("tax_rate")]
-    public string TaxRateString { 
-        get => TaxRate.ToString(CultureInfo.InvariantCulture);
-        set
-        {
-            if (decimal.TryParse(value, out var price))
-                TaxRate = price;
-        } 
-    }
     
-    [JsonIgnore]
+    [JsonPropertyName("tax_rate")]
     public decimal TaxRate { get; set; }
     
     [JsonPropertyName("tax_rule")]

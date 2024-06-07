@@ -2,9 +2,9 @@
 using Innkeep.Server.Data.Interfaces.ApplicationSettings;
 using Innkeep.Server.Data.Interfaces.Pretix;
 using Innkeep.Server.Data.Models;
-using Innkeep.Server.Services.Interfaces.Db;
+using Innkeep.Server.Services.Legacy.Interfaces.Db;
 
-namespace Innkeep.Server.Services.Services.Db;
+namespace Innkeep.Server.Services.Legacy.Services.Db;
 
 public class ApplicationSettingsService : IApplicationSettingsService
 {

@@ -1,4 +1,4 @@
-﻿using Innkeep.Server.Services.Interfaces.Db;
+﻿using Innkeep.Server.Services.Legacy.Interfaces.Db;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 

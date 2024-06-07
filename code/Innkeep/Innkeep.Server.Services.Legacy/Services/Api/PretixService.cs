@@ -2,10 +2,10 @@
 using Innkeep.Api.Pretix.Legacy.Interfaces;
 using Innkeep.Api.Pretix.Legacy.Models.Objects;
 using Innkeep.Models.Transaction;
-using Innkeep.Server.Services.Interfaces.Api;
-using Innkeep.Server.Services.Interfaces.Db;
+using Innkeep.Server.Services.Legacy.Interfaces.Api;
+using Innkeep.Server.Services.Legacy.Interfaces.Db;
 
-namespace Innkeep.Server.Services.Services.Api;
+namespace Innkeep.Server.Services.Legacy.Services.Api;
 
 public class PretixService : IPretixService
 {

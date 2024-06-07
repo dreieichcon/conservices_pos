@@ -2,12 +2,12 @@
 using Innkeep.Models.Transaction;
 using Innkeep.Server.Data.Interfaces.Transactions;
 using Innkeep.Server.Data.Models;
-using Innkeep.Server.Services.Interfaces.Api;
-using Innkeep.Server.Services.Interfaces.Db;
-using Innkeep.Server.Services.Models;
-using Innkeep.Server.Services.Util;
+using Innkeep.Server.Services.Legacy.Interfaces.Api;
+using Innkeep.Server.Services.Legacy.Interfaces.Db;
+using Innkeep.Server.Services.Legacy.Models;
+using Innkeep.Server.Services.Legacy.Util;
 
-namespace Innkeep.Server.Services.Services.Api;
+namespace Innkeep.Server.Services.Legacy.Services.Api;
 
 public class ServerTransactionService : IServerTransactionService
 {

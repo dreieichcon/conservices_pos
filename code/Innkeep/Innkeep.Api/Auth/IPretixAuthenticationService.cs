@@ -6,6 +6,6 @@ public interface IPretixAuthenticationService
 {
 	public AuthenticationInfo AuthenticationInfo { get; set; }
 
-	public Task Load();
+	public void Load();
 
 }

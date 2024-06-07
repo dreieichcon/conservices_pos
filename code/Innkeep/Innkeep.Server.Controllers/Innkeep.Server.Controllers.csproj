@@ -23,7 +23,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Innkeep.Core\Innkeep.Core.csproj" />
       <ProjectReference Include="..\Innkeep.Server.Data\Innkeep.Server.Data.csproj" />
-      <ProjectReference Include="..\Innkeep.Server.Services\Innkeep.Server.Services.csproj" />
+      <ProjectReference Include="..\Innkeep.Server.Services.Legacy\Innkeep.Server.Services.Legacy.csproj" />
     </ItemGroup>
 
     <ItemGroup>

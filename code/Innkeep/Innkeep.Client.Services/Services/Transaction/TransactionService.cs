@@ -5,8 +5,8 @@ using Innkeep.Client.Services.Interfaces.Pretix;
 using Innkeep.Client.Services.Interfaces.Server;
 using Innkeep.Client.Services.Interfaces.Transaction;
 using Innkeep.Models.Transaction;
-using Innkeep.Server.Services.Models;
-using Innkeep.Server.Services.Util;
+using Innkeep.Server.Services.Legacy.Models;
+using Innkeep.Server.Services.Legacy.Util;
 
 namespace Innkeep.Client.Services.Services.Transaction;
 

@@ -2,7 +2,7 @@
 using Innkeep.Server.Data.Interfaces.Fiskaly;
 using Innkeep.Server.Data.Models;
 
-namespace Innkeep.Server.Services.Services.Db;
+namespace Innkeep.Server.Services.Legacy.Services.Db;
 
 public class FiskalyApiSettingsService : IFiskalyApiSettingsService
 {

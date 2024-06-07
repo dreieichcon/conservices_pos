@@ -1,16 +1,17 @@
 ﻿using Innkeep.Api.Auth;
 using Innkeep.Api.Interfaces.Repository.Auth;
-using Innkeep.Api.Interfaces.Repository.Core;
-using Innkeep.Api.Models.Pretix.Objects.General;
 using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Api.Pretix.Repositories.Auth;
 using Innkeep.Api.Pretix.Repositories.General;
+using Innkeep.Api.Pretix.Repositories.Sales;
 using Innkeep.Db.Interfaces;
 using Innkeep.Server.Db.Context;
 using Innkeep.Server.Db.Models;
 using Innkeep.Server.Db.Repositories.Config;
 using Innkeep.Server.Services.Authentication;
 using Innkeep.Server.Services.Database;
+using Innkeep.Server.Services.Interfaces;
+using Innkeep.Server.Services.Pretix;
 using Innkeep.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -53,10 +54,11 @@ public static class ServerServiceManager
 		collection.AddSingleton<IPretixAuthRepository, PretixAuthRepository>();
 		collection.AddSingleton<IPretixOrganizerRepository, PretixOrganizerRepository>();
 		collection.AddSingleton<IPretixEventRepository, PretixEventRepository>();
+		collection.AddSingleton<IPretixSalesItemRepository, PretixSalesItemRepository>();
 	}
 
 	private static void ConfigureHttpServices(IServiceCollection collection)
 	{
-		
+		collection.AddSingleton<IPretixSalesItemService, PretixSalesItemService>();
 	}
 }
