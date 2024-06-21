@@ -1,4 +1,8 @@
 ﻿using Innkeep.Api.Auth;
+using Innkeep.Api.Fiskaly.Interfaces.Auth;
+using Innkeep.Api.Fiskaly.Interfaces.Tss;
+using Innkeep.Api.Fiskaly.Repositories.Auth;
+using Innkeep.Api.Fiskaly.Repositories.Tss;
 using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Api.Pretix.Repositories.Auth;
 using Innkeep.Api.Pretix.Repositories.General;
@@ -11,6 +15,7 @@ using Innkeep.Server.Db.Repositories.Config;
 using Innkeep.Server.Services.Authentication;
 using Innkeep.Server.Services.Database;
 using Innkeep.Server.Services.Interfaces;
+using Innkeep.Server.Services.Interfaces.Pretix;
 using Innkeep.Server.Services.Pretix;
 using Innkeep.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -58,6 +63,7 @@ public static class ServerServiceManager
 		collection.AddSingleton<IPretixAuthenticationService, PretixAuthenticationService>();
 		
 		collection.AddSingleton<IDbService<FiskalyConfig>, FiskalyConfigService>();
+		collection.AddSingleton<IFiskalyAuthenticationService, FiskalyAuthenticationService>();
 	}
 
 	private static void ConfigureHttpRepositories(IServiceCollection collection)
@@ -66,6 +72,9 @@ public static class ServerServiceManager
 		collection.AddSingleton<IPretixOrganizerRepository, PretixOrganizerRepository>();
 		collection.AddSingleton<IPretixEventRepository, PretixEventRepository>();
 		collection.AddSingleton<IPretixSalesItemRepository, PretixSalesItemRepository>();
+
+		collection.AddSingleton<IFiskalyAuthRepository, FiskalyAuthRepository>();
+		collection.AddSingleton<IFiskalyTssRepository, FiskalyTssRepository>();
 	}
 
 	private static void ConfigureHttpServices(IServiceCollection collection)

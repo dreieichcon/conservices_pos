@@ -3,6 +3,7 @@ using Innkeep.Api.Models.Pretix.Objects.Sales;
 using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Server.Db.Models;
 using Innkeep.Server.Services.Interfaces;
+using Innkeep.Server.Services.Interfaces.Pretix;
 using Innkeep.Services.Interfaces;
 
 namespace Innkeep.Server.Services.Pretix;

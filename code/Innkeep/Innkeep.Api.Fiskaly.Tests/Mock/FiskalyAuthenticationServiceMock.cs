@@ -1,4 +1,5 @@
 ﻿using Innkeep.Api.Auth;
+using Innkeep.Api.Fiskaly.Interfaces.Auth;
 using Innkeep.Api.Fiskaly.Tests.Data;
 using Innkeep.Core.DomainModels.Authentication;
 
@@ -6,7 +7,11 @@ namespace Innkeep.Api.Fiskaly.Tests.Mock;
 
 public class FiskalyAuthenticationServiceMock : IFiskalyAuthenticationService
 {
-	public FiskalyAuthenticationServiceMock()
+	public AuthenticationInfo AuthenticationInfo { get; set; }
+	
+	private readonly IFiskalyAuthRepository _authRepository;
+
+	public FiskalyAuthenticationServiceMock(IFiskalyAuthRepository authRepository)
 	{
 		var testAuth = new TestAuth();
 
@@ -15,8 +20,18 @@ public class FiskalyAuthenticationServiceMock : IFiskalyAuthenticationService
 			Key = testAuth.FiskalyApiKey,
 			Secret = testAuth.FiskalyApiSecret,
 		};
-	}
-	public AuthenticationInfo AuthenticationInfo { get; set; } 
 
-	public Task GetOrUpdateToken() => throw new NotImplementedException();
+		_authRepository = authRepository;
+	}
+
+	public async Task GetOrUpdateToken()
+	{
+		if (string.IsNullOrEmpty(AuthenticationInfo.Token) ||
+			AuthenticationInfo.TokenValidUntil > DateTime.UtcNow - TimeSpan.FromMinutes(5))
+		{
+			var result = await _authRepository.Authenticate(AuthenticationInfo);
+			AuthenticationInfo.Token = result?.Token ?? string.Empty;
+			AuthenticationInfo.TokenValidUntil = result?.TokenValidUntil ?? DateTime.UtcNow;
+		}
+	}
 }
