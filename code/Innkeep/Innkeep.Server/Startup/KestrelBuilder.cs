@@ -11,7 +11,6 @@ public static class KestrelBuilder
 		builder.ConfigureServices(
 			services =>
 			{
-				services.AddEndpointsApiExplorer();
 				ServerServiceManager.ConfigureServices(services, true);
 				WpfBuilder.ConfigureServices(services);
 

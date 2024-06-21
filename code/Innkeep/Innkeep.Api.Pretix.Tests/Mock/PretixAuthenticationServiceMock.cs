@@ -7,5 +7,5 @@ public class PretixAuthenticationServiceMock : IPretixAuthenticationService
 {
 	public AuthenticationInfo AuthenticationInfo { get; set; } = new(new Data.TestAuth().PretixTestToken);
 
-	public Task Load() => throw new NotImplementedException();
+	public void Load() => throw new NotImplementedException();
 }
