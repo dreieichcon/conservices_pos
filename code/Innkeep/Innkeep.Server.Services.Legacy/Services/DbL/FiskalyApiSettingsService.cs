@@ -1,4 +1,4 @@
-﻿using Innkeep.Api.Fiskaly.Interfaces;
+﻿using Innkeep.Api.Fiskaly.Legacy.Interfaces;
 using Innkeep.Server.Data.Interfaces.Fiskaly;
 using Innkeep.Server.Data.Models;
 
