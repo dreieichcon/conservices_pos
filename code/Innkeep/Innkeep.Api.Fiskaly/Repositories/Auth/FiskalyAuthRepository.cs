@@ -1,8 +1,8 @@
 ﻿using System.Text.Json;
 using Innkeep.Api.Auth;
 using Innkeep.Api.Endpoints;
+using Innkeep.Api.Fiskaly.Interfaces.Auth;
 using Innkeep.Api.Fiskaly.Repositories.Core;
-using Innkeep.Api.Interfaces.Repository.Auth;
 using Innkeep.Api.Models.Fiskaly.Request;
 using Innkeep.Api.Models.Fiskaly.Response;
 

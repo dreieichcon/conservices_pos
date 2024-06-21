@@ -1,10 +1,9 @@
-﻿using Innkeep.Api.Interfaces.Repository.Core;
-using Innkeep.Api.Models.Pretix.Objects.General;
+﻿using Innkeep.Api.Models.Pretix.Objects.General;
 using Innkeep.Api.Models.Pretix.Objects.Sales;
 
 namespace Innkeep.Api.Pretix.Interfaces;
 
-public interface IPretixSalesItemRepository : IPretixRepository<PretixSalesItem>
+public interface IPretixSalesItemRepository
 {
 	public Task<IEnumerable<PretixSalesItem>> GetItems(PretixOrganizer pOrganizer, PretixEvent pEvent);
 

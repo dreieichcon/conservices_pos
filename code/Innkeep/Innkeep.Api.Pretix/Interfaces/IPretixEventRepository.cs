@@ -1,10 +1,8 @@
-﻿using Innkeep.Api.Interfaces.Repository.Core;
-using Innkeep.Api.Models.Pretix.Objects;
-using Innkeep.Api.Models.Pretix.Objects.General;
+﻿using Innkeep.Api.Models.Pretix.Objects.General;
 
 namespace Innkeep.Api.Pretix.Interfaces;
 
-public interface IPretixEventRepository : IPretixRepository<PretixEvent>
+public interface IPretixEventRepository
 {
 	public Task<IEnumerable<PretixEvent>> GetEvents(PretixOrganizer organizer);
 
