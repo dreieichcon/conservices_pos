@@ -1,0 +1,91 @@
+﻿using Innkeep.Api.Fiskaly.Legacy.Enums;
+using Innkeep.Api.Fiskaly.Legacy.Models;
+using Innkeep.Api.Fiskaly.Legacy.Models.Fiskaly;
+using Innkeep.Models.Transaction;
+using Innkeep.Server.Data.Models;
+
+namespace Innkeep.Api.Fiskaly.Legacy.Data;
+
+public static class TransactionUpdateSerializer
+{
+	public static TransactionUpdateRequestModel Create(string clientId, PretixTransaction transaction)
+	{
+		return new TransactionUpdateRequestModel()
+		{
+			Schema = new Schema()
+			{
+				StandardV1 = new StandardV1()
+				{
+					receipt = new Receipt()
+					{
+						ReceiptType = "RECEIPT",
+						AmountsPerVatRate = CreateAmountsPerVatRate(transaction),
+						AmountsPerPaymentType = new List<AmountsPerPaymentType>()
+						{
+							new()
+							{
+								PaymentType = PaymentType.CASH,
+								DecimalAmount = transaction.Sum,
+							}
+						}
+					}
+				}
+			},
+			State = TransactionState.ACTIVE,
+			ClientId = clientId
+		};
+	}
+
+	public static TransactionUpdateRequestModel CreateFromCashFlow(string clientId, CashFlow cashFlow)
+	{
+		return new TransactionUpdateRequestModel()
+		{
+			Schema = new Schema()
+			{
+				StandardV1 = new StandardV1()
+				{
+					receipt = new Receipt()
+					{
+						ReceiptType = "TRANSFER",
+						AmountsPerVatRate = new List<AmountsPerVatRate>()
+						{
+							new()
+							{
+								VatRate = VatRate.NULL,
+								DecimalAmount = cashFlow.TotalMoney
+							}	
+						},
+						AmountsPerPaymentType = new List<AmountsPerPaymentType>()
+						{
+							new()
+							{
+								PaymentType = PaymentType.CASH,
+								DecimalAmount = cashFlow.TotalMoney,
+							}
+						}
+					}
+				}
+			},
+			State = TransactionState.ACTIVE,
+			ClientId = clientId
+		};
+	}
+
+	private static List<AmountsPerVatRate> CreateAmountsPerVatRate(PretixTransaction pretixTransaction)
+	{
+		var amountsPerVatRate = new List<AmountsPerVatRate>();
+		
+		var transactions = pretixTransaction.TransactionItems.GroupBy(x => x.Item.TaxRate);
+
+		foreach (var group in transactions)
+		{
+			amountsPerVatRate.Add(new AmountsPerVatRate()
+			{
+				DecimalAmount = group.Sum(x => x.Price),
+				VatRate = VatRateConverter.Get(group.First().Item.TaxRate)
+			});
+		}
+
+		return amountsPerVatRate;
+	}
+}

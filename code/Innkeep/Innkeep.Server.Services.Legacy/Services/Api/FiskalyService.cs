@@ -1,6 +1,6 @@
-﻿using Innkeep.Api.Fiskaly.Data;
-using Innkeep.Api.Fiskaly.Enums;
-using Innkeep.Api.Fiskaly.Interfaces;
+﻿using Innkeep.Api.Fiskaly.Legacy.Data;
+using Innkeep.Api.Fiskaly.Legacy.Enums;
+using Innkeep.Api.Fiskaly.Legacy.Interfaces;
 using Innkeep.Models.Transaction;
 using Innkeep.Server.Data.Models;
 using Innkeep.Server.Services.Legacy.Interfaces.Api;
