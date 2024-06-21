@@ -17,7 +17,7 @@ public class PretixRepository : BaseHttpRepository, IPretixRepository
 {
 	private readonly IAuthenticationService _authenticationService;
 
-	private string Token => _authenticationService.AuthenticationInfo.PretixToken;
+	private string Token => _authenticationService.AuthenticationInfo.Token;
 
 	public PretixRepository(IAuthenticationService authenticationService)
 	{

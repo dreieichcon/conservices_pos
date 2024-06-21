@@ -13,6 +13,6 @@ public class PretixAuthRepository(IPretixAuthenticationService authenticationSer
 	{
 		var uri = new PretixEndpointBuilder().WithOrganizers().Build();
 		var result = await Get(uri);
-		return result is not null;
+		return result.IsSuccess;
 	}
 }

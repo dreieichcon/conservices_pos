@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Innkeep.Api.Enum;
+using Innkeep.Api.Models.Core;
 
 namespace Innkeep.Api.Core.Http;
 
@@ -41,33 +42,21 @@ public abstract partial class BaseHttpRepository
         return response;
     }
     
-    protected async Task<string?> Get(string uri)
+    protected async Task<ApiResponse> Get(string uri)
     {
         var response = await SendRequest(RequestType.Get, uri, string.Empty);
-        
-        if (response.StatusCode is HttpStatusCode.OK)
-            return await response.Content.ReadAsStringAsync();
-
-        return null;
+        return await ApiResponse.FromResponse(response);
     }
 
-    protected async Task<string?> Post(string uri, string content)
+    protected async Task<ApiResponse> Post(string uri, string content)
     {
         var response = await SendRequest(RequestType.Post, uri, content);
-        
-        if (response.IsSuccessStatusCode)
-            return await response.Content.ReadAsStringAsync();
-
-        return null;
+        return await ApiResponse.FromResponse(response);
     }
 
-    protected async Task<string?> Put(string uri, string content)
+    protected async Task<ApiResponse> Put(string uri, string content)
     {
         var response = await SendRequest(RequestType.Put, uri, content);
-        
-        if (response.IsSuccessStatusCode)
-            return await response.Content.ReadAsStringAsync();
-
-        return null;
+        return await ApiResponse.FromResponse(response);
     }
 }

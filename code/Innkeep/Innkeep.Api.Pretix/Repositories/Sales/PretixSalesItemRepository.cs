@@ -23,9 +23,12 @@ public class PretixSalesItemRepository(IPretixAuthenticationService authenticati
 
 	private async Task<IEnumerable<PretixSalesItem>> GetItemsInternal(string uri)
 	{
-		var content = await Get(uri);
+		var response = await Get(uri);
 
-		var result = Deserialize(content);
+		if (!response.IsSuccess)
+			return new List<PretixSalesItem>();
+
+		var result = Deserialize(response.Content);
 
 		return result is not null ? result.Results : new List<PretixSalesItem>();
 	}

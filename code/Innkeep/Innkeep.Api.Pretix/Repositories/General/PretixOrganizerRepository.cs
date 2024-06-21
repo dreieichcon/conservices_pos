@@ -13,9 +13,11 @@ public class PretixOrganizerRepository(IPretixAuthenticationService authenticati
 	{
 		var uri = new PretixEndpointBuilder().WithOrganizers().Build();
 
-		var content = await Get(uri);
+		var response = await Get(uri);
+
+		if (!response.IsSuccess) return new List<PretixOrganizer>();
 		
-		var result = Deserialize(content);
+		var result = Deserialize(response.Content);
 
 		return result is not null ? result.Results : new List<PretixOrganizer>();
 	}

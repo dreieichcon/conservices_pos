@@ -23,12 +23,12 @@ public class PretixEventRepository(IPretixAuthenticationService authenticationSe
 
 	private async Task<IEnumerable<PretixEvent>> GetEventsInternal(string uri)
 	{
-		var content = await Get(uri);
+		var response = await Get(uri);
 
-		if (content is null)
+		if (!response.IsSuccess)
 			return new List<PretixEvent>();
 
-		var result = Deserialize(content);
+		var result = Deserialize(response.Content);
 
 		return result is not null ? result.Results : new List<PretixEvent>();
 	}

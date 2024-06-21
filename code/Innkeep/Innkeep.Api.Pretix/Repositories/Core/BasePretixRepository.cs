@@ -5,6 +5,7 @@ using Innkeep.Api.Auth;
 using Innkeep.Api.Core.Http;
 using Innkeep.Api.Json;
 using Innkeep.Api.Models.Pretix.Response;
+using Serilog;
 
 namespace Innkeep.Api.Pretix.Repositories.Core;
 
@@ -12,11 +13,11 @@ public class BasePretixRepository<T>(IPretixAuthenticationService authentication
 {
 	protected override async Task PrepareRequest()
 	{
-		if (string.IsNullOrEmpty(authenticationService.AuthenticationInfo.PretixToken))
+		if (string.IsNullOrEmpty(authenticationService.AuthenticationInfo.Token))
 			authenticationService.Load();
 	}
 
-	private string Token => authenticationService.AuthenticationInfo.PretixToken;
+	private string Token => authenticationService.AuthenticationInfo.Token;
 	
 	protected override void InitializeGetHeaders(HttpRequestMessage message)
 	{
@@ -41,10 +42,10 @@ public class BasePretixRepository<T>(IPretixAuthenticationService authentication
 
 	protected PretixResponse<T>? Deserialize(string? content)
 	{
-		return content is null ? null : JsonSerializer.Deserialize<PretixResponse<T>>(content, GetOptions());
+		return Deserialize<PretixResponse<T>>(content);
 	}
 
-	private static JsonSerializerOptions GetOptions()
+	protected override JsonSerializerOptions GetOptions()
 	{
 		return new JsonSerializerOptions()
 		{
