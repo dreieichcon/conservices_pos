@@ -1,0 +1,34 @@
+﻿@page "/config/fiskaly"
+
+<ConfigPage PageTitle="Manage Fiskaly Token">
+    <ChildContent>
+        <MudStack Class="flex-grow-1">
+            <MudPaper Class="p-2">
+                <MudStack>
+                    <MudText>Api Key & Secret</MudText>
+                    <MudTextField T="string" @bind-Text="@ConfigItem!.ApiKey" Variant="Variant.Outlined" Label="Fiskaly Api Key"/>
+                    <MudTextField T="string" @bind-Text="@ConfigItem!.ApiSecret" Variant="Variant.Outlined" Label="Fiskaly Api Secret" InputType="InputType.Password"/>
+                    <MudStack Row="true" Justify="Justify.FlexEnd">
+                        <MudButton Variant="Variant.Outlined">Test</MudButton>
+                    </MudStack>
+                </MudStack>
+            </MudPaper>
+            @* <MudPaper Class="p-2"> *@
+            @*     <MudStack> *@
+            @*         <MudText>Admin Password</MudText> *@
+            @*         <MudTextField T="string" @bind-Text="" Variant="Variant.Outlined" Label="Fiskaly Admin Key"/> *@
+            @*         <MudStack Row="true" Justify="Justify.FlexEnd"> *@
+            @*             <MudButton Variant="Variant.Outlined">Test</MudButton> *@
+            @*         </MudStack> *@
+            @*     </MudStack> *@
+            @* </MudPaper> *@
+        </MudStack>
+    </ChildContent>
+    <ActionBar>
+        <MudButton Variant="Variant.Outlined" Color="Color.Success" @onclick="Save">Save</MudButton>
+    </ActionBar>
+</ConfigPage>
+
+@code {
+
+}

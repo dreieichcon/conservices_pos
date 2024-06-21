@@ -2,7 +2,6 @@
 
 namespace Innkeep.Server.Controllers.Endpoints;
 
-
 public class RegisterController : Controller
 {
 	[HttpGet]

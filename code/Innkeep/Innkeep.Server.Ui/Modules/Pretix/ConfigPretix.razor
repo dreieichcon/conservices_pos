@@ -11,7 +11,7 @@
     <ChildContent>
         <MudStack Class="flex-grow-1">
             <MudStack>
-                <MudTextField T="string" @bind-Text="@ConfigItem.PretixAccessToken" Label="Pretix Access Token" Variant="Variant.Outlined" InputType="InputType.Password"/>
+                <MudTextField T="string" @bind-Text="@ConfigItem!.PretixAccessToken" Label="Pretix Access Token" Variant="Variant.Outlined" InputType="InputType.Password"/>
                 <MudStack Row="true" Justify="Justify.FlexEnd">
                     <MudButton Variant="Variant.Outlined" @onclick="Test">Test Connection</MudButton>
                 </MudStack>
