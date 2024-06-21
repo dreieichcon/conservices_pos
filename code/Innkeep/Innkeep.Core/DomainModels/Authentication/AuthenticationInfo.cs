@@ -2,10 +2,21 @@
 
 public class AuthenticationInfo
 {
-    public AuthenticationInfo(string pretixToken)
+    public AuthenticationInfo()
     {
-        PretixToken = pretixToken;
+        
+    }
+    
+    public AuthenticationInfo(string token)
+    {
+        Token = token;
     }
 
-    public string PretixToken { get; set; }
+    public string Token { get; set; }
+
+    public string Key { get; set; } = string.Empty;
+    
+    public string Secret { get; set; } = string.Empty;
+    
+    public DateTime? TokenValidUntil { get; set; }
 }

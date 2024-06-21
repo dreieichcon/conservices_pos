@@ -52,4 +52,9 @@ public class PretixEndpointBuilder() : BaseEndpointBuilder("https://pretix.eu/ap
 		Endpoints.Add("items");
 		return this;
 	}
+
+	public string Build()
+	{
+		return BuildInternal();
+	}
 }

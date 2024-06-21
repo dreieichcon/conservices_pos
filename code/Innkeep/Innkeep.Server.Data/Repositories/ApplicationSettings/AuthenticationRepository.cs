@@ -26,7 +26,7 @@ public class AuthenticationRepository : IAuthenticationRepository
 
 		var create = new Authentication()
 		{
-			Token = info.PretixToken,
+			Token = info.Token,
 		};
 
 		db.Authentications.Add(create);
@@ -47,7 +47,7 @@ public class AuthenticationRepository : IAuthenticationRepository
 
 		var update = db.Authentications.First();
 
-		update.Token = info.PretixToken;
+		update.Token = info.Token;
 
 		db.Authentications.Update(update);
 

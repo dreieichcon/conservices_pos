@@ -10,8 +10,13 @@ public abstract class BaseEndpointBuilder(string baseUri)
 		return this;
 	}
 
-	public string Build()
+	protected string BuildInternal(bool appendSlash = true)
 	{
-		return baseUri + string.Join("/", Endpoints) + "/";
+		var uri = baseUri + string.Join("/", Endpoints);
+
+		if (appendSlash)
+			uri += "/";
+
+		return uri;
 	}
 }
