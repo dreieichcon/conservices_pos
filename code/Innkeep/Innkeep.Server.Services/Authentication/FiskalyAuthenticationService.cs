@@ -1,4 +1,5 @@
 ﻿using Innkeep.Api.Auth;
+using Innkeep.Api.Fiskaly.Interfaces.Auth;
 using Innkeep.Core.DomainModels.Authentication;
 using Innkeep.Server.Db.Models;
 using Innkeep.Services.Interfaces;
@@ -27,6 +28,12 @@ public class FiskalyAuthenticationService : IFiskalyAuthenticationService
 
 	public async Task GetOrUpdateToken()
 	{
-		
+		if (string.IsNullOrEmpty(AuthenticationInfo.Token) ||
+			AuthenticationInfo.TokenValidUntil > DateTime.UtcNow - TimeSpan.FromMinutes(5))
+		{
+			var result = await _authRepository.Authenticate(AuthenticationInfo);
+			AuthenticationInfo.Token = result?.Token ?? string.Empty;
+			AuthenticationInfo.TokenValidUntil = result?.TokenValidUntil ?? DateTime.UtcNow;
+		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json;
 using Innkeep.Api.Auth;
 using Innkeep.Api.Core.Http;
@@ -8,6 +9,8 @@ namespace Innkeep.Api.Fiskaly.Repositories.Core;
 
 public class BaseFiskalyRepository(IFiskalyAuthenticationService authenticationService) : BaseHttpRepository
 {
+
+	
 	protected IFiskalyAuthenticationService AuthenticationService => authenticationService;
 	protected override HttpContent CreatePostMessage(string content)
 		=> new StringContent(content, Encoding.UTF8, "application/json");
@@ -16,7 +19,8 @@ public class BaseFiskalyRepository(IFiskalyAuthenticationService authenticationS
 
 	protected override void InitializeGetHeaders(HttpRequestMessage message)
 	{
-		throw new NotImplementedException();
+		message.Headers.Add("Accept", "application/json");
+		message.Headers.Authorization = new AuthenticationHeaderValue("Bearer", AuthenticationService.AuthenticationInfo.Token);
 	}
 
 	protected override void InitializePostHeaders()
@@ -32,8 +36,6 @@ public class BaseFiskalyRepository(IFiskalyAuthenticationService authenticationS
 	protected override async Task PrepareRequest() 
 		=> await authenticationService.GetOrUpdateToken();
 	
-	
-
 	protected override JsonSerializerOptions GetOptions()
 	{
 		return new JsonSerializerOptions()

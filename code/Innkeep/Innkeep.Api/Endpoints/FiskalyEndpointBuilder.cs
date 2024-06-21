@@ -10,6 +10,19 @@ public class FiskalyEndpointBuilder() : BaseEndpointBuilder("https://kassensichv
 		return this;
 	}
 
+	public FiskalyEndpointBuilder WithTss()
+	{
+		Endpoints.Add("tss");
+		return this;
+	}
+
+	public FiskalyEndpointBuilder WithSpecificTss(string id)
+	{
+		Endpoints.Add("tss");
+		Endpoints.Add(id);
+		return this;
+	}
+
 	public string Build()
 	{
 		return BuildInternal(false);

@@ -5,18 +5,19 @@ using Innkeep.Api.Fiskaly.Interfaces.Auth;
 using Innkeep.Api.Fiskaly.Repositories.Core;
 using Innkeep.Api.Models.Fiskaly.Request;
 using Innkeep.Api.Models.Fiskaly.Response;
+using Innkeep.Core.DomainModels.Authentication;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Auth;
 
-public class FiskalyAuthRepository(IFiskalyAuthenticationService authenticationService)
-	: BaseFiskalyRepository(authenticationService), IFiskalyAuthRepository
+public class FiskalyAuthRepository()
+	: BaseFiskalyRepository(null), IFiskalyAuthRepository
 {
-	public async Task<FiskalyTokenResponse?> Authenticate()
+	public async Task<FiskalyTokenResponse?> Authenticate(AuthenticationInfo authenticationInfo)
 	{
 		var request = new FiskalyTokenRequest()
 		{
-			Key = AuthenticationService.AuthenticationInfo.Key,
-			Secret = AuthenticationService.AuthenticationInfo.Secret,
+			Key = authenticationInfo.Key,
+			Secret = authenticationInfo.Secret,
 		};
 
 		var endpoint = new FiskalyEndpointBuilder().Authenticate().Build();
