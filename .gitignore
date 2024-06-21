@@ -1,5 +1,5 @@
 
-*.db
+server.db*
 
 **/bin/*
 
