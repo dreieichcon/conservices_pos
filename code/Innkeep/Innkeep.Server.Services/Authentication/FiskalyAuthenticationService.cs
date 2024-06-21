@@ -1,5 +1,4 @@
 ﻿using Innkeep.Api.Auth;
-using Innkeep.Api.Interfaces.Repository.Auth;
 using Innkeep.Core.DomainModels.Authentication;
 using Innkeep.Server.Db.Models;
 using Innkeep.Services.Interfaces;

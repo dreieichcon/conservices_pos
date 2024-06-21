@@ -1,7 +1,7 @@
 ﻿using Innkeep.Api.Auth;
 using Innkeep.Api.Endpoints;
-using Innkeep.Api.Interfaces.Repository.Auth;
 using Innkeep.Api.Models.Pretix.Objects.General;
+using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Api.Pretix.Repositories.Core;
 
 namespace Innkeep.Api.Pretix.Repositories.Auth;

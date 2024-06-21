@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Innkeep.Api.Interfaces\Innkeep.Api.Interfaces.csproj" />
       <ProjectReference Include="..\Innkeep.Api\Innkeep.Api.csproj" />
     </ItemGroup>
 

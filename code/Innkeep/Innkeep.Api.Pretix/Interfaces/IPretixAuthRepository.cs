@@ -1,4 +1,4 @@
-﻿namespace Innkeep.Api.Interfaces.Repository.Auth;
+﻿namespace Innkeep.Api.Pretix.Interfaces;
 
 public interface IPretixAuthRepository
 {

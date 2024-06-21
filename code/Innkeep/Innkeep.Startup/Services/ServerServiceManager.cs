@@ -1,5 +1,4 @@
 ﻿using Innkeep.Api.Auth;
-using Innkeep.Api.Interfaces.Repository.Auth;
 using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Api.Pretix.Repositories.Auth;
 using Innkeep.Api.Pretix.Repositories.General;
