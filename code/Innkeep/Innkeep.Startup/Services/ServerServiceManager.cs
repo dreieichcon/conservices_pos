@@ -14,7 +14,9 @@ using Innkeep.Server.Db.Models;
 using Innkeep.Server.Db.Repositories.Config;
 using Innkeep.Server.Services.Authentication;
 using Innkeep.Server.Services.Database;
+using Innkeep.Server.Services.Fiskaly;
 using Innkeep.Server.Services.Interfaces;
+using Innkeep.Server.Services.Interfaces.Fiskaly;
 using Innkeep.Server.Services.Interfaces.Pretix;
 using Innkeep.Server.Services.Pretix;
 using Innkeep.Services.Interfaces;
@@ -80,5 +82,7 @@ public static class ServerServiceManager
 	private static void ConfigureHttpServices(IServiceCollection collection)
 	{
 		collection.AddSingleton<IPretixSalesItemService, PretixSalesItemService>();
+
+		collection.AddSingleton<IFiskalyTssService, FiskalyTssService>();
 	}
 }

@@ -1,0 +1,47 @@
+﻿@page "/config/tss"
+@using Innkeep.Api.Models.Fiskaly.Objects
+
+<ConfigPage PageTitle="Tss Selection">
+    <ChildContent>
+        <MudStack Class="flex-grow-1" Justify="Justify.FlexStart">
+            <MudSelect T="FiskalyTss" @bind-Value="@CurrentTss" Variant="Variant.Outlined" Label="Select TSS">
+                @foreach (var tss in TssObjects)
+                {
+                    <MudSelectItem Value="@tss">@tss.Id - @tss.Description</MudSelectItem>
+                }
+            </MudSelect>
+            @if (CurrentTss != null)
+            {
+                <MudStack>
+                    <MudStack Row="true">
+                        <DataLayoutItem Name="Tss Id" Value="@CurrentTss.Id"/>
+                        <DataLayoutItem Name="Description" Value="@CurrentTss.Description"/>
+                    </MudStack>
+                    <MudStack Row="true">
+                        <DataLayoutItem Name="State" Value="@CurrentTss.State"/>
+                        <DataLayoutItem Name="Version" Value="@CurrentTss.Version"/>
+                    </MudStack>
+                    <MudStack Row="true">
+                        <DataLayoutItem Name="Signature Counter" Value="@CurrentTss.SignatureCounter"/>
+                        <DataLayoutItem Name="Transaction Counter" Value="@CurrentTss.TransactionCounter"/>
+                    </MudStack>
+                </MudStack>
+            }
+        </MudStack>
+    </ChildContent>
+    <ActionBar>
+        <MudStack Row="true" Justify="Justify.FlexEnd">
+            <MudButton Color="Color.Success" @onclick="Save" Variant="Variant.Outlined">Save</MudButton>
+        </MudStack>
+    </ActionBar>
+</ConfigPage>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await TssService.Load();
+        await InvokeAsync(StateHasChanged);
+    }
+
+}

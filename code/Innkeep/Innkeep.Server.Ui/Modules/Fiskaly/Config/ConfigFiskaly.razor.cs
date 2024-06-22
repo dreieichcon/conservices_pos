@@ -14,6 +14,7 @@ public partial class ConfigFiskaly
 	protected override async Task OnInitializedAsync()
 	{
 		await FiskalyConfigService.Load();
+		await InvokeAsync(StateHasChanged);
 	}
 
 	private async Task Save()

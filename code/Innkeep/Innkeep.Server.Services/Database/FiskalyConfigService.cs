@@ -15,7 +15,8 @@ public class FiskalyConfigService(IDbRepository<FiskalyConfig> fiskalyConfigRepo
 
 	public async Task Load()
 	{
-		var item = (await fiskalyConfigRepository.GetAllAsync()).FirstOrDefault();
+		var items = await fiskalyConfigRepository.GetAllAsync();
+		var item = items.FirstOrDefault();
 		
 		if (item is null)
 		{
@@ -29,7 +30,11 @@ public class FiskalyConfigService(IDbRepository<FiskalyConfig> fiskalyConfigRepo
 		ItemsUpdated?.Invoke(this, EventArgs.Empty);
 	}
 
-	public Task<bool> Save() => throw new NotImplementedException();
+	public async Task<bool> Save()
+	{
+		var result = await fiskalyConfigRepository.CrudAsync(CurrentItem);
+		return result.Success;
+	}
 
 	private async Task Create()
 	{
