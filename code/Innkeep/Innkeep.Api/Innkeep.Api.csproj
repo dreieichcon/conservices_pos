@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Innkeep.Core\Innkeep.Core.csproj" />
+      <ProjectReference Include="..\Innkeep.Server.Db\Innkeep.Server.Db.csproj" />
     </ItemGroup>
 
 </Project>

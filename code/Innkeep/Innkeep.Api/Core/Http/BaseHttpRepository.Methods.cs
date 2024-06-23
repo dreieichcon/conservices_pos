@@ -7,12 +7,22 @@ namespace Innkeep.Api.Core.Http;
 public abstract partial class BaseHttpRepository
 {
     protected abstract Task PrepareRequest();
+
+    protected virtual int Timeout => 5;
+    protected void SetTimeout(int? timeout)
+    {
+        Client = new HttpClient();
+        Client.Timeout = TimeSpan.FromSeconds(timeout ?? Timeout);
+    }
     
-    private async Task<HttpResponseMessage> SendRequest(RequestType requestType, string uri, string content)
+    private async Task<HttpResponseMessage> SendRequest(RequestType requestType, string uri, string content, int? timeout = null)
     {
         HttpResponseMessage response;
 
         await PrepareRequest();
+        
+        if (timeout != null)
+            SetTimeout(timeout);
         
         switch (requestType)
         {
@@ -26,6 +36,12 @@ public abstract partial class BaseHttpRepository
                 var post = CreatePostMessage(content);
                 InitializePostHeaders();
                 response = await Client.PostAsync(uri, post);
+                break;
+            
+            case RequestType.Patch:
+                var patch = CreatePatchMessage(content);
+                InitializePatchHeaders();
+                response = await Client.PatchAsync(uri, patch);
                 break;
             
             case RequestType.Put:
@@ -57,6 +73,12 @@ public abstract partial class BaseHttpRepository
     protected async Task<ApiResponse> Put(string uri, string content)
     {
         var response = await SendRequest(RequestType.Put, uri, content);
+        return await ApiResponse.FromResponse(response);
+    }
+
+    protected async Task<ApiResponse> Patch(string uri, string content, int? timeout = null)
+    {
+        var response = await SendRequest(RequestType.Patch, uri, content, timeout);
         return await ApiResponse.FromResponse(response);
     }
 }

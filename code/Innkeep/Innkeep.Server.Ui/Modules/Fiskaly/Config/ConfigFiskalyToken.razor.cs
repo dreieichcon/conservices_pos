@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Innkeep.Server.Ui.Modules.Fiskaly.Config;
 
-public partial class ConfigFiskaly
+public partial class ConfigFiskalyToken
 {
 	[Inject]
 	public IDbService<FiskalyConfig> FiskalyConfigService { get; set; } = null!;

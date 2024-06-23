@@ -9,7 +9,7 @@ public class AbstractDbItem : IDbItem
 {
 	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 	[Key, Column(Order = 0)]
-	public required string Id { get; set; }
+	public string Id { get; set; } = Guid.NewGuid().ToString();
 
 	[NotMapped]
 	public Operation OperationType { get; set; }

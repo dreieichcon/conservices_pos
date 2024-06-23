@@ -1,5 +1,7 @@
 ﻿@using Innkeep.Services.Interfaces
 @using Innkeep.Server.Db.Models
+@using Innkeep.Server.Services.Fiskaly
+@using Innkeep.Server.Services.Interfaces.Fiskaly
 @inherits LayoutComponentBase
 
 <MudDialogProvider/>
@@ -7,6 +9,7 @@
 <MudThemeProvider IsDarkMode="false"/>
 
 @inject IDbService<PretixConfig> PretixConfigService;
+@inject IFiskalyTssService TssService;
 
 <MudLayout>
     <MudAppBar Elevation="1">
@@ -16,6 +19,7 @@
         <MudStack Row="true">
             <MudText>Organizer: @PretixConfigService.CurrentItem.SelectedOrganizerName</MudText>
             <MudText>Event: @PretixConfigService.CurrentItem.SelectedEventName</MudText>
+            <MudText>Tss: @TssService.CurrentTss?.Id - @TssService.CurrentTss?.Description</MudText>
         </MudStack>
         <MudSpacer/>
     </MudAppBar>
@@ -38,7 +42,9 @@
     protected override async Task OnInitializedAsync()
     {
         await PretixConfigService.Load();
+        await TssService.Load();
         PretixConfigService.ItemsUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
+        TssService.ItemsUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
     }
 
     bool _drawerOpen = true;

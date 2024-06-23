@@ -9,13 +9,13 @@ namespace Innkeep.Api.Fiskaly.Repositories.Core;
 
 public class BaseFiskalyRepository(IFiskalyAuthenticationService authenticationService) : BaseHttpRepository
 {
-
-	
 	protected IFiskalyAuthenticationService AuthenticationService => authenticationService;
 	protected override HttpContent CreatePostMessage(string content)
 		=> new StringContent(content, Encoding.UTF8, "application/json");
-	
-	protected override HttpContent CreatePutMessage(string content) => throw new NotImplementedException();
+
+	protected override HttpContent CreatePutMessage(string content) => CreatePostMessage(content);
+
+	protected override HttpContent CreatePatchMessage(string content) => CreatePostMessage(content);
 
 	protected override void InitializeGetHeaders(HttpRequestMessage message)
 	{
@@ -25,13 +25,13 @@ public class BaseFiskalyRepository(IFiskalyAuthenticationService authenticationS
 
 	protected override void InitializePostHeaders()
 	{
-		// nothing yet
+		Client.DefaultRequestHeaders.Authorization 
+			= new AuthenticationHeaderValue("Bearer", AuthenticationService.AuthenticationInfo.Token);
 	}
 
-	protected override void InitializePutHeaders()
-	{
-		throw new NotImplementedException();
-	}
+	protected override void InitializePutHeaders() => InitializePostHeaders();
+
+	protected override void InitializePatchHeaders() => InitializePostHeaders();
 
 	protected override async Task PrepareRequest() 
 		=> await authenticationService.GetOrUpdateToken();

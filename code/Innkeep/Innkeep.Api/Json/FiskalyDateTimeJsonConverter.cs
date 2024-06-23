@@ -22,7 +22,7 @@ public class FiskalyDateTimeJsonConverter : JsonConverter<DateTime>
 		if (input is null) 
 			return DateTime.Now;
 
-		return DateTimeOffset.FromUnixTimeSeconds(input.Value).DateTime;
+		return DateTimeOffset.FromUnixTimeSeconds(input.Value).DateTime.ToLocalTime();
 	}
 
 	public static long ParseOutput(DateTime input)
