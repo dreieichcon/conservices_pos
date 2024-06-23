@@ -1,0 +1,160 @@
+﻿@page "/config/fiskaly/tss"
+@using Innkeep.Api.Models.Fiskaly.Objects
+@using System.Globalization
+
+<ConfigPage PageTitle="Select TSS">
+    <ChildContent>
+        <MudStack Class="flex-grow-1" Justify="Justify.FlexStart">
+            <MudStack>
+                <MudSelect T="FiskalyTss" @bind-Value="@CurrentTss" Variant="Variant.Outlined" Label="Select TSS">
+                    @foreach (var tss in TssObjects)
+                    {
+                        <MudSelectItem Value="@tss">@tss.Id - @tss.Description (@tss.State)</MudSelectItem>
+                    }
+                </MudSelect>
+                <MudStack Row="true" Justify="Justify.FlexEnd">
+                    <MudButton Color="Color.Primary" Variant="Variant.Outlined" @onclick="Create">Create New Tss</MudButton>
+                </MudStack>
+            </MudStack>
+            @if (CurrentTss != null)
+            {
+                <MudTabs>
+                    <MudTabPanel Text="Tss Info">
+                        <MudStack Class="p-2 m-2">
+                            <MudStack Row="true">
+                                <DataLayoutItem Name="Tss Id" Value="@CurrentTss.Id"/>
+                                <DataLayoutItem Name="Description" Value="@CurrentTss.Description"/>
+                            </MudStack>
+                            <MudStack Row="true">
+                                <DataLayoutItem Name="State" Value="@CurrentTss.State"/>
+                                <DataLayoutItem Name="Version" Value="@CurrentTss.Version"/>
+                            </MudStack>
+                            <MudStack Row="true">
+                                <DataLayoutItem Name="Signature Counter" Value="@CurrentTss.SignatureCounter"/>
+                                <DataLayoutItem Name="Transaction Counter" Value="@CurrentTss.TransactionCounter"/>
+                            </MudStack>
+                            <MudStack Row="true">
+                                <DataLayoutItem Name="Creation Time" Value="@CurrentTss.TimeCreation.ToString(CultureInfo.CurrentUICulture)"/>
+                                <DataLayoutItem Name="Init Time" Value="@CurrentTss.TimeInit.ToString(CultureInfo.CurrentUICulture)"/>
+                            </MudStack>
+                            <MudStack Row="true">
+                                <DataLayoutItem Name="Tss PUK Known"
+                                                Value="@((!string.IsNullOrEmpty(AuthenticationService.CurrentConfig.TsePuk)).ToString())"/>
+                                <DataLayoutItem Name="Tss Password Known"
+                                                Value="@((!string.IsNullOrEmpty(AuthenticationService.CurrentConfig.TseAdminPassword)).ToString())"/>
+                            </MudStack>
+                        </MudStack>
+                    </MudTabPanel>
+                    <MudTabPanel Text="Tss Actions">
+                        <MudStack Class="p-2 m-2">
+                            <MudStack Spacing="2">
+                                <MudExpansionPanels>
+                                    @if (CurrentTss.State is "UNINITIALIZED" or "INITIALIZED")
+                                    {
+                                        <MudExpansionPanel Text="Change Tss Admin Pin">
+                                            <MudStack Class="py-2">
+                                                <MudText>Please enter a new admin Pin for the Tss below.</MudText>
+                                                <MudText>Pin needs to be >= 6 character in length</MudText>
+                                                <MudTextField
+                                                    T="string" 
+                                                    @bind-Value="@AuthenticationService.CurrentConfig.TseAdminPassword" 
+                                                    Variant="Variant.Outlined" 
+                                                    Label="Admin Password"
+                                                    InputType="InputType.Password"/>
+                                            </MudStack>
+                                            <MudButton
+                                                Color="Color.Primary"
+                                                Variant="Variant.Outlined"
+                                                @onclick="SetAdminPin">
+                                                Set Tss Admin Pin
+                                            </MudButton>
+                                        </MudExpansionPanel>
+                                    }
+                                    @if (CurrentTss.State == "CREATED")
+                                    {
+                                        <MudExpansionPanel Text="Deploy Tss">
+                                            <MudStack Class="py-2">
+                                                <MudText>
+                                                    Your Tss is not deployed. Deploy the tss with the button below.
+                                                    This can take a while.
+                                                </MudText>
+                                                <MudButton
+                                                    Color="Color.Primary"
+                                                    Variant="Variant.Outlined"
+                                                    @onclick="Deploy">
+                                                    Deploy Tss
+                                                </MudButton>
+                                            </MudStack>
+                                        </MudExpansionPanel>
+                                    }
+                                    @if (CurrentTss.State is "UNINITIALIZED")
+                                    {
+                                        <MudExpansionPanel Text="Initialize Tss">
+                                            <MudStack Class="py-2">
+                                                <MudText>
+                                                    Your Tss is currently uninitialized. Initialize the Tss with the button below.
+                                                    This requires an admin password to be set.
+                                                </MudText>
+                                                <MudText>
+                                                    Please set a description for the Tss before initializing.
+                                                </MudText>
+                                                <MudTextField T="string" @bind-Value="CurrentTss.Description" Variant="Variant.Outlined" Label="Description"/>
+                                                <MudButton
+                                                    Color="Color.Primary"
+                                                    Variant="Variant.Outlined"
+                                                    @onclick="Initialize"
+                                                    Disabled="@(string.IsNullOrEmpty(CurrentTss.Description))">
+                                                    Initialize Tss
+                                                </MudButton>
+                                            </MudStack>
+                                        </MudExpansionPanel>
+                                    }
+                                    @if (CurrentTss.State is "UNINITIALIZED" or "INITIALIZED")
+                                    {
+                                        <MudExpansionPanel Text="Disable Tss">
+                                            <MudStack Class="py-2">
+                                                <MudText>
+                                                    You can disable your Tss with the button below.
+                                                    Please note that this cannot be undone!
+                                                </MudText>
+                                                <MudButton
+                                                    Color="Color.Primary"
+                                                    Variant="Variant.Outlined"
+                                                    @onclick="Disable">
+                                                    Disable TSS
+                                                </MudButton>
+                                            </MudStack>
+                                        </MudExpansionPanel>
+                                    }
+                                </MudExpansionPanels>
+                                <MudStack>
+                                    @if (TaskInProgress)
+                                    {
+                                        <MudText>@TaskDescription</MudText>
+                                        <MudProgressLinear Color="Color.Primary" Indeterminate="true"/>
+                                    }
+                                </MudStack>
+                            </MudStack>
+                        </MudStack>
+                    </MudTabPanel>
+                </MudTabs>
+            }
+        </MudStack>
+    </ChildContent>
+    <ActionBar>
+        <MudStack Row="true" Justify="Justify.FlexEnd">
+            <MudButton Color="Color.Primary" @onclick="Reload" Variant="Variant.Outlined">Reload</MudButton>
+            <MudButton Color="Color.Success" @onclick="Save" Variant="Variant.Outlined">Save</MudButton>
+        </MudStack>
+    </ActionBar>
+</ConfigPage>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await TssService.Load();
+        await InvokeAsync(StateHasChanged);
+    }
+
+}

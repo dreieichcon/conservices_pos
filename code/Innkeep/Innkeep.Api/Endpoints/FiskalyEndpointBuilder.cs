@@ -23,6 +23,26 @@ public class FiskalyEndpointBuilder() : BaseEndpointBuilder("https://kassensichv
 		return this;
 	}
 
+	public FiskalyEndpointBuilder WithAdmin()
+	{
+		Endpoints.Add("admin");
+		return this;
+	}
+
+	public FiskalyEndpointBuilder WithAdminAuth()
+	{
+		Endpoints.Add("admin");
+		Endpoints.Add("auth");
+		return this;
+	}
+	
+	public FiskalyEndpointBuilder WithAdminLogout()
+	{
+		Endpoints.Add("admin");
+		Endpoints.Add("logout");
+		return this;
+	}
+
 	public string Build()
 	{
 		return BuildInternal(false);

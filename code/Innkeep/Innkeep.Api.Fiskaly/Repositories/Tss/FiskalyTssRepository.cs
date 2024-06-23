@@ -3,7 +3,9 @@ using Innkeep.Api.Endpoints;
 using Innkeep.Api.Fiskaly.Interfaces.Tss;
 using Innkeep.Api.Fiskaly.Repositories.Core;
 using Innkeep.Api.Models.Fiskaly.Objects;
+using Innkeep.Api.Models.Fiskaly.Request;
 using Innkeep.Api.Models.Fiskaly.Response;
+using Innkeep.Server.Db.Models;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Tss;
 
@@ -25,4 +27,108 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 	}
 
 	public Task<FiskalyTss> GetOne(string id) => throw new NotImplementedException();
+
+	public async Task<FiskalyTss?> CreateTss(string id)
+	{
+		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(id).Build();
+
+		var result = await Put(endpoint, string.Empty);
+
+		if (!result.IsSuccess) return null;
+
+		var deserialized = Deserialize<FiskalyTss>(result.Content);
+
+		return deserialized;
+	}
+
+	public async Task<FiskalyTss?> DeployTss(FiskalyTss current)
+	{
+		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(current.Id).Build();
+
+		var content = Serialize(
+			new FiskalyTssStateRequest()
+		{
+			State = "UNINITIALIZED"
+		});
+		
+		var result = await Patch(endpoint, content, 30);
+
+		return !result.IsSuccess ? null : Deserialize<FiskalyTss>(result.Content);
+	}
+
+	public async Task<FiskalyTss?> InitializeTss(FiskalyTss current)
+	{
+		var authResult = await AuthenticateAdmin(current.Id);
+
+		if (!authResult) return null;
+
+		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(current.Id).Build();
+
+		var content = Serialize(
+			new FiskalyTssStateRequest()
+			{
+				State = "INITIALIZED",
+				Description = current.Description,
+			}
+		);
+
+		var result = await Patch(endpoint, content);
+		
+		await LogoutAdmin(current.Id);
+
+		if (!result.IsSuccess) return null;
+		
+		return !result.IsSuccess ? null : Deserialize<FiskalyTss>(result.Content);
+	}
+
+	public async Task<bool> ChangeAdminPin(FiskalyTss current)
+	{
+		var endpoint = new FiskalyEndpointBuilder()
+						.WithSpecificTss(current.Id)
+						.WithAdmin()
+						.Build();
+
+		var config = authenticationService.CurrentConfig;
+		
+		var content = Serialize(
+			new FiskalyAdminPinRequest()
+			{
+				AdminPuk = config.TsePuk!,
+				NewAdminPin = config.TseAdminPassword!,
+			}
+		);
+
+		var result = await Patch(endpoint, content);
+
+		return result.IsSuccess;
+	}
+
+	private async Task<bool> AuthenticateAdmin(string tssId)
+	{
+		var endpoint = new FiskalyEndpointBuilder()
+						.WithSpecificTss(tssId)
+						.WithAdminAuth()
+						.Build();
+
+		var content = Serialize(
+			new FiskalyAdminAuthenticationRequest()
+			{
+				AdminPin = authenticationService.CurrentConfig.TseAdminPassword!,
+			}
+		);
+
+		var result = await Post(endpoint, content);
+
+		return result.IsSuccess;
+	}
+
+	private async Task LogoutAdmin(string tssId)
+	{
+		var endpoint = new FiskalyEndpointBuilder()
+						.WithSpecificTss(tssId)
+						.WithAdminLogout()
+						.Build();
+
+		await Post(endpoint, "{}");
+	}
 }

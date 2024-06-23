@@ -11,6 +11,4 @@ public class FiskalyConfig : AbstractDbItem
 	public string TseId { get; set; } = string.Empty;
 
 	public string ClientId { get; set; } = string.Empty;
-	
-	
 }

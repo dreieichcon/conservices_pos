@@ -56,7 +56,7 @@ public class FiskalyTss
 	public string BsiCertificationId { get; set; }
 
 	[JsonPropertyName("bsi_certification_valid_to")]
-	public int BsiCertificationValidTo { get; set; }
+	public DateTime BsiCertificationValidTo { get; set; }
 
 	[JsonPropertyName("signature_counter")]
 	public string SignatureCounter { get; set; }
@@ -81,4 +81,7 @@ public class FiskalyTss
 
 	[JsonPropertyName("time_disable")]
 	public DateTime TimeDisable { get; set; }
+	
+	[JsonPropertyName("admin_puk")]
+	public string AdminPuk { get; set; }
 }

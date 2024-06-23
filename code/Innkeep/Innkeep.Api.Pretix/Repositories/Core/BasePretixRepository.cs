@@ -18,7 +18,7 @@ public class BasePretixRepository<T>(IPretixAuthenticationService authentication
 	}
 
 	private string Token => authenticationService.AuthenticationInfo.Token;
-	
+
 	protected override void InitializeGetHeaders(HttpRequestMessage message)
 	{
 		message.Headers.Add("Accept", "application/json");
@@ -30,15 +30,16 @@ public class BasePretixRepository<T>(IPretixAuthenticationService authentication
 		Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", Token);
 	}
 
-	protected override void InitializePutHeaders()
-	{
-		throw new NotImplementedException();
-	}
+	protected override void InitializePutHeaders() => throw new NotImplementedException();
+
+	protected override void InitializePatchHeaders() => throw new NotImplementedException();
 
 	protected override HttpContent CreatePostMessage(string content) 
 		=> new StringContent(content, Encoding.UTF8, "application/json");
 
 	protected override HttpContent CreatePutMessage(string content) => throw new NotImplementedException();
+	
+	protected override HttpContent CreatePatchMessage(string content) => throw new NotImplementedException();
 
 	protected PretixResponse<T>? Deserialize(string? content)
 	{

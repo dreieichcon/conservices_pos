@@ -57,6 +57,7 @@ public static class ServerServiceManager
 	{
 		collection.AddSingleton<IDbRepository<PretixConfig>, PretixConfigRepository>();
 		collection.AddSingleton<IDbRepository<FiskalyConfig>, FiskalyConfigRepository>();
+		collection.AddSingleton<IDbRepository<FiskalyTseConfig>, FiskalyTseConfigRepository>();
 	}
 	
 	private static void ConfigureDbServices(IServiceCollection collection)
@@ -66,6 +67,7 @@ public static class ServerServiceManager
 		
 		collection.AddSingleton<IDbService<FiskalyConfig>, FiskalyConfigService>();
 		collection.AddSingleton<IFiskalyAuthenticationService, FiskalyAuthenticationService>();
+		collection.AddSingleton<IFiskalyTssService, FiskalyTssService>();
 	}
 
 	private static void ConfigureHttpRepositories(IServiceCollection collection)

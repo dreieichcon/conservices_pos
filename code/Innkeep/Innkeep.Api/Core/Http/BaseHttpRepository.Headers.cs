@@ -7,4 +7,6 @@ public abstract partial class BaseHttpRepository
     protected abstract void InitializePostHeaders();
     
     protected abstract void InitializePutHeaders();
+
+    protected abstract void InitializePatchHeaders();
 }

@@ -41,7 +41,6 @@ public class PretixConfigService(IDbRepository<PretixConfig> pretixConfigReposit
 	{
 		CurrentItem = new PretixConfig()
 		{
-			Id = string.Empty,
 			OperationType = Operation.Created,
 		};
 

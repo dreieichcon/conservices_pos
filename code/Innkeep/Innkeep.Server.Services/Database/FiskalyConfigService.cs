@@ -11,6 +11,7 @@ public class FiskalyConfigService(IDbRepository<FiskalyConfig> fiskalyConfigRepo
 
 	public FiskalyConfig CurrentItem { get; set; }
 
+
 	public IEnumerable<FiskalyConfig> Items { get; set; } = new List<FiskalyConfig>();
 
 	public async Task Load()
@@ -33,6 +34,7 @@ public class FiskalyConfigService(IDbRepository<FiskalyConfig> fiskalyConfigRepo
 	public async Task<bool> Save()
 	{
 		var result = await fiskalyConfigRepository.CrudAsync(CurrentItem);
+		ItemsUpdated?.Invoke(this, EventArgs.Empty);
 		return result.Success;
 	}
 
@@ -41,7 +43,6 @@ public class FiskalyConfigService(IDbRepository<FiskalyConfig> fiskalyConfigRepo
 		var item = new FiskalyConfig()
 		{
 			OperationType = Operation.Created,
-			Id = string.Empty,
 			ClientId = string.Empty,
 			TseId = string.Empty,
 		};

@@ -18,5 +18,10 @@ public abstract partial class BaseHttpRepository
 		}
 	}
 
+	protected string Serialize<T>(T item)
+	{
+		return JsonSerializer.Serialize<T>(item, GetOptions());
+	}
+
 	protected abstract JsonSerializerOptions GetOptions();
 }

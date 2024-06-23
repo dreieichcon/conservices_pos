@@ -11,4 +11,5 @@ public abstract partial class BaseHttpRepository
 
     protected abstract HttpContent CreatePutMessage(string content);
 
+    protected abstract HttpContent CreatePatchMessage(string content);
 }
