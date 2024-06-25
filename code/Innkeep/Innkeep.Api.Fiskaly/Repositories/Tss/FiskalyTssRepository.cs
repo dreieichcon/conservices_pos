@@ -5,7 +5,6 @@ using Innkeep.Api.Fiskaly.Repositories.Core;
 using Innkeep.Api.Models.Fiskaly.Objects;
 using Innkeep.Api.Models.Fiskaly.Request;
 using Innkeep.Api.Models.Fiskaly.Response;
-using Innkeep.Server.Db.Models;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Tss;
 
@@ -34,11 +33,7 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 
 		var result = await Put(endpoint, string.Empty);
 
-		if (!result.IsSuccess) return null;
-
-		var deserialized = Deserialize<FiskalyTss>(result.Content);
-
-		return deserialized;
+		return DeserializeOrNull<FiskalyTss>(result);
 	}
 
 	public async Task<FiskalyTss?> DeployTss(FiskalyTss current)
@@ -53,7 +48,7 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 		
 		var result = await Patch(endpoint, content, 30);
 
-		return !result.IsSuccess ? null : Deserialize<FiskalyTss>(result.Content);
+		return DeserializeOrNull<FiskalyTss>(result);
 	}
 
 	public async Task<FiskalyTss?> InitializeTss(FiskalyTss current)
@@ -76,9 +71,7 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 		
 		await LogoutAdmin(current.Id);
 
-		if (!result.IsSuccess) return null;
-		
-		return !result.IsSuccess ? null : Deserialize<FiskalyTss>(result.Content);
+		return DeserializeOrNull<FiskalyTss>(result);
 	}
 
 	public async Task<bool> ChangeAdminPin(FiskalyTss current)

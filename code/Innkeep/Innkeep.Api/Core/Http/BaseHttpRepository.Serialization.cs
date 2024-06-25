@@ -1,10 +1,20 @@
 ﻿using System.Text.Json;
+using Innkeep.Api.Models.Core;
 using Serilog;
 
 namespace Innkeep.Api.Core.Http;
 
 public abstract partial class BaseHttpRepository
 {
+	protected T? DeserializeOrNull<T>(ApiResponse result) where T : class
+	{
+		if (!result.IsSuccess) return null;
+
+		var deserialized = Deserialize<T>(result.Content);
+
+		return deserialized;
+	}
+	
 	protected T? Deserialize<T>(string? content) where T: class
 	{
 		try
