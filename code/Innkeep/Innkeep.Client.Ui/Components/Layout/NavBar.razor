@@ -1,10 +1,8 @@
-﻿<MudStack Row="true">
-    <MudNavLink Href="/POS">Shop</MudNavLink>
-    <MudNavLink Href="/Scan">Scan</MudNavLink>
-    <MudNavLink Href="/Print">Print</MudNavLink>
-    <MudNavLink Href="/Settings">Settings</MudNavLink>
-</MudStack>
-
-@code {
-    
-}
+﻿<MudNavMenu>
+    <MudStack Row="true">
+        <MudNavLink Href="/POS">POS</MudNavLink>
+        <MudNavLink Href="/Scan">Scan</MudNavLink>
+        <MudNavLink Href="/Print">Print</MudNavLink>
+        <MudNavLink Href="/config" Match="NavLinkMatch.All" ActiveClass="nav-active">Config</MudNavLink>
+    </MudStack>
+</MudNavMenu>
