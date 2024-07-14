@@ -14,4 +14,9 @@
         <PackageReference Include="MudBlazor" Version="6.19.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Innkeep.Db.Client\Innkeep.Db.Client.csproj" />
+      <ProjectReference Include="..\Innkeep.Services\Innkeep.Services.csproj" />
+    </ItemGroup>
+
 </Project>

@@ -86,7 +86,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Api.Fiskaly", "Innk
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Api.Fiskaly.Tests", "Innkeep.Api.Fiskaly.Tests\Innkeep.Api.Fiskaly.Tests.csproj", "{13B7239D-40C7-4830-B4F0-18A00B38BC58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Client.Db", "Innkeep.Client.Db\Innkeep.Client.Db.csproj", "{16A7F6D8-4B4F-45AD-8AED-D7CD1DE7F0EE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Db.Client", "Innkeep.Db.Client\Innkeep.Db.Client.csproj", "{16A7F6D8-4B4F-45AD-8AED-D7CD1DE7F0EE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Api.Server", "Innkeep.Api.Server\Innkeep.Api.Server.csproj", "{163E9CE5-8580-4792-B4C7-0CAA9A530793}"
 EndProject

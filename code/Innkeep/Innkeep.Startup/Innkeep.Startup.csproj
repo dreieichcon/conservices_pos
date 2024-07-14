@@ -18,7 +18,8 @@
       <ProjectReference Include="..\Innkeep.Api.Pretix\Innkeep.Api.Pretix.csproj" />
       <ProjectReference Include="..\Innkeep.Api\Innkeep.Api.csproj" />
       <ProjectReference Include="..\Innkeep.Client.Controllers\Innkeep.Client.Controllers.csproj" />
-      <ProjectReference Include="..\Innkeep.Client.Db\Innkeep.Client.Db.csproj" />
+      <ProjectReference Include="..\Innkeep.Db.Client\Innkeep.Db.Client.csproj" />
+      <ProjectReference Include="..\Innkeep.Client.Services\Innkeep.Client.Services.csproj" />
       <ProjectReference Include="..\Innkeep.Server.Controllers\Innkeep.Server.Controllers.csproj" />
       <ProjectReference Include="..\Innkeep.Server.Db\Innkeep.Server.Db.csproj" />
       <ProjectReference Include="..\Innkeep.Server.Services\Innkeep.Server.Services.csproj" />
