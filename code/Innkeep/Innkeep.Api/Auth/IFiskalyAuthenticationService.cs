@@ -1,6 +1,6 @@
 ﻿using Innkeep.Api.Models.Fiskaly.Objects;
 using Innkeep.Core.DomainModels.Authentication;
-using Innkeep.Server.Db.Models;
+using Innkeep.Db.Server.Models;
 
 namespace Innkeep.Api.Auth;
 

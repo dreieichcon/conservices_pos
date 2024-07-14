@@ -1,6 +1,6 @@
 ﻿using Innkeep.Db.Enum;
 using Innkeep.Db.Interfaces;
-using Innkeep.Server.Db.Models;
+using Innkeep.Db.Server.Models;
 using Innkeep.Server.Services.Interfaces.Registers;
 
 namespace Innkeep.Server.Services.Registers;

@@ -1,6 +1,6 @@
 ﻿using Innkeep.Db.Enum;
 using Innkeep.Db.Interfaces;
-using Innkeep.Server.Db.Models;
+using Innkeep.Db.Server.Models;
 using Innkeep.Services.Interfaces;
 
 namespace Innkeep.Server.Services.Database;

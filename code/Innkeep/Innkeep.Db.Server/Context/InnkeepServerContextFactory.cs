@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Innkeep.Server.Db.Context;
+namespace Innkeep.Db.Server.Context;
 
 public class InnkeepServerContextFactory : IDesignTimeDbContextFactory<InnkeepServerContext>
 {

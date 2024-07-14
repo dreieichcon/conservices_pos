@@ -1,6 +1,6 @@
 ﻿using Innkeep.Db.Models;
 
-namespace Innkeep.Server.Db.Models;
+namespace Innkeep.Db.Server.Models;
 
 public class FiskalyConfig : AbstractDbItem
 {
