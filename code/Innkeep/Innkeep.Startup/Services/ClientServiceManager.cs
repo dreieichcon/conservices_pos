@@ -1,5 +1,10 @@
-﻿using Innkeep.Client.Controllers.Endpoints;
+﻿using System.Net;
+using Innkeep.Api.Server.Interfaces;
+using Innkeep.Api.Server.Repositories.Registers;
+using Innkeep.Client.Controllers.Endpoints;
 using Innkeep.Client.Services.Database;
+using Innkeep.Client.Services.Interfaces.Register;
+using Innkeep.Client.Services.Registers;
 using Innkeep.Db.Client.Context;
 using Innkeep.Db.Client.Models;
 using Innkeep.Db.Client.Repositories.Config;
@@ -17,6 +22,8 @@ public static class ClientServiceManager
 		ConfigureDatabase(collection);
 		ConfigureDbRepositories(collection);
 		ConfigureDbServices(collection);
+		ConfigureHttpRepositories(collection);
+		ConfigureHttpServices(collection);
 		
 		if (isKestrel)
 			ConfigureControllers(collection);
@@ -44,5 +51,20 @@ public static class ClientServiceManager
 	private static void ConfigureDbServices(IServiceCollection collection)
 	{
 		collection.AddSingleton<IDbService<ClientConfig>, ClientConfigService>();
+	}
+
+	private static void ConfigureHttpRepositories(IServiceCollection collection)
+	{
+		collection.AddSingleton(new HttpClientHandler()
+		{
+			ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => true
+		});
+		
+		collection.AddSingleton<IRegisterConnectionRepository, ServerConnectionRepository>();
+	}
+
+	private static void ConfigureHttpServices(IServiceCollection collection)
+	{
+		collection.AddSingleton<IRegisterConnectionService, RegisterConnectionService>();
 	}
 }

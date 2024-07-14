@@ -6,4 +6,14 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Flurl.Http" Version="4.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Innkeep.Api\Innkeep.Api.csproj" />
+      <ProjectReference Include="..\Innkeep.Db.Client\Innkeep.Db.Client.csproj" />
+      <ProjectReference Include="..\Innkeep.Services\Innkeep.Services.csproj" />
+    </ItemGroup>
+
 </Project>

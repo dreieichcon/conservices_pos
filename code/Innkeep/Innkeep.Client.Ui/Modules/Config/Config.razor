@@ -9,7 +9,12 @@
                 </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
-                <MudTextField T="string" @bind-Value="@CurrentConfig.ServerAddress" Variant="Variant.Outlined" Label="Server Address"/>
+                <MudStack Row="true">
+                    <MudTextField T="string" @bind-Value="@CurrentConfig.ServerAddress" Variant="Variant.Outlined" Label="Server Address"/>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Primary">Auto Discover</MudButton>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" @onclick="Test">Test</MudButton>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Success">Connect</MudButton>
+                </MudStack>
             </MudCardContent>
         </MudCard>
     </MudStack>

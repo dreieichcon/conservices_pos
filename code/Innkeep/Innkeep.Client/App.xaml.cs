@@ -1,5 +1,9 @@
 ﻿using System.Configuration;
 using System.Data;
+using System.Net;
+using System.Net.Http;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using Innkeep.Client.Startup;
 using Innkeep.Db.Client.Context;
@@ -19,8 +23,9 @@ public partial class App : Application
 	{
 		base.OnStartup(e);
 		
+		ServicePointManager.ServerCertificateValidationCallback = LocalHostTesting;
 		LoggingManager.InitializeLogger();
-
+		
 		var host = KestrelBuilder.Build();
 		
 		DatabaseCreator.EnsureDbCreated(
@@ -29,5 +34,15 @@ public partial class App : Application
 
 		var mainWindow = new MainWindow(host);
 		mainWindow.Show();
+	}
+
+	private static bool LocalHostTesting(
+		object sender,
+		X509Certificate? certificate,
+		X509Chain? chain,
+		SslPolicyErrors sslPolicyErrors
+	)
+	{
+		return true;
 	}
 }

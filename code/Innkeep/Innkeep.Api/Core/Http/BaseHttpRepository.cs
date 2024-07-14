@@ -2,7 +2,7 @@
 
 public abstract partial class BaseHttpRepository
 {
-    protected HttpClient Client = new();
+    protected HttpClient Client { get; set; } = new();
 
     private static HttpRequestMessage CreateGetMessage(string uri) 
         => new(HttpMethod.Get, uri);

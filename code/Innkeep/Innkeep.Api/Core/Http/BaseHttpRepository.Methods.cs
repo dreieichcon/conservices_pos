@@ -9,6 +9,7 @@ public abstract partial class BaseHttpRepository
     protected abstract Task PrepareRequest();
 
     protected virtual int Timeout => 5;
+    
     protected void SetTimeout(int? timeout)
     {
         Client = new HttpClient();

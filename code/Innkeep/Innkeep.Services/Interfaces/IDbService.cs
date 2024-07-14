@@ -4,7 +4,7 @@ public interface IDbService<T>
 {
 	public event EventHandler? ItemsUpdated;
 	
-	public T CurrentItem { get; set; }
+	public T? CurrentItem { get; set; }
 	
 	public IEnumerable<T> Items { get; set; }
 
