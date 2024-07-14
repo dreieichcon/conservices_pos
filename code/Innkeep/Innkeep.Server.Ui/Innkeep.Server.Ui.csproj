@@ -19,7 +19,6 @@
 
     <ItemGroup>
       <Folder Include="Modules\Fiskaly\Config\Tss\Custom\" />
-      <Folder Include="Modules\Registers\" />
     </ItemGroup>
 
     <ItemGroup>

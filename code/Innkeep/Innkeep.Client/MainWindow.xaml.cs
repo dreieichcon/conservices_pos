@@ -1,6 +1,6 @@
-﻿using System.Windows;
-using Microsoft.Extensions.DependencyInjection;
-using MudBlazor.Services;
+﻿using System.ComponentModel;
+using System.Windows;
+using Microsoft.Extensions.Hosting;
 
 namespace Innkeep.Client;
 
@@ -9,15 +9,22 @@ namespace Innkeep.Client;
 /// </summary>
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    private readonly IHost _host;
+    
+    public MainWindow(IHost host)
     {
+        _host = host;
+        
         InitializeComponent();
         
-        var collection = new ServiceCollection();
-        collection.AddWpfBlazorWebView();
-        collection.AddBlazorWebViewDeveloperTools();
-        collection.AddMudServices();
+        Resources.Add("services", _host.Services);
         
-        Resources.Add("services", collection.BuildServiceProvider());
+        _ = _host.StartAsync(CancellationToken.None);
+    }
+    
+    protected override void OnClosing(CancelEventArgs e)
+    {
+        _host.Dispose();
+        base.OnClosing(e);
     }
 }

@@ -13,17 +13,18 @@ namespace Innkeep.Server;
 /// </summary>
 public partial class App : Application
 {
-	
 	protected override void OnStartup(StartupEventArgs e)
 	{
 		base.OnStartup(e);
-		
+
 		LoggingManager.InitializeLogger();
 
 		var host = KestrelBuilder.Build();
 
-		DatabaseCreator.EnsureDbCreated(host.Services.GetRequiredService<IDbContextFactory<InnkeepServerContext>>());
-		
+		DatabaseCreator.EnsureDbCreated(
+			host.Services.GetRequiredService<IDbContextFactory<InnkeepServerContext>>()
+			);
+
 		var mainWindow = new MainWindow(host);
 		mainWindow.Show();
 	}
