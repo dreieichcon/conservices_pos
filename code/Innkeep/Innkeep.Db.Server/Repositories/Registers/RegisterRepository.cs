@@ -1,10 +1,10 @@
 ﻿using Innkeep.Db.Interfaces;
-using Innkeep.Server.Db.Context;
-using Innkeep.Server.Db.Models;
-using Innkeep.Server.Db.Repositories.Core;
+using Innkeep.Db.Server.Context;
+using Innkeep.Db.Server.Models;
+using Innkeep.Db.Server.Repositories.Core;
 using Microsoft.EntityFrameworkCore;
 
-namespace Innkeep.Server.Db.Repositories.Registers;
+namespace Innkeep.Db.Server.Repositories.Registers;
 
 public class RegisterRepository(IDbContextFactory<InnkeepServerContext> contextFactory) 
 	: BaseInnkeepServerRepository<Register>(contextFactory), IDbRepository<Register>

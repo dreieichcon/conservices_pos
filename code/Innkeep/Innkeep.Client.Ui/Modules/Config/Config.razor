@@ -9,7 +9,7 @@
                 </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
-                <MudTextField T="string"></MudTextField>
+                <MudTextField T="string" @bind-Value="@CurrentConfig.ServerAddress" Variant="Variant.Outlined" Label="Server Address"/>
             </MudCardContent>
         </MudCard>
     </MudStack>

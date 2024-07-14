@@ -1,6 +1,6 @@
 ﻿using Innkeep.Api.Auth;
 using Innkeep.Core.DomainModels.Authentication;
-using Innkeep.Server.Db.Models;
+using Innkeep.Db.Server.Models;
 using Innkeep.Services.Interfaces;
 
 namespace Innkeep.Server.Services.Authentication;

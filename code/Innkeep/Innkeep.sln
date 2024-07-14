@@ -62,7 +62,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Api.Pretix.Tests", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Server.Ui", "Innkeep.Server.Ui\Innkeep.Server.Ui.csproj", "{949D0ED5-CB50-4B88-A8D8-2179FBEEB3E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Server.Db", "Innkeep.Server.Db\Innkeep.Server.Db.csproj", "{E08F98A5-AB34-4CD3-9FA6-E6519332FC69}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Db.Server", "Innkeep.Db.Server\Innkeep.Db.Server.csproj", "{E08F98A5-AB34-4CD3-9FA6-E6519332FC69}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Db", "Innkeep.Db\Innkeep.Db.csproj", "{514E0240-9EF8-40B9-9ACC-51A6DD571BDE}"
 EndProject

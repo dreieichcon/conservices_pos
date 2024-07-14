@@ -1,4 +1,4 @@
-﻿using Innkeep.Server.Db.Models;
+﻿using Innkeep.Db.Server.Models;
 using Innkeep.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 

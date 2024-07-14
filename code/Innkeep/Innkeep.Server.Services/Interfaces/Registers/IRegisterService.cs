@@ -1,4 +1,4 @@
-﻿using Innkeep.Server.Db.Models;
+﻿using Innkeep.Db.Server.Models;
 
 namespace Innkeep.Server.Services.Interfaces.Registers;
 

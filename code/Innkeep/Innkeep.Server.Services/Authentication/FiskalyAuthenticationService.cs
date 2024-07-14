@@ -4,7 +4,7 @@ using Innkeep.Api.Models.Fiskaly.Objects;
 using Innkeep.Core.DomainModels.Authentication;
 using Innkeep.Db.Enum;
 using Innkeep.Db.Interfaces;
-using Innkeep.Server.Db.Models;
+using Innkeep.Db.Server.Models;
 using Innkeep.Services.Interfaces;
 
 namespace Innkeep.Server.Services.Authentication;

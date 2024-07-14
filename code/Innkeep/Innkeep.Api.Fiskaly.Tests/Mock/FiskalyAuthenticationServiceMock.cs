@@ -3,7 +3,7 @@ using Innkeep.Api.Fiskaly.Interfaces.Auth;
 using Innkeep.Api.Fiskaly.Tests.Data;
 using Innkeep.Api.Models.Fiskaly.Objects;
 using Innkeep.Core.DomainModels.Authentication;
-using Innkeep.Server.Db.Models;
+using Innkeep.Db.Server.Models;
 
 namespace Innkeep.Api.Fiskaly.Tests.Mock;
 

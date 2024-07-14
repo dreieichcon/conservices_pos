@@ -1,7 +1,7 @@
-﻿using Innkeep.Server.Db.Models;
+﻿using Innkeep.Db.Server.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Innkeep.Server.Db.Context;
+namespace Innkeep.Db.Server.Context;
 
 public class InnkeepServerContext(DbContextOptions<InnkeepServerContext> options) : DbContext(options)
 {
