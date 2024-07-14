@@ -1,0 +1,40 @@
+﻿@page "/config/register/trusted"
+
+<ConfigPage PageTitle="Configure Trusted Registers">
+    <ChildContent>
+        <MudStack class="flex-grow-1">
+            <MudStack Class="h-50" Spacing="0">
+                <MudText Typo="Typo.h6">Known Registers</MudText>
+                <MudDataGrid Items="@RegisterService.KnownRegisters">
+                    <Columns>
+                        <PropertyColumn Property="x => x.RegisterIdentifier" Title="Identifier"/>
+                        <PropertyColumn Property="x => x.RegisterIdentifier" Title="Description"/>
+                        <TemplateColumn Title="Actions">
+                            <CellTemplate>
+                                <MudButton>Remove</MudButton>
+                            </CellTemplate>
+                        </TemplateColumn>
+                    </Columns>
+                </MudDataGrid>
+            </MudStack>
+            <MudStack Class="h-50" Spacing="0">
+                <MudText Typo="Typo.h6">Pending Registers</MudText>
+                <MudDataGrid Items="@RegisterService.PendingRegisters">
+                    <Columns>
+                        <PropertyColumn Property="x => x.RegisterIdentifier" Title="Identifier"/>
+                        <PropertyColumn Property="x => x.RegisterIdentifier" Title="Description"/>
+                        <TemplateColumn Title="Actions">
+                            <CellTemplate>
+                                <MudButton @onclick="() => Trust(context.Item!.RegisterIdentifier)">Trust</MudButton>
+                            </CellTemplate>
+                        </TemplateColumn>
+                    </Columns>
+                </MudDataGrid>
+            </MudStack>
+        </MudStack>
+    </ChildContent>
+    <ActionBar>
+        <MudButton Color="Color.Success" Variant="Variant.Outlined" OnClick="Save">Save</MudButton>
+    </ActionBar>
+</ConfigPage>
+

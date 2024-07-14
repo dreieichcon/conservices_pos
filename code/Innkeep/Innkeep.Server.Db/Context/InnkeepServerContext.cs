@@ -3,16 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Innkeep.Server.Db.Context;
 
-public class InnkeepServerContext : DbContext
+public class InnkeepServerContext(DbContextOptions<InnkeepServerContext> options) : DbContext(options)
 {
-	public InnkeepServerContext(DbContextOptions<InnkeepServerContext> options) : base(options)
-	{
-		
-	}
-	
-	public DbSet<PretixConfig> PretixConfigs { get; set; } = null!;
+	public DbSet<PretixConfig> PretixConfigs { get; init; } = null!;
 
-	public DbSet<FiskalyConfig> FiskalyConfigs { get; set; } = null!;
+	public DbSet<FiskalyConfig> FiskalyConfigs { get; init; } = null!;
 
-	public DbSet<FiskalyTseConfig> TseConfigs { get; set; } = null!;
+	public DbSet<FiskalyTseConfig> TseConfigs { get; init; } = null!;
+
+	public DbSet<Register> Registers { get; init; } = null!;
 }
