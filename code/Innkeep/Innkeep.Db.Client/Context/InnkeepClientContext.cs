@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Innkeep.Client.Db.Context;
+namespace Innkeep.Db.Client.Context;
 
 public class InnkeepClientContext(DbContextOptions<InnkeepClientContext> options) : DbContext(options)
 {

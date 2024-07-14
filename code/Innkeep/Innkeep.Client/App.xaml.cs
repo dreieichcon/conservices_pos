@@ -1,8 +1,8 @@
 ﻿using System.Configuration;
 using System.Data;
 using System.Windows;
-using Innkeep.Client.Db.Context;
 using Innkeep.Client.Startup;
+using Innkeep.Db.Client.Context;
 using Innkeep.Startup.Database;
 using Innkeep.Startup.Services;
 using Microsoft.EntityFrameworkCore;
