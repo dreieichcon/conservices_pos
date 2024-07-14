@@ -9,7 +9,7 @@ public class ClientConfigService(IDbRepository<ClientConfig> clientConfigReposit
 {
 	public event EventHandler? ItemsUpdated;
 
-	public ClientConfig CurrentItem { get; set; }
+	public ClientConfig? CurrentItem { get; set; }
 
 	public IEnumerable<ClientConfig> Items { get; set; }
 
