@@ -12,13 +12,16 @@ using Innkeep.Server.Controllers.Endpoints;
 using Innkeep.Server.Db.Context;
 using Innkeep.Server.Db.Models;
 using Innkeep.Server.Db.Repositories.Config;
+using Innkeep.Server.Db.Repositories.Registers;
 using Innkeep.Server.Services.Authentication;
 using Innkeep.Server.Services.Database;
 using Innkeep.Server.Services.Fiskaly;
 using Innkeep.Server.Services.Interfaces;
 using Innkeep.Server.Services.Interfaces.Fiskaly;
 using Innkeep.Server.Services.Interfaces.Pretix;
+using Innkeep.Server.Services.Interfaces.Registers;
 using Innkeep.Server.Services.Pretix;
+using Innkeep.Server.Services.Registers;
 using Innkeep.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -58,6 +61,7 @@ public static class ServerServiceManager
 		collection.AddSingleton<IDbRepository<PretixConfig>, PretixConfigRepository>();
 		collection.AddSingleton<IDbRepository<FiskalyConfig>, FiskalyConfigRepository>();
 		collection.AddSingleton<IDbRepository<FiskalyTseConfig>, FiskalyTseConfigRepository>();
+		collection.AddSingleton<IDbRepository<Register>, RegisterRepository>();
 	}
 	
 	private static void ConfigureDbServices(IServiceCollection collection)
@@ -68,6 +72,8 @@ public static class ServerServiceManager
 		collection.AddSingleton<IDbService<FiskalyConfig>, FiskalyConfigService>();
 		collection.AddSingleton<IFiskalyAuthenticationService, FiskalyAuthenticationService>();
 		collection.AddSingleton<IFiskalyTssService, FiskalyTssService>();
+
+		collection.AddSingleton<IRegisterService, RegisterService>();
 	}
 
 	private static void ConfigureHttpRepositories(IServiceCollection collection)

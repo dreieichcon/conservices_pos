@@ -2,10 +2,14 @@
 
 namespace Innkeep.Startup.Services;
 
-public class LoggingManager
+public static class LoggingManager
 {
 	public static void InitializeLogger()
 	{
-		Log.Logger = new LoggerConfiguration().WriteTo.Trace().WriteTo.Debug().WriteTo.Console().CreateLogger();
+		Log.Logger = new LoggerConfiguration()
+					.WriteTo.Trace()
+					.WriteTo.Debug()
+					.WriteTo.Console()
+					.CreateLogger();
 	}
 }
