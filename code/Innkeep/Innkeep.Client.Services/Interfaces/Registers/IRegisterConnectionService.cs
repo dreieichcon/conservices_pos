@@ -1,6 +1,14 @@
-﻿namespace Innkeep.Client.Services.Interfaces.Register;
+﻿namespace Innkeep.Client.Services.Interfaces.Registers;
 
 public interface IRegisterConnectionService
 {
+	public event EventHandler? TestAddressChanged;
+	
+	public string CurrentTestAddress { get; set; }
+	
 	public Task<bool> Test();
+
+	public Task<string?> Discover(CancellationToken token);
+
+	public Task<bool> Connect(string description);
 }

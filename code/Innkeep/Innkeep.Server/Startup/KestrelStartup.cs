@@ -11,6 +11,8 @@ public class KestrelStartup
 	{
 		app.UseSwagger();
 		app.UseSwaggerUI();
+
+		app.UseAuthentication();
 		
 		app.UseRouting();
 		app.UseHttpsRedirection();

@@ -11,12 +11,18 @@ public partial class ConfigTrustedRegisters
 	protected override async Task OnInitializedAsync()
 	{
 		RegisterService.ItemsUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
+		RegisterService.PendingRegisterAdded += async (_, _) => await InvokeAsync(StateHasChanged);
 		await RegisterService.Load();
 	}
 
 	private async Task Trust(string identifier)
 	{
 		await RegisterService.AddToKnown(identifier);
+	}
+
+	private async Task Remove(string identifier)
+	{
+		await RegisterService.Delete(identifier);
 	}
 
 	private async Task Save()

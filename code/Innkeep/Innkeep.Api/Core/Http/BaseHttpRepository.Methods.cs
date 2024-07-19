@@ -8,15 +8,19 @@ public abstract partial class BaseHttpRepository
 {
     protected abstract Task PrepareRequest();
 
-    protected virtual int Timeout => 5;
+    protected virtual int Timeout => 5000;
     
     protected void SetTimeout(int? timeout)
     {
         Client = new HttpClient();
-        Client.Timeout = TimeSpan.FromSeconds(timeout ?? Timeout);
+        Client.Timeout = TimeSpan.FromMilliseconds(timeout ?? Timeout);
     }
-    
-    private async Task<HttpResponseMessage> SendRequest(RequestType requestType, string uri, string content, int? timeout = null)
+
+    private async Task<HttpResponseMessage> SendRequest(
+        RequestType requestType,
+        string uri,
+        string content,
+        int? timeout = null)
     {
         HttpResponseMessage response;
 
@@ -62,6 +66,24 @@ public abstract partial class BaseHttpRepository
     protected async Task<ApiResponse> Get(string uri)
     {
         var response = await SendRequest(RequestType.Get, uri, string.Empty);
+        return await ApiResponse.FromResponse(response);
+    }
+    
+    protected async Task<ApiResponse> Get(string uri, int timeout)
+    {
+        var response = await SendRequest(RequestType.Get, uri, string.Empty, timeout);
+        return await ApiResponse.FromResponse(response);
+    }
+    
+    protected async Task<ApiResponse> Get(string uri, Dictionary<string, string> formContent)
+    {
+        var get = CreateGetMessage(uri);
+        InitializeGetHeaders(get);
+        get.Content = new FormUrlEncodedContent(formContent);
+        var response = await Client.SendAsync(get);
+
+        await LogResponse(response);
+        
         return await ApiResponse.FromResponse(response);
     }
 

@@ -1,4 +1,6 @@
-﻿using Innkeep.Startup.Services;
+﻿using Innkeep.Client.Services;
+using Innkeep.Client.Services.Interfaces.Hardware;
+using Innkeep.Startup.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -14,6 +16,7 @@ public class KestrelBuilder
 		builder.ConfigureServices(
 			services =>
 			{
+				services.AddSingleton<IPrinterService, PrinterService>();
 				ClientServiceManager.ConfigureServices(services, true);
 				WpfBuilder.ConfigureServices(services);
 

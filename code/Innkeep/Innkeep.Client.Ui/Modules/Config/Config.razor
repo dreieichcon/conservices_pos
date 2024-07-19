@@ -1,7 +1,19 @@
 ﻿@page "/config"
 
-<MudPaper Class="flex-grow-1">
-    <MudStack Class="flex-grow-1">
+
+<MudStack Class="flex-grow-1" Justify="Justify.SpaceBetween">
+    <MudStack>
+        <MudCard>
+            <MudCardHeader>
+                <MudCardHeaderContent>
+                    <MudText>Register Id: @HardwareService.ClientIdentifier</MudText>
+                    <MudText>Register Address: @HardwareService.IpAddress</MudText>
+                </MudCardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField T="string" @bind-Value="@CurrentConfig.ClientName" Variant="Variant.Outlined" Label="Client Name"/>
+            </MudCardContent>
+        </MudCard>
         <MudCard>
             <MudCardHeader>
                 <CardHeaderContent>
@@ -9,17 +21,59 @@
                 </CardHeaderContent>
             </MudCardHeader>
             <MudCardContent>
-                <MudStack Row="true">
-                    <MudTextField T="string" @bind-Value="@CurrentConfig.ServerAddress" Variant="Variant.Outlined" Label="Server Address"/>
-                    <MudButton Variant="Variant.Outlined" Color="Color.Primary">Auto Discover</MudButton>
-                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" @onclick="Test">Test</MudButton>
-                    <MudButton Variant="Variant.Outlined" Color="Color.Success">Connect</MudButton>
+                <MudStack>
+                    <MudStack Row="true">
+                        <MudTextField T="string" @bind-Value="@CurrentConfig.ServerAddress" Variant="Variant.Outlined" Label="Server Address"/>
+                    </MudStack>
+                    <MudStack Row="true" Class="w-100" Justify="Justify.FlexEnd">
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" @onclick="Discover" Disabled="_isDiscovering">Auto Discover</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" @onclick="Test" Disabled="_isDiscovering">Test</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Success" @onclick="Connect" Disabled="_isDiscovering">Connect</MudButton>
+                    </MudStack>
+                    @if (_isDiscovering)
+                    {
+                        <MudStack>
+                            <MudText>Looking for Server...</MudText>
+                            <MudDivider/>
+                            <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.Center">
+                                <MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Medium"/>
+                                <MudText>Testing: @RegisterConnectionService.CurrentTestAddress</MudText>
+                                <MudButton @onclick="Cancel" Variant="Variant.Outlined" Color="Color.Error">Cancel</MudButton>
+                            </MudStack>
+                        </MudStack>
+                    }
+                </MudStack>
+            </MudCardContent>
+        </MudCard>
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText>Configure Printer</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudStack Class="w-100">
+                    <MudSelect T="string" Variant="Variant.Outlined" Label="Select a printer (Must be Epson TM-T88 IV or Newer!)" @bind-Value="@CurrentConfig.PrinterName">
+                        @foreach (var printerName in PrinterService.PrinterNames)
+                        {
+                            <MudSelectItem Value="@printerName">@printerName</MudSelectItem>
+                        }
+                    </MudSelect>
+                    <MudStack Row="true" Class="w-100" Justify="Justify.FlexEnd">
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" @onclick="TestPrinter">Test Printer</MudButton>
+                    </MudStack>
                 </MudStack>
             </MudCardContent>
         </MudCard>
     </MudStack>
-</MudPaper>
+    <MudPaper Class="p-3">
+        <MudStack Row="true" Justify="Justify.FlexEnd">
+            <MudButton Variant="Variant.Outlined" Color="Color.Success" @onclick="Save">Save</MudButton>
+        </MudStack>
+    </MudPaper>
+</MudStack>
+
 
 @code {
-    
+
 }

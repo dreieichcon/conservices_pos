@@ -18,6 +18,17 @@ public class RegisterService(IDbRepository<Register> registerRepository) : IRegi
 	public bool IsKnown(string registerIdentifier) =>
 		KnownRegisters.Any(x => x.RegisterIdentifier == registerIdentifier);
 
+	public async Task Update(string registerIdentifier, string registerDescription, string registerIp)
+	{
+		var register = KnownRegisters.First(x => x.RegisterIdentifier == registerIdentifier);
+		register.RegisterDescription = registerDescription;
+		register.RegisterIp = registerIp;
+		register.OperationType = Operation.Updated;
+
+		await Save();
+		await Load();
+	}
+
 	public void AddPending(string registerIdentifier, string registerDescription)
 	{
 		PendingRegisters.Add(
@@ -52,5 +63,19 @@ public class RegisterService(IDbRepository<Register> registerRepository) : IRegi
 
 		await Save();
 		await Load();
+	}
+
+	public async Task Delete(string identifier)
+	{
+		var register = Retrieve(identifier);
+		register.OperationType = Operation.Removed;
+
+		await Save();
+		await Load();
+	}
+
+	private Register Retrieve(string identifier)
+	{
+		return KnownRegisters.First(x => x.RegisterIdentifier == identifier);
 	}
 }
