@@ -23,6 +23,7 @@ using Innkeep.Server.Services.Interfaces.Registers;
 using Innkeep.Server.Services.Pretix;
 using Innkeep.Server.Services.Registers;
 using Innkeep.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -44,6 +45,7 @@ public static class ServerServiceManager
 
 	private static void ConfigureControllers(IServiceCollection collection)
 	{
+		collection.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate();
 		collection.AddControllers().AddApplicationPart(typeof(RegisterController).Assembly);
 	}
 

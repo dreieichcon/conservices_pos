@@ -16,13 +16,14 @@ public class RegisterController(IRegisterService registerService) : Controller
 
 	[HttpGet]
 	[Route("connect")]
-	public IActionResult Connect(string identifier, string description)
+	public async Task<IActionResult> Connect(string identifier, string description, string ip)
 	{
-		Log.Debug("Received Connection Request from Register: {Identifier}", identifier);
+		Log.Debug("Received Connection Request from Register: {Identifier} at {Ip}", identifier, ip);
 
 		if (registerService.IsKnown(identifier))
 		{
 			Log.Debug("Register {Identifier} found in trusted clients", identifier);
+			await registerService.Update(identifier, description, ip);
 			return new OkObjectResult(identifier);
 		}
 

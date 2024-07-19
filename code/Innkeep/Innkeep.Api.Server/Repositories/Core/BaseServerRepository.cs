@@ -5,11 +5,6 @@ namespace Innkeep.Api.Server.Repositories.Core;
 
 public class BaseServerRepository : BaseHttpRepository
 {
-	protected BaseServerRepository(HttpClientHandler handler)
-	{
-		Client = new HttpClient(handler);
-	}
-	
 	protected override JsonSerializerOptions GetOptions() => throw new NotImplementedException();
 
 	protected override async Task PrepareRequest()

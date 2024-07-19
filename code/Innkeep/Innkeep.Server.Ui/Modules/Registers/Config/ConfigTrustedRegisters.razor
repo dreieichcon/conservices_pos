@@ -8,10 +8,11 @@
                 <MudDataGrid Items="@RegisterService.KnownRegisters">
                     <Columns>
                         <PropertyColumn Property="x => x.RegisterIdentifier" Title="Identifier"/>
-                        <PropertyColumn Property="x => x.RegisterIdentifier" Title="Description"/>
+                        <PropertyColumn Property="x => x.RegisterDescription" Title="Description"/>
+                        <PropertyColumn Property="x => x.RegisterIp" Title="Ip"/>
                         <TemplateColumn Title="Actions">
                             <CellTemplate>
-                                <MudButton>Remove</MudButton>
+                                <MudButton @onclick="() => Remove(context.Item!.RegisterIdentifier)">Remove</MudButton>
                             </CellTemplate>
                         </TemplateColumn>
                     </Columns>
