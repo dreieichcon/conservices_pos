@@ -1,4 +1,4 @@
-﻿namespace Innkeep.Client.Services.Interfaces.Registers;
+﻿namespace Innkeep.Services.Client.Interfaces.Registers;
 
 public interface IRegisterConnectionService
 {

@@ -6,7 +6,7 @@ using Serilog;
 
 namespace Innkeep.Api.Server.Repositories.Registers;
 
-public class RegisterConnectionRepository(IDbService<ClientConfig> clientConfigService) : BaseServerRepository(), IRegisterConnectionRepository
+public class RegisterConnectionRepository(IDbService<ClientConfig> clientConfigService) : BaseServerRepository, IRegisterConnectionRepository
 {
 	protected override int Timeout => 500;
 

@@ -1,5 +1,5 @@
 ﻿using Innkeep.Client.Services;
-using Innkeep.Client.Services.Interfaces.Hardware;
+using Innkeep.Services.Client.Interfaces.Hardware;
 using Innkeep.Startup.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;

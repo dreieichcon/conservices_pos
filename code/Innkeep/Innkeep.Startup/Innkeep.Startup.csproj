@@ -21,7 +21,7 @@
       <ProjectReference Include="..\Innkeep.Api\Innkeep.Api.csproj" />
       <ProjectReference Include="..\Innkeep.Client.Controllers\Innkeep.Client.Controllers.csproj" />
       <ProjectReference Include="..\Innkeep.Db.Client\Innkeep.Db.Client.csproj" />
-      <ProjectReference Include="..\Innkeep.Client.Services\Innkeep.Client.Services.csproj" />
+      <ProjectReference Include="..\Innkeep.Services.Client\Innkeep.Services.Client.csproj" />
       <ProjectReference Include="..\Innkeep.Server.Controllers\Innkeep.Server.Controllers.csproj" />
       <ProjectReference Include="..\Innkeep.Db.Server\Innkeep.Db.Server.csproj" />
       <ProjectReference Include="..\Innkeep.Server.Services\Innkeep.Server.Services.csproj" />
