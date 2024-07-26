@@ -16,6 +16,6 @@ public partial class MainLayout
 	{
 		base.OnInitialized();
 
-		Router.OnRegisterConnected += (_, _) => Snackbar.Add("REgogogogogogoogogaaa");
+		Router.OnRegisterConnected += (_, _) => Snackbar.Add("Register Connected to Server", Severity.Success);
 	}
 }

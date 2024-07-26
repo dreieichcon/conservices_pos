@@ -27,7 +27,7 @@ public partial class App : Application
 			host.Services.GetRequiredService<IDbContextFactory<InnkeepServerContext>>()
 			);
 		
-		ServerServiceInitializer.InitializeServices(host.Services);
+		Task.Run(() => ServerServiceInitializer.InitializeServices(host.Services));
 
 		var mainWindow = new MainWindow(host);
 		mainWindow.Show();

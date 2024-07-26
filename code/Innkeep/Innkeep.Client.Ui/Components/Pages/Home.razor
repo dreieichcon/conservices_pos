@@ -1,9 +1,16 @@
 ﻿@page "/"
+@using Innkeep.Services.Client.Interfaces.Internal
+@inject IStartupService StartupService
 <div class="flex-grow-1">
     <h3>Hello World</h3>
 </div>
 
 
 @code {
-    
+
+    protected override async Task OnInitializedAsync()
+    {
+        await StartupService.OnStartup();
+    }
+
 }

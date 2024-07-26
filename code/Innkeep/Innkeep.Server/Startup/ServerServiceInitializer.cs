@@ -5,9 +5,9 @@ namespace Innkeep.Server.Startup;
 
 public static class ServerServiceInitializer
 {
-	public static void InitializeServices(IServiceProvider provider)
+	public static async Task InitializeServices(IServiceProvider provider)
 	{
 		provider.GetRequiredService<IPretixSalesItemService>();
-		provider.GetRequiredService<IRegisterService>();
+		await provider.GetRequiredService<IRegisterService>().Load();
 	}
 }
