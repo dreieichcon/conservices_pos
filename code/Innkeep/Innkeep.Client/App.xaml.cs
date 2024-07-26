@@ -36,7 +36,7 @@ public partial class App : Application
 			host.Services.GetRequiredService<IDbContextFactory<InnkeepClientContext>>()
 			);
 		
-		ClientServiceInitializer.InitializeServices(host.Services);
+		ClientEventInitializer.Initialize(host.Services);
 
 		var mainWindow = new MainWindow(host);
 		mainWindow.Show();

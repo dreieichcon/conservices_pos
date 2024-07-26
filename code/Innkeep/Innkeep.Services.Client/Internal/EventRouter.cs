@@ -7,4 +7,8 @@ public class EventRouter : IEventRouter
 	public event EventHandler? OnRegisterConnected;
 
 	public void Connected() => OnRegisterConnected?.Invoke(this, EventArgs.Empty);
+
+	public event EventHandler? OnStartup;
+	
+	public void Startup() => OnStartup?.Invoke(this, EventArgs.Empty);
 }

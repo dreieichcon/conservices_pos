@@ -34,6 +34,8 @@ public static class ClientServiceManager
 		
 		if (isKestrel)
 			ConfigureControllers(collection);
+		
+		collection.AddSingleton<IStartupService, StartupService>();
 	}
 
 	private static void ConfigureLocalServices(IServiceCollection collection)

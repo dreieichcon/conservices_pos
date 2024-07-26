@@ -5,10 +5,12 @@
 @inject ISalesItemService SalesItemService
 
 <MudStack Class="flex-grow-1">
-    <MudStack Row="true" Style="height: 80vh; max-height: 80vh; width: 100%;">
+    <MudStack Row="true" Style="height: 80%; max-height: 80%; width: 100%;" Spacing="2" Justify="Justify.SpaceBetween">
+        <CartDisplay/>
         <SalesItemDisplay/>
+        <KeypadDisplay/>
     </MudStack>
-    <MudStack Row="true" Style="height: 20vh; max-height: 20vh;">
+    <MudStack Row="true" Style="height: 20%; max-height: 20%;">
         <MudPaper Class="d-flex flex-grow-1"></MudPaper>
     </MudStack>
 </MudStack>

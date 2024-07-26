@@ -6,10 +6,20 @@ using Serilog;
 
 namespace Innkeep.Services.Client.Registers;
 
-public class RegisterConnectionService(IRegisterConnectionRepository repository, IHardwareService hardwareService, IEventRouter router) : IRegisterConnectionService
+public class RegisterConnectionService : IRegisterConnectionService
 {
 	private string _currentTestAddress = string.Empty;
-	
+	private readonly IRegisterConnectionRepository _repository;
+	private readonly IHardwareService _hardwareService;
+	private readonly IEventRouter _router;
+
+	public RegisterConnectionService(IRegisterConnectionRepository repository, IHardwareService hardwareService, IEventRouter router)
+	{
+		_repository = repository;
+		_hardwareService = hardwareService;
+		_router = router;
+	}
+
 	private const string ServerPort = "1337";
 
 	private const string ServerProtocol = "https://";
@@ -30,25 +40,25 @@ public class RegisterConnectionService(IRegisterConnectionRepository repository,
 
 	public async Task<bool> Connect(string description)
 	{
-		var identifier = hardwareService.ClientIdentifier;
-		var ip = hardwareService.IpAddress;
+		var identifier = _hardwareService.ClientIdentifier;
+		var ip = _hardwareService.IpAddress;
 
-		var result = await repository.Connect(identifier, description, ip);
+		var result = await _repository.Connect(identifier, description, ip);
 		if (result)
-			router.Connected();
+			_router.Connected();
 
 		return result;
 	}
 
 	public async Task<bool> Test()
 	{
-		return await repository.Test();
+		return await _repository.Test();
 	}
 
 	public async Task<string?> Discover(CancellationToken token)
 	{
 		// first get the ip address of the client
-		var address = hardwareService.IpAddress;
+		var address = _hardwareService.IpAddress;
 
 		var addressModifiable = address.Split(".").Take(3);
 		var iterable = string.Join(".", addressModifiable);
@@ -63,14 +73,14 @@ public class RegisterConnectionService(IRegisterConnectionRepository repository,
 
 			Log.Debug("Testing {TestAddress}", CurrentTestAddress);
 			
-			if (await repository.Discover(CurrentTestAddress))
+			if (await _repository.Discover(CurrentTestAddress))
 			{
 				return CurrentTestAddress;
 			}
 		}
 
 		// then try localhost
-		if (await repository.Discover(Localhost))
+		if (await _repository.Discover(Localhost))
 			return Localhost;
 		
 		return null;
