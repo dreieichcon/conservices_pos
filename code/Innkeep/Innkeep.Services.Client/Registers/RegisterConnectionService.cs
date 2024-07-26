@@ -1,11 +1,12 @@
 ﻿using Innkeep.Api.Server.Interfaces;
-using Innkeep.Client.Services.Interfaces.Hardware;
-using Innkeep.Client.Services.Interfaces.Registers;
+using Innkeep.Services.Client.Interfaces.Hardware;
+using Innkeep.Services.Client.Interfaces.Internal;
+using Innkeep.Services.Client.Interfaces.Registers;
 using Serilog;
 
-namespace Innkeep.Client.Services.Registers;
+namespace Innkeep.Services.Client.Registers;
 
-public class RegisterConnectionService(IRegisterConnectionRepository repository, IHardwareService hardwareService) : IRegisterConnectionService
+public class RegisterConnectionService(IRegisterConnectionRepository repository, IHardwareService hardwareService, IEventRouter router) : IRegisterConnectionService
 {
 	private string _currentTestAddress = string.Empty;
 	
@@ -32,7 +33,11 @@ public class RegisterConnectionService(IRegisterConnectionRepository repository,
 		var identifier = hardwareService.ClientIdentifier;
 		var ip = hardwareService.IpAddress;
 
-		return await repository.Connect(identifier, description, ip);
+		var result = await repository.Connect(identifier, description, ip);
+		if (result)
+			router.Connected();
+
+		return result;
 	}
 
 	public async Task<bool> Test()

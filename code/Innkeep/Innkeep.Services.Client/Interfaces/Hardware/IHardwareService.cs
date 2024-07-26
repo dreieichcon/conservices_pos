@@ -1,4 +1,4 @@
-﻿namespace Innkeep.Client.Services.Interfaces.Hardware;
+﻿namespace Innkeep.Services.Client.Interfaces.Hardware;
 
 public interface IHardwareService
 {

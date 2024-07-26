@@ -1,0 +1,24 @@
+﻿@page "/POS"
+@using Innkeep.Services.Client.Interfaces.Pos
+@using Innkeep.Client.Ui.Modules.Pos.Components
+
+@inject ISalesItemService SalesItemService
+
+<MudStack Class="flex-grow-1">
+    <MudStack Row="true" Style="height: 80vh; max-height: 80vh; width: 100%;">
+        <SalesItemDisplay/>
+    </MudStack>
+    <MudStack Row="true" Style="height: 20vh; max-height: 20vh;">
+        <MudPaper Class="d-flex flex-grow-1"></MudPaper>
+    </MudStack>
+</MudStack>
+
+@code {
+    
+    protected override async Task OnInitializedAsync()
+    {
+        SalesItemService.ItemsUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
+        await base.OnInitializedAsync();
+    }
+
+}

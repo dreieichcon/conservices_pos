@@ -1,4 +1,6 @@
-﻿namespace Innkeep.Server.Startup;
+﻿
+
+namespace Innkeep.Server.Startup;
 
 public class KestrelStartup
 {

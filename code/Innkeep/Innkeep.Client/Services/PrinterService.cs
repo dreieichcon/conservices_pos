@@ -1,7 +1,7 @@
 ﻿using DemoPOS.Document;
 using DemoPOS.Helpers;
-using Innkeep.Client.Services.Interfaces.Hardware;
 using Innkeep.Db.Client.Models;
+using Innkeep.Services.Client.Interfaces.Hardware;
 using Innkeep.Services.Interfaces;
 
 namespace Innkeep.Client.Services;

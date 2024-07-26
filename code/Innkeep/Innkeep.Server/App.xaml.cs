@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using Innkeep.Db.Server.Context;
+using Innkeep.Resources;
 using Innkeep.Server.Startup;
 using Innkeep.Startup.Database;
 using Innkeep.Startup.Services;
@@ -15,6 +16,7 @@ public partial class App : Application
 {
 	protected override void OnStartup(StartupEventArgs e)
 	{
+		ThreadCultureHelper.SetInvariant();
 		base.OnStartup(e);
 
 		LoggingManager.InitializeLogger();
@@ -24,6 +26,8 @@ public partial class App : Application
 		DatabaseCreator.EnsureDbCreated(
 			host.Services.GetRequiredService<IDbContextFactory<InnkeepServerContext>>()
 			);
+		
+		ServerServiceInitializer.InitializeServices(host.Services);
 
 		var mainWindow = new MainWindow(host);
 		mainWindow.Show();

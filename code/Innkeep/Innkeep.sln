@@ -78,7 +78,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Server.Controllers"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Legacy", "Legacy", "{5DBE9DF2-E12E-4994-AA08-2CD3A4596CE8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Client.Services", "Innkeep.Client.Services\Innkeep.Client.Services.csproj", "{351899CB-0BB7-4F7C-B836-C2A94B947C7A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Services.Client", "Innkeep.Services.Client\Innkeep.Services.Client.csproj", "{351899CB-0BB7-4F7C-B836-C2A94B947C7A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Legacy", "Legacy", "{C6CFE9B7-DF83-4751-95DE-C6501C38E7C8}"
 EndProject
@@ -91,6 +91,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Api.Server", "Innkeep.Api.Server\Innkeep.Api.Server.csproj", "{163E9CE5-8580-4792-B4C7-0CAA9A530793}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Client.Controllers", "Innkeep.Client.Controllers\Innkeep.Client.Controllers.csproj", "{6C084B02-261F-4412-8A63-5A1BE3B509A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Resources", "Innkeep.Resources\Innkeep.Resources.csproj", "{9FC7D610-E790-47F7-B02A-3D2E10BDEB06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -228,6 +230,10 @@ Global
 		{6C084B02-261F-4412-8A63-5A1BE3B509A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C084B02-261F-4412-8A63-5A1BE3B509A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C084B02-261F-4412-8A63-5A1BE3B509A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FC7D610-E790-47F7-B02A-3D2E10BDEB06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FC7D610-E790-47F7-B02A-3D2E10BDEB06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FC7D610-E790-47F7-B02A-3D2E10BDEB06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FC7D610-E790-47F7-B02A-3D2E10BDEB06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EE4F940C-4AC1-49BE-AB71-2D477860A406} = {385CCCCE-639D-431D-8CAF-0BCE68129303}
@@ -264,5 +270,6 @@ Global
 		{16A7F6D8-4B4F-45AD-8AED-D7CD1DE7F0EE} = {64D4538E-D9F3-4119-910A-1908DE63615D}
 		{163E9CE5-8580-4792-B4C7-0CAA9A530793} = {5DB82360-52FE-44E4-977C-58D64C4304EA}
 		{6C084B02-261F-4412-8A63-5A1BE3B509A9} = {5440EE94-6503-4B77-B3F3-0883F3989121}
+		{9FC7D610-E790-47F7-B02A-3D2E10BDEB06} = {1CB23AAC-5A42-461D-832D-5F94BBD08E1D}
 	EndGlobalSection
 EndGlobal

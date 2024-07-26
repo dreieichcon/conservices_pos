@@ -1,16 +1,20 @@
-﻿using System.Net.Security;
-using Innkeep.Api.Server.Interfaces;
+﻿using Innkeep.Api.Server.Interfaces;
+using Innkeep.Api.Server.Repositories.Pos;
 using Innkeep.Api.Server.Repositories.Registers;
 using Innkeep.Client.Controllers.Endpoints;
-using Innkeep.Client.Services.Database;
-using Innkeep.Client.Services.Hardware;
-using Innkeep.Client.Services.Interfaces.Hardware;
-using Innkeep.Client.Services.Interfaces.Registers;
-using Innkeep.Client.Services.Registers;
 using Innkeep.Db.Client.Context;
 using Innkeep.Db.Client.Models;
 using Innkeep.Db.Client.Repositories.Config;
 using Innkeep.Db.Interfaces;
+using Innkeep.Services.Client.Database;
+using Innkeep.Services.Client.Hardware;
+using Innkeep.Services.Client.Interfaces.Hardware;
+using Innkeep.Services.Client.Interfaces.Internal;
+using Innkeep.Services.Client.Interfaces.Pos;
+using Innkeep.Services.Client.Interfaces.Registers;
+using Innkeep.Services.Client.Internal;
+using Innkeep.Services.Client.Pos;
+using Innkeep.Services.Client.Registers;
 using Innkeep.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,6 +38,7 @@ public static class ClientServiceManager
 
 	private static void ConfigureLocalServices(IServiceCollection collection)
 	{
+		collection.AddSingleton<IEventRouter, EventRouter>();
 		collection.AddSingleton<IHardwareService, HardwareService>();
 	}
 
@@ -64,10 +69,12 @@ public static class ClientServiceManager
 	private static void ConfigureHttpRepositories(IServiceCollection collection)
 	{
 		collection.AddSingleton<IRegisterConnectionRepository, RegisterConnectionRepository>();
+		collection.AddSingleton<ISalesItemRepository, SalesItemRepository>();
 	}
 
 	private static void ConfigureHttpServices(IServiceCollection collection)
 	{
 		collection.AddSingleton<IRegisterConnectionService, RegisterConnectionService>();
+		collection.AddSingleton<ISalesItemService, SalesItemService>();
 	}
 }

@@ -1,11 +1,12 @@
 ﻿using Innkeep.Db.Client.Models;
 using Innkeep.Db.Enum;
 using Innkeep.Db.Interfaces;
+using Innkeep.Services.Client.Interfaces.Hardware;
 using Innkeep.Services.Interfaces;
 
-namespace Innkeep.Client.Services.Database;
+namespace Innkeep.Services.Client.Database;
 
-public class ClientConfigService(IDbRepository<ClientConfig> clientConfigRepository) : IDbService<ClientConfig>
+public class ClientConfigService(IDbRepository<ClientConfig> clientConfigRepository, IHardwareService hardwareService) : IDbService<ClientConfig>
 {
 	public event EventHandler? ItemsUpdated;
 
@@ -25,6 +26,7 @@ public class ClientConfigService(IDbRepository<ClientConfig> clientConfigReposit
 
 		dbItem.OperationType = Operation.Updated;
 		CurrentItem = dbItem;
+		CurrentItem.HardwareIdentifier = hardwareService.ClientIdentifier;
 		ItemsUpdated?.Invoke(this, EventArgs.Empty);
 	}
 

@@ -1,4 +1,5 @@
-﻿using Innkeep.Db.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Innkeep.Db.Models;
 
 namespace Innkeep.Db.Client.Models;
 
@@ -9,4 +10,7 @@ public class ClientConfig : AbstractDbItem
 	public string ClientName { get; set; } = "Innkeep Client";
 
 	public string PrinterName { get; set; } = string.Empty;
+	
+	[NotMapped]
+	public string HardwareIdentifier { get; set; }
 }

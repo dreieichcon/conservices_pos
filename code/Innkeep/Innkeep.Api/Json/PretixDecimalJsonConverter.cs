@@ -8,8 +8,15 @@ public class PretixDecimalJsonConverter : JsonConverter<decimal>
 {
 	public override decimal Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
 	{
-		var input = reader.GetString()!;
-		return ParseInput(input);
+		try
+		{
+			var input = reader.GetString()!;
+			return ParseInput(input);
+		}
+		catch
+		{
+			return reader.GetDecimal();
+		}
 	}
 
 	public override void Write(Utf8JsonWriter writer, decimal value, JsonSerializerOptions options)

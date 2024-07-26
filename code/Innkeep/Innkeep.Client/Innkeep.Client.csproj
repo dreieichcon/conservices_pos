@@ -30,6 +30,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Innkeep.Db.Client\Innkeep.Db.Client.csproj" />
       <ProjectReference Include="..\Innkeep.Client.Ui\Innkeep.Client.Ui.csproj" />
+      <ProjectReference Include="..\Innkeep.Resources\Innkeep.Resources.csproj" />
       <ProjectReference Include="..\Innkeep.Startup\Innkeep.Startup.csproj" />
     </ItemGroup>
 

@@ -20,7 +20,7 @@ public class BaseServerRepository : BaseHttpRepository
 
 	protected override void InitializeGetHeaders(HttpRequestMessage message)
 	{
-		message.Headers.Add("Accept", "application/json");
+		message.Headers.Add("Accept", "*/*");
 	}
 
 	protected override void InitializePostHeaders()

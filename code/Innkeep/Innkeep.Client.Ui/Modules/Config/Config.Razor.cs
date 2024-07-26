@@ -1,6 +1,7 @@
-﻿using Innkeep.Client.Services.Interfaces.Hardware;
-using Innkeep.Client.Services.Interfaces.Registers;
-using Innkeep.Db.Client.Models;
+﻿using Innkeep.Db.Client.Models;
+using Innkeep.Services.Client.Interfaces.Hardware;
+using Innkeep.Services.Client.Interfaces.Pos;
+using Innkeep.Services.Client.Interfaces.Registers;
 using Innkeep.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
@@ -17,6 +18,9 @@ public partial class Config
 
 	[Inject]
 	public IRegisterConnectionService RegisterConnectionService { get; set; } = null!;
+
+	[Inject]
+	public ISalesItemService SalesItemService { get; set; } = null!;
 
 	[Inject]
 	public IPrinterService PrinterService { get; set; } = null!;
