@@ -72,7 +72,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Startup", "Innkeep.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Services", "Innkeep.Services\Innkeep.Services.csproj", "{3C0E18DA-B504-4D00-ABE2-A8168F39C7F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Server.Services", "Innkeep.Server.Services\Innkeep.Server.Services.csproj", "{739EC107-1F59-460A-BFB7-94BB1F136CE2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Services.Server", "Innkeep.Services.Server\Innkeep.Services.Server.csproj", "{739EC107-1F59-460A-BFB7-94BB1F136CE2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Innkeep.Server.Controllers", "Innkeep.Server.Controllers\Innkeep.Server.Controllers.csproj", "{705ADCC0-B0F0-41C6-A3D3-DC565F019A70}"
 EndProject

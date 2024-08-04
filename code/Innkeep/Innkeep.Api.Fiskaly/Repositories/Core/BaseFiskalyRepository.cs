@@ -3,7 +3,9 @@ using System.Text;
 using System.Text.Json;
 using Innkeep.Api.Auth;
 using Innkeep.Api.Core.Http;
+using Innkeep.Api.Endpoints;
 using Innkeep.Api.Json;
+using Innkeep.Api.Models.Fiskaly.Request;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Core;
 
@@ -45,5 +47,34 @@ public class BaseFiskalyRepository(IFiskalyAuthenticationService authenticationS
 				new FiskalyDateTimeJsonConverter(),
 			},
 		};
+	}
+	
+	protected async Task<bool> AuthenticateAdmin(string tssId)
+	{
+		var endpoint = new FiskalyEndpointBuilder()
+						.WithSpecificTss(tssId)
+						.WithAdminAuth()
+						.Build();
+
+		var content = Serialize(
+			new FiskalyAdminAuthenticationRequest()
+			{
+				AdminPin = authenticationService.CurrentConfig.TseAdminPassword!,
+			}
+		);
+
+		var result = await Post(endpoint, content);
+
+		return result.IsSuccess;
+	}
+
+	protected async Task LogoutAdmin(string tssId)
+	{
+		var endpoint = new FiskalyEndpointBuilder()
+						.WithSpecificTss(tssId)
+						.WithAdminLogout()
+						.Build();
+
+		await Post(endpoint, "{}");
 	}
 }

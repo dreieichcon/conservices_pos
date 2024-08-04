@@ -1,6 +1,6 @@
 ﻿using Innkeep.Api.Models.Fiskaly.Objects;
 
-namespace Innkeep.Server.Services.Interfaces.Fiskaly;
+namespace Innkeep.Services.Server.Interfaces.Fiskaly;
 
 public interface IFiskalyTssService
 {

@@ -5,7 +5,6 @@ using Innkeep.Server.Startup;
 using Innkeep.Startup.Database;
 using Innkeep.Startup.Services;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 
 namespace Innkeep.Server;
 

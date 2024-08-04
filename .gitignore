@@ -18,3 +18,5 @@ code/Innkeep/Innkeep.Client.WebUi/esc_pos.temp
 
 *.db-wal
 build/_build.csproj.DotSettings
+
+**/Auth.cs

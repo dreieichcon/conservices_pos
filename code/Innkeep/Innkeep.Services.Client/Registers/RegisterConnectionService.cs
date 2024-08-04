@@ -2,6 +2,7 @@
 using Innkeep.Services.Client.Interfaces.Hardware;
 using Innkeep.Services.Client.Interfaces.Internal;
 using Innkeep.Services.Client.Interfaces.Registers;
+using Innkeep.Services.Interfaces.Hardware;
 using Serilog;
 
 namespace Innkeep.Services.Client.Registers;

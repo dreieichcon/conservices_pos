@@ -1,7 +1,7 @@
 ﻿using Innkeep.Api.Models.Internal;
 using Innkeep.Api.Models.Pretix.Objects.Sales;
 
-namespace Innkeep.Server.Services.Interfaces.Pretix;
+namespace Innkeep.Services.Server.Interfaces.Pretix;
 
 public interface IPretixSalesItemService
 {

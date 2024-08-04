@@ -1,7 +1,6 @@
 ﻿@using Innkeep.Db.Server.Models
 @using Innkeep.Services.Interfaces
-@using Innkeep.Server.Services.Fiskaly
-@using Innkeep.Server.Services.Interfaces.Fiskaly
+@using Innkeep.Services.Server.Interfaces.Fiskaly
 @inherits LayoutComponentBase
 
 <MudDialogProvider/>
@@ -10,6 +9,7 @@
 
 @inject IDbService<PretixConfig> PretixConfigService;
 @inject IFiskalyTssService TssService;
+@inject IFiskalyClientService ClientService;
 
 <MudLayout>
     <MudAppBar Elevation="1">
@@ -17,9 +17,10 @@
         <MudText Typo="Typo.h5" Class="ml-3">Innkeep Server</MudText>
         <MudSpacer/>
         <MudStack Row="true">
-            <MudText>Organizer: @PretixConfigService.CurrentItem.SelectedOrganizerName</MudText>
-            <MudText>Event: @PretixConfigService.CurrentItem.SelectedEventName</MudText>
+            <MudText>Organizer: @PretixConfigService.CurrentItem?.SelectedOrganizerName</MudText>
+            <MudText>Event: @PretixConfigService.CurrentItem?.SelectedEventName</MudText>
             <MudText>Tss: @TssService.CurrentTss?.Id - @TssService.CurrentTss?.Description</MudText>
+            <MudText>Client: @ClientService.CurrentClient?.Id - @ClientService.CurrentClient?.SerialNumber</MudText>
         </MudStack>
         <MudSpacer/>
     </MudAppBar>
@@ -43,8 +44,10 @@
     {
         await PretixConfigService.Load();
         await TssService.Load();
+        await ClientService.Load();
         PretixConfigService.ItemsUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
         TssService.ItemsUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
+        ClientService.ItemsUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
     }
 
     bool _drawerOpen = true;

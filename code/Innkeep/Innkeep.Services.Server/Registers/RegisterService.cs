@@ -1,9 +1,9 @@
 ﻿using Innkeep.Db.Enum;
 using Innkeep.Db.Interfaces;
 using Innkeep.Db.Server.Models;
-using Innkeep.Server.Services.Interfaces.Registers;
+using Innkeep.Services.Server.Interfaces.Registers;
 
-namespace Innkeep.Server.Services.Registers;
+namespace Innkeep.Services.Server.Registers;
 
 public class RegisterService(IDbRepository<Register> registerRepository) : IRegisterService
 {

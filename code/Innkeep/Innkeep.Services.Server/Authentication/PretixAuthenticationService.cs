@@ -3,7 +3,7 @@ using Innkeep.Core.DomainModels.Authentication;
 using Innkeep.Db.Server.Models;
 using Innkeep.Services.Interfaces;
 
-namespace Innkeep.Server.Services.Authentication;
+namespace Innkeep.Services.Server.Authentication;
 
 public class PretixAuthenticationService : IPretixAuthenticationService
 {

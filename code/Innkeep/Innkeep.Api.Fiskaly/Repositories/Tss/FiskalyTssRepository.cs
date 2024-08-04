@@ -31,7 +31,7 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 	{
 		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(id).Build();
 
-		var result = await Put(endpoint, string.Empty);
+		var result = await Put(endpoint, "{}");
 
 		return DeserializeOrNull<FiskalyTss>(result);
 	}
@@ -96,32 +96,5 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 		return result.IsSuccess;
 	}
 
-	private async Task<bool> AuthenticateAdmin(string tssId)
-	{
-		var endpoint = new FiskalyEndpointBuilder()
-						.WithSpecificTss(tssId)
-						.WithAdminAuth()
-						.Build();
-
-		var content = Serialize(
-			new FiskalyAdminAuthenticationRequest()
-			{
-				AdminPin = authenticationService.CurrentConfig.TseAdminPassword!,
-			}
-		);
-
-		var result = await Post(endpoint, content);
-
-		return result.IsSuccess;
-	}
-
-	private async Task LogoutAdmin(string tssId)
-	{
-		var endpoint = new FiskalyEndpointBuilder()
-						.WithSpecificTss(tssId)
-						.WithAdminLogout()
-						.Build();
-
-		await Post(endpoint, "{}");
-	}
+	
 }

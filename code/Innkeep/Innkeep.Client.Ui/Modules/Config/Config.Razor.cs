@@ -3,6 +3,7 @@ using Innkeep.Services.Client.Interfaces.Hardware;
 using Innkeep.Services.Client.Interfaces.Pos;
 using Innkeep.Services.Client.Interfaces.Registers;
 using Innkeep.Services.Interfaces;
+using Innkeep.Services.Interfaces.Hardware;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 

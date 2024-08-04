@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Innkeep.Server.Services\Innkeep.Server.Services.csproj" />
+      <ProjectReference Include="..\Innkeep.Services.Server\Innkeep.Services.Server.csproj" />
     </ItemGroup>
 
 </Project>

@@ -43,6 +43,19 @@ public class FiskalyEndpointBuilder() : BaseEndpointBuilder("https://kassensichv
 		return this;
 	}
 
+	public FiskalyEndpointBuilder WithClient()
+	{
+		Endpoints.Add("client");
+		return this;
+	}
+
+	public FiskalyEndpointBuilder WithSpecificClient(string id)
+	{
+		Endpoints.Add("client");
+		Endpoints.Add(id);
+		return this;
+	}
+
 	public string Build()
 	{
 		return BuildInternal(false);

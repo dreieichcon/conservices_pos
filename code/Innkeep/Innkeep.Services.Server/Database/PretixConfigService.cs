@@ -3,7 +3,7 @@ using Innkeep.Db.Interfaces;
 using Innkeep.Db.Server.Models;
 using Innkeep.Services.Interfaces;
 
-namespace Innkeep.Server.Services.Database;
+namespace Innkeep.Services.Server.Database;
 
 public class PretixConfigService(IDbRepository<PretixConfig> pretixConfigRepository) : IDbService<PretixConfig>
 {

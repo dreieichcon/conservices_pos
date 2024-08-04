@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 using Innkeep.Api.Json;
 using Innkeep.Server.Controllers.Abstract;
-using Innkeep.Server.Services.Interfaces.Pretix;
-using Innkeep.Server.Services.Interfaces.Registers;
+using Innkeep.Services.Server.Interfaces.Pretix;
+using Innkeep.Services.Server.Interfaces.Registers;
 using Microsoft.AspNetCore.Mvc;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 

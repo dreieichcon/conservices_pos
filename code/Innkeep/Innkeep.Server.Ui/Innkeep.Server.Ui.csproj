@@ -18,14 +18,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Modules\Fiskaly\Config\Tss\Custom\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Innkeep.Api.Pretix\Innkeep.Api.Pretix.csproj" />
       <ProjectReference Include="..\Innkeep.Api\Innkeep.Api.csproj" />
       <ProjectReference Include="..\Innkeep.Db.Server\Innkeep.Db.Server.csproj" />
-      <ProjectReference Include="..\Innkeep.Server.Services\Innkeep.Server.Services.csproj" />
+      <ProjectReference Include="..\Innkeep.Services.Server\Innkeep.Services.Server.csproj" />
       <ProjectReference Include="..\Innkeep.Services\Innkeep.Services.csproj" />
     </ItemGroup>
 

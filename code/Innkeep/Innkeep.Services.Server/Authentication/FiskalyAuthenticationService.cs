@@ -7,7 +7,7 @@ using Innkeep.Db.Interfaces;
 using Innkeep.Db.Server.Models;
 using Innkeep.Services.Interfaces;
 
-namespace Innkeep.Server.Services.Authentication;
+namespace Innkeep.Services.Server.Authentication;
 
 public class FiskalyAuthenticationService : IFiskalyAuthenticationService
 {
