@@ -1,0 +1,46 @@
+﻿@page "/config/fiskaly/client"
+@using Innkeep.Api.Models.Fiskaly.Objects
+
+<ConfigPage PageTitle="Select Client">
+    <ChildContent>
+        @if (TssService.CurrentTss != null)
+        {
+            <MudStack Class="flex-grow-1" Justify="Justify.FlexStart">
+                <MudStack>
+                    <MudSelect T="FiskalyClient" @bind-Value="@CurrentClient" Variant="Variant.Outlined" Label="Select Client">
+                        @foreach (var client in Clients)
+                        {
+                            <MudSelectItem Value="client">@client.Id (@client.SerialNumber, @client.State)</MudSelectItem>
+                        }
+                    </MudSelect>
+                    <MudStack Row="true" Justify="Justify.FlexEnd">
+                        @if (CurrentClient?.State == "REGISTERED")
+                        {
+                            <MudButton Color="Color.Error" Variant="Variant.Outlined" @onclick="DeactivateClient">Deactivate Client</MudButton>
+                        }
+                        <MudButton Color="Color.Primary" Variant="Variant.Outlined" @onclick="CreateClient">Create New Client</MudButton>
+                    </MudStack>
+                </MudStack>
+            </MudStack>
+        }
+        else
+        {
+            <MudStack Class="flex-grow-1" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                <MudText>Please select a valid TSS First.</MudText>
+            </MudStack>
+        }
+    </ChildContent>
+    <ActionBar>
+        <MudButton Variant="Variant.Outlined" Color="Color.Success" @onclick="Save">Save</MudButton>
+    </ActionBar>
+</ConfigPage>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ClientService.Load();
+        await InvokeAsync(StateHasChanged);
+    }
+
+}

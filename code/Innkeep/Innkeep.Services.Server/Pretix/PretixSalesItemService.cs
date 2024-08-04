@@ -2,11 +2,10 @@
 using Innkeep.Api.Models.Pretix.Objects.Sales;
 using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Db.Server.Models;
-using Innkeep.Server.Services.Interfaces;
-using Innkeep.Server.Services.Interfaces.Pretix;
 using Innkeep.Services.Interfaces;
+using Innkeep.Services.Server.Interfaces.Pretix;
 
-namespace Innkeep.Server.Services.Pretix;
+namespace Innkeep.Services.Server.Pretix;
 
 public class PretixSalesItemService : IPretixSalesItemService
 {

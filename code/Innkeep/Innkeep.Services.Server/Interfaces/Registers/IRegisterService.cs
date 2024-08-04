@@ -1,6 +1,6 @@
 ﻿using Innkeep.Db.Server.Models;
 
-namespace Innkeep.Server.Services.Interfaces.Registers;
+namespace Innkeep.Services.Server.Interfaces.Registers;
 
 public interface IRegisterService
 {

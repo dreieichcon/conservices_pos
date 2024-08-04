@@ -7,15 +7,15 @@ using Innkeep.Db.Client.Models;
 using Innkeep.Db.Client.Repositories.Config;
 using Innkeep.Db.Interfaces;
 using Innkeep.Services.Client.Database;
-using Innkeep.Services.Client.Hardware;
-using Innkeep.Services.Client.Interfaces.Hardware;
 using Innkeep.Services.Client.Interfaces.Internal;
 using Innkeep.Services.Client.Interfaces.Pos;
 using Innkeep.Services.Client.Interfaces.Registers;
 using Innkeep.Services.Client.Internal;
 using Innkeep.Services.Client.Pos;
 using Innkeep.Services.Client.Registers;
+using Innkeep.Services.Hardware;
 using Innkeep.Services.Interfaces;
+using Innkeep.Services.Interfaces.Hardware;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -2,10 +2,10 @@
 using Innkeep.Api.Fiskaly.Interfaces.Tss;
 using Innkeep.Api.Models.Fiskaly.Objects;
 using Innkeep.Db.Server.Models;
-using Innkeep.Server.Services.Interfaces.Fiskaly;
 using Innkeep.Services.Interfaces;
+using Innkeep.Services.Server.Interfaces.Fiskaly;
 
-namespace Innkeep.Server.Services.Fiskaly;
+namespace Innkeep.Services.Server.Fiskaly;
 
 public class FiskalyTssService(
 	IDbService<FiskalyConfig> configService, 
@@ -52,6 +52,8 @@ public class FiskalyTssService(
 
 		await authenticationService.CreateTseConfig(CurrentTss);
 
+		await Save();
+
 		return authenticationService.CurrentConfig.TseId == CurrentTss.Id && !string.IsNullOrEmpty(authenticationService.CurrentConfig.TsePuk);
 	}
 
@@ -86,9 +88,9 @@ public class FiskalyTssService(
 
 	public async Task<bool> Save()
 	{
-		var cfs = await configService.Save();
 		var ats = await authenticationService.SaveTseConfig();
-
+		var cfs = await configService.Save();
+		
 		return cfs && ats;
 	}
 }

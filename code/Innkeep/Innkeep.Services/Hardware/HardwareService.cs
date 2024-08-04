@@ -1,8 +1,8 @@
 ﻿using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using Innkeep.Services.Client.Interfaces.Hardware;
+using Innkeep.Services.Interfaces.Hardware;
 
-namespace Innkeep.Services.Client.Hardware;
+namespace Innkeep.Services.Hardware;
 
 public class HardwareService : IHardwareService
 {

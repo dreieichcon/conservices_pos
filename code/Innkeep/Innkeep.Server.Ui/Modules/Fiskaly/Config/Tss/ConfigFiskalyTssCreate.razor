@@ -2,15 +2,26 @@
 
 <ConfigPage PageTitle="Create a new Tss">
     <ChildContent>
-        <MudStack>
+        <MudStack AlignItems="AlignItems.Center" Class="flex-grow-1">
+            <MudCard Class="p-3">
+                <MudCardHeader>
+                    <MudCardHeaderContent>
+                        <MudText>By clicking the button below, a new TSS will be created at Fiskaly.</MudText>
+                        <MudText Typo="Typo.h6" Color="Color.Error">If you are using the live system and activate the tss, this WILL CREATE COSTS.</MudText>
+                        <MudText>If you already have an active TSS, you do not need to be here!</MudText>
+                    </MudCardHeaderContent>
+                </MudCardHeader>
             
+            <MudExpansionPanels>
+                <MudExpansionPanel Text="I know. I am sure. Please show me the button.">
+                    <MudButton Color="Color.Success" Variant="Variant.Outlined" Class="w-100" @onclick="Create">Create the TSS</MudButton>
+                </MudExpansionPanel>
+            </MudExpansionPanels>
+            </MudCard>
         </MudStack>
     </ChildContent>
-    <ActionBar></ActionBar>
 </ConfigPage>
 
 @code {
-
-    
 
 }

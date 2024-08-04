@@ -4,6 +4,7 @@ using Innkeep.Db.Interfaces;
 using Innkeep.Services.Client.Interfaces.Hardware;
 using Innkeep.Services.Client.Interfaces.Internal;
 using Innkeep.Services.Interfaces;
+using Innkeep.Services.Interfaces.Hardware;
 
 namespace Innkeep.Services.Client.Database;
 

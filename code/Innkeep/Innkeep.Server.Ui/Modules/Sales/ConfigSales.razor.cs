@@ -1,6 +1,5 @@
 ﻿using Innkeep.Api.Models.Internal;
-using Innkeep.Server.Services.Interfaces;
-using Innkeep.Server.Services.Interfaces.Pretix;
+using Innkeep.Services.Server.Interfaces.Pretix;
 using Microsoft.AspNetCore.Components;
 
 namespace Innkeep.Server.Ui.Modules.Sales;

@@ -1,5 +1,5 @@
-﻿using Innkeep.Server.Services.Interfaces.Pretix;
-using Innkeep.Server.Services.Interfaces.Registers;
+﻿using Innkeep.Services.Server.Interfaces.Pretix;
+using Innkeep.Services.Server.Interfaces.Registers;
 
 namespace Innkeep.Server.Startup;
 

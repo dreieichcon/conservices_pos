@@ -13,16 +13,17 @@ using Innkeep.Db.Server.Models;
 using Innkeep.Db.Server.Repositories.Config;
 using Innkeep.Db.Server.Repositories.Registers;
 using Innkeep.Server.Controllers.Endpoints;
-using Innkeep.Server.Services.Authentication;
-using Innkeep.Server.Services.Database;
-using Innkeep.Server.Services.Fiskaly;
-using Innkeep.Server.Services.Interfaces;
-using Innkeep.Server.Services.Interfaces.Fiskaly;
-using Innkeep.Server.Services.Interfaces.Pretix;
-using Innkeep.Server.Services.Interfaces.Registers;
-using Innkeep.Server.Services.Pretix;
-using Innkeep.Server.Services.Registers;
+using Innkeep.Services.Hardware;
 using Innkeep.Services.Interfaces;
+using Innkeep.Services.Interfaces.Hardware;
+using Innkeep.Services.Server.Authentication;
+using Innkeep.Services.Server.Database;
+using Innkeep.Services.Server.Fiskaly;
+using Innkeep.Services.Server.Interfaces.Fiskaly;
+using Innkeep.Services.Server.Interfaces.Pretix;
+using Innkeep.Services.Server.Interfaces.Registers;
+using Innkeep.Services.Server.Pretix;
+using Innkeep.Services.Server.Registers;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +34,7 @@ public static class ServerServiceManager
 {
 	public static void ConfigureServices(IServiceCollection collection, bool isKestrel = false)
 	{
+		ConfigureLocalServices(collection);
 		ConfigureDatabase(collection);
 		ConfigureDbRepositories(collection);
 		ConfigureDbServices(collection);
@@ -41,6 +43,11 @@ public static class ServerServiceManager
 		
 		if (isKestrel)
 			ConfigureControllers(collection);
+	}
+	
+	private static void ConfigureLocalServices(IServiceCollection collection)
+	{
+		collection.AddSingleton<IHardwareService, HardwareService>();
 	}
 
 	private static void ConfigureControllers(IServiceCollection collection)
@@ -87,6 +94,7 @@ public static class ServerServiceManager
 
 		collection.AddSingleton<IFiskalyAuthRepository, FiskalyAuthRepository>();
 		collection.AddSingleton<IFiskalyTssRepository, FiskalyTssRepository>();
+		collection.AddSingleton<IFiskalyClientRepository, FiskalyClientRepository>();
 	}
 
 	private static void ConfigureHttpServices(IServiceCollection collection)
@@ -94,5 +102,6 @@ public static class ServerServiceManager
 		collection.AddSingleton<IPretixSalesItemService, PretixSalesItemService>();
 
 		collection.AddSingleton<IFiskalyTssService, FiskalyTssService>();
+		collection.AddSingleton<IFiskalyClientService, FiskalyClientService>();
 	}
 }

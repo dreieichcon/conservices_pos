@@ -1,4 +1,4 @@
-﻿using Innkeep.Server.Services.Interfaces.Registers;
+﻿using Innkeep.Services.Server.Interfaces.Registers;
 using Microsoft.AspNetCore.Components;
 
 namespace Innkeep.Server.Ui.Modules.Registers.Config;
