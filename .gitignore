@@ -17,3 +17,4 @@ code/Innkeep/Innkeep.Client.WebUi/esc_pos.temp
 *.db-shm
 
 *.db-wal
+build/_build.csproj.DotSettings

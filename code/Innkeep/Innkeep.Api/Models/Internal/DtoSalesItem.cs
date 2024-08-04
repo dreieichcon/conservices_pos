@@ -13,6 +13,8 @@ public class DtoSalesItem
 	public decimal TaxRate { get; set; }
 	
 	public string Currency { get; set; }
+	
+	public int CartCount { get; set; }
 
 	public static DtoSalesItem FromPretix(PretixSalesItem pretixSalesItem)
 	{
