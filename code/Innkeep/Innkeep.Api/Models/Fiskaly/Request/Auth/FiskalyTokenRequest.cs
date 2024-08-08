@@ -2,6 +2,7 @@
 
 namespace Innkeep.Api.Models.Fiskaly.Request.Auth;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 public class FiskalyTokenRequest
 {
 	[JsonPropertyName("api_key")]

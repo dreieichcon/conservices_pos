@@ -1,6 +1,5 @@
 ﻿using Innkeep.Api.Fiskaly.Legacy.Enums;
 using Innkeep.Api.Fiskaly.Legacy.Models;
-using Innkeep.Models.Transaction;
 
 namespace Innkeep.Api.Fiskaly.Legacy.Data;
 
