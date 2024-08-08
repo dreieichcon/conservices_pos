@@ -2,6 +2,7 @@
 
 namespace Innkeep.Api.Models.Fiskaly.Request.Auth;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 public class FiskalyAdminAuthenticationRequest
 {
 	[JsonPropertyName("admin_pin")]

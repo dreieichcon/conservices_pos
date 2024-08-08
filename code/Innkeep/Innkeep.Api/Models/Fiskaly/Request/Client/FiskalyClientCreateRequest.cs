@@ -2,6 +2,7 @@
 
 namespace Innkeep.Api.Models.Fiskaly.Request.Client;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 public class FiskalyClientCreateRequest
 {
 	[JsonPropertyName("serial_number")]
