@@ -16,4 +16,8 @@
       <ProjectReference Include="..\Innkeep.Db.Server\Innkeep.Db.Server.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Models\Fiskaly\Request\Transaction\" />
+    </ItemGroup>
+
 </Project>

@@ -52,7 +52,7 @@ public class RegisterConnectionRepository(IDbService<ClientConfig> clientConfigS
 		}
 		catch (Exception ex)
 		{
-			Log.Error("Exception during Server connection Test: {Exception}", ex);
+			Log.Error(ex, "Exception during Server connection Test");
 			return false;
 		}
 	}

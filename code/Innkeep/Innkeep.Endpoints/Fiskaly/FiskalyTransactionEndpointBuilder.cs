@@ -35,7 +35,7 @@ public class FiskalyTransactionEndpointBuilder : BaseEndpointBuilder
 	
 	public new string Build()
 	{
-		var endpoint = _endpoint + string.Join("/", Endpoints);
+		var endpoint = Endpoint + string.Join("/", Endpoints);
 		
 		if (Parameters.Any()) endpoint += "?" + string.Join('&', Parameters);
 

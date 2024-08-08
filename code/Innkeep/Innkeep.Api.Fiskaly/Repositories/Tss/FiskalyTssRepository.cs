@@ -1,9 +1,11 @@
 ﻿using Innkeep.Api.Auth;
 using Innkeep.Api.Endpoints;
+using Innkeep.Api.Enum.Fiskaly.Tss;
 using Innkeep.Api.Fiskaly.Interfaces.Tss;
 using Innkeep.Api.Fiskaly.Repositories.Core;
-using Innkeep.Api.Models.Fiskaly.Objects;
-using Innkeep.Api.Models.Fiskaly.Request;
+using Innkeep.Api.Models.Fiskaly.Objects.Tss;
+using Innkeep.Api.Models.Fiskaly.Request.Auth;
+using Innkeep.Api.Models.Fiskaly.Request.Tss;
 using Innkeep.Api.Models.Fiskaly.Response;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Tss;
@@ -19,7 +21,7 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 
 		if (!result.IsSuccess)
 			return new List<FiskalyTss>();
-		
+
 		var deserialized = Deserialize<FiskalyListResponse<FiskalyTss>>(result.Content);
 
 		return deserialized != null ? deserialized.Data : new List<FiskalyTss>();
@@ -42,10 +44,11 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 
 		var content = Serialize(
 			new FiskalyTssStateRequest()
-		{
-			State = "UNINITIALIZED"
-		});
-		
+			{
+				State = TssState.Uninitialized,
+			}
+		);
+
 		var result = await Patch(endpoint, content, 30);
 
 		return DeserializeOrNull<FiskalyTss>(result);
@@ -62,13 +65,13 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 		var content = Serialize(
 			new FiskalyTssStateRequest()
 			{
-				State = "INITIALIZED",
+				State = TssState.Initialized,
 				Description = current.Description,
 			}
 		);
 
 		var result = await Patch(endpoint, content);
-		
+
 		await LogoutAdmin(current.Id);
 
 		return DeserializeOrNull<FiskalyTss>(result);
@@ -76,13 +79,10 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 
 	public async Task<bool> ChangeAdminPin(FiskalyTss current)
 	{
-		var endpoint = new FiskalyEndpointBuilder()
-						.WithSpecificTss(current.Id)
-						.WithAdmin()
-						.Build();
+		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(current.Id).WithAdmin().Build();
 
-		var config = authenticationService.CurrentConfig;
-		
+		var config = AuthenticationService.CurrentConfig;
+
 		var content = Serialize(
 			new FiskalyAdminPinRequest()
 			{
@@ -95,6 +95,4 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 
 		return result.IsSuccess;
 	}
-
-	
 }

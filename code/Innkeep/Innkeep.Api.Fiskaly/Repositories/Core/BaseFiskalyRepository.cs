@@ -1,11 +1,12 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Innkeep.Api.Auth;
 using Innkeep.Api.Core.Http;
 using Innkeep.Api.Endpoints;
 using Innkeep.Api.Json;
-using Innkeep.Api.Models.Fiskaly.Request;
+using Innkeep.Api.Models.Fiskaly.Request.Auth;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Core;
 
@@ -44,7 +45,10 @@ public class BaseFiskalyRepository(IFiskalyAuthenticationService authenticationS
 		{
 			Converters =
 			{
+				new PretixDecimalJsonConverter(),
 				new FiskalyDateTimeJsonConverter(),
+				new FiskalyLongJsonConverter(),
+				new JsonStringEnumConverter(),
 			},
 		};
 	}

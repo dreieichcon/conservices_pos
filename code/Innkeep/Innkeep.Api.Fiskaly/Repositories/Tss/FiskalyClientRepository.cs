@@ -1,9 +1,10 @@
 ﻿using Innkeep.Api.Auth;
 using Innkeep.Api.Endpoints;
+using Innkeep.Api.Enum.Fiskaly.Client;
 using Innkeep.Api.Fiskaly.Interfaces.Tss;
 using Innkeep.Api.Fiskaly.Repositories.Core;
-using Innkeep.Api.Models.Fiskaly.Objects;
-using Innkeep.Api.Models.Fiskaly.Request;
+using Innkeep.Api.Models.Fiskaly.Objects.Client;
+using Innkeep.Api.Models.Fiskaly.Request.Client;
 using Innkeep.Api.Models.Fiskaly.Response;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Tss;
@@ -54,7 +55,7 @@ public class FiskalyClientRepository(IFiskalyAuthenticationService authenticatio
 		return DeserializeOrNull<FiskalyClient>(result);
 	}
 
-	public async Task<FiskalyClient?> UpdateClient(string tssId, string id, string state)
+	public async Task<FiskalyClient?> UpdateClient(string tssId, string id, ClientState state)
 	{
 		await AuthenticateAdmin(tssId);
 

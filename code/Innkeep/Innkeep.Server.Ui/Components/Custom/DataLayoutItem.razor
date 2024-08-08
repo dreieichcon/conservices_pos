@@ -1,5 +1,5 @@
 ﻿
-<MudField Label="@Name" Variant="Variant.Outlined" Class="w-50 mw-50">@Value</MudField>
+<MudField Label="@Name" Variant="Variant.Outlined" Class="w-50 mw-50">@Value?.ToString()</MudField>
 
 
 @code {
@@ -8,5 +8,5 @@
     public string? Name { get; set; }
 
     [Parameter]
-    public string? Value { get; set; }
+    public object? Value { get; set; }
 }

@@ -1,12 +1,12 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Innkeep.Api.Models.Fiskaly.Request;
+namespace Innkeep.Api.Models.Fiskaly.Request.Auth;
 
 public class FiskalyAdminPinRequest
 {
 	[JsonPropertyName("admin_puk")]
-	public string AdminPuk { get; set; }
+	public required string AdminPuk { get; set; }
 	
 	[JsonPropertyName("new_admin_pin")]
-	public string NewAdminPin { get; set; }
+	public required string NewAdminPin { get; set; }
 }

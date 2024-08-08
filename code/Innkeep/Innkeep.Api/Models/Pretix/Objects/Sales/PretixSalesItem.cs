@@ -1,10 +1,11 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json.Serialization;
 using Innkeep.Api.Models.Pretix.Core;
 
 namespace Innkeep.Api.Models.Pretix.Objects.Sales;
 
+// ReSharper disable once ClassNeverInstantiated.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 public class PretixSalesItem
 {
     
@@ -56,9 +57,6 @@ public class PretixSalesItem
     [JsonPropertyName("issue_giftcard")]
     public bool IssueGiftCard { get; set; }
     
-    // [JsonPropertyName("meta_data")]
-    // public object meta_data { get; set; }
-    
     [JsonPropertyName("position")]
     public int Position { get; set; }
     
@@ -95,65 +93,11 @@ public class PretixSalesItem
     [JsonPropertyName("has_variations")]
     public bool HasVariations { get; set; }
     
-    // [JsonPropertyName("generate_tickets")]
-    // public object generate_tickets { get; set; }
-    
     [JsonPropertyName("allow_waitinglist")]
     public bool IsWaitingListAllowed { get; set; }
     
-    // [JsonPropertyName("show_quota_left")]
-    // public object show_quota_left { get; set; }
-    //
-    
     [JsonPropertyName("require_approval")]
     public bool IsApprovalRequired { get; set; }
-    
-    // [JsonPropertyName("require_bundling")]
-    // public bool require_bundling { get; set; }
-    //
-    
-    // [JsonPropertyName("require_membership")]
-    // public bool require_membership { get; set; }
-    //
-    
-    // [JsonPropertyName("require_membership_types")]
-    // public IList<object> require_membership_types { get; set; }
-    //
-    // [JsonPropertyName("grant_membership_type")]
-    // public object grant_membership_type { get; set; }
-    //
-    // [JsonPropertyName("grant_membership_duration_like_event")]
-    // public bool grant_membership_duration_like_event { get; set; }
-    //
-    // [JsonPropertyName("grant_membership_duration_days")]
-    // public int grant_membership_duration_days { get; set; }
-    //
-    // [JsonPropertyName("grant_membership_duration_months")]
-    // public int grant_membership_duration_months { get; set; }
-    //
-    // [JsonPropertyName("validity_fixed_from")]
-    // public object validity_fixed_from { get; set; }
-    //
-    // [JsonPropertyName("validity_fixed_until")]
-    // public object validity_fixed_until { get; set; }
-    //
-    // [JsonPropertyName("validity_dynamic_duration_minutes")]
-    // public object validity_dynamic_duration_minutes { get; set; }
-    //
-    // [JsonPropertyName("validity_dynamic_duration_hours")]
-    // public object validity_dynamic_duration_hours { get; set; }
-    //
-    // [JsonPropertyName("validity_dynamic_duration_days")]
-    // public object validity_dynamic_duration_days { get; set; }
-    //
-    // [JsonPropertyName("validity_dynamic_duration_months")]
-    // public object validity_dynamic_duration_months { get; set; }
-    //
-    // [JsonPropertyName("validity_dynamic_start_choice")]
-    // public bool validity_dynamic_start_choice { get; set; }
-    //
-    // [JsonPropertyName("validity_dynamic_start_choice_day_limit")]
-    // public object validity_dynamic_start_choice_day_limit { get; set; }
     
     public override string ToString()
     {

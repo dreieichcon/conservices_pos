@@ -1,5 +1,7 @@
-﻿using Innkeep.Api.Fiskaly.Interfaces.Tss;
+﻿using Innkeep.Api.Enum.Fiskaly.Client;
+using Innkeep.Api.Fiskaly.Interfaces.Tss;
 using Innkeep.Api.Models.Fiskaly.Objects;
+using Innkeep.Api.Models.Fiskaly.Objects.Client;
 using Innkeep.Db.Server.Models;
 using Innkeep.Services.Interfaces;
 using Innkeep.Services.Interfaces.Hardware;
@@ -71,12 +73,28 @@ public class FiskalyClientService(IDbService<FiskalyConfig> configService,
 		var result = await clientRepository.UpdateClient(
 			configService.CurrentItem!.TseId,
 			CurrentClient.Id,
-			"DEREGISTERED"
+			ClientState.Deregistered
 		);
 
 		CurrentClient = result;
 
-		return CurrentClient?.State == "DEREGISTERED";
+		return CurrentClient?.State == ClientState.Deregistered;
+	}
+
+	public async Task<bool> Activate()
+	{
+		if (IsTssNull() || CurrentClient is null)
+			return false;
+
+		var result = await clientRepository.UpdateClient(
+			configService.CurrentItem!.TseId,
+			CurrentClient.Id,
+			ClientState.Registered
+		);
+
+		CurrentClient = result;
+
+		return CurrentClient?.State == ClientState.Registered;
 	}
 
 	public async Task<bool> Save()

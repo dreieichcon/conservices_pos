@@ -7,9 +7,10 @@ public class BaseServerRepository : BaseHttpRepository
 {
 	protected override JsonSerializerOptions GetOptions() => throw new NotImplementedException();
 
-	protected override async Task PrepareRequest()
+	protected override Task PrepareRequest()
 	{
 		// do nothing here
+		return Task.CompletedTask;
 	}
 
 	protected override HttpContent CreatePostMessage(string content) => throw new NotImplementedException();

@@ -1,4 +1,5 @@
 ﻿using Innkeep.Api.Models.Fiskaly.Objects;
+using Innkeep.Api.Models.Fiskaly.Objects.Client;
 
 namespace Innkeep.Services.Server.Interfaces.Fiskaly;
 
@@ -13,6 +14,8 @@ public interface IFiskalyClientService
 	public Task Load();
 
 	public Task<bool> CreateNew();
+
+	public Task<bool> Activate();
 
 	public Task<bool> Deactivate();
 

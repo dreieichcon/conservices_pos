@@ -1,5 +1,7 @@
 ﻿@page "/config/fiskaly/client"
+@using Innkeep.Api.Enum.Fiskaly.Client
 @using Innkeep.Api.Models.Fiskaly.Objects
+@using Innkeep.Api.Models.Fiskaly.Objects.Client
 
 <ConfigPage PageTitle="Select Client">
     <ChildContent>
@@ -14,9 +16,13 @@
                         }
                     </MudSelect>
                     <MudStack Row="true" Justify="Justify.FlexEnd">
-                        @if (CurrentClient?.State == "REGISTERED")
+                        @if (CurrentClient?.State == ClientState.Registered)
                         {
                             <MudButton Color="Color.Error" Variant="Variant.Outlined" @onclick="DeactivateClient">Deactivate Client</MudButton>
+                        }
+                        @if (CurrentClient?.State == ClientState.Deregistered)
+                        {
+                            <MudButton Color="Color.Success" Variant="Variant.Outlined" @onclick="ActivateClient">Activate Client</MudButton>
                         }
                         <MudButton Color="Color.Primary" Variant="Variant.Outlined" @onclick="CreateClient">Create New Client</MudButton>
                     </MudStack>

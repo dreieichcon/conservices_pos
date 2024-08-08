@@ -2,12 +2,12 @@
 
 public abstract class BaseEndpointBuilder
 {
-	protected readonly string _endpoint;
+	protected readonly string Endpoint;
 	protected readonly List<string> Endpoints = new();
 
 	protected BaseEndpointBuilder(string endpoint)
 	{
-		_endpoint = endpoint;
+		Endpoint = endpoint;
 	}
 	
 	public BaseEndpointBuilder WithEndpoint(string endpoint)
@@ -18,6 +18,6 @@ public abstract class BaseEndpointBuilder
 
 	public string Build()
 	{
-		return _endpoint + string.Join("/", Endpoints) + "/";
+		return Endpoint + string.Join("/", Endpoints) + "/";
 	}
 }

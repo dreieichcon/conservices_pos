@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Innkeep.Endpoints.Base;
+﻿using Innkeep.Endpoints.Base;
 
 namespace Innkeep.Endpoints.Fiskaly;
 
@@ -19,6 +18,6 @@ public class FiskalyAuthenticationEndpointBuilder : BaseEndpointBuilder
 	
 	public new string Build()
 	{
-		return _endpoint + string.Join("/", Endpoints);
+		return Endpoint + string.Join("/", Endpoints);
 	}
 }

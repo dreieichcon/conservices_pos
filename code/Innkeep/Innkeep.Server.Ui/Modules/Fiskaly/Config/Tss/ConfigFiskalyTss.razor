@@ -1,6 +1,8 @@
 ﻿@page "/config/fiskaly/tss"
 @using Innkeep.Api.Models.Fiskaly.Objects
 @using System.Globalization
+@using Innkeep.Api.Enum.Fiskaly.Tss
+@using Innkeep.Api.Models.Fiskaly.Objects.Tss
 
 <ConfigPage PageTitle="Select TSS">
     <ChildContent>
@@ -39,9 +41,9 @@
                             </MudStack>
                             <MudStack Row="true">
                                 <DataLayoutItem Name="Tss PUK Known"
-                                                Value="@((!string.IsNullOrEmpty(AuthenticationService.CurrentConfig.TsePuk)).ToString())"/>
+                                                Value="@(!string.IsNullOrEmpty(AuthenticationService.CurrentConfig.TsePuk))"/>
                                 <DataLayoutItem Name="Tss Password Known"
-                                                Value="@((!string.IsNullOrEmpty(AuthenticationService.CurrentConfig.TseAdminPassword)).ToString())"/>
+                                                Value="@(!string.IsNullOrEmpty(AuthenticationService.CurrentConfig.TseAdminPassword))"/>
                             </MudStack>
                         </MudStack>
                     </MudTabPanel>
@@ -49,16 +51,16 @@
                         <MudStack Class="p-2 m-2">
                             <MudStack Spacing="2">
                                 <MudExpansionPanels>
-                                    @if (CurrentTss.State is "UNINITIALIZED" or "INITIALIZED")
+                                    @if (CurrentTss.State is TssState.Uninitialized or TssState.Initialized)
                                     {
                                         <MudExpansionPanel Text="Change Tss Admin Pin">
                                             <MudStack Class="py-2">
                                                 <MudText>Please enter a new admin Pin for the Tss below.</MudText>
                                                 <MudText>Pin needs to be >= 6 character in length</MudText>
                                                 <MudTextField
-                                                    T="string" 
-                                                    @bind-Value="@AuthenticationService.CurrentConfig.TseAdminPassword" 
-                                                    Variant="Variant.Outlined" 
+                                                    T="string"
+                                                    @bind-Value="@AuthenticationService.CurrentConfig.TseAdminPassword"
+                                                    Variant="Variant.Outlined"
                                                     Label="Admin Password"
                                                     InputType="InputType.Password"/>
                                             </MudStack>
@@ -70,7 +72,7 @@
                                             </MudButton>
                                         </MudExpansionPanel>
                                     }
-                                    @if (CurrentTss.State == "CREATED")
+                                    @if (CurrentTss.State == TssState.Created)
                                     {
                                         <MudExpansionPanel Text="Deploy Tss">
                                             <MudStack Class="py-2">
@@ -87,7 +89,7 @@
                                             </MudStack>
                                         </MudExpansionPanel>
                                     }
-                                    @if (CurrentTss.State is "UNINITIALIZED")
+                                    @if (CurrentTss.State is TssState.Uninitialized)
                                     {
                                         <MudExpansionPanel Text="Initialize Tss">
                                             <MudStack Class="py-2">
@@ -109,7 +111,7 @@
                                             </MudStack>
                                         </MudExpansionPanel>
                                     }
-                                    @if (CurrentTss.State is "UNINITIALIZED" or "INITIALIZED")
+                                    @if (CurrentTss.State is TssState.Uninitialized or TssState.Initialized)
                                     {
                                         <MudExpansionPanel Text="Disable Tss">
                                             <MudStack Class="py-2">
@@ -131,6 +133,7 @@
                                     @if (TaskInProgress)
                                     {
                                         <MudText>@TaskDescription</MudText>
+
                                         <MudProgressLinear Color="Color.Primary" Indeterminate="true"/>
                                     }
                                 </MudStack>

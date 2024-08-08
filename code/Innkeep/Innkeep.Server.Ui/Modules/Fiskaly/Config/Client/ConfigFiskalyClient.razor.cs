@@ -1,4 +1,5 @@
 ﻿using Innkeep.Api.Models.Fiskaly.Objects;
+using Innkeep.Api.Models.Fiskaly.Objects.Client;
 using Innkeep.Services.Interfaces.Hardware;
 using Innkeep.Services.Server.Interfaces.Fiskaly;
 using Microsoft.AspNetCore.Components;
@@ -32,6 +33,29 @@ public partial class ConfigFiskalyClient
 	private async Task Reload()
 	{
 		await OnInitializedAsync();
+	}
+	
+	private async Task ActivateClient()
+	{
+		var result = await ClientService.Activate();
+
+		if (result)
+		{
+			Snackbar.Add("Activated Client", Severity.Success);
+
+			Log.Information(
+				"Client {ClientSerial} activated for Tss {TssId} by {User}",
+				CurrentClient?.SerialNumber,
+				CurrentClient?.TssId,
+				Environment.UserName
+			);
+		}
+		else
+		{
+			Snackbar.Add("Error while activating Client. Please check your logs.", Severity.Error);
+		}
+		
+		await InvokeAsync(StateHasChanged);
 	}
 
 	private async Task DeactivateClient()
@@ -101,4 +125,6 @@ public partial class ConfigFiskalyClient
 
 		await InvokeAsync(StateHasChanged);
 	}
+
+	
 }

@@ -1,4 +1,5 @@
 ﻿using Innkeep.Api.Models.Fiskaly.Objects;
+using Innkeep.Api.Models.Fiskaly.Objects.Tss;
 
 namespace Innkeep.Services.Server.Interfaces.Fiskaly;
 
