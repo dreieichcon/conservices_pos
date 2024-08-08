@@ -1,9 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Innkeep.Api.Models.Fiskaly.Request;
+namespace Innkeep.Api.Models.Fiskaly.Request.Client;
 
 public class FiskalyClientCreateRequest
 {
 	[JsonPropertyName("serial_number")]
-	public string SerialNumber { get; set; }
+	public required string SerialNumber { get; set; }
 }

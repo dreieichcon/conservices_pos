@@ -1,4 +1,4 @@
-﻿using Innkeep.Api.Models.Fiskaly.Objects;
+﻿using Innkeep.Api.Models.Fiskaly.Objects.Tss;
 using Innkeep.Core.DomainModels.Authentication;
 using Innkeep.Db.Server.Models;
 

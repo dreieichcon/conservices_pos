@@ -2,6 +2,7 @@
 using Innkeep.Api.Fiskaly.Interfaces.Auth;
 using Innkeep.Api.Fiskaly.Tests.Data;
 using Innkeep.Api.Models.Fiskaly.Objects;
+using Innkeep.Api.Models.Fiskaly.Objects.Tss;
 using Innkeep.Core.DomainModels.Authentication;
 using Innkeep.Db.Server.Models;
 

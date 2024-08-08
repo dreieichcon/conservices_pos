@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-using System.Text.Json;
-using Newtonsoft.Json;
+﻿using System.Text.Json;
 
 namespace Innkeep.Api.Json;
 
@@ -26,15 +24,6 @@ public static class SerializerOptions
 				new PretixDecimalJsonConverter(),
 			},
 			WriteIndented = true,
-		};
-	}
-
-	public static JsonSerializerSettings GetServerOptionsNewtonsoft()
-	{
-		return new JsonSerializerSettings()
-		{
-			Formatting = Formatting.Indented,
-			Culture = CultureInfo.InvariantCulture,
 		};
 	}
 }

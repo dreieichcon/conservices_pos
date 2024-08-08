@@ -1,5 +1,6 @@
 ﻿using Innkeep.Api.Auth;
 using Innkeep.Api.Models.Fiskaly.Objects;
+using Innkeep.Api.Models.Fiskaly.Objects.Tss;
 using Innkeep.Services.Server.Interfaces.Fiskaly;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;

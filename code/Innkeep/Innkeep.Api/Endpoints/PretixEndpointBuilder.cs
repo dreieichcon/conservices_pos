@@ -1,6 +1,4 @@
 ﻿using Innkeep.Api.Core.Endpoints;
-using Innkeep.Api.Models.Pretix;
-using Innkeep.Api.Models.Pretix.Objects;
 using Innkeep.Api.Models.Pretix.Objects.General;
 
 namespace Innkeep.Api.Endpoints;

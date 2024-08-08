@@ -6,13 +6,13 @@ public class DtoSalesItem
 {
 	public int Id { get; set; }
 	
-	public string Name { get; set; }
+	public required string Name { get; set; }
 	
-	public decimal Price { get; set; }
+	public required decimal Price { get; set; }
 	
-	public decimal TaxRate { get; set; }
+	public required decimal TaxRate { get; set; }
 	
-	public string Currency { get; set; }
+	public required string Currency { get; set; }
 	
 	public int CartCount { get; set; }
 

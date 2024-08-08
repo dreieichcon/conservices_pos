@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace Innkeep.Api.Json;
@@ -19,10 +18,7 @@ public class FiskalyDateTimeJsonConverter : JsonConverter<DateTime>
 	
 	public static DateTime ParseInput(long? input)
 	{
-		if (input is null) 
-			return DateTime.Now;
-
-		return DateTimeOffset.FromUnixTimeSeconds(input.Value).DateTime.ToLocalTime();
+		return input is null ? DateTime.Now : DateTimeOffset.FromUnixTimeSeconds(input.Value).DateTime.ToLocalTime();
 	}
 
 	public static long ParseOutput(DateTime input)

@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Innkeep.Api.Enum;
+﻿using Innkeep.Api.Enum;
 using Innkeep.Api.Models.Core;
 
 namespace Innkeep.Api.Core.Http;
@@ -9,8 +8,8 @@ public abstract partial class BaseHttpRepository
     protected abstract Task PrepareRequest();
 
     protected virtual int Timeout => 5000;
-    
-    protected void SetTimeout(int? timeout)
+
+    private void SetTimeout(int? timeout)
     {
         Client = new HttpClient();
         Client.Timeout = TimeSpan.FromMilliseconds(timeout ?? Timeout);

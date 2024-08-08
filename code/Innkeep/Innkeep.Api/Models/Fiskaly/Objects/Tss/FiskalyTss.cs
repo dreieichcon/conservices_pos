@@ -1,68 +1,71 @@
 ﻿using System.Text.Json.Serialization;
+using Innkeep.Api.Enum.Fiskaly.Tss;
 
-namespace Innkeep.Api.Models.Fiskaly.Objects;
+namespace Innkeep.Api.Models.Fiskaly.Objects.Tss;
 
+// ReSharper disable once ClassNeverInstantiated.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
 public class FiskalyTss
 {
 	[JsonPropertyName("certificate")]
-	public string Certificate { get; set; }
+	public required string Certificate { get; set; }
 
 	[JsonPropertyName("serial_number")]
-	public string SerialNumber { get; set; }
+	public required string SerialNumber { get; set; }
 
 	[JsonPropertyName("public_key")]
-	public string PublicKey { get; set; }
+	public required string PublicKey { get; set; }
 
 	[JsonPropertyName("signature_algorithm")]
-	public string SignatureAlgorithm { get; set; }
+	public required string SignatureAlgorithm { get; set; }
 
 	[JsonPropertyName("signature_timestamp_format")]
-	public string SignatureTimestampFormat { get; set; }
+	public required string SignatureTimestampFormat { get; set; }
 
 	[JsonPropertyName("transaction_data_encoding")]
-	public string TransactionDataEncoding { get; set; }
+	public required string TransactionDataEncoding { get; set; }
 
 	[JsonPropertyName("max_number_registered_clients")]
-	public long Max_Number_Registered_Clients { get; set; }
+	public required long MaxRegisteredClients { get; set; }
 
 	[JsonPropertyName("max_number_active_transactions")]
-	public long Max_Number_Active_Transactions { get; set; }
+	public required long MaxActiveTransactions { get; set; }
 
 	[JsonPropertyName("supported_update_variants")]
-	public string Supported_Update_Variants { get; set; }
+	public required string SupportedUpdateVariants { get; set; }
 
 	[JsonPropertyName("_id")]
-	public string Id { get; set; }
+	public required string Id { get; set; }
 
 	[JsonPropertyName("_type")]
-	public string Type { get; set; }
+	public required string Type { get; set; }
 
 	[JsonPropertyName("_env")]
-	public string Environment { get; set; }
+	public required string Environment { get; set; }
 
 	[JsonPropertyName("_version")]
-	public string Version { get; set; }
+	public required string Version { get; set; }
 
 	[JsonPropertyName("time_creation")]
-	public DateTime TimeCreation { get; set; }
+	public required DateTime TimeCreation { get; set; }
 
 	[JsonPropertyName("description")]
-	public string Description { get; set; }
+	public required string Description { get; set; }
 
 	[JsonPropertyName("state")]
-	public string State { get; set; }
+	public required TssState State { get; set; }
 
 	[JsonPropertyName("bsi_certification_id")]
-	public string BsiCertificationId { get; set; }
+	public string BsiCertificationId { get; set; } = "";
 
 	[JsonPropertyName("bsi_certification_valid_to")]
 	public DateTime BsiCertificationValidTo { get; set; }
 
 	[JsonPropertyName("signature_counter")]
-	public string SignatureCounter { get; set; }
+	public long SignatureCounter { get; set; }
 
 	[JsonPropertyName("transaction_counter")]
-	public string TransactionCounter { get; set; }
+	public long TransactionCounter { get; set; }
 
 	[JsonPropertyName("number_registered_clients")]
 	public long NumberRegisteredClients { get; set; }
@@ -71,7 +74,7 @@ public class FiskalyTss
 	public long NumberActiveTransactions { get; set; }
 
 	[JsonPropertyName("time_uninit")]
-	public DateTime TimeUninit { get; set; }
+	public DateTime TimeUnInit { get; set; }
 
 	[JsonPropertyName("time_init")]
 	public DateTime TimeInit { get; set; }
@@ -81,7 +84,7 @@ public class FiskalyTss
 
 	[JsonPropertyName("time_disable")]
 	public DateTime TimeDisable { get; set; }
-	
+
 	[JsonPropertyName("admin_puk")]
-	public string AdminPuk { get; set; }
+	public string AdminPuk { get; set; } = "";
 }

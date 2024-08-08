@@ -29,7 +29,7 @@ public class SalesItemRepository : AbstractServerRepository, ISalesItemRepositor
 		return deserialized.ToList();
 	}
 
-	private static T TryDeserialize<T>(ApiResponse response, T defaultValue = default)
+	private static T TryDeserialize<T>(ApiResponse response, T defaultValue = default!)
 	{
 		try
 		{
@@ -38,7 +38,7 @@ public class SalesItemRepository : AbstractServerRepository, ISalesItemRepositor
 		}
 		catch (Exception ex)
 		{
-			Log.Error("Error while deserializing into {Type}: {Exception}", typeof(T), ex);
+			Log.Error(ex, "Error while deserializing into {Type}:", typeof(T));
 			return defaultValue;
 		}
 	}
