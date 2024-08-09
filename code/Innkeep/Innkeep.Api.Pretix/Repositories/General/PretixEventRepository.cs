@@ -21,13 +21,22 @@ public class PretixEventRepository(IPretixAuthenticationService authenticationSe
 		return await GetEventsInternal(uri);
 	}
 
+	public async Task<PretixEvent?> GetEvent(string pOrganizerSlug, string pEventSlug)
+	{
+		var uri = new PretixEndpointBuilder().WithOrganizer(pOrganizerSlug).WithEvent(pEventSlug).Build();
+			
+		var response = await Get(uri);
+
+		return DeserializeOrNull<PretixEvent>(response);
+	}
+
 	private async Task<IEnumerable<PretixEvent>> GetEventsInternal(string uri)
 	{
 		var response = await Get(uri);
 
 		if (!response.IsSuccess)
 			return new List<PretixEvent>();
-
+		
 		var result = Deserialize(response.Content);
 
 		return result is not null ? result.Results : new List<PretixEvent>();

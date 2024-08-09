@@ -1,4 +1,5 @@
 ﻿using Innkeep.Api.Models.Pretix.Objects.Sales;
+using Newtonsoft.Json;
 
 namespace Innkeep.Api.Models.Internal;
 
@@ -13,6 +14,9 @@ public class DtoSalesItem
 	public required decimal TaxRate { get; set; }
 	
 	public required string Currency { get; set; }
+
+	[JsonIgnore]
+	public decimal PriceWithTax => Price * (1 + TaxRate / 100);
 	
 	public int CartCount { get; set; }
 

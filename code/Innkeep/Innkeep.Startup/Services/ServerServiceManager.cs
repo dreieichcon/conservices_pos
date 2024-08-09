@@ -1,7 +1,9 @@
 ﻿using Innkeep.Api.Auth;
 using Innkeep.Api.Fiskaly.Interfaces.Auth;
+using Innkeep.Api.Fiskaly.Interfaces.Transaction;
 using Innkeep.Api.Fiskaly.Interfaces.Tss;
 using Innkeep.Api.Fiskaly.Repositories.Auth;
+using Innkeep.Api.Fiskaly.Repositories.Transaction;
 using Innkeep.Api.Fiskaly.Repositories.Tss;
 using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Api.Pretix.Repositories.Auth;
@@ -95,13 +97,16 @@ public static class ServerServiceManager
 		collection.AddSingleton<IFiskalyAuthRepository, FiskalyAuthRepository>();
 		collection.AddSingleton<IFiskalyTssRepository, FiskalyTssRepository>();
 		collection.AddSingleton<IFiskalyClientRepository, FiskalyClientRepository>();
+		collection.AddSingleton<IFiskalyTransactionRepository, FiskalyTransactionRepository>();
 	}
 
 	private static void ConfigureHttpServices(IServiceCollection collection)
 	{
 		collection.AddSingleton<IPretixSalesItemService, PretixSalesItemService>();
+		collection.AddSingleton<IPretixOrderService, PretixOrderService>();
 
 		collection.AddSingleton<IFiskalyTssService, FiskalyTssService>();
 		collection.AddSingleton<IFiskalyClientService, FiskalyClientService>();
+		collection.AddSingleton<IFiskalyTransactionService, FiskalyTransactionService>();
 	}
 }

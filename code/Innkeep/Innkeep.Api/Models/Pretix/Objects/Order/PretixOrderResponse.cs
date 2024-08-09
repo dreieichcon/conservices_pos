@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Innkeep.Api.Pretix.Legacy.Models.Objects;
+namespace Innkeep.Api.Models.Pretix.Objects.Order;
 
 public class PretixOrderResponse
 {

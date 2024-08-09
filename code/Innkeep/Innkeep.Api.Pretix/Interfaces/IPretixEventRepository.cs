@@ -7,4 +7,6 @@ public interface IPretixEventRepository
 	public Task<IEnumerable<PretixEvent>> GetEvents(PretixOrganizer organizer);
 
 	public Task<IEnumerable<PretixEvent>> GetEvents(string pOrganizerSlug);
+
+	public Task<PretixEvent?> GetEvent(string pOrganizerSlug, string pEventSlug);
 }
