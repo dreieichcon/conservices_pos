@@ -51,6 +51,12 @@ public class PretixEndpointBuilder() : BaseEndpointBuilder("https://pretix.eu/ap
 		return this;
 	}
 
+	public PretixEndpointBuilder WithOrders()
+	{
+		Endpoints.Add("orders");
+		return this;
+	}
+
 	public string Build()
 	{
 		return BuildInternal();
