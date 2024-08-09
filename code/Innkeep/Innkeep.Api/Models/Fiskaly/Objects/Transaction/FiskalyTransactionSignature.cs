@@ -11,7 +11,7 @@ public class FiskalyTransactionSignature
 	public required string Algorithm { get; set; }
 
 	[JsonPropertyName("counter")]
-	public required string Counter { get; set; }
+	public required int Counter { get; set; }
 
 	[JsonPropertyName("public_key")]
 	public required string PublicKey { get; set; }

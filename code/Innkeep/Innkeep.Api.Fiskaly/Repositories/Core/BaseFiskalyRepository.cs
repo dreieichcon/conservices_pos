@@ -48,7 +48,7 @@ public class BaseFiskalyRepository(IFiskalyAuthenticationService authenticationS
 				new PretixDecimalJsonConverter(),
 				new FiskalyDateTimeJsonConverter(),
 				new FiskalyLongJsonConverter(),
-				new JsonStringEnumConverter(),
+				new JsonStringEnumConverter(new FiskalyEnumNamingPolicy()),
 			},
 		};
 	}

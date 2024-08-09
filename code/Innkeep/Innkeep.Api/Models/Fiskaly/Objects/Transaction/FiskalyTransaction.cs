@@ -48,10 +48,10 @@ public class FiskalyTransaction
 	public required string Version { get; set; }
 
 	[JsonPropertyName("time_end")]
-	public required int TimeEnd { get; set; }
+	public int TimeEnd { get; set; }
 
 	[JsonPropertyName("qr_code_data")]
-	public required string QrCodeData { get; set; }
+	public string QrCodeData { get; set; }
 
 	[JsonPropertyName("log")]
 	public required FiskalyTransactionLog Log { get; set; }

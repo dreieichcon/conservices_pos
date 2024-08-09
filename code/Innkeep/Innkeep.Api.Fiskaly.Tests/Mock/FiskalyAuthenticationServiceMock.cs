@@ -50,5 +50,5 @@ public class FiskalyAuthenticationServiceMock : IFiskalyAuthenticationService
 
 	public Task CreateTseConfig(string tseId) => throw new NotImplementedException();
 
-	public Task SaveTseConfig() => throw new NotImplementedException();
+	public Task<bool> SaveTseConfig() => throw new NotImplementedException();
 }

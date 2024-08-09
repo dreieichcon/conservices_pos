@@ -10,5 +10,5 @@ public class FiskalyTransactionStartRequest
 	public required TransactionState State { get; set; }
 	
 	[JsonPropertyName("client_id")]
-	public required Guid ClientId { get; set; }
+	public required string ClientId { get; set; }
 }
