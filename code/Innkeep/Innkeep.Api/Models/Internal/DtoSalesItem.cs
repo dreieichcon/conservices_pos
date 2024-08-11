@@ -16,7 +16,16 @@ public class DtoSalesItem
 	public required string Currency { get; set; }
 
 	[JsonIgnore]
+	public decimal TaxAmount => Price * (TaxRate / 100);
+	
+	[JsonIgnore]
 	public decimal PriceWithTax => Price * (1 + TaxRate / 100);
+
+	[JsonIgnore]
+	public decimal TotalPrice => PriceWithTax * CartCount;
+
+	[JsonIgnore]
+	public decimal TotalTax => TaxAmount * CartCount;
 	
 	public int CartCount { get; set; }
 

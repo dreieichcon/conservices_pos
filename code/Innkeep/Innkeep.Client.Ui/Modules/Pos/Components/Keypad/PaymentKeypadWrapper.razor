@@ -14,7 +14,7 @@
                 Style="@PosStyles.KeypadButtonStyle"
                 Variant="Variant.Outlined"
                 Color="Color.Primary"
-                @onclick="() => SetAmount(7)">
+                @onclick="@(() => SetAmount("7"))">
                 <MudText Typo="Typo.h4" Class="fw-bold">
                     7
                 </MudText>
@@ -23,7 +23,7 @@
                 Style="@PosStyles.KeypadButtonStyle"
                 Variant="Variant.Outlined"
                 Color="Color.Primary"
-                @onclick="() => SetAmount(8)">
+                @onclick="@(() => SetAmount("8"))">
                 <MudText Typo="Typo.h4" Class="fw-bold">
                     8
                 </MudText>
@@ -32,7 +32,7 @@
                 Style="@PosStyles.KeypadButtonStyle"
                 Variant="Variant.Outlined"
                 Color="Color.Primary"
-                @onclick="() => SetAmount(9)">
+                @onclick="@(() => SetAmount("9"))">
                 <MudText Typo="Typo.h4" Class="fw-bold">
                     9
                 </MudText>
@@ -43,7 +43,7 @@
                 Style="@PosStyles.KeypadButtonStyle"
                 Variant="Variant.Outlined"
                 Color="Color.Primary"
-                @onclick="() => SetAmount(4)">
+                @onclick="@(() => SetAmount("4"))">
                 <MudText Typo="Typo.h4" Class="fw-bold">
                     4
                 </MudText>
@@ -52,7 +52,7 @@
                 Style="@PosStyles.KeypadButtonStyle"
                 Variant="Variant.Outlined"
                 Color="Color.Primary"
-                @onclick="() => SetAmount(5)">
+                @onclick="@(() => SetAmount("5"))">
                 <MudText Typo="Typo.h4" Class="fw-bold">
                     5
                 </MudText>
@@ -61,7 +61,7 @@
                 Style="@PosStyles.KeypadButtonStyle"
                 Variant="Variant.Outlined"
                 Color="Color.Primary"
-                @onclick="() => SetAmount(6)">
+                @onclick="@(() => SetAmount("6"))">
                 <MudText Typo="Typo.h4" Class="fw-bold">
                     6
                 </MudText>
@@ -72,7 +72,7 @@
                 Style="@PosStyles.KeypadButtonStyle"
                 Variant="Variant.Outlined"
                 Color="Color.Primary"
-                @onclick="() => SetAmount(1)">
+                @onclick="@(() => SetAmount("1"))">
                 <MudText Typo="Typo.h4" Class="fw-bold">
                     1
                 </MudText>
@@ -81,7 +81,7 @@
                 Style="@PosStyles.KeypadButtonStyle"
                 Variant="Variant.Outlined"
                 Color="Color.Primary"
-                @onclick="() => SetAmount(2)">
+                @onclick="@(() => SetAmount("2"))">
                 <MudText Typo="Typo.h4" Class="fw-bold">
                     2
                 </MudText>
@@ -90,7 +90,7 @@
                 Style="@PosStyles.KeypadButtonStyle"
                 Variant="Variant.Outlined"
                 Color="Color.Primary"
-                @onclick="() => SetAmount(3)">
+                @onclick="@(() => SetAmount("3"))">
                 <MudText Typo="Typo.h4" Class="fw-bold">
                     3
                 </MudText>
@@ -98,12 +98,22 @@
         </MudStack>
         <MudStack Row="true" Style="@PosStyles.KeypadRowStyle" Justify="Justify.Center">
             <MudButton
-                Style="width: 83%;"
+                Style="width: 54%;"
                 Variant="Variant.Outlined"
                 Color="Color.Primary"
-                @onclick="() => SetAmount(0)">
+                @onclick="@(() => SetAmount("0"))">
                 <MudText Typo="Typo.h4" Class="fw-bold">
                     0
+                </MudText>
+            </MudButton>
+            <MudButton
+                Style="@PosStyles.KeypadButtonStyle"
+                Variant="Variant.Outlined"
+                Color="Color.Primary"
+                @onclick="@(() => SetAmount("."))"
+                Disabled="@DecimalDisabled">
+                <MudText Typo="Typo.h4" Class="fw-bold">
+                    ,
                 </MudText>
             </MudButton>
         </MudStack>
@@ -113,7 +123,7 @@
                 Variant="Variant.Filled"
                 Color="Color.Success"
                 @onclick="TransferAmount">
-                SET
+                ADD
             </MudButton>
             <MudButton
                 Style="width: 39.5%"
@@ -125,57 +135,7 @@
 </MudStack>
 
 @code {
-
-    protected override void OnInitialized()
-    {
-        TransactionService.CurrentAmountUpdated += async(_, _) => await GetAmountFromService();
-    }
-
-    private int CurrentAmount { get; set; } = 1;
-
-    private bool _added;
-
-    private bool IsSet => TransactionService.CurrentAmount == CurrentAmount;
-
-    private Color AmountColor => IsSet ? Color.Success : Color.Default;
-
-    public void SetAmount(int amount)
-    {
-        if (!_added)
-        {
-            CurrentAmount = amount;
-            _added = true;
-            return;
-        }
-
-        try
-        {
-            CurrentAmount = int.Parse($"{CurrentAmount}{amount}");
-        }
-        catch
-        {
-            CurrentAmount = amount;
-        }
-    }
-
-    public async Task TransferAmount()
-    {
-        TransactionService.CurrentAmount = CurrentAmount;
-        await InvokeAsync(StateHasChanged);
-    }
-
-    public async Task ClearAmount()
-    {
-        CurrentAmount = 1;
-        _added = false;
-        await TransferAmount();
-    }
-
-    private async Task GetAmountFromService()
-    {
-        CurrentAmount = TransactionService.CurrentAmount;
-        _added = false;
-        await InvokeAsync(StateHasChanged);
-    }
+    
+    private Color AmountColor => _valid ? Color.Success : Color.Error;
 
 }

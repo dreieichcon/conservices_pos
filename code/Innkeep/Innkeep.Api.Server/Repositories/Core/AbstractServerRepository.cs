@@ -13,11 +13,5 @@ public class AbstractServerRepository(IDbService<ClientConfig> clientConfigServi
 		return clientConfigService.CurrentItem!.ServerAddress;
 	}
 
-	protected Dictionary<string, string> IdentifierFormData() =>
-		new()
-		{
-			{
-				"identifier", clientConfigService.CurrentItem!.HardwareIdentifier
-			},
-		};
+	protected string Identifier => clientConfigService.CurrentItem!.HardwareIdentifier;
 }

@@ -1,0 +1,43 @@
+﻿@using Innkeep.Services.Client.Interfaces.Pos
+@inject ITransactionService TransactionService;
+
+<MudPaper Style="@PosStyles.DisplayStyleDouble" Class="d-flex flex-grow-1 mh-100 overflow-hidden" Elevation="0">
+    <MudStack Row="true" Class="flex-grow-1">
+        <MudButton
+            Style="@PosStyles.DisplayStyle"
+            Color="Color.Success"
+            Variant="Variant.Filled"
+            @onclick="@TransactionService.InitiatePayment"
+            Disabled="@(!TransactionService.CartItems.Any())">
+            <MudText Typo="Typo.h4">
+                PAY
+            </MudText>
+        </MudButton>
+        <MudButton
+            Style="@PosStyles.DisplayStyle"
+            Color="Color.Error"
+            Variant="Variant.Filled"
+            @onclick="@TransactionService.ClearCart">
+            <MudText Typo="Typo.h4">
+                CLEAR CART
+            </MudText>
+        </MudButton>
+        <MudButton
+            Style="@PosStyles.DisplayStyle"
+            Color="Color.Tertiary"
+            Variant="Variant.Outlined">
+            <MudText Typo="Typo.h4">
+                PRINT LAST
+            </MudText>
+        </MudButton>
+    </MudStack>
+</MudPaper>
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        TransactionService.CartUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
+    }
+
+}

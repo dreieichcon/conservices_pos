@@ -1,0 +1,34 @@
+﻿@using Innkeep.Services.Client.Interfaces.Pos
+@inject ITransactionService TransactionService;
+@inject ISalesItemService SalesItemService;
+
+<MudPaper Style="@PosStyles.DisplayStyle" Class="d-flex flex-grow-1 mh-100 overflow-hidden" Elevation="1">
+    <ListBox Title="Quick Currency">
+        <MudStack Class="flex-grow-1 mh-100 m-0" Justify="Justify.FlexStart" Spacing="0">
+            <CurrencyItem Value="1" OnClickCallback="() => Add(1)"/>
+            <MudDivider Class="flex-grow-0" Style="height: 2px !important"/>
+            <CurrencyItem Value="2" OnClickCallback="() => Add(2)"/>
+            <MudDivider Class="flex-grow-0" Style="height: 2px !important"/>
+            <CurrencyItem Value="5" OnClickCallback="() => Add(5)"/>
+            <MudDivider Class="flex-grow-0" Style="height: 2px !important"/>
+            <CurrencyItem Value="10" OnClickCallback="() => Add(10)"/>
+            <MudDivider Class="flex-grow-0" Style="height: 2px !important"/>
+            <CurrencyItem Value="20" OnClickCallback="() => Add(20)"/>
+            <MudDivider Class="flex-grow-0" Style="height: 2px !important"/>
+            <CurrencyItem Value="50" OnClickCallback="() => Add(50)"/>
+            <MudDivider Class="flex-grow-0" Style="height: 2px !important"/>
+            <CurrencyItem Value="100" OnClickCallback="() => Add(100)"/>
+        </MudStack>
+    </ListBox>
+</MudPaper>
+
+@code {
+
+    private string Currency => SalesItemService.SalesItems.FirstOrDefault()?.Currency ?? "EUR";
+
+    private void Add(decimal amount)
+    {
+        TransactionService.MoneyGiven += amount;
+    }
+
+}

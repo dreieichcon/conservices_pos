@@ -1,0 +1,25 @@
+﻿@using Innkeep.Api.Models.Internal
+
+<MudPaper Class="m-1 p-2 no-highlight" Style="height: 12%" Elevation="0">
+    <MudStack Row="true" Class="h-100 w-100" Justify="Justify.SpaceBetween" AlignItems="AlignItems.Center">
+        <MudItem Style="max-width: 50% !important; width: 50% !important">
+            <MudText>@Item.Name</MudText>
+        </MudItem>
+        <MudText>@Item.CartCount x</MudText>
+        <MudStack AlignItems="AlignItems.End" Style="width: 25% !important;" Spacing="0">
+            <MudStack Row="true" Justify="Justify.FlexEnd" >
+                <MudText Color="Color.Primary" Style="font-weight: bold">@Item.PriceWithTax.ToString("F2") @Item.Currency</MudText>
+            </MudStack>
+            <MudStack Row="true" Justify="Justify.FlexEnd" >
+                <MudText Typo="Typo.body2" Color="Color.Primary" Style="font-weight: bold">(@Item.TotalPrice.ToString("F2") @Item.Currency)</MudText>
+            </MudStack>
+        </MudStack>
+    </MudStack>
+</MudPaper>
+
+@code {
+
+    [Parameter]
+    public DtoSalesItem Item { get; set; }
+
+}

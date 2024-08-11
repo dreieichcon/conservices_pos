@@ -1,0 +1,24 @@
+﻿@using Innkeep.Services.Client.Interfaces.Pos
+@inject ITransactionService TransactionService;
+
+<MudPaper Style="@PosStyles.DisplayStyle" Class="d-flex flex-grow-1 mh-100 overflow-hidden" Elevation="1">
+    <ListBox Title="Amount">
+        @if (TransactionService.IsPaymentMode)
+        {
+            <PaymentKeypadWrapper/>
+        }
+        else
+        {
+            <KeypadWrapper/>
+        }
+    </ListBox>
+</MudPaper>
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        TransactionService.PaymentStateUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
+    }
+
+}

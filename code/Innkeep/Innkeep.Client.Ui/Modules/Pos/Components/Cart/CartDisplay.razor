@@ -1,0 +1,23 @@
+﻿@using Innkeep.Services.Client.Interfaces.Pos
+@inject ITransactionService TransactionService;
+
+<MudPaper Style="@PosStyles.DisplayStyle" Class="d-flex flex-grow-1 mh-100 overflow-hidden" Elevation="1">
+    <ListBox Title="Cart">
+        <MudStack Class="flex-grow-1 mh-100 m-0" Justify="Justify.FlexStart" Spacing="0">
+        @foreach (var item in TransactionService.CartItems)
+        {
+            <CartItem Item="@item"/>
+            <MudDivider Class="flex-grow-0" Style="height: 2px !important"/>
+        }
+        </MudStack>
+    </ListBox>
+</MudPaper>
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        TransactionService.CartUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
+    }
+
+}

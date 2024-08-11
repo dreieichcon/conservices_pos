@@ -1,12 +1,15 @@
-﻿@using Innkeep.Services.Client.Interfaces.Pos
-@inject ISalesItemService SalesItemService
+﻿@using Innkeep.Api.Models.Internal
+@using Innkeep.Services.Client.Interfaces.Pos
+@inject ISalesItemService SalesItemService;
+@inject ITransactionService TransactionService;
 
 <MudPaper Style="@PosStyles.DisplayStyle" Class="d-flex flex-grow-1 mh-100 overflow-hidden" Elevation="1">
     <ListBox Title="Items">
-        <MudStack Class="flex-grow-1 mh-100 m-0" Justify="Justify.SpaceBetween" Spacing="0">
+        <MudStack Class="flex-grow-1 mh-100 m-0" Justify="Justify.FlexStart" Spacing="0">
             @foreach (var item in SalesItemService.SalesItems)
             {
-                <SalesItem Item="@item"/>
+                <SalesItem Item="@item" OnClickCallback="() => AddToCart(item)"/>
+                <MudDivider Style="width: 100%; height: 2px !important; max-height: 2px;"/>
             }
         </MudStack>
     </ListBox>
@@ -18,5 +21,10 @@
     {
         SalesItemService.ItemsUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
         await base.OnInitializedAsync();
+    }
+
+    private void AddToCart(DtoSalesItem item)
+    {
+        TransactionService.AddToCart(item);
     }
 }

@@ -18,7 +18,7 @@ public partial class App : Application
 		ThreadCultureHelper.SetInvariant();
 		base.OnStartup(e);
 
-		LoggingManager.InitializeLogger();
+		LoggingManager.InitializeLogger("Innkeep Server");
 
 		var host = KestrelBuilder.Build();
 

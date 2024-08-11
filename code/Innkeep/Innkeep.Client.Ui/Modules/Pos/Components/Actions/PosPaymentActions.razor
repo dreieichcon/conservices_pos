@@ -1,0 +1,50 @@
+﻿@using Innkeep.Services.Client.Interfaces.Pos
+@inject ITransactionService TransactionService;
+
+<MudPaper Style="@PosStyles.DisplayStyleDouble" Class="d-flex flex-grow-1 mh-100 overflow-hidden" Elevation="0">
+    <MudStack Row="true" Class="flex-grow-1">
+        <MudButton
+            Style="@PosStyles.DisplayStyle"
+            Color="Color.Success"
+            Variant="Variant.Filled"
+            @onclick="@Commit"
+            Disabled="@CommitDisabled">
+            <MudText Typo="Typo.h4">
+                CONFIRM
+            </MudText>
+        </MudButton>
+        <MudButton
+            Style="@PosStyles.DisplayStyle"
+            Color="Color.Error"
+            Variant="Variant.Filled"
+            @onclick="@TransactionService.ClearMoneyGiven">
+            <MudText Typo="Typo.h4">
+                CLEAR AMOUNT
+            </MudText>
+        </MudButton>
+        <MudButton
+            Style="@PosStyles.DisplayStyle"
+            Color="Color.Error"
+            Variant="Variant.Filled"
+            @onclick="@TransactionService.CancelTransaction">
+            <MudText Typo="Typo.h4">
+                CANCEL
+            </MudText>
+        </MudButton>
+    </MudStack>
+</MudPaper>
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        TransactionService.MoneyUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
+    }
+
+    private bool CommitDisabled => TransactionService.MoneyGiven < TransactionService.MoneyRequired;
+
+    private async Task Commit()
+    {
+        var result = await TransactionService.CommitTransaction();
+    }
+}

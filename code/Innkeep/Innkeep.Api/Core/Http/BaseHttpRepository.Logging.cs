@@ -12,6 +12,6 @@ public abstract partial class BaseHttpRepository
             return;
         }
         
-        Log.Error("Request to {Endpoint} failed: {Exception}", response.RequestMessage?.RequestUri, await response.Content.ReadAsStringAsync());
+        Log.Error("Request to {Endpoint} failed with status: {StatusCode}", response.RequestMessage?.RequestUri, response.StatusCode);
     }
 }

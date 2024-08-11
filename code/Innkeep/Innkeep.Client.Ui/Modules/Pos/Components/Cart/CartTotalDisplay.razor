@@ -1,0 +1,31 @@
+﻿@using System.Globalization
+@using Innkeep.Services.Client.Interfaces.Pos
+@inject ITransactionService TransactionService;
+
+<MudPaper Style="@PosStyles.DisplayStyle">
+    <MudStack Class="h-100 p-3" Justify="Justify.SpaceAround">
+        <MudStack Class="flex-grow-1" Row="true" Justify="Justify.SpaceBetween">
+            <MudText Typo="Typo.h4" Class="fw-bold" Color="Color.Primary">Total</MudText>
+            <MudText Typo="Typo.h4" Class="fw-bold" Color="Color.Primary">@MoneyRequired @Currency</MudText>
+        </MudStack>
+        <MudStack Class="flex-grow-1" Row="true" Justify="Justify.SpaceBetween">
+            <MudText Typo="Typo.h5" Class="fw-bold">Tax</MudText>
+            <MudText Typo="Typo.h5" Class="fw-bold">@TaxInRequired @Currency</MudText>
+        </MudStack>
+    </MudStack>
+</MudPaper>
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        TransactionService.CartUpdated += async(_, _) => await InvokeAsync(StateHasChanged);
+    }
+
+    private string MoneyRequired => TransactionService.MoneyRequired.ToString("F2", CultureInfo.InvariantCulture);
+    
+    private string TaxInRequired => TransactionService.TaxInRequired.ToString("F2", CultureInfo.InvariantCulture);
+
+    private string Currency => TransactionService.CartItems.FirstOrDefault()?.Currency ?? "EUR";
+
+}
