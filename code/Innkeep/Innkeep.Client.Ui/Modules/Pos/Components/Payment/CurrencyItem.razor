@@ -1,20 +1,14 @@
 ﻿@using System.Globalization
-@using Innkeep.Api.Models.Internal
 
 <MudPaper Class="flex-grow-1 m-1 no-highlight" Style="max-height: 12% !important" @onclick="OnClickCallback" Elevation="0">
     <MudStack Row="true" Class="h-100">
         <MudStack Class="p-2 h-100" Style="width: 75% !important;" Spacing="0" Justify="Justify.Center">
-            <MudText>@Item.Name</MudText>
-            @if (Item.TaxRate > 0)
-            {
-                <MudText Color="Color.Secondary" Typo="Typo.body2">@Item.TaxRate %</MudText>
-            }
-            
+            <img class="w-100 h-100" src="@ImageSrc" style="object-fit: contain;"/>
         </MudStack>
         <MudDivider Vertical="true" FlexItem="true" Style="width: 2px; height: 100%"/>
         <MudStack Class="px-3" Spacing="0" Justify="Justify.Center" AlignItems="AlignItems.End" Style="width: 18%">
-            <MudText Color="Color.Primary" Typo="Typo.h6">@Item.PriceWithTax.ToString("F2", CultureInfo.InvariantCulture)</MudText>
-            <MudText Color="Color.Primary" Typo="Typo.h6">@Item.Currency</MudText>
+            <MudText Color="Color.Primary" Typo="Typo.h6">@Value</MudText>
+            <MudText Color="Color.Primary" Typo="Typo.h6">@Currency</MudText>
         </MudStack>
     </MudStack>
 </MudPaper>
@@ -22,8 +16,14 @@
 @code {
 
     [Parameter]
-    public required DtoSalesItem Item { get; set; }
+    public decimal Value { get; set; }
+    
+    [Parameter]
+    public string Currency { get; set; }
     
     [Parameter]
     public EventCallback OnClickCallback { get; set; }
+
+    private string ImageSrc => $"img/money/{Value.ToString("N0", CultureInfo.InvariantCulture)}EUR.png";
+
 }

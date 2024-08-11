@@ -7,7 +7,7 @@ namespace Innkeep.Startup.Services;
 
 public static class LoggingManager
 {
-	public static void InitializeLogger()
+	public static void InitializeLogger(string serviceName)
 	{
 		var auth = new Auth();
 		
@@ -18,6 +18,7 @@ public static class LoggingManager
 					.WriteTo.Discord(LogEventLevel.Information, config =>
 					{
 						config.WebhookUrl = auth.WebhookUrl;
+						config.ServiceName = serviceName;
 					})
 					.Enrich.FromLogContext()
 					.CreateLogger();

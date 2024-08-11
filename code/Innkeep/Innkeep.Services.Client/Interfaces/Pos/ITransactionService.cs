@@ -4,19 +4,39 @@ namespace Innkeep.Services.Client.Interfaces.Pos;
 
 public interface ITransactionService
 {
-	public Task AddToCart(DtoSalesItem item);
+	public event EventHandler? CartUpdated;
+	
+	public event EventHandler? CurrentAmountUpdated; 
+	
+	public event EventHandler? MoneyUpdated;
 
-	public Task ClearCart();
-
-	public Task InitiatePayment();
-
-	public Task CommitTransaction(); 
+	public event EventHandler? PaymentStateUpdated;
 	
 	public int CurrentAmount { get; set; }
 	
+	public decimal MoneyRequired { get; }
+	
+	public decimal TaxInRequired { get; }
+	
+	public List<DtoSalesItem> CartItems { get; set; }
+	
+	public void AddToCart(DtoSalesItem item);
+
+	public void ClearCart();
+
+	public void InitiatePayment();
+
+	public void ClearMoneyGiven();
+
+	public void CancelTransaction();
+
+	public Task<TransactionReceipt> CommitTransaction(); 
+	
+	public bool IsPaymentMode { get; set; }
+	
 	public decimal MoneyGiven { get; set; }
 	
-	public decimal MoneyBack { get; set; }
+	public decimal MoneyBack { get; }
 
-	public List<DtoSalesItem> CartItems();
+	public decimal MoneyRemaining { get; }
 }

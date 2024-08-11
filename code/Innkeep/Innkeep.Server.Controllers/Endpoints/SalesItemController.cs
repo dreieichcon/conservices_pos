@@ -13,7 +13,9 @@ public class SalesItemController : AbstractServerController
 {
 	private readonly IPretixSalesItemService _salesItemService;
 
-	public SalesItemController(IRegisterService registerService, IPretixSalesItemService salesItemService) : base(registerService)
+	public SalesItemController(IRegisterService registerService, IPretixSalesItemService salesItemService) : base(
+		registerService
+	)
 	{
 		Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
 		Thread.CurrentThread.CurrentUICulture = CultureInfo.InvariantCulture;
@@ -24,9 +26,13 @@ public class SalesItemController : AbstractServerController
 	[Route("get")]
 	public IActionResult Get(string identifier)
 	{
+		if (!ModelState.IsValid) return new BadRequestResult();
 		if (!IsKnown(identifier)) return new UnauthorizedResult();
-		
-		var json = JsonSerializer.Serialize(_salesItemService.DtoSalesItems.ToArray(), SerializerOptions.GetServerOptions());
+
+		var json = JsonSerializer.Serialize(
+			_salesItemService.DtoSalesItems.ToArray(),
+			SerializerOptions.GetServerOptions()
+		);
 
 		return new OkObjectResult(json);
 	}

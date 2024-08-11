@@ -72,11 +72,13 @@ public static class ClientServiceManager
 	{
 		collection.AddSingleton<IRegisterConnectionRepository, RegisterConnectionRepository>();
 		collection.AddSingleton<ISalesItemRepository, SalesItemRepository>();
+		collection.AddSingleton<ITransactionRepository, TransactionRepository>();
 	}
 
 	private static void ConfigureHttpServices(IServiceCollection collection)
 	{
 		collection.AddSingleton<IRegisterConnectionService, RegisterConnectionService>();
 		collection.AddSingleton<ISalesItemService, SalesItemService>();
+		collection.AddSingleton<ITransactionService, TransactionService>();
 	}
 }

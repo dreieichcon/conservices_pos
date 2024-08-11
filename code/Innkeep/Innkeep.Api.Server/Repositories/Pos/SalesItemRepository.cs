@@ -20,9 +20,14 @@ public class SalesItemRepository : AbstractServerRepository, ISalesItemRepositor
 	public async Task<IList<DtoSalesItem>> GetSalesItems()
 	{
 		var baseUri = await GetAddress();
-		var uri = new ServerEndpointBuilder(baseUri).WithItems().GetAll().Build();
+		var uri = new ServerEndpointBuilder(baseUri)
+				.WithItems()
+				.GetAll()
+				.WithIdentifier(Identifier)
+				.Build();
 
-		var response = await Get(uri, IdentifierFormData());
+		var response = await Get(uri);
+		
 
 		var deserialized = TryDeserialize<DtoSalesItem[]>(response, []);
 
@@ -39,6 +44,7 @@ public class SalesItemRepository : AbstractServerRepository, ISalesItemRepositor
 		catch (Exception ex)
 		{
 			Log.Error(ex, "Error while deserializing into {Type}:", typeof(T));
+
 			return defaultValue;
 		}
 	}

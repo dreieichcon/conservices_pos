@@ -1,25 +1,48 @@
 ﻿@page "/POS"
 @using Innkeep.Services.Client.Interfaces.Pos
 @using Innkeep.Client.Ui.Modules.Pos.Components
+@using Innkeep.Client.Ui.Modules.Pos.Components.Cart
+@using Innkeep.Client.Ui.Modules.Pos.Components.Payment
+@using Innkeep.Client.Ui.Modules.Pos.Components.Actions
+@using Innkeep.Client.Ui.Modules.Pos.Components.Keypad
 
 @inject ISalesItemService SalesItemService
+@inject ITransactionService TransactionService
 
 <MudStack Class="flex-grow-1">
-    <MudStack Row="true" Style="height: 80%; max-height: 80%; width: 100%;" Spacing="2" Justify="Justify.SpaceBetween">
+    <MudStack Row="true" Style="height: 82%; max-height: 82%; width: 100%;" Spacing="2" Justify="Justify.SpaceBetween">
         <CartDisplay/>
-        <SalesItemDisplay/>
+        @if (TransactionService.IsPaymentMode)
+        {
+            <QuickCurrencyDisplay/>
+        }
+        else
+        {
+            <SalesItemDisplay/>
+        }
         <KeypadDisplay/>
     </MudStack>
-    <MudStack Row="true" Style="height: 20%; max-height: 20%;">
-        <MudPaper Class="d-flex flex-grow-1"></MudPaper>
+    <MudStack Row="true" Style="height: 18%; max-height: 18%; width: 100%" Spacing="2" Justify="Justify.SpaceBetween">
+        @if (TransactionService.IsPaymentMode)
+        {
+            <PaymentTotalDisplay/>
+            <PosPaymentActions/>
+        }
+        else
+        {
+            <CartTotalDisplay/>
+            <PosMainActions/>
+        }
+        
     </MudStack>
 </MudStack>
 
 @code {
-    
+
     protected override async Task OnInitializedAsync()
     {
         SalesItemService.ItemsUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
+        TransactionService.PaymentStateUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
         await base.OnInitializedAsync();
     }
 

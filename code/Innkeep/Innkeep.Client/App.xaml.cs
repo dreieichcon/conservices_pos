@@ -28,7 +28,7 @@ public partial class App : Application
 		base.OnStartup(e);
 		
 		ServicePointManager.ServerCertificateValidationCallback = LocalHostTesting;
-		LoggingManager.InitializeLogger();
+		LoggingManager.InitializeLogger("Innkeep Client");
 		
 		var host = KestrelBuilder.Build();
 		
