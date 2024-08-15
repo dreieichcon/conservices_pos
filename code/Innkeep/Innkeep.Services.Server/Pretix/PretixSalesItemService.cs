@@ -34,8 +34,8 @@ public class PretixSalesItemService : IPretixSalesItemService
 	{
 		if (OrganizerSlug is null || EventSlug is null) return;
 		
-		SalesItems = await _salesItemRepository.GetItems(OrganizerSlug, EventSlug);
+		SalesItems = (await _salesItemRepository.GetItems(OrganizerSlug, EventSlug)).Where(item => item.AllSalesChannels || item.SalesChannels.Contains("pretixpos"));
 		
 		DtoSalesItems = SalesItems.Select(DtoSalesItem.FromPretix);
 	}
-}
+} 

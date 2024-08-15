@@ -18,8 +18,11 @@ public class PretixSalesItem
     [JsonPropertyName("internal_name")]
     public string? InternalName { get; set; }
 
-    [JsonPropertyName("sales_channels")]
+    [JsonPropertyName("limit_sales_channels")]
     public required IEnumerable<string> SalesChannels { get; set; }
+    
+    [JsonPropertyName("all_sales_channels")]
+    public bool AllSalesChannels { get; set; }
 
     [JsonPropertyName("default_price")]
     public decimal DefaultPrice { get; set; }
