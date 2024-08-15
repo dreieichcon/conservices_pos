@@ -33,7 +33,7 @@ public partial class PaymentKeypadWrapper
 	
 	public async Task TransferAmount()
 	{
-		TransactionService.MoneyGiven += CurrentAmount;
+		ClientPosService.MoneyGiven += CurrentAmount;
 		CurrentAmountString = "0";
 		await InvokeAsync(StateHasChanged);
 	}

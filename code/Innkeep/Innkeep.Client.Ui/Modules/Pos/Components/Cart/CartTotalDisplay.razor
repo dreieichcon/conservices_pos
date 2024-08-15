@@ -1,6 +1,6 @@
 ﻿@using System.Globalization
 @using Innkeep.Services.Client.Interfaces.Pos
-@inject ITransactionService TransactionService;
+@inject IClientPosService ClientPosService;
 
 <MudPaper Style="@PosStyles.DisplayStyle">
     <MudStack Class="h-100 p-3" Justify="Justify.SpaceAround">
@@ -19,13 +19,13 @@
 
     protected override void OnInitialized()
     {
-        TransactionService.CartUpdated += async(_, _) => await InvokeAsync(StateHasChanged);
+        ClientPosService.CartUpdated += async(_, _) => await InvokeAsync(StateHasChanged);
     }
 
-    private string MoneyRequired => TransactionService.MoneyRequired.ToString("F2", CultureInfo.InvariantCulture);
+    private string MoneyRequired => ClientPosService.MoneyRequired.ToString("F2", CultureInfo.InvariantCulture);
     
-    private string TaxInRequired => TransactionService.TaxInRequired.ToString("F2", CultureInfo.InvariantCulture);
+    private string TaxInRequired => ClientPosService.TaxInRequired.ToString("F2", CultureInfo.InvariantCulture);
 
-    private string Currency => TransactionService.CartItems.FirstOrDefault()?.Currency ?? "EUR";
+    private string Currency => ClientPosService.CartItems.FirstOrDefault()?.Currency ?? "EUR";
 
 }

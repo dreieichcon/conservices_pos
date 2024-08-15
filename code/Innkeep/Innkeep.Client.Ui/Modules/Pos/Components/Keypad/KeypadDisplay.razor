@@ -1,9 +1,9 @@
 ﻿@using Innkeep.Services.Client.Interfaces.Pos
-@inject ITransactionService TransactionService;
+@inject IClientPosService ClientPosService;
 
 <MudPaper Style="@PosStyles.DisplayStyle" Class="d-flex flex-grow-1 mh-100 overflow-hidden" Elevation="1">
     <ListBox Title="Amount">
-        @if (TransactionService.IsPaymentMode)
+        @if (ClientPosService.IsPaymentMode)
         {
             <PaymentKeypadWrapper/>
         }
@@ -18,7 +18,7 @@
 
     protected override void OnInitialized()
     {
-        TransactionService.PaymentStateUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
+        ClientPosService.PaymentStateUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
     }
 
 }

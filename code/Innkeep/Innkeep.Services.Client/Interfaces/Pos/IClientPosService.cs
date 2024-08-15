@@ -2,7 +2,7 @@
 
 namespace Innkeep.Services.Client.Interfaces.Pos;
 
-public interface ITransactionService
+public interface IClientPosService
 {
 	public event EventHandler? CartUpdated;
 	
@@ -18,6 +18,8 @@ public interface ITransactionService
 	
 	public decimal TaxInRequired { get; }
 	
+	public TransactionReceipt? LastReceipt { get; set; }
+	
 	public List<DtoSalesItem> CartItems { get; set; }
 	
 	public void AddToCart(DtoSalesItem item);
@@ -30,7 +32,7 @@ public interface ITransactionService
 
 	public void CancelTransaction();
 
-	public Task<TransactionReceipt> CommitTransaction(); 
+	public Task<TransactionReceipt?> CommitTransaction(); 
 	
 	public bool IsPaymentMode { get; set; }
 	

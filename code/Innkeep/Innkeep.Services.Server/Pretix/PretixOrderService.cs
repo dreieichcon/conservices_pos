@@ -37,6 +37,11 @@ public class PretixOrderService(
 			pretixEvent.IsTestMode
 		);
 
+		if (order == null) return order;
+
+		order.EventTitle = pretixEvent.Name.German ?? "NAME SETZEN";
+		order.ReceiptHeader = pretixEvent.Location?.German ?? "BITTE EVENT LOCATION SETZEN";
+		
 		return order;
 	}
 }

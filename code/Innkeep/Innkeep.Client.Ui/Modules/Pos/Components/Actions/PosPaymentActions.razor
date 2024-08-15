@@ -1,5 +1,10 @@
-﻿@using Innkeep.Services.Client.Interfaces.Pos
-@inject ITransactionService TransactionService;
+﻿@using Innkeep.Db.Client.Models
+@using Innkeep.Services.Client.Interfaces.Hardware
+@using Innkeep.Services.Client.Interfaces.Pos
+@using Innkeep.Services.Interfaces
+@inject IClientPosService ClientPosService;
+@inject IDbService<ClientConfig> ClientConfigService;
+@inject IPrinterService PrinterService;
 
 <MudPaper Style="@PosStyles.DisplayStyleDouble" Class="d-flex flex-grow-1 mh-100 overflow-hidden" Elevation="0">
     <MudStack Row="true" Class="flex-grow-1">
@@ -17,7 +22,7 @@
             Style="@PosStyles.DisplayStyle"
             Color="Color.Error"
             Variant="Variant.Filled"
-            @onclick="@TransactionService.ClearMoneyGiven">
+            @onclick="@ClientPosService.ClearMoneyGiven">
             <MudText Typo="Typo.h4">
                 CLEAR AMOUNT
             </MudText>
@@ -26,7 +31,7 @@
             Style="@PosStyles.DisplayStyle"
             Color="Color.Error"
             Variant="Variant.Filled"
-            @onclick="@TransactionService.CancelTransaction">
+            @onclick="@ClientPosService.CancelTransaction">
             <MudText Typo="Typo.h4">
                 CANCEL
             </MudText>
@@ -35,16 +40,22 @@
 </MudPaper>
 
 @code {
-
+    
     protected override void OnInitialized()
     {
-        TransactionService.MoneyUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
+        ClientPosService.MoneyUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
     }
 
-    private bool CommitDisabled => TransactionService.MoneyGiven < TransactionService.MoneyRequired;
+    private bool CommitDisabled => ClientPosService.MoneyGiven < ClientPosService.MoneyRequired;
 
     private async Task Commit()
     {
-        var result = await TransactionService.CommitTransaction();
+        var result = await ClientPosService.CommitTransaction();
+
+        if (result is not null)
+        {
+            var printer = ClientConfigService.CurrentItem!.PrinterName;
+            PrinterService.PrintReceipt(printer, result);
+        }
     }
 }

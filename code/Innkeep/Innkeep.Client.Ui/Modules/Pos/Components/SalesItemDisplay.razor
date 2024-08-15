@@ -1,7 +1,7 @@
 ﻿@using Innkeep.Api.Models.Internal
 @using Innkeep.Services.Client.Interfaces.Pos
 @inject ISalesItemService SalesItemService;
-@inject ITransactionService TransactionService;
+@inject IClientPosService ClientPosService;
 
 <MudPaper Style="@PosStyles.DisplayStyle" Class="d-flex flex-grow-1 mh-100 overflow-hidden" Elevation="1">
     <ListBox Title="Items">
@@ -25,6 +25,6 @@
 
     private void AddToCart(DtoSalesItem item)
     {
-        TransactionService.AddToCart(item);
+        ClientPosService.AddToCart(item);
     }
 }

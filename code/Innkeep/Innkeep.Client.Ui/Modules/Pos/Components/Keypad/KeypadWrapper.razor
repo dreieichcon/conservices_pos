@@ -1,5 +1,5 @@
 ﻿@using Innkeep.Services.Client.Interfaces.Pos
-@inject ITransactionService TransactionService;
+@inject IClientPosService ClientPosService;
 
 <MudStack Class="flex-grow-1" AlignItems="AlignItems.Center">
     <MudPaper Style="width: 84%; height: 10%" Class="m-2 my-6">
@@ -128,14 +128,14 @@
 
     protected override void OnInitialized()
     {
-        TransactionService.CurrentAmountUpdated += async(_, _) => await GetAmountFromService();
+        ClientPosService.CurrentAmountUpdated += async(_, _) => await GetAmountFromService();
     }
 
     private int CurrentAmount { get; set; } = 1;
 
     private bool _added;
 
-    private bool IsSet => TransactionService.CurrentAmount == CurrentAmount;
+    private bool IsSet => ClientPosService.CurrentAmount == CurrentAmount;
 
     private Color AmountColor => IsSet ? Color.Success : Color.Default;
 
@@ -160,7 +160,7 @@
 
     public async Task TransferAmount()
     {
-        TransactionService.CurrentAmount = CurrentAmount;
+        ClientPosService.CurrentAmount = CurrentAmount;
         await InvokeAsync(StateHasChanged);
     }
 
@@ -173,7 +173,7 @@
 
     private async Task GetAmountFromService()
     {
-        CurrentAmount = TransactionService.CurrentAmount;
+        CurrentAmount = ClientPosService.CurrentAmount;
         _added = false;
         await InvokeAsync(StateHasChanged);
     }

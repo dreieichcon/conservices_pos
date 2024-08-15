@@ -9,5 +9,11 @@ public class PretixOrderResponse
 	
 	[JsonPropertyName("secret")]
 	public required string Secret { get; set; }
+	
+	[JsonIgnore]
+	public string ReceiptHeader { get; set; }
+	
+	[JsonIgnore]
+	public string EventTitle { get; set; }
 
 }

@@ -1,4 +1,6 @@
-﻿using Innkeep.Api.Models.Internal;
+﻿using System.Text.Json;
+using Innkeep.Api.Json;
+using Innkeep.Api.Models.Internal;
 using Innkeep.Resources;
 using Innkeep.Server.Controllers.Abstract;
 using Innkeep.Services.Server.Interfaces.Fiskaly;
@@ -37,6 +39,28 @@ public class TransactionController : AbstractServerController
 
 		var pretixOrder = await _orderService.CreateOrder(transaction.SalesItems);
 
-		return new OkObjectResult("");
+		if (pretixOrder is null)
+			return new StatusCodeResult(500);
+
+		var fiskalyTransaction = await _transactionService.StartTransaction();
+
+		if (!fiskalyTransaction)
+			return new StatusCodeResult(500);
+
+		var receipt = await _transactionService.CompleteReceiptTransaction(transaction);
+
+		if (receipt is null)
+			return new StatusCodeResult(500);
+
+		receipt.Title = pretixOrder.EventTitle;
+		receipt.Header = pretixOrder.ReceiptHeader;
+		receipt.Currency = transaction.SalesItems.First().Currency;
+		
+		var json = JsonSerializer.Serialize(
+			receipt,
+			SerializerOptions.GetServerOptions()
+		);
+		
+		return new OkObjectResult(json);
 	}
 }

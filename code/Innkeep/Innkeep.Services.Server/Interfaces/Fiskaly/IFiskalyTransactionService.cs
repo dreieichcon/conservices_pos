@@ -6,5 +6,5 @@ public interface IFiskalyTransactionService
 {
 	public Task<bool> StartTransaction();
 
-	public Task<TransactionReceipt> CompleteTransaction(ClientTransaction transaction);
+	public Task<TransactionReceipt?> CompleteReceiptTransaction(ClientTransaction transaction);
 }

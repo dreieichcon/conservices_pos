@@ -1,11 +1,13 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using Innkeep.Api.Core.Http;
+using Innkeep.Api.Json;
 
 namespace Innkeep.Api.Server.Repositories.Core;
 
 public class BaseServerRepository : BaseHttpRepository
 {
-	protected override JsonSerializerOptions GetOptions() => throw new NotImplementedException();
+	protected override JsonSerializerOptions GetOptions() => SerializerOptions.GetServerOptions();
 
 	protected override Task PrepareRequest()
 	{
@@ -13,7 +15,8 @@ public class BaseServerRepository : BaseHttpRepository
 		return Task.CompletedTask;
 	}
 
-	protected override HttpContent CreatePostMessage(string content) => throw new NotImplementedException();
+	protected override HttpContent CreatePostMessage(string content) 
+		=> new StringContent(content, Encoding.UTF8, "application/json");
 
 	protected override HttpContent CreatePutMessage(string content) => throw new NotImplementedException();
 
@@ -26,16 +29,16 @@ public class BaseServerRepository : BaseHttpRepository
 
 	protected override void InitializePostHeaders()
 	{
-		throw new NotImplementedException();
+		Client.DefaultRequestHeaders.Add("Accept", "*/*");
 	}
 
 	protected override void InitializePutHeaders()
 	{
-		throw new NotImplementedException();
+		// do nothing
 	}
 
 	protected override void InitializePatchHeaders()
 	{
-		throw new NotImplementedException();
+		// do nothing
 	}
 }

@@ -1,4 +1,5 @@
-﻿using Innkeep.Api.Enum.Fiskaly.Transaction;
+﻿using System.Globalization;
+using Innkeep.Api.Enum.Fiskaly.Transaction;
 using Innkeep.Api.Fiskaly.Interfaces.Transaction;
 using Innkeep.Api.Models.Fiskaly.Objects.Client;
 using Innkeep.Api.Models.Fiskaly.Objects.Transaction;
@@ -39,10 +40,12 @@ public class FiskalyTransactionService(
 		return CurrentTransaction != null;
 	}
 
-	public async Task<TransactionReceipt> CompleteTransaction(ClientTransaction transaction)
+	public async Task<TransactionReceipt?> CompleteReceiptTransaction(ClientTransaction transaction)
 	{
 		var request = new FiskalyTransactionUpdateRequest()
 		{
+			TransactionRevision = TransactionRevision,
+			TransactionId = CurrentTransaction?.Id,
 			ClientId = CurrentClient.Id,
 			TssId = CurrentTss.Id,
 			Schema = new FiskalyTransactionSchema
@@ -52,14 +55,8 @@ public class FiskalyTransactionService(
 					Receipt = new FiskalyReceipt()
 					{
 						ReceiptType = ReceiptType.Receipt,
-						AmountsPerVatRate = new List<FiskalyAmountPerVatRate>()
-						{
-							new FiskalyAmountPerVatRate()
-							{
-								Amount = 0,
-								VatRate = VatRate.Null,
-							},
-						},
+						AmountsPerVatRate = VatRates(transaction),
+						AmountsPerPaymentType = PaymentTypes(transaction),
 					},
 				},
 			},
@@ -67,9 +64,93 @@ public class FiskalyTransactionService(
 		};
 
 		var result = await transactionRepository.UpdateTransaction(request);
+		var receipt = CreateTransactionReceipt(result, transaction);
 
-		return new TransactionReceipt();
+		TransactionRevision = 1;
+		CurrentTransaction = null;
+
+		return receipt;
 	}
 
-	
+	private static List<FiskalyAmountPerVatRate> VatRates(ClientTransaction transaction)
+	{
+		var list = new List<FiskalyAmountPerVatRate>();
+		
+		var groups = transaction.SalesItems.GroupBy(x => x.TaxRate);
+
+		foreach (var group in groups)
+		{
+			var vatRate = group.Key switch
+			{
+				0.19m => VatRate.Normal,
+				0.07m => VatRate.Reduced1,
+				0 => VatRate.Null,
+				var _ => VatRate.Null,
+			};
+
+			var sum = group.Sum(x => x.TotalPrice);
+			
+			list.Add(new FiskalyAmountPerVatRate()
+			{
+				Amount = sum,
+				VatRate = vatRate,
+			});
+		}
+
+		return list;
+	}
+
+	private static List<FiskalyAmountPerPaymentType> PaymentTypes(ClientTransaction transaction)
+	{
+		var list = new List<FiskalyAmountPerPaymentType>();
+		
+		list.Add(new FiskalyAmountPerPaymentType()
+		{
+			Amount = transaction.AmountNeeded,
+			PaymentType = transaction.PaymentType,
+		});
+
+		return list;
+	}
+
+	private static TransactionReceipt? CreateTransactionReceipt(FiskalyTransaction? fiskalyTransaction, ClientTransaction clientTransaction)
+	{
+		if (fiskalyTransaction is null)
+			return null;
+		
+		return new TransactionReceipt()
+		{
+			Lines = CreateLines(clientTransaction),
+			TaxInformation = CreateTaxInformation(clientTransaction),
+			Sum = CreateSum(clientTransaction),
+			QrCode = fiskalyTransaction.QrCodeData,
+		};
+	}
+
+	private static List<ReceiptLine> CreateLines(ClientTransaction transaction) => transaction.SalesItems.Select(ReceiptLine.FromCart).ToList();
+
+	private static List<ReceiptTaxInformation> CreateTaxInformation(ClientTransaction transaction)
+	{
+		var groups = transaction.SalesItems.GroupBy(x => x.TaxRate);
+
+		return groups
+				.Select(
+					group => new ReceiptTaxInformation()
+					{
+						Name = (group.Key / 100).ToString("P0", CultureInfo.InvariantCulture),
+						Net = group.Sum(x => x.Price),
+						TaxAmount = group.Sum(x => x.TaxAmount),
+						Gross = group.Sum(x => x.TotalPrice),
+					}
+				)
+				.ToList();
+	}
+
+	private static ReceiptSum CreateSum(ClientTransaction transaction) =>
+		new()
+		{
+			TotalAmount = transaction.AmountNeeded,
+			AmountReturned = transaction.AmountBack,
+			AmountGiven = transaction.AmountGiven,
+		};
 }
