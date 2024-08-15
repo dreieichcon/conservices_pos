@@ -16,11 +16,25 @@ public class ServerEndpointBuilder(string baseUri) : BaseEndpointBuilder($"{base
 		return this;
 	}
 
+	public ServerEndpointBuilder WithTransaction()
+	{
+		Endpoints.Add("transaction");
+		return this;
+	}
+
+	public ServerEndpointBuilder Create()
+	{
+		Endpoints.Add("create");
+		return this;
+	}
+
 	public ServerEndpointBuilder WithIdentifier(string identifier)
 	{
 		Parameters.Add("identifier", identifier);
 		return this;
 	}
+	
+	
 	
 	public string Build(bool appendSlash = false)
 	{

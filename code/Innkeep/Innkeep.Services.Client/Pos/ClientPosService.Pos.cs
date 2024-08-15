@@ -2,7 +2,7 @@
 
 namespace Innkeep.Services.Client.Pos;
 
-public partial class TransactionService
+public partial class ClientPosService
 {
 	public event EventHandler? CartUpdated;
 

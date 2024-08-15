@@ -79,6 +79,6 @@ public static class ClientServiceManager
 	{
 		collection.AddSingleton<IRegisterConnectionService, RegisterConnectionService>();
 		collection.AddSingleton<ISalesItemService, SalesItemService>();
-		collection.AddSingleton<ITransactionService, TransactionService>();
+		collection.AddSingleton<IClientPosService, ClientPosService>();
 	}
 }

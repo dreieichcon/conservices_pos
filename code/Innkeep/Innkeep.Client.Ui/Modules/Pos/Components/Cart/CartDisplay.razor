@@ -1,10 +1,10 @@
 ﻿@using Innkeep.Services.Client.Interfaces.Pos
-@inject ITransactionService TransactionService;
+@inject IClientPosService ClientPosService;
 
 <MudPaper Style="@PosStyles.DisplayStyle" Class="d-flex flex-grow-1 mh-100 overflow-hidden" Elevation="1">
     <ListBox Title="Cart">
         <MudStack Class="flex-grow-1 mh-100 m-0" Justify="Justify.FlexStart" Spacing="0">
-        @foreach (var item in TransactionService.CartItems)
+        @foreach (var item in ClientPosService.CartItems)
         {
             <CartItem Item="@item"/>
             <MudDivider Class="flex-grow-0" Style="height: 2px !important"/>
@@ -17,7 +17,7 @@
 
     protected override void OnInitialized()
     {
-        TransactionService.CartUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
+        ClientPosService.CartUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
     }
 
 }

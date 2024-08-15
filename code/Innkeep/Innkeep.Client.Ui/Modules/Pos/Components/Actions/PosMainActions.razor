@@ -1,5 +1,5 @@
 ﻿@using Innkeep.Services.Client.Interfaces.Pos
-@inject ITransactionService TransactionService;
+@inject IClientPosService ClientPosService;
 
 <MudPaper Style="@PosStyles.DisplayStyleDouble" Class="d-flex flex-grow-1 mh-100 overflow-hidden" Elevation="0">
     <MudStack Row="true" Class="flex-grow-1">
@@ -7,8 +7,8 @@
             Style="@PosStyles.DisplayStyle"
             Color="Color.Success"
             Variant="Variant.Filled"
-            @onclick="@TransactionService.InitiatePayment"
-            Disabled="@(!TransactionService.CartItems.Any())">
+            @onclick="@ClientPosService.InitiatePayment"
+            Disabled="@(!ClientPosService.CartItems.Any())">
             <MudText Typo="Typo.h4">
                 PAY
             </MudText>
@@ -17,7 +17,7 @@
             Style="@PosStyles.DisplayStyle"
             Color="Color.Error"
             Variant="Variant.Filled"
-            @onclick="@TransactionService.ClearCart">
+            @onclick="@ClientPosService.ClearCart">
             <MudText Typo="Typo.h4">
                 CLEAR CART
             </MudText>
@@ -37,7 +37,7 @@
 
     protected override void OnInitialized()
     {
-        TransactionService.CartUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
+        ClientPosService.CartUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
     }
 
 }

@@ -1,5 +1,5 @@
 ﻿@using Innkeep.Services.Client.Interfaces.Pos
-@inject ITransactionService TransactionService;
+@inject IClientPosService ClientPosService;
 @inject ISalesItemService SalesItemService;
 
 <MudPaper Style="@PosStyles.DisplayStyle" Class="d-flex flex-grow-1 mh-100 overflow-hidden" Elevation="1">
@@ -28,7 +28,7 @@
 
     private void Add(decimal amount)
     {
-        TransactionService.MoneyGiven += amount;
+        ClientPosService.MoneyGiven += amount;
     }
 
 }

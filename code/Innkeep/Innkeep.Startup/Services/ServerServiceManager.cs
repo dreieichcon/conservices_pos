@@ -8,6 +8,7 @@ using Innkeep.Api.Fiskaly.Repositories.Tss;
 using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Api.Pretix.Repositories.Auth;
 using Innkeep.Api.Pretix.Repositories.General;
+using Innkeep.Api.Pretix.Repositories.Order;
 using Innkeep.Api.Pretix.Repositories.Sales;
 using Innkeep.Db.Interfaces;
 using Innkeep.Db.Server.Context;
@@ -93,6 +94,7 @@ public static class ServerServiceManager
 		collection.AddSingleton<IPretixOrganizerRepository, PretixOrganizerRepository>();
 		collection.AddSingleton<IPretixEventRepository, PretixEventRepository>();
 		collection.AddSingleton<IPretixSalesItemRepository, PretixSalesItemRepository>();
+		collection.AddSingleton<IPretixOrderRepository, PretixOrderRepository>();
 
 		collection.AddSingleton<IFiskalyAuthRepository, FiskalyAuthRepository>();
 		collection.AddSingleton<IFiskalyTssRepository, FiskalyTssRepository>();

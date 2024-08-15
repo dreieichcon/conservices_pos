@@ -7,12 +7,12 @@
 @using Innkeep.Client.Ui.Modules.Pos.Components.Keypad
 
 @inject ISalesItemService SalesItemService
-@inject ITransactionService TransactionService
+@inject IClientPosService ClientPosService
 
 <MudStack Class="flex-grow-1">
     <MudStack Row="true" Style="height: 82%; max-height: 82%; width: 100%;" Spacing="2" Justify="Justify.SpaceBetween">
         <CartDisplay/>
-        @if (TransactionService.IsPaymentMode)
+        @if (ClientPosService.IsPaymentMode)
         {
             <QuickCurrencyDisplay/>
         }
@@ -23,7 +23,7 @@
         <KeypadDisplay/>
     </MudStack>
     <MudStack Row="true" Style="height: 18%; max-height: 18%; width: 100%" Spacing="2" Justify="Justify.SpaceBetween">
-        @if (TransactionService.IsPaymentMode)
+        @if (ClientPosService.IsPaymentMode)
         {
             <PaymentTotalDisplay/>
             <PosPaymentActions/>
@@ -42,7 +42,7 @@
     protected override async Task OnInitializedAsync()
     {
         SalesItemService.ItemsUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
-        TransactionService.PaymentStateUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
+        ClientPosService.PaymentStateUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
         await base.OnInitializedAsync();
     }
 
