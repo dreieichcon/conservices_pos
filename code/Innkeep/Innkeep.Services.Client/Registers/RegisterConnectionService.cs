@@ -45,6 +45,7 @@ public class RegisterConnectionService : IRegisterConnectionService
 		var ip = _hardwareService.IpAddress;
 
 		var result = await _repository.Connect(identifier, description, ip);
+		
 		if (result)
 			_router.Connected();
 
