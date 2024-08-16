@@ -1,0 +1,22 @@
+﻿@page "/config/checkin"
+@using Innkeep.Api.Models.Pretix.Objects.Checkin
+<ConfigPage PageTitle="Configure Checkin List">
+    <ChildContent>
+        <MudStack Class="flex-grow-1">
+            <MudSelect T="PretixCheckinList" Variant="Variant.Outlined" Label="Select Checkin List" @bind-Value="CurrentCheckinList">
+                @foreach (var item in CheckinLists)
+                {
+                    <MudSelectItem T="PretixCheckinList" Value="@item">@item.Name</MudSelectItem>
+                }
+            </MudSelect>
+        </MudStack>
+    </ChildContent>
+    <ActionBar>
+        <MudButton @onclick="Save" Variant="Variant.Outlined" Color="Color.Success">Save</MudButton>
+    </ActionBar>
+</ConfigPage>
+
+@code {
+    
+
+}

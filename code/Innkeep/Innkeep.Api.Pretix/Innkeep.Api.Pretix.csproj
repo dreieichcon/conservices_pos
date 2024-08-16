@@ -10,8 +10,4 @@
       <ProjectReference Include="..\Innkeep.Api\Innkeep.Api.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Repositories\Checkin\" />
-    </ItemGroup>
-
 </Project>
