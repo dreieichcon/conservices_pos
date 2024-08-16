@@ -1,6 +1,8 @@
-﻿namespace Innkeep.Db.Server.Context;
+﻿using Microsoft.EntityFrameworkCore;
 
-public class InnkeepTransactionContext
+namespace Innkeep.Db.Server.Context;
+
+public class InnkeepTransactionContext : DbContext
 {
 	
 }

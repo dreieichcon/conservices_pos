@@ -6,7 +6,9 @@ using Innkeep.Db.Client.Context;
 using Innkeep.Db.Client.Models;
 using Innkeep.Db.Client.Repositories.Config;
 using Innkeep.Db.Interfaces;
+using Innkeep.Services.Client.Checkin;
 using Innkeep.Services.Client.Database;
+using Innkeep.Services.Client.Interfaces.Checkin;
 using Innkeep.Services.Client.Interfaces.Internal;
 using Innkeep.Services.Client.Interfaces.Pos;
 using Innkeep.Services.Client.Interfaces.Registers;
@@ -80,5 +82,6 @@ public static class ClientServiceManager
 		collection.AddSingleton<IRegisterConnectionService, RegisterConnectionService>();
 		collection.AddSingleton<ISalesItemService, SalesItemService>();
 		collection.AddSingleton<IClientPosService, ClientPosService>();
+		collection.AddSingleton<ICheckinService, CheckinService>();
 	}
 }

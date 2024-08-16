@@ -17,6 +17,6 @@ public class PretixCheckinRepository(IPretixAuthenticationService authentication
 
 		var response = await Post(uri, payload);
 
-		return DeserializeOrNull<PretixCheckinResponse>(response);
+		return DeserializeOrNull<PretixCheckinResponse>(response, forceDeserializeError: true);
 	}
 }

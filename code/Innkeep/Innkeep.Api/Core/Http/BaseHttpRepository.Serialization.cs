@@ -6,9 +6,9 @@ namespace Innkeep.Api.Core.Http;
 
 public abstract partial class BaseHttpRepository
 {
-	protected T? DeserializeOrNull<T>(ApiResponse result) where T : class
+	protected T? DeserializeOrNull<T>(ApiResponse result, bool forceDeserializeError = false) where T : class
 	{
-		if (!result.IsSuccess) return null;
+		if (!result.IsSuccess && !forceDeserializeError) return null;
 
 		var deserialized = Deserialize<T>(result.Content);
 

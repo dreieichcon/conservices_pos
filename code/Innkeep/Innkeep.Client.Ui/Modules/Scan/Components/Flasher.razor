@@ -1,0 +1,58 @@
+﻿@using Innkeep.Api.Enum.Pretix
+@using Innkeep.Api.Models.Pretix.Objects.Checkin
+
+@if (IsFlashing)
+{
+    <div style="position: absolute; top: 0; left: 0; height: 100vh; width: 100vw; z-index: 1000" class="d-flex">
+            <MudPaper Class="@StatusColor()"></MudPaper>
+    </div>
+}
+
+@code {
+
+    private PeriodicTimer _timer = new (TimeSpan.FromSeconds(1.5));
+
+    private bool IsFlashing { get; set; }
+    
+    private bool FadeInComplete { get; set; }
+    
+    private PretixCheckinResponse? Result { get; set; }
+
+    private string StatusColor()
+    {
+        var color = "mud-theme-error";
+        var attention = "";
+        
+        if (Result is {RequireAttention: true})
+            attention = "animate__animated animate__flash";
+        
+        if (Result?.Status == CheckinStatus.Ok)
+            color = "mud-theme-success";
+        
+        return $"w-100 h-100 {color} {attention}";
+    }
+
+    public async Task Flash(PretixCheckinResponse? result)
+    {
+        Result = result;
+
+        _timer = Result is {RequireAttention: true} ? new PeriodicTimer(TimeSpan.FromSeconds(2)) : new PeriodicTimer(TimeSpan.FromSeconds(1.5));
+        
+        while (await _timer.WaitForNextTickAsync())
+        {
+            if (!IsFlashing)
+            {
+                IsFlashing = true;
+                await InvokeAsync(StateHasChanged);
+                continue;
+            }
+                
+            IsFlashing = false;
+            await InvokeAsync(StateHasChanged);
+            break;
+        }
+
+        Result = null;
+    } 
+
+}

@@ -1,4 +1,6 @@
-﻿using Innkeep.Api.Models.Internal;
+﻿using System.Text.Json;
+using Innkeep.Api.Json;
+using Innkeep.Api.Models.Internal;
 using Innkeep.Server.Controllers.Abstract;
 using Innkeep.Services.Server.Interfaces.Pretix;
 using Innkeep.Services.Server.Interfaces.Registers;
@@ -6,10 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Innkeep.Server.Controllers.Endpoints;
 
+[Route("checkin")]
 public class CheckinController(IRegisterService registerService, IPretixCheckinService checkinService) : AbstractServerController(registerService)
 {
 	[HttpPost]
-	[Route("checkin")]
+	[Route("entry")]
 	public async Task<IActionResult> Checkin(string identifier, [FromBody] CheckinRequest? request)
 	{
 		if (!ModelState.IsValid) return new BadRequestResult();
@@ -23,6 +26,11 @@ public class CheckinController(IRegisterService registerService, IPretixCheckinS
 			return new StatusCodeResult(500);
 		}
 		
-		return new OkObjectResult(result);
+		var json = JsonSerializer.Serialize(
+			result,
+			SerializerOptions.GetServerOptions()
+		);
+
+		return new OkObjectResult(json);
 	}
 }

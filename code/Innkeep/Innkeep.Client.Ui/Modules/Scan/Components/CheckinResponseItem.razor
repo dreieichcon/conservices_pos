@@ -1,0 +1,96 @@
+﻿@using System.Diagnostics.CodeAnalysis
+@using Innkeep.Api.Enum.Pretix
+@using Innkeep.Api.Models.Internal
+@using Innkeep.Api.Models.Pretix.Objects.Checkin
+@using Innkeep.Services.Client.Interfaces.Pos
+
+@inject ISalesItemService ItemService;
+
+<MudPaper Class="@MainClass()" Style="@MainStyle()" Elevation="Secondary ? 1 : 5">
+    <MudStack Class="flex-grow-1" Spacing="1">
+        <MudPaper Elevation="0" Class="@StatusClass()">
+        </MudPaper>
+        <MudStack Class="flex-grow-1 p-2">
+            <MudStack Class="w-100" Row="true" Justify="Justify.SpaceBetween">
+                <MudStack Class="w-100" Row="true">
+                    <MudText Typo="Typo.body1">@CheckinResponse.Scanned.ToString("dd.MM.yyyy - HH:mm:ss")</MudText>
+                    <MudText Typo="Typo.body1" Class="fw-bold">@CheckinResponse.Status</MudText>
+                    @if (CheckinResponse.Status == CheckinStatus.Error)
+                    {
+                        <MudText Typo="Typo.body1" Class="fw-bold">@CheckinResponse.ReasonFormatted</MudText>
+                    }
+                </MudStack>
+                @if (CheckinResponse.RequireAttention)
+                {
+                    <MudPaper Class="w-25 mud-theme-primary">
+                        <MudStack Class="flex-grow-1" Justify="Justify.Center" AlignItems="AlignItems.Center">
+                            <MudText Class="fw-bold">
+                                SPECIAL
+                            </MudText>
+                        </MudStack>
+                    </MudPaper>
+                }
+            </MudStack>
+            <MudStack Class="flex-grow-1" Row="true" AlignItems="AlignItems.Center" Justify="Justify.SpaceBetween">
+                <MudText Typo="Secondary ? Typo.h5 : Typo.h4" Class="fw-bold">@RelatedItem?.Name</MudText>
+                <MudText Typo="Typo.h6">@CheckinResponse.RelatedOrder?.AttendeeName</MudText>
+            </MudStack>
+        </MudStack>
+    </MudStack>
+</MudPaper>
+
+@code {
+    private DtoSalesItem? _relatedItem;
+    private PretixCheckinResponse _checkinResponse;
+
+    [Parameter]
+    public bool Secondary { get; set; }
+
+    [Parameter]
+    public required PretixCheckinResponse CheckinResponse
+    {
+        get => _checkinResponse;
+
+        [MemberNotNull(nameof(_checkinResponse))]
+        set
+        {
+            _checkinResponse = value;
+            RelatedItem = ItemService.SalesItems.FirstOrDefault(x => x.Id == CheckinResponse.RelatedOrder?.Item);
+        }
+    }
+
+    private DtoSalesItem? RelatedItem
+    {
+        get => _relatedItem;
+        set
+        {
+            _relatedItem = value;
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private string StatusClass()
+    {
+        var statusColor = CheckinResponse.Status switch
+        {
+            CheckinStatus.Ok => "mud-theme-success",
+            CheckinStatus.Incomplete => "mud-theme-secondary",
+            CheckinStatus.Error => "mud-theme-error",
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
+        return $"p-2 {statusColor} w-100";
+    }
+
+    private string MainClass()
+    {
+        var secondary = Secondary ? "mud-theme-background" : "";
+        return $"h-25 w-100 {secondary} d-flex";
+    }
+
+    private string MainStyle()
+    {
+        return Secondary ? "height: 11vh !important;" : "height: 15vh !important";
+    }
+
+}
