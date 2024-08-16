@@ -14,7 +14,7 @@
 
     private bool IsFlashing { get; set; }
     
-    private bool FadeInComplete { get; set; }
+    private bool FirstLoop { get; set; }
     
     private PretixCheckinResponse? Result { get; set; }
 
@@ -36,18 +36,21 @@
     {
         Result = result;
 
-        _timer = Result is {RequireAttention: true} ? new PeriodicTimer(TimeSpan.FromSeconds(2)) : new PeriodicTimer(TimeSpan.FromSeconds(1.5));
+        _timer = Result is {RequireAttention: true} ? new PeriodicTimer(TimeSpan.FromSeconds(1)) : new PeriodicTimer(TimeSpan.FromSeconds(0.75));
+        
+        IsFlashing = true;
+        await InvokeAsync(StateHasChanged);
         
         while (await _timer.WaitForNextTickAsync())
         {
-            if (!IsFlashing)
+            if (!FirstLoop)
             {
-                IsFlashing = true;
-                await InvokeAsync(StateHasChanged);
+                FirstLoop = true;
                 continue;
             }
                 
             IsFlashing = false;
+            FirstLoop = false;
             await InvokeAsync(StateHasChanged);
             break;
         }
