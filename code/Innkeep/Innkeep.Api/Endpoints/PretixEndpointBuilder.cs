@@ -57,6 +57,19 @@ public class PretixEndpointBuilder() : BaseEndpointBuilder("https://pretix.eu/ap
 		return this;
 	}
 
+	public PretixEndpointBuilder WithCheckin()
+	{
+		Endpoints.Add("checkinrpc");
+		Endpoints.Add("redeem");
+		return this;
+	}
+
+	public PretixEndpointBuilder WithCheckinList()
+	{
+		Endpoints.Add("checkinlists");
+		return this;
+	}
+
 	public string Build()
 	{
 		return BuildInternal();

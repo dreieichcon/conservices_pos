@@ -56,6 +56,7 @@ public class BasePretixRepository<T>(IPretixAuthenticationService authentication
 			{
 				new PretixDecimalJsonConverter(),
 				new JsonStringEnumConverter(),
+				new JsonStringEnumConverter(new PretixEnumNamingPolicy()),
 			},
 		};
 	}
