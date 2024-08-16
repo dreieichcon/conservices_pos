@@ -9,7 +9,7 @@ public class PretixOrder
 	public string Status { get; set; } = "p";
 
 	[JsonPropertyName("email")]
-	public required string Mail { get; set; }
+	public string Mail { get; set; } = "";
 
 	[JsonPropertyName("locale")]
 	public required string Locale { get; set; }

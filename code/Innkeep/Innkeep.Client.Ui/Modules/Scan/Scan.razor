@@ -1,36 +1,75 @@
 ﻿@page "/Scan"
-<h3>Scan</h3>
+@using Innkeep.Client.Ui.Modules.Scan.Components
 
-<MudButton @onclick="Beep">
-    BEEP
-</MudButton>
+<Flasher @ref="_flasher"/>
+<MudStack Class="flex-grow-1">
+    <MudPaper Class="">
+        <MudStack Row="true" Justify="Justify.Center" Class="mud-theme-primary">
+            <MudText Class="p-1" Typo="Typo.h4">Scan Tickets</MudText>
+        </MudStack>
+        <MudFocusTrap>
+            <MudTextField 
+                @bind-Value="CurrentScan" 
+                Immediate="true" 
+                T="string" 
+                Variant="Variant.Outlined" 
+                Label="Keep Cursor inside to scan" 
+                OnKeyDown="CommitScan" 
+                Class="m-2" 
+                Style="height: 15vh !important"
+                TextUpdateSuppression="false">
+            </MudTextField>
+        </MudFocusTrap>
+    </MudPaper>
+    <MudPaper Class="flex-grow-1">
+        <MudStack Row="true" Justify="Justify.Center" Class="mud-theme-primary">
+            <MudText Class="p-1" Typo="Typo.h4">Recent</MudText>
+        </MudStack>
+        <MudStack Class="flex-grow-1 p-2" Justify="Justify.Center" AlignItems="AlignItems.Center">
+           @foreach (var attempt in CheckinService.LastCheckins)
+           {
+               if (CheckinService.LastCheckins.First() == attempt)
+               {
+                   <CheckinResponseItem CheckinResponse="@attempt"/>
+                   <MudDivider Style="height: 2px !important;"></MudDivider>
+               }
+               else
+               {
+                   <CheckinResponseItem CheckinResponse="@attempt" Secondary="true"/>
+               }
+           }
+        </MudStack>
+    </MudPaper>
+</MudStack>
 
 @code {
 
-    private int _space = 10;
+    private Flasher _flasher = null!;
     
+    private int _space = 10;
+
     private void Beep()
     {
         var c = 523;
         var af = 415;
         var bf = 466;
-        
+
         var tripE = 153;
         var quart = 462;
         var halfD = 1384;
-        
+
         Beep(c, tripE);
         Beep(c, tripE);
         Beep(c, tripE);
         Beep(c, quart);
-        
+
         Beep(af, quart);
         Beep(bf, quart);
-        
+
         Beep(c, tripE);
         Thread.Sleep(tripE);
         Beep(bf, tripE);
-        
+
         Beep(c, halfD);
     }
 
@@ -39,5 +78,5 @@
         Console.Beep(freq, duration - _space);
         Thread.Sleep(_space);
     }
-    
+
 }

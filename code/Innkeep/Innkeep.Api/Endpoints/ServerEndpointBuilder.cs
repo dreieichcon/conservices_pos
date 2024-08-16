@@ -28,6 +28,18 @@ public class ServerEndpointBuilder(string baseUri) : BaseEndpointBuilder($"{base
 		return this;
 	}
 
+	public ServerEndpointBuilder WithCheckin()
+	{
+		Endpoints.Add("checkin");
+		return this;
+	}
+
+	public ServerEndpointBuilder Entry()
+	{
+		Endpoints.Add("entry");
+		return this;
+	}
+
 	public ServerEndpointBuilder WithIdentifier(string identifier)
 	{
 		Parameters.Add("identifier", identifier);
