@@ -1,0 +1,54 @@
+﻿@page "/register/dashboard"
+@using Innkeep.Services.Server.Interfaces.Transaction
+@inject ITransactionService TransactionService;
+@inject ISnackbar Snackbar;
+@inject NavigationManager NavManager;
+
+<ConfigPage PageTitle="Register Overview">
+    <ChildContent>
+        <MudGrid>
+            @foreach (var cashState in CashStates)
+            {
+                <MudItem xs="4">
+                    <MudPaper Class="flex-grow-1 cursor-pointer" @onclick="() => Navigate(cashState)">
+                        <MudStack>
+                            <MudPaper Class="mud-theme-primary flex-grow-1 p-2">
+                                <MudText>@cashState.Key</MudText>
+                            </MudPaper>
+                            <MudStack Class="p-2" Row="true">
+                                <MudText>Register Cash State:</MudText>
+                                <MudText>@cashState.Value</MudText>
+                            </MudStack>
+                        </MudStack>
+                    </MudPaper>
+                </MudItem>
+            }
+        </MudGrid>
+    </ChildContent>
+</ConfigPage>
+
+@code {
+
+    private Dictionary<string, decimal> CashStates { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var cashStates = await TransactionService.GetAllCashStates();
+            CashStates = cashStates;
+        }
+        catch
+        {
+            Snackbar.Add("Please configure a Transaction Database first.", Severity.Error);
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void Navigate(KeyValuePair<string, decimal> cashState)
+    {
+        NavManager.NavigateTo($"/register/transactions/{cashState.Key}");
+    }
+
+}

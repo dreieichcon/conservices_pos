@@ -1,5 +1,5 @@
-﻿using Innkeep.Api.Models.Pretix.Objects.Sales;
-using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
+using Innkeep.Api.Models.Pretix.Objects.Sales;
 
 namespace Innkeep.Api.Models.Internal;
 

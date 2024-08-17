@@ -9,7 +9,7 @@ public interface IFiskalyTransactionService
 {
 	public Task<FiskalyTransaction?> StartTransaction();
 
-	public Task<TransactionReceipt?> CompleteReceiptTransaction(ClientTransaction transaction);
+	public Task<TransactionReceipt> CompleteReceiptTransaction(ClientTransaction transaction);
 
-	public Task<TransferReceipt?> CompleteTransferTransaction();
+	public Task<TransferReceipt> CompleteTransferTransaction(ClientTransfer model);
 }

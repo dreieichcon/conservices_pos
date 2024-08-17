@@ -118,11 +118,11 @@ public partial class FiskalyTransactionService(
 	{
 		return new TransactionReceipt()
 		{
-			TransactionCounter = fiskalyTransaction.Number,
+			TransactionCounter = fiskalyTransaction?.Number ?? -1,
 			Lines = CreateLines(clientTransaction),
 			TaxInformation = CreateTaxInformation(clientTransaction),
 			Sum = CreateSum(clientTransaction),
-			QrCode = fiskalyTransaction?.QrCodeData ?? "TSE ERROR",
+			QrCode = fiskalyTransaction?.QrCodeData ?? "TSS ERROR",
 		};
 	}
 

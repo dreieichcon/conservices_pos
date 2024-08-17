@@ -2,6 +2,7 @@
 using DemoPOS.Helpers;
 using Innkeep.Api.Models.Internal;
 using Innkeep.Api.Models.Internal.Transaction;
+using Innkeep.Api.Models.Internal.Transfer;
 using Innkeep.Client.Extensions;
 using Innkeep.Services.Client.Interfaces.Hardware;
 
@@ -26,6 +27,7 @@ public class PrinterService : IPrinterService
 		var manager = new DocumentManager(printerName)
 					.AddTitle(receipt.Title)
 					.AddSeparatedLines(receipt.Header)
+					.AddLine(receipt.BookingTime.ToString("dd.MM.yyyy HH:mm:ss"))
 					.AddDashedLine()
 					.AddReceiptLines(receipt)
 					.AddReceiptSum(receipt)
@@ -33,6 +35,23 @@ public class PrinterService : IPrinterService
 					.AddDashedLine()
 					.AddTransactionInfo(receipt)
 					.AddDashedLine()
+					.AddQrCode(receipt.QrCode)
+					.Cut();
+		
+		manager.Print();
+	}
+
+	public void PrintReceipt(string printerName, TransferReceipt receipt)
+	{
+		var manager = new DocumentManager(printerName)
+					.AddTitle("Transferbeleg")
+					.AddLine(receipt.BookingTime.ToString("dd.MM.yyyy HH:mm:ss"))
+					.AddDashedLine()
+					.AddTransferLine(receipt)
+					.AddEmptyLines(3)
+					.AddDashedLine()
+					.AddLine("Unterschrift")
+					.AddEmptyLine()
 					.AddQrCode(receipt.QrCode)
 					.Cut();
 		

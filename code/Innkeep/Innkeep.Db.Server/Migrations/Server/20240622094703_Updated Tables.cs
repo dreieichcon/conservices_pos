@@ -1,9 +1,8 @@
-﻿using System;
+﻿#nullable disable
+
 using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
-
-namespace Innkeep.Server.Db.Migrations
+namespace Innkeep.Db.Server.Migrations.Server
 {
     /// <inheritdoc />
     public partial class UpdatedTables : Migration

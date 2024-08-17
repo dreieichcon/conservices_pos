@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using Innkeep.Api.Enum.Fiskaly.Transaction;
 
-namespace Innkeep.Api.Models.Internal;
+namespace Innkeep.Api.Models.Internal.Transaction;
 
 public class ClientTransaction
 {
