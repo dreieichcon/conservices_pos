@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using Innkeep.Api.Json;
 using Innkeep.Api.Models.Internal;
+using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Resources;
 using Innkeep.Server.Controllers.Abstract;
 using Innkeep.Services.Server.Interfaces.Fiskaly;
@@ -52,9 +53,6 @@ public class TransactionController : AbstractServerController
 			return new StatusCodeResult(500);
 
 		var receipt = await _transactionService.CompleteReceiptTransaction(transaction);
-
-		if (receipt is null)
-			return new StatusCodeResult(500);
 		
 		receipt.Title = pretixOrder.EventTitle;
 		receipt.Header = pretixOrder.ReceiptHeader;
@@ -65,9 +63,10 @@ public class TransactionController : AbstractServerController
 			SerializerOptions.GetServerOptions()
 		);
 		
-		var id = await _transactionDbService.CreateFromOrder(pretixOrder, fiskalyTransaction, transaction, json);
+		var item = await _transactionDbService.CreateFromOrder(pretixOrder, fiskalyTransaction, transaction, identifier, json);
 
-		receipt.TransactionId = id ?? "";
+		receipt.TransactionId = item?.Id ?? "";
+		receipt.BookingTime = item?.TransactionDate ?? DateTime.Now;
 
 		var newJson = JsonSerializer.Serialize(receipt, SerializerOptions.GetServerOptions());
 		

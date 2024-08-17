@@ -1,9 +1,8 @@
-﻿using System;
+﻿#nullable disable
+
 using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
-
-namespace Innkeep.Db.Server.MigrationsTransaction;
+namespace Innkeep.Db.Server.Migrations.Transaction;
 
 /// <inheritdoc />
 public partial class Initial : Migration

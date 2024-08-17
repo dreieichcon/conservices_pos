@@ -46,8 +46,6 @@ public class ServerEndpointBuilder(string baseUri) : BaseEndpointBuilder($"{base
 		return this;
 	}
 	
-	
-	
 	public string Build(bool appendSlash = false)
 	{
 		return BuildInternal(false);

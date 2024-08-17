@@ -2,6 +2,7 @@
 using ESCPOS;
 using Innkeep.Api.Models.Internal;
 using Innkeep.Api.Models.Internal.Transaction;
+using Innkeep.Api.Models.Internal.Transfer;
 
 namespace Innkeep.Client.Extensions;
 
@@ -37,6 +38,20 @@ public static class ReceiptPrinterExtensions
 		}
 
 		manager.AddEmptyLine();
+
+		return manager;
+	}
+
+	public static DocumentManager AddTransferLine(this DocumentManager manager, TransferReceipt receipt)
+	{
+		manager.AddLine(SpaceEvenlyAcross("Art", receipt.Currency));
+		manager.AddDashedLine();
+
+		manager.AddLine(
+			receipt.IsRetrieve
+				? SpaceEvenlyAcross("Auszahlung", receipt.AmountString)
+				: SpaceEvenlyAcross("Einzahlung", receipt.AmountString)
+		);
 
 		return manager;
 	}

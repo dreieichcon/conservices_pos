@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Innkeep.Server.Db.Migrations
+namespace Innkeep.Server.Db.Migrations.Server
 {
     [DbContext(typeof(InnkeepServerContext))]
     partial class InnkeepServerContextModelSnapshot : ModelSnapshot

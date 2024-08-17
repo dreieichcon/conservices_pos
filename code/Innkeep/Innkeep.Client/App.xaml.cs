@@ -24,18 +24,16 @@ public partial class App : Application
 	protected override void OnStartup(StartupEventArgs e)
 	{
 		ThreadCultureHelper.SetInvariant();
-		
+
 		base.OnStartup(e);
-		
+
 		ServicePointManager.ServerCertificateValidationCallback = LocalHostTesting;
 		LoggingManager.InitializeLogger("Innkeep Client");
-		
+
 		var host = KestrelBuilder.Build();
-		
-		DatabaseCreator.EnsureDbCreated(
-			host.Services.GetRequiredService<IDbContextFactory<InnkeepClientContext>>()
-			);
-		
+
+		DatabaseCreator.EnsureDbCreated(host.Services.GetRequiredService<IDbContextFactory<InnkeepClientContext>>());
+
 		ClientEventInitializer.Initialize(host.Services);
 
 		var mainWindow = new MainWindow(host);

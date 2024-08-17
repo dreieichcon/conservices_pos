@@ -1,4 +1,5 @@
-﻿using System.Net.NetworkInformation;
+﻿using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using Innkeep.Services.Interfaces.Hardware;
 
@@ -10,11 +11,14 @@ public class HardwareService : IHardwareService
 	{
 		ClientIdentifier = GetMacAddress();
 		IpAddress = GetIpAddress();
+		HostName = Dns.GetHostName();
 	}
 
 	public string ClientIdentifier { get; init; }
 	
 	public string IpAddress { get; init; }
+
+	public string HostName { get; init; }
 
 	private string GetIpAddress()
 	{

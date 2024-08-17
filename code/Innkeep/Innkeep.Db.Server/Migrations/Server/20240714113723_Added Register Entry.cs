@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿#nullable disable
 
-#nullable disable
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Innkeep.Server.Db.Migrations
+namespace Innkeep.Db.Server.Migrations.Server
 {
     /// <inheritdoc />
     public partial class AddedRegisterEntry : Migration

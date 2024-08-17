@@ -12,6 +12,8 @@ public class TransactionReceipt
 	
 	public long TransactionCounter { get; set; }
 	
+	public DateTime BookingTime { get; set; }
+	
 	public List<ReceiptLine> Lines { get; set; } = [];
 	
 	public ReceiptSum Sum { get; set; }

@@ -5,4 +5,6 @@ public interface IHardwareService
 	public string ClientIdentifier { get; init; }
 
 	public string IpAddress { get; init; }
+
+	public string HostName { get; init; }
 }

@@ -1,0 +1,72 @@
+﻿@page "/register/transactions/{RegisterId}/create"
+@using System.Text.Json
+@using Innkeep.Api.Client.Interfaces
+@using Innkeep.Api.Json
+@using Innkeep.Api.Models.Internal.Transfer
+@using Innkeep.Services.Server.Interfaces.Fiskaly
+@using Innkeep.Services.Server.Interfaces.Transaction
+
+@inject IFiskalyTransactionService TransactionService;
+@inject ITransactionService LocalTransactionService;
+@inject IClientPrintRepository ClientPrintRepository;
+@inject NavigationManager NavManager;
+@inject ISnackbar Snackbar;
+
+<ConfigPage PageTitle="Update Cash State">
+    <ChildContent>
+        <MudStack Class="flex-grow-1" AlignItems="AlignItems.Center" Justify="Justify.Center">
+            <MudPaper Class="w-50 h-50 d-flex">
+                <MudStack Class="flex-grow-1" AlignItems="AlignItems.Center" Justify="Justify.Center">
+                    <MudForm @ref="_form" Class="w-50 h-50">
+                        <MudSelect T="bool" Variant="Variant.Outlined" Label="Type" @bind-Value="ClientTransfer.IsRetrieve" Immediate="true">
+                            <MudSelectItem Value="false">Einzahlung</MudSelectItem>
+                            <MudSelectItem Value="true">Auszahlung</MudSelectItem>
+                        </MudSelect>
+                        <MudNumericField 
+                            Variant="Variant.Outlined"
+                            Label="Amount"
+                            T="decimal" 
+                            @bind-Value="ClientTransfer.Amount" 
+                            Format="F2" 
+                            Validation="@(new Func<decimal, bool>(x => x > 0))" 
+                            Immediate="true">
+                        </MudNumericField>
+                    </MudForm>
+                </MudStack>
+            </MudPaper>
+        </MudStack>
+    </ChildContent>
+    <ActionBar>
+        <MudButton Variant="Variant.Outlined" Color="Color.Success" @onclick="UpdateCashState">
+            Commit
+        </MudButton>
+    </ActionBar>
+</ConfigPage>
+
+@code {
+
+    private MudForm _form;
+
+    private ClientTransfer ClientTransfer { get; set; } = new();
+
+    [Parameter]
+    public required string RegisterId { get; set; }
+
+    private async Task UpdateCashState()
+    {
+        
+        var transaction = await TransactionService.StartTransaction();
+        var receipt = await TransactionService.CompleteTransferTransaction(ClientTransfer);
+
+        var jsonForStorage = JsonSerializer.Serialize(receipt, SerializerOptions.GetServerOptions());
+
+        var dbResult = await LocalTransactionService.CreateFromTransfer(ClientTransfer, transaction, RegisterId, jsonForStorage);
+
+        receipt.TransactionId = dbResult;
+
+        await ClientPrintRepository.PrintReceipt(receipt, RegisterId);
+
+        NavManager.NavigateTo("/register/transactions/{RegisterId}");
+    }
+
+}

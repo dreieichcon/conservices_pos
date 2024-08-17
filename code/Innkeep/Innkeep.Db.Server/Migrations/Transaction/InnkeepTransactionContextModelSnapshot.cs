@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Innkeep.Db.Server.MigrationsTransaction
+namespace Innkeep.Db.Server.Migrations.Transaction
 {
     [DbContext(typeof(InnkeepTransactionContext))]
     partial class InnkeepTransactionContextModelSnapshot : ModelSnapshot
@@ -35,14 +35,17 @@ namespace Innkeep.Db.Server.MigrationsTransaction
 
                     b.Property<string>("ClientId")
                         .IsRequired()
+                        .HasMaxLength(40)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EventId")
                         .IsRequired()
+                        .HasMaxLength(40)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("OrderSecret")
                         .IsRequired()
+                        .HasMaxLength(40)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ReceiptJson")
@@ -51,6 +54,12 @@ namespace Innkeep.Db.Server.MigrationsTransaction
 
                     b.Property<string>("ReceiptType")
                         .IsRequired()
+                        .HasMaxLength(32)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RegisterId")
+                        .IsRequired()
+                        .HasMaxLength(40)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("TransactionDate")
@@ -58,6 +67,7 @@ namespace Innkeep.Db.Server.MigrationsTransaction
 
                     b.Property<string>("TssId")
                         .IsRequired()
+                        .HasMaxLength(40)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");

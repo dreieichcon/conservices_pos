@@ -1,5 +1,5 @@
-﻿using Innkeep.Api.Models.Internal;
-using Innkeep.Api.Models.Internal.Transaction;
+﻿using Innkeep.Api.Models.Internal.Transaction;
+using Innkeep.Api.Models.Internal.Transfer;
 
 namespace Innkeep.Services.Client.Interfaces.Hardware;
 
@@ -10,4 +10,6 @@ public interface IPrinterService
 	public void TestPrint(string printerName);
 
 	public void PrintReceipt(string printerName, TransactionReceipt receipt);
+
+	public void PrintReceipt(string printerName, TransferReceipt receipt);
 }

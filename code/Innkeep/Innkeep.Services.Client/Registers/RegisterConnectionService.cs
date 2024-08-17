@@ -42,7 +42,7 @@ public class RegisterConnectionService : IRegisterConnectionService
 	public async Task<bool> Connect(string description)
 	{
 		var identifier = _hardwareService.ClientIdentifier;
-		var ip = _hardwareService.IpAddress;
+		var ip = _hardwareService.HostName;
 
 		var result = await _repository.Connect(identifier, description, ip);
 		

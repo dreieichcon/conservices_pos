@@ -1,4 +1,6 @@
 ﻿using Innkeep.Api.Auth;
+using Innkeep.Api.Client.Interfaces;
+using Innkeep.Api.Client.Repositories.Print;
 using Innkeep.Api.Fiskaly.Interfaces.Auth;
 using Innkeep.Api.Fiskaly.Interfaces.Transaction;
 using Innkeep.Api.Fiskaly.Interfaces.Tss;
@@ -113,6 +115,8 @@ public static class ServerServiceManager
 		collection.AddSingleton<IFiskalyTssRepository, FiskalyTssRepository>();
 		collection.AddSingleton<IFiskalyClientRepository, FiskalyClientRepository>();
 		collection.AddSingleton<IFiskalyTransactionRepository, FiskalyTransactionRepository>();
+		
+		collection.AddSingleton<IClientPrintRepository, ClientPrintRepository>();
 	}
 
 	private static void ConfigureHttpServices(IServiceCollection collection)

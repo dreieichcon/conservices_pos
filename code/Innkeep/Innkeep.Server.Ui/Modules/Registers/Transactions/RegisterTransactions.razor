@@ -1,0 +1,94 @@
+﻿@page "/register/transactions/{registerid}"
+@using System.Text.Json
+@using Innkeep.Api.Client.Interfaces
+@using Innkeep.Api.Enum.Fiskaly.Transaction
+@using Innkeep.Api.Json
+@using Innkeep.Api.Models.Internal.Transaction
+@using Innkeep.Api.Models.Internal.Transfer
+@using Innkeep.Db.Server.Models.Transaction
+@using Innkeep.Services.Server.Interfaces.Transaction
+
+@inject ITransactionService TransactionService;
+@inject NavigationManager NavManager;
+@inject IClientPrintRepository PrintRepository;
+
+<ConfigPage PageTitle="Transactions">
+    <ChildContent>
+        <MudStack Class="flex-grow-1">
+            <MudPaper Class="mud-theme-primary">
+                <MudStack Row="true" Class="p-1">
+                    <MudText>
+                        @RegisterId
+                    </MudText>
+                    <MudText>
+                        Total: @TransactionModels.Sum(x => x.TotalChange)
+                    </MudText>
+                </MudStack>
+            </MudPaper>
+            <MudDataGrid T="TransactionModel" Dense="true" Items="@TransactionModels" RowsPerPage="15">
+                <Columns>
+                    <PropertyColumn Property="x => x.TransactionDate" Title="Transaction Date"/>
+                    <PropertyColumn Property="x => x.ReceiptType" Title="Type"/>
+                    <PropertyColumn Property="x => x.OrderSecret" Title="Order Secret"/>
+                    <PropertyColumn Property="x => x.TotalChange" Title="Cash Change"/>
+                    <TemplateColumn Title="Actions">
+                        <CellTemplate>
+                            <MudButton Variant="Variant.Outlined" @onclick="() => Reprint(context.Item)">
+                                Reprint Receipt
+                            </MudButton>
+                        </CellTemplate>
+                    </TemplateColumn>
+                </Columns>
+            </MudDataGrid>
+        </MudStack>
+    </ChildContent>
+    <ActionBar>
+        <MudButton Variant="Variant.Outlined" Color="Color.Primary" @onclick="UpdateCash">Update Cash</MudButton>
+    </ActionBar>
+</ConfigPage>
+
+@code {
+
+    [Parameter]
+    public required string RegisterId { get; set; }
+
+    private IEnumerable<TransactionModel> TransactionModels { get; set; } = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        TransactionModels = await TransactionService.GetForRegister(RegisterId);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void UpdateCash()
+    {
+        NavManager.NavigateTo($"/register/transactions/{RegisterId}/create");
+    }
+
+    private async Task Reprint(TransactionModel contextItem)
+    {
+        if (contextItem.ReceiptType == "TRANSACTION")
+        {
+            var receipt = JsonSerializer.Deserialize<TransactionReceipt>(
+                contextItem.ReceiptJson, 
+                SerializerOptions.GetServerOptions())!;
+
+            receipt.BookingTime = contextItem.TransactionDate;
+            receipt.Header += $"{Environment.NewLine}Belegkopie";
+        
+            await PrintRepository.PrintReceipt(receipt!, RegisterId);
+        }
+
+        if (contextItem.ReceiptType == "TRANSFER")
+        {
+            var receipt = JsonSerializer.Deserialize<TransferReceipt>(
+                contextItem.ReceiptJson, 
+                SerializerOptions.GetServerOptions())!;
+            
+            receipt.BookingTime = contextItem.TransactionDate;
+            
+            await PrintRepository.PrintReceipt(receipt!, RegisterId);
+        }
+    }
+
+}

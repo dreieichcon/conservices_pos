@@ -7,12 +7,6 @@ namespace Innkeep.Client.Controllers.Endpoints;
 [Route("client")]
 public class ServerDataController(IHardwareService hardwareService, ISalesItemService salesItemService) : Controller
 {
-	[HttpPost]
-	[Route("print")]
-	public IActionResult Print()
-	{
-		return new OkObjectResult("");
-	}
 
 	[HttpPost]
 	[Route("reload")]

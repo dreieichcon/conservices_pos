@@ -1,20 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Innkeep.Api.Pretix\Innkeep.Api.Pretix.csproj" />
-      <ProjectReference Include="..\Innkeep.Client.Services\Innkeep.Client.Services.csproj" />
-      <ProjectReference Include="..\Innkeep.Models\Innkeep.Models.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Interfaces\" />
-      <Folder Include="Repositories\" />
+      <ProjectReference Include="..\Innkeep.Api.Server\Innkeep.Api.Server.csproj" />
+      <ProjectReference Include="..\Innkeep.Services.Server\Innkeep.Services.Server.csproj" />
     </ItemGroup>
 
 </Project>

@@ -9,7 +9,7 @@
                     <Columns>
                         <PropertyColumn Property="x => x.RegisterIdentifier" Title="Identifier"/>
                         <PropertyColumn Property="x => x.RegisterDescription" Title="Description"/>
-                        <PropertyColumn Property="x => x.RegisterIp" Title="Ip"/>
+                        <PropertyColumn Property="x => x.RegisterIp" Title="Hostname"/>
                         <TemplateColumn Title="Actions">
                             <CellTemplate>
                                 <MudButton @onclick="() => Remove(context.Item!.RegisterIdentifier)">Remove</MudButton>
