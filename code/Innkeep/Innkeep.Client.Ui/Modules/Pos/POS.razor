@@ -10,7 +10,7 @@
 @inject IClientPosService ClientPosService
 
 <MudStack Class="flex-grow-1">
-    <MudStack Row="true" Style="height: 82%; max-height: 82%; width: 100%;" Spacing="2" Justify="Justify.SpaceBetween">
+    <MudStack Row="true" Style="@TopHeightStyle" Spacing="2" Justify="Justify.SpaceBetween">
         <CartDisplay/>
         @if (ClientPosService.IsPaymentMode)
         {
@@ -22,7 +22,7 @@
         }
         <KeypadDisplay/>
     </MudStack>
-    <MudStack Row="true" Style="height: 18%; max-height: 18%; width: 100%" Spacing="2" Justify="Justify.SpaceBetween">
+    <MudStack Row="true" Style="@BottomHeightStyle" Spacing="2" Justify="Justify.SpaceBetween">
         @if (ClientPosService.IsPaymentMode)
         {
             <PaymentTotalDisplay/>
@@ -39,6 +39,14 @@
 
 @code {
 
+    private const int TopHeight = 82;
+
+    private static string TopHeightStyle => $"min-height: {TopHeight}% !important; height: {TopHeight}% !important; max-height: {TopHeight}% !important; width: 100%;";
+
+    private const int BottomHeight = 17;
+    
+    private static string BottomHeightStyle => $"min-height: {BottomHeight}% !important; height: {BottomHeight}% !important; max-height: {BottomHeight}% !important; width: 100%;";
+    
     protected override async Task OnInitializedAsync()
     {
         SalesItemService.ItemsUpdated += async (_, _) => await InvokeAsync(StateHasChanged);

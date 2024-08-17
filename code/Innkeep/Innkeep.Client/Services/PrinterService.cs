@@ -29,8 +29,8 @@ public class PrinterService : IPrinterService
 					.AddReceiptLines(receipt)
 					.AddReceiptSum(receipt)
 					.AddReceiptTaxIfExists(receipt)
-					.AddQrCode(receipt.QrCode)
 					.AddEmptyLine()
+					.AddQrCode(receipt.QrCode)
 					.Cut();
 		
 		manager.Print();

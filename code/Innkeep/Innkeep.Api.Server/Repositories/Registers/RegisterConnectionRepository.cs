@@ -17,7 +17,8 @@ public class RegisterConnectionRepository(IDbService<ClientConfig> clientConfigS
 
 	public async Task<bool> Connect(string identifier, string description, string ip)
 	{
-		var uri = $"{await GetAddress()}/register/connect";
+		var serverAddress = await GetAddress();
+		var uri = $"{serverAddress}/register/connect";
 
 		var formData = new Dictionary<string, string>()
 		{
@@ -31,10 +32,18 @@ public class RegisterConnectionRepository(IDbService<ClientConfig> clientConfigS
 				"ip", ip
 			},
 		};
-		
-		var response = await Get(uri, formData);
 
-		return response.IsSuccess;
+		try
+		{
+			var response = await Get(uri, formData);
+
+			return response.IsSuccess;
+		}
+		catch (Exception ex)
+		{
+			Log.Error("Server {ServerAddress} does not seem to be running: {Exception}", serverAddress, ex.Message);
+			return false;
+		}
 	}
 
 	public async Task<bool> Discover(string address)

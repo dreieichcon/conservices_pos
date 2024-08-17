@@ -1,5 +1,10 @@
-﻿@using Innkeep.Services.Client.Interfaces.Pos
+﻿@using Innkeep.Db.Client.Models
+@using Innkeep.Services.Client.Interfaces.Hardware
+@using Innkeep.Services.Client.Interfaces.Pos
+@using Innkeep.Services.Interfaces
 @inject IClientPosService ClientPosService;
+@inject IDbService<ClientConfig> ClientConfigService;
+@inject IPrinterService PrinterService;
 
 <MudPaper Style="@PosStyles.DisplayStyleDouble" Class="d-flex flex-grow-1 mh-100 overflow-hidden" Elevation="0">
     <MudStack Row="true" Class="flex-grow-1">
@@ -25,7 +30,8 @@
         <MudButton
             Style="@PosStyles.DisplayStyle"
             Color="Color.Tertiary"
-            Variant="Variant.Outlined">
+            Variant="Variant.Outlined"
+            @onclick="PrintLast">
             <MudText Typo="Typo.h4">
                 PRINT LAST
             </MudText>
@@ -38,6 +44,17 @@
     protected override void OnInitialized()
     {
         ClientPosService.CartUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
+    }
+
+    private void PrintLast()
+    {
+        if (ClientPosService.LastReceipt is null)
+        {
+            return;
+        }
+        
+        var printer = ClientConfigService.CurrentItem!.PrinterName;
+        PrinterService.PrintReceipt(printer, ClientPosService.LastReceipt!);
     }
 
 }

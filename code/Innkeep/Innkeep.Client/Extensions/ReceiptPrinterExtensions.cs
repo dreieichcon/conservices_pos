@@ -64,7 +64,7 @@ public static class ReceiptPrinterExtensions
 
 		foreach (var tax in receipt.TaxInformation)
 		{
-			manager.AddLine(SpaceEvenlyAcross(tax.NameString, tax.NetString));
+			manager.AddLine(SpaceEvenlyAcross(tax.NameString, tax.NetString, tax.TaxAmountString, tax.GrossString));
 		}
 
 		return manager;
