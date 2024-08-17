@@ -1,4 +1,5 @@
 ﻿@page "/register/transactions/{registerid}"
+@using System.Globalization
 @using System.Text.Json
 @using Innkeep.Api.Client.Interfaces
 @using Innkeep.Api.Enum.Fiskaly.Transaction
@@ -30,7 +31,11 @@
                     <PropertyColumn Property="x => x.TransactionDate" Title="Transaction Date"/>
                     <PropertyColumn Property="x => x.ReceiptType" Title="Type"/>
                     <PropertyColumn Property="x => x.OrderSecret" Title="Order Secret"/>
-                    <PropertyColumn Property="x => x.TotalChange" Title="Cash Change"/>
+                    <PropertyColumn Property="x => x.TotalChange" Title="Cash Change">
+                        <CellTemplate>
+                            @context.Item.TotalChange.ToString("F2", CultureInfo.InvariantCulture) EUR
+                        </CellTemplate>
+                    </PropertyColumn>
                     <TemplateColumn Title="Actions">
                         <CellTemplate>
                             <MudButton Variant="Variant.Outlined" @onclick="() => Reprint(context.Item)">
