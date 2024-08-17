@@ -6,28 +6,39 @@ using Innkeep.Api.Pretix.Repositories.Core;
 
 namespace Innkeep.Api.Pretix.Repositories.General;
 
-public class PretixEventRepository(IPretixAuthenticationService authenticationService) 
+public class PretixEventRepository(IPretixAuthenticationService authenticationService)
 	: BasePretixRepository<PretixEvent>(authenticationService), IPretixEventRepository
 {
 	public async Task<IEnumerable<PretixEvent>> GetEvents(PretixOrganizer organizer)
 	{
 		var uri = new PretixEndpointBuilder().WithOrganizer(organizer).WithEvents().Build();
+
 		return await GetEventsInternal(uri);
 	}
 
 	public async Task<IEnumerable<PretixEvent>> GetEvents(string pOrganizerSlug)
 	{
 		var uri = new PretixEndpointBuilder().WithOrganizer(pOrganizerSlug).WithEvents().Build();
+
 		return await GetEventsInternal(uri);
 	}
 
 	public async Task<PretixEvent?> GetEvent(string pOrganizerSlug, string pEventSlug)
 	{
 		var uri = new PretixEndpointBuilder().WithOrganizer(pOrganizerSlug).WithEvent(pEventSlug).Build();
-			
+
 		var response = await Get(uri);
 
 		return DeserializeOrNull<PretixEvent>(response);
+	}
+
+	public async Task<PretixEventSettings?> GetEventSettings(string organizerSlug, string eventSlug)
+	{
+		var uri = new PretixEndpointBuilder().WithOrganizer(organizerSlug).WithEvent(eventSlug).WithSettings().Build();
+
+		var response = await Get(uri);
+
+		return DeserializeOrNull<PretixEventSettings>(response);
 	}
 
 	private async Task<IEnumerable<PretixEvent>> GetEventsInternal(string uri)
@@ -36,7 +47,7 @@ public class PretixEventRepository(IPretixAuthenticationService authenticationSe
 
 		if (!response.IsSuccess)
 			return new List<PretixEvent>();
-		
+
 		var result = Deserialize(response.Content);
 
 		return result is not null ? result.Results : new List<PretixEvent>();

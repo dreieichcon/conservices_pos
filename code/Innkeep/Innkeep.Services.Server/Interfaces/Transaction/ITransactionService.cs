@@ -6,5 +6,5 @@ namespace Innkeep.Services.Server.Interfaces.Transaction;
 
 public interface ITransactionService
 {
-	public Task<bool> CreateFromOrder(PretixOrderResponse pretixOrder, FiskalyTransaction fiskalyTransaction, ClientTransaction transaction, string receiptJson);
+	public Task<string?> CreateFromOrder(PretixOrderResponse pretixOrder, FiskalyTransaction fiskalyTransaction, ClientTransaction transaction, string receiptJson);
 }

@@ -44,6 +44,12 @@ public class PretixEndpointBuilder() : BaseEndpointBuilder("https://pretix.eu/ap
 		Endpoints.Add(pEvent.Slug);
 		return this;
 	}
+	
+	public PretixEndpointBuilder WithSettings()
+	{
+		Endpoints.Add("settings");
+		return this;
+	}
 
 	public PretixEndpointBuilder WithItems()
 	{
@@ -69,9 +75,12 @@ public class PretixEndpointBuilder() : BaseEndpointBuilder("https://pretix.eu/ap
 		Endpoints.Add("checkinlists");
 		return this;
 	}
+	
 
 	public string Build()
 	{
 		return BuildInternal();
 	}
+
+	
 }

@@ -1,4 +1,6 @@
-﻿using Innkeep.Api.Models.Internal;
+﻿using System.Text;
+using Innkeep.Api.Models.Internal;
+using Innkeep.Api.Models.Pretix.Objects.General;
 using Innkeep.Api.Models.Pretix.Objects.Order;
 using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Db.Server.Models;
@@ -27,8 +29,9 @@ public class PretixOrderService(
 		}
 
 		var pretixEvent = await eventRepository.GetEvent(PretixOrganizerSlug, PretixEventSlug);
+		var pretixEventSettings = await eventRepository.GetEventSettings(PretixOrganizerSlug, PretixEventSlug);
 
-		if (pretixEvent is null) return null;
+		if (pretixEvent is null || pretixEventSettings is null) return null;
 
 		var order = await orderRepository.CreateOrder(
 			PretixOrganizerSlug,
@@ -40,8 +43,21 @@ public class PretixOrderService(
 		if (order == null) return order;
 
 		order.EventTitle = pretixEvent.Name.German ?? "NAME SETZEN";
-		order.ReceiptHeader = pretixEvent.Location?.German ?? "BITTE EVENT LOCATION SETZEN";
+		order.ReceiptHeader = CreateHeader(pretixEventSettings);
 		
 		return order;
+	}
+
+	private string CreateHeader(PretixEventSettings settings)
+	{
+		var sb = new StringBuilder();
+
+		sb.AppendLine(settings.InvoiceCompanyName);
+		sb.AppendLine(settings.InvoiceStreetAddress);
+		sb.AppendLine($"{settings.InvoiceZipCode} {settings.InvoiceCity}");
+		sb.AppendLine(settings.InvoiceCountry);
+		if (!string.IsNullOrEmpty(settings.InvoiceVatId))
+			sb.AppendLine($"Ust.Id: {settings.InvoiceVatId}");
+		return sb.ToString();
 	}
 }

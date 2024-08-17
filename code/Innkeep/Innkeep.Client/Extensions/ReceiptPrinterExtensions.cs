@@ -1,6 +1,7 @@
 ﻿using DemoPOS.Document;
 using ESCPOS;
 using Innkeep.Api.Models.Internal;
+using Innkeep.Api.Models.Internal.Transaction;
 
 namespace Innkeep.Client.Extensions;
 
@@ -49,8 +50,6 @@ public static class ReceiptPrinterExtensions
 
 		manager.AddLine(SpaceEvenlyAcross("Gegeben", receipt.Sum.AmountGivenString));
 		manager.AddLine(SpaceEvenlyAcross("Zurück", receipt.Sum.AmountReturnedString));
-
-		manager.AddEmptyLine();
 		
 		return manager;
 	}
@@ -67,6 +66,16 @@ public static class ReceiptPrinterExtensions
 			manager.AddLine(SpaceEvenlyAcross(tax.NameString, tax.NetString, tax.TaxAmountString, tax.GrossString));
 		}
 
+		return manager;
+	}
+
+	public static DocumentManager AddTransactionInfo(this DocumentManager manager, TransactionReceipt receipt)
+	{
+		manager.AddLine(SpaceEvenlyAcross("Transaktion:", receipt.TransactionCounter.ToString()));
+		
+		if (!string.IsNullOrEmpty(receipt.TransactionId))
+			manager.AddLine(SpaceEvenlyAcross("Id:", receipt.TransactionId));
+		
 		return manager;
 	}
 

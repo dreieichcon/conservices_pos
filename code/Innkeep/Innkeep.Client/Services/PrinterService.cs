@@ -1,6 +1,7 @@
 ﻿using DemoPOS.Document;
 using DemoPOS.Helpers;
 using Innkeep.Api.Models.Internal;
+using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Client.Extensions;
 using Innkeep.Services.Client.Interfaces.Hardware;
 
@@ -29,7 +30,9 @@ public class PrinterService : IPrinterService
 					.AddReceiptLines(receipt)
 					.AddReceiptSum(receipt)
 					.AddReceiptTaxIfExists(receipt)
-					.AddEmptyLine()
+					.AddDashedLine()
+					.AddTransactionInfo(receipt)
+					.AddDashedLine()
 					.AddQrCode(receipt.QrCode)
 					.Cut();
 		
