@@ -20,3 +20,5 @@ code/Innkeep/Innkeep.Client.WebUi/esc_pos.temp
 build/_build.csproj.DotSettings
 
 **/Auth.cs
+
+code/Innkeep/Innkeep.Server/db/transactions/

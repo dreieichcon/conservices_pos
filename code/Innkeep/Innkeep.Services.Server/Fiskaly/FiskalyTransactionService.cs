@@ -10,7 +10,7 @@ using Innkeep.Services.Server.Interfaces.Fiskaly;
 
 namespace Innkeep.Services.Server.Fiskaly;
 
-public class FiskalyTransactionService(
+public partial class FiskalyTransactionService(
 	IFiskalyTransactionRepository transactionRepository,
 	IFiskalyClientService clientService,
 	IFiskalyTssService tssService
@@ -24,7 +24,7 @@ public class FiskalyTransactionService(
 
 	private int TransactionRevision { get; set; } = 1;
 
-	public async Task<bool> StartTransaction()
+	public async Task<FiskalyTransaction> StartTransaction()
 	{
 		var transactionGuid = Guid.NewGuid();
 
@@ -37,7 +37,7 @@ public class FiskalyTransactionService(
 		if (CurrentTransaction != null)
 			TransactionRevision++;
 		
-		return CurrentTransaction != null;
+		return CurrentTransaction;
 	}
 
 	public async Task<TransactionReceipt?> CompleteReceiptTransaction(ClientTransaction transaction)
@@ -45,7 +45,7 @@ public class FiskalyTransactionService(
 		var request = new FiskalyTransactionUpdateRequest()
 		{
 			TransactionRevision = TransactionRevision,
-			TransactionId = CurrentTransaction?.Id,
+			TransactionId = CurrentTransaction?.Id!,
 			ClientId = CurrentClient.Id,
 			TssId = CurrentTss.Id,
 			Schema = new FiskalyTransactionSchema
@@ -55,8 +55,8 @@ public class FiskalyTransactionService(
 					Receipt = new FiskalyReceipt()
 					{
 						ReceiptType = ReceiptType.Receipt,
-						AmountsPerVatRate = VatRates(transaction),
-						AmountsPerPaymentType = PaymentTypes(transaction),
+						AmountsPerVatRate = TransactionVatRates(transaction),
+						AmountsPerPaymentType = TransactionPaymentTypes(transaction),
 					},
 				},
 			},
@@ -72,7 +72,7 @@ public class FiskalyTransactionService(
 		return receipt;
 	}
 
-	private static List<FiskalyAmountPerVatRate> VatRates(ClientTransaction transaction)
+	private static List<FiskalyAmountPerVatRate> TransactionVatRates(ClientTransaction transaction)
 	{
 		var list = new List<FiskalyAmountPerVatRate>();
 		
@@ -100,7 +100,7 @@ public class FiskalyTransactionService(
 		return list;
 	}
 
-	private static List<FiskalyAmountPerPaymentType> PaymentTypes(ClientTransaction transaction)
+	private static List<FiskalyAmountPerPaymentType> TransactionPaymentTypes(ClientTransaction transaction)
 	{
 		var list = new List<FiskalyAmountPerPaymentType>();
 		
@@ -115,15 +115,13 @@ public class FiskalyTransactionService(
 
 	private static TransactionReceipt? CreateTransactionReceipt(FiskalyTransaction? fiskalyTransaction, ClientTransaction clientTransaction)
 	{
-		if (fiskalyTransaction is null)
-			return null;
 		
 		return new TransactionReceipt()
 		{
 			Lines = CreateLines(clientTransaction),
 			TaxInformation = CreateTaxInformation(clientTransaction),
 			Sum = CreateSum(clientTransaction),
-			QrCode = fiskalyTransaction.QrCodeData,
+			QrCode = fiskalyTransaction?.QrCodeData ?? "TSE ERROR",
 		};
 	}
 

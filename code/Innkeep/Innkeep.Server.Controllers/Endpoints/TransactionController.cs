@@ -6,6 +6,7 @@ using Innkeep.Server.Controllers.Abstract;
 using Innkeep.Services.Server.Interfaces.Fiskaly;
 using Innkeep.Services.Server.Interfaces.Pretix;
 using Innkeep.Services.Server.Interfaces.Registers;
+using Innkeep.Services.Server.Interfaces.Transaction;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Innkeep.Server.Controllers.Endpoints;
@@ -15,16 +16,19 @@ public class TransactionController : AbstractServerController
 {
 	private readonly IFiskalyTransactionService _transactionService;
 	private readonly IPretixOrderService _orderService;
+	private readonly ITransactionService _transactionDbService;
 
 	public TransactionController(
 		IFiskalyTransactionService transactionService,
 		IPretixOrderService orderService,
-		IRegisterService registerService
+		IRegisterService registerService,
+		ITransactionService transactionDbService
 	) : base(registerService)
 	{
 		ThreadCultureHelper.SetInvariant();
 		_transactionService = transactionService;
 		_orderService = orderService;
+		_transactionDbService = transactionDbService;
 	}
 
 	[HttpPost]
@@ -44,14 +48,14 @@ public class TransactionController : AbstractServerController
 
 		var fiskalyTransaction = await _transactionService.StartTransaction();
 
-		if (!fiskalyTransaction)
+		if (fiskalyTransaction is null)
 			return new StatusCodeResult(500);
 
 		var receipt = await _transactionService.CompleteReceiptTransaction(transaction);
 
 		if (receipt is null)
 			return new StatusCodeResult(500);
-
+		
 		receipt.Title = pretixOrder.EventTitle;
 		receipt.Header = pretixOrder.ReceiptHeader;
 		receipt.Currency = transaction.SalesItems.First().Currency;
@@ -60,6 +64,8 @@ public class TransactionController : AbstractServerController
 			receipt,
 			SerializerOptions.GetServerOptions()
 		);
+		
+		await _transactionDbService.CreateFromOrder(pretixOrder, fiskalyTransaction, transaction, json);
 		
 		return new OkObjectResult(json);
 	}
