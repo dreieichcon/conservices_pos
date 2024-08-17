@@ -14,11 +14,14 @@ using Innkeep.Api.Pretix.Repositories.Sales;
 using Innkeep.Db.Interfaces;
 using Innkeep.Db.Server.Context;
 using Innkeep.Db.Server.Models;
+using Innkeep.Db.Server.Models.Transaction;
 using Innkeep.Db.Server.Repositories.Config;
 using Innkeep.Db.Server.Repositories.Registers;
+using Innkeep.Db.Server.Repositories.Transaction;
 using Innkeep.Server.Controllers.Endpoints;
 using Innkeep.Services.Hardware;
 using Innkeep.Services.Interfaces;
+using Innkeep.Services.Interfaces.Db;
 using Innkeep.Services.Interfaces.Hardware;
 using Innkeep.Services.Server.Authentication;
 using Innkeep.Services.Server.Database;
@@ -26,10 +29,13 @@ using Innkeep.Services.Server.Fiskaly;
 using Innkeep.Services.Server.Interfaces.Fiskaly;
 using Innkeep.Services.Server.Interfaces.Pretix;
 using Innkeep.Services.Server.Interfaces.Registers;
+using Innkeep.Services.Server.Interfaces.Transaction;
 using Innkeep.Services.Server.Pretix;
 using Innkeep.Services.Server.Registers;
+using Innkeep.Services.Server.Transaction;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Innkeep.Startup.Services;
@@ -52,6 +58,7 @@ public static class ServerServiceManager
 	private static void ConfigureLocalServices(IServiceCollection collection)
 	{
 		collection.AddSingleton<IHardwareService, HardwareService>();
+		collection.AddSingleton<ITransactionDbSettingsService, TransactionDbSettingsService>();
 	}
 
 	private static void ConfigureControllers(IServiceCollection collection)
@@ -67,6 +74,7 @@ public static class ServerServiceManager
 		
 		collection.AddDbContextFactory<InnkeepServerContext>(options => options.UseSqlite("DataSource=./db/server.db"));
 		collection.AddDbContext<InnkeepServerContext>();
+		collection.AddSingleton<IDbContextFactory<InnkeepTransactionContext>, InnkeepTransactionContextFactory>();
 	}
 
 	private static void ConfigureDbRepositories(IServiceCollection collection)
@@ -75,6 +83,7 @@ public static class ServerServiceManager
 		collection.AddSingleton<IDbRepository<FiskalyConfig>, FiskalyConfigRepository>();
 		collection.AddSingleton<IDbRepository<FiskalyTseConfig>, FiskalyTseConfigRepository>();
 		collection.AddSingleton<IDbRepository<Register>, RegisterRepository>();
+		collection.AddSingleton<IDbRepository<TransactionModel>, TransactionRepository>();
 	}
 	
 	private static void ConfigureDbServices(IServiceCollection collection)
@@ -86,6 +95,7 @@ public static class ServerServiceManager
 		collection.AddSingleton<IFiskalyAuthenticationService, FiskalyAuthenticationService>();
 		collection.AddSingleton<IFiskalyTssService, FiskalyTssService>();
 
+		collection.AddSingleton<ITransactionService, TransactionService>();
 		collection.AddSingleton<IRegisterService, RegisterService>();
 	}
 

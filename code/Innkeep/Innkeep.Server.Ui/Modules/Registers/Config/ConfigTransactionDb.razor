@@ -1,0 +1,86 @@
+﻿@page "/config/transaction/db"
+@using System.Globalization
+@using Innkeep.Db.Server.Context
+@using Innkeep.Db.Server.Models
+@using Innkeep.Services.Interfaces
+@using Innkeep.Services.Interfaces.Db
+@using Microsoft.EntityFrameworkCore
+@inject ITransactionDbSettingsService DbSettingsService;
+@inject IDbService<PretixConfig> PretixConfigService;
+@inject IDbContextFactory<InnkeepTransactionContext> TransactionContextFactory;
+@inject ISnackbar Snackbar;
+
+<ConfigPage PageTitle="Configure Transaction Db">
+    <ChildContent>
+        <MudStack Class="w-100 p-3">
+            <MudStack Class="w-100 mh-25" Style="max-height: 15% !important;">
+                <MudSelect Class="w-100" T="string" Style="max-height: 10% !important;" @bind-Value="DbSettingsService.CurrentDb" Variant="Variant.Outlined" Label="Select Database for Transactions">
+                    @foreach (var setting in DbSettingsService.AvailableDatabases)
+                    {
+                        <MudSelectItem T="string" Value="@setting">@setting</MudSelectItem>
+                    }
+                </MudSelect>
+            </MudStack>
+            <MudStack Row="true" Class="w-100" Justify="Justify.FlexEnd">
+                <MudButton Variant="Variant.Outlined" OnClick="CreateNewDatabase">Create New Database</MudButton>
+                <MudButton Variant="Variant.Outlined" OnClick="ExportDatabase">Export Database</MudButton>
+            </MudStack>
+        </MudStack>
+    </ChildContent>
+    <ActionBar>
+        <MudButton Variant="Variant.Outlined" Color="Color.Success" @onclick="Save">Save</MudButton>
+    </ActionBar>
+</ConfigPage>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        DbSettingsService.LoadSettings();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected void Save()
+    {
+        DbSettingsService.SaveSettings();
+    }
+
+    protected async Task CreateNewDatabase()
+    {
+        var name = PretixConfigService.CurrentItem!.SelectedEventName;
+
+        if (name is null)
+        {
+            Snackbar.Add("Please set an event first.", Severity.Error);
+            return;
+        }
+
+        var dbName = $"{name.Replace(" ", "_")}_{DateTime.Now.ToString("yyyy_MM_dd", CultureInfo.InvariantCulture)}.sqlite";
+        
+        DbSettingsService.AvailableDatabases.Add(dbName);
+        DbSettingsService.CurrentDb = dbName;
+
+        var context = await TransactionContextFactory.CreateDbContextAsync();
+        await context.Database.EnsureCreatedAsync();
+    }
+
+    protected void ExportDatabase()
+    {
+        if (DbSettingsService.DbExists)
+        {
+            var outputFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "InnkeepExport");
+
+            if (!Directory.Exists(outputFolder))
+                Directory.CreateDirectory(outputFolder);
+
+            var outputPath = Path.Combine(outputFolder, DbSettingsService.CurrentDb);
+            File.Copy(DbSettingsService.CurrentConnectionString, outputPath);
+
+            Snackbar.Add("Database Exported to Desktop", Severity.Success);
+            return;
+        }
+
+        Snackbar.Add("Cannot export a non existing Database", Severity.Error);
+    }
+    
+}
