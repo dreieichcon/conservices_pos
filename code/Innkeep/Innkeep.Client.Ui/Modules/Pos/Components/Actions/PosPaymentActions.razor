@@ -1,10 +1,12 @@
-﻿@using Innkeep.Db.Client.Models
+﻿@using Innkeep.Client.Ui.Modules.Pos.Components.Dialog
+@using Innkeep.Db.Client.Models
 @using Innkeep.Services.Client.Interfaces.Hardware
 @using Innkeep.Services.Client.Interfaces.Pos
 @using Innkeep.Services.Interfaces
 @inject IClientPosService ClientPosService;
 @inject IDbService<ClientConfig> ClientConfigService;
 @inject IPrinterService PrinterService;
+@inject IDialogService DialogService;
 
 <MudPaper Style="@PosStyles.DisplayStyleDouble" Class="d-flex flex-grow-1 mh-100 overflow-hidden" Elevation="0">
     <MudStack Row="true" Class="flex-grow-1">
@@ -39,6 +41,12 @@
     </MudStack>
 </MudPaper>
 
+<style>
+    .backdrop-blur {
+        backdrop-filter: blur(10px);
+    }
+</style>
+
 @code {
     
     protected override void OnInitialized()
@@ -54,8 +62,35 @@
 
         if (result is not null)
         {
-            var printer = ClientConfigService.CurrentItem!.PrinterName;
-            PrinterService.PrintReceipt(printer, result);
+            var parameters = new DialogParameters<TransactionCompleteDialog>()
+            {
+                {
+                    x => x.Receipt, result
+                },
+            };
+
+            var options = new DialogOptions()
+            {
+                ClassBackground = "backdrop-blur",
+            };
+
+            var dialog = await DialogService.ShowAsync<TransactionCompleteDialog>("", parameters, options);
+            var dialogResult = await dialog.Result;
+
+            if (!dialogResult.Canceled)
+            {
+                var printer = ClientConfigService.CurrentItem!.PrinterName;
+                PrinterService.PrintReceipt(printer, result);
+            }
+                
+            ClearTransaction();
         }
+    }
+
+    private void ClearTransaction()
+    {
+        ClientPosService.ClearCart();
+        ClientPosService.ClearMoneyGiven();
+        ClientPosService.CancelTransaction();
     }
 }

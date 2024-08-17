@@ -18,6 +18,6 @@ public class ReceiptSum
 	public string AmountGivenString => AmountGiven.ToString("F2", CultureInfo.InvariantCulture);
 
 	[JsonIgnore]
-	public string AmountReturnedString => AmountReturned.ToString("F2", CultureInfo.InvariantCulture);
+	public string AmountReturnedString => (-AmountReturned).ToString("F2", CultureInfo.InvariantCulture);
 
 }

@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Innkeep.Api.Pretix.Legacy\Innkeep.Api.Pretix.Legacy.csproj" />
       <ProjectReference Include="..\Innkeep.Json\Innkeep.Json.csproj" />
     </ItemGroup>
 

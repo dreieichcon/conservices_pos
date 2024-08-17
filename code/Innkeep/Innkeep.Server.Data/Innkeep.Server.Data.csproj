@@ -12,8 +12,4 @@
       <PackageReference Include="Serilog" Version="3.0.1" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Innkeep.Api.Pretix.Legacy\Innkeep.Api.Pretix.Legacy.csproj" />
-    </ItemGroup>
-
 </Project>
