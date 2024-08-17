@@ -1,5 +1,6 @@
 ﻿using Innkeep.Api.Endpoints;
 using Innkeep.Api.Models.Internal;
+using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Api.Server.Interfaces;
 using Innkeep.Api.Server.Repositories.Core;
 using Innkeep.Db.Client.Models;

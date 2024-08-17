@@ -6,6 +6,7 @@ using Innkeep.Api.Models.Fiskaly.Objects.Transaction;
 using Innkeep.Api.Models.Fiskaly.Objects.Tss;
 using Innkeep.Api.Models.Fiskaly.Request.Transaction;
 using Innkeep.Api.Models.Internal;
+using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Services.Server.Interfaces.Fiskaly;
 
 namespace Innkeep.Services.Server.Fiskaly;
@@ -113,11 +114,11 @@ public partial class FiskalyTransactionService(
 		return list;
 	}
 
-	private static TransactionReceipt? CreateTransactionReceipt(FiskalyTransaction? fiskalyTransaction, ClientTransaction clientTransaction)
+	private static TransactionReceipt CreateTransactionReceipt(FiskalyTransaction? fiskalyTransaction, ClientTransaction clientTransaction)
 	{
-		
 		return new TransactionReceipt()
 		{
+			TransactionCounter = fiskalyTransaction.Number,
 			Lines = CreateLines(clientTransaction),
 			TaxInformation = CreateTaxInformation(clientTransaction),
 			Sum = CreateSum(clientTransaction),

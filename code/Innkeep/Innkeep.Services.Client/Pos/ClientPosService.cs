@@ -1,5 +1,6 @@
 ﻿using Innkeep.Api.Enum.Fiskaly.Transaction;
 using Innkeep.Api.Models.Internal;
+using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Api.Server.Interfaces;
 using Innkeep.Db.Client.Models;
 using Innkeep.Services.Client.Interfaces.Hardware;

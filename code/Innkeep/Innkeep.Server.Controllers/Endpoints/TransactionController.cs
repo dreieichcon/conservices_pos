@@ -65,8 +65,12 @@ public class TransactionController : AbstractServerController
 			SerializerOptions.GetServerOptions()
 		);
 		
-		await _transactionDbService.CreateFromOrder(pretixOrder, fiskalyTransaction, transaction, json);
+		var id = await _transactionDbService.CreateFromOrder(pretixOrder, fiskalyTransaction, transaction, json);
+
+		receipt.TransactionId = id ?? "";
+
+		var newJson = JsonSerializer.Serialize(receipt, SerializerOptions.GetServerOptions());
 		
-		return new OkObjectResult(json);
+		return new OkObjectResult(newJson);
 	}
 }

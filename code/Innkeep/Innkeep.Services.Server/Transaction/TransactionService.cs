@@ -11,7 +11,7 @@ namespace Innkeep.Services.Server.Transaction;
 public class TransactionService(IDbRepository<TransactionModel> transactionRepository) : ITransactionService
 {
 	
-	public async Task<bool> CreateFromOrder(
+	public async Task<string?> CreateFromOrder(
 		PretixOrderResponse pretixOrder, 
 		FiskalyTransaction fiskalyTransaction, 
 		ClientTransaction transaction,
@@ -34,6 +34,6 @@ public class TransactionService(IDbRepository<TransactionModel> transactionRepos
 		
 		var result = await transactionRepository.CrudAsync(model);
 
-		return result.Success;
+		return result.Success ? result.Item.Id : null;
 	}
 }
