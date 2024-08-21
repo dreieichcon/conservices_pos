@@ -25,6 +25,7 @@
 
     private void AddToCart(DtoSalesItem item)
     {
-        ClientPosService.AddToCart(item);
+        if (!item.SoldOut)
+            ClientPosService.AddToCart(item);
     }
 }

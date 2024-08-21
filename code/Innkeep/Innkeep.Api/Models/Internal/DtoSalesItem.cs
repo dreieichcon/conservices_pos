@@ -28,6 +28,18 @@ public class DtoSalesItem
 	public decimal TotalTax => TaxAmount * CartCount;
 	
 	public int CartCount { get; set; }
+	
+	public int? QuotaMax { get; set; }
+	
+	public int? QuotaLeft { get; set; }
+
+	[JsonIgnore]
+	public int? QuotaSold => QuotaMax - QuotaLeft;
+	
+	public bool SoldOut { get; set; }
+
+	[JsonIgnore]
+	public bool Infinite => QuotaLeft == null;
 
 	public static DtoSalesItem FromPretix(PretixSalesItem pretixSalesItem)
 	{

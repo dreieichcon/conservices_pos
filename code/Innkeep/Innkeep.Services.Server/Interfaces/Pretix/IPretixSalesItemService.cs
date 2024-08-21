@@ -12,4 +12,6 @@ public interface IPretixSalesItemService
 	public IEnumerable<DtoSalesItem> DtoSalesItems { get; set; }
 
 	public Task Load();
+
+	public Task LoadQuotas();
 }

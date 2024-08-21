@@ -11,8 +11,7 @@ namespace Innkeep.Services.Client.Pos;
 
 public partial class ClientPosService(
 	ITransactionRepository transactionRepository,
-	IPrinterService printerService,
-	IDbService<ClientConfig> clientConfigService
+	ISalesItemService SalesItemService
 ) : IClientPosService
 {
 	private decimal _moneyGiven;
@@ -46,7 +45,7 @@ public partial class ClientPosService(
 		};
 
 		LastReceipt = await transactionRepository.CommitTransaction(transaction);
-
+		
 		return LastReceipt;
 	}
 

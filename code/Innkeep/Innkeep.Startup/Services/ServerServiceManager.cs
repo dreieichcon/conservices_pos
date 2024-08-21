@@ -12,6 +12,7 @@ using Innkeep.Api.Pretix.Repositories.Auth;
 using Innkeep.Api.Pretix.Repositories.Checkin;
 using Innkeep.Api.Pretix.Repositories.General;
 using Innkeep.Api.Pretix.Repositories.Order;
+using Innkeep.Api.Pretix.Repositories.Quota;
 using Innkeep.Api.Pretix.Repositories.Sales;
 using Innkeep.Db.Interfaces;
 using Innkeep.Db.Server.Context;
@@ -25,6 +26,7 @@ using Innkeep.Services.Hardware;
 using Innkeep.Services.Interfaces;
 using Innkeep.Services.Interfaces.Db;
 using Innkeep.Services.Interfaces.Hardware;
+using Innkeep.Services.Interfaces.Internal;
 using Innkeep.Services.Server.Authentication;
 using Innkeep.Services.Server.Database;
 using Innkeep.Services.Server.Fiskaly;
@@ -32,12 +34,13 @@ using Innkeep.Services.Server.Interfaces.Fiskaly;
 using Innkeep.Services.Server.Interfaces.Pretix;
 using Innkeep.Services.Server.Interfaces.Registers;
 using Innkeep.Services.Server.Interfaces.Transaction;
+using Innkeep.Services.Server.Internal;
 using Innkeep.Services.Server.Pretix;
 using Innkeep.Services.Server.Registers;
 using Innkeep.Services.Server.Transaction;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Innkeep.Startup.Services;
@@ -55,6 +58,8 @@ public static class ServerServiceManager
 		
 		if (isKestrel)
 			ConfigureControllers(collection);
+
+		collection.AddSingleton<IStartupService, StartupService>();
 	}
 	
 	private static void ConfigureLocalServices(IServiceCollection collection)
@@ -110,6 +115,7 @@ public static class ServerServiceManager
 		collection.AddSingleton<IPretixCheckinRepository, PretixCheckinRepository>();
 		collection.AddSingleton<IPretixSalesItemRepository, PretixSalesItemRepository>();
 		collection.AddSingleton<IPretixOrderRepository, PretixOrderRepository>();
+		collection.AddSingleton<IPretixQuotaRepository, PretixQuotaRepository>();
 
 		collection.AddSingleton<IFiskalyAuthRepository, FiskalyAuthRepository>();
 		collection.AddSingleton<IFiskalyTssRepository, FiskalyTssRepository>();

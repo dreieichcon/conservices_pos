@@ -7,6 +7,7 @@
 @inject IDbService<ClientConfig> ClientConfigService;
 @inject IPrinterService PrinterService;
 @inject IDialogService DialogService;
+@inject ISalesItemService SalesItemService;
 
 <MudPaper Style="@PosStyles.DisplayStyleDouble" Class="d-flex flex-grow-1 mh-100 overflow-hidden" Elevation="0">
     <MudStack Row="true" Class="flex-grow-1">
@@ -59,9 +60,11 @@
     private async Task Commit()
     {
         var result = await ClientPosService.CommitTransaction();
-
+        
         if (result is not null)
         {
+            await SalesItemService.Load();
+            
             var parameters = new DialogParameters<TransactionCompleteDialog>()
             {
                 {
