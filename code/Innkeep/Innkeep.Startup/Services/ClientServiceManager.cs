@@ -18,6 +18,7 @@ using Innkeep.Services.Client.Registers;
 using Innkeep.Services.Hardware;
 using Innkeep.Services.Interfaces;
 using Innkeep.Services.Interfaces.Hardware;
+using Innkeep.Services.Interfaces.Internal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

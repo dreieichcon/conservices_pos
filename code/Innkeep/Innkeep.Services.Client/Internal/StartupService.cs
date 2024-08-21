@@ -1,7 +1,7 @@
 ﻿using Innkeep.Db.Client.Models;
-using Innkeep.Services.Client.Interfaces.Internal;
 using Innkeep.Services.Client.Interfaces.Registers;
 using Innkeep.Services.Interfaces;
+using Innkeep.Services.Interfaces.Internal;
 
 namespace Innkeep.Services.Client.Internal;
 

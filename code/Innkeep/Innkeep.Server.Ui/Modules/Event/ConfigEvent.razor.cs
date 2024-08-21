@@ -2,6 +2,7 @@
 using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Db.Server.Models;
 using Innkeep.Services.Interfaces;
+using Innkeep.Services.Server.Interfaces.Pretix;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
@@ -17,6 +18,9 @@ public partial class ConfigEvent
 
 	[Inject]
 	public IPretixEventRepository PretixEventRepository { get; set; } = null!;
+
+	[Inject]
+	public IPretixSalesItemService PretixSalesItemService { get; set; } = null!;
 
 	private PretixOrganizer? _selectedOrganizer;
 	private PretixOrganizer? SelectedOrganizer
@@ -86,7 +90,11 @@ public partial class ConfigEvent
 		var result = await PretixConfigService.Save();
 
 		if (result)
+		{
 			Snackbar.Add("Saved Successfully", Severity.Success);
+			await PretixSalesItemService.Load();
+		}
+			
 
 		else
 			Snackbar.Add("Error while saving", Severity.Error);

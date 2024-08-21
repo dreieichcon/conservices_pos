@@ -9,7 +9,14 @@
             {
                 <MudText Color="Color.Secondary" Typo="Typo.body2">@Item.TaxRate %</MudText>
             }
-            
+            @if (!Item.Infinite)
+            {
+                <MudStack Spacing="0" Row="true" Class="p-0 m-0" AlignItems="AlignItems.Center">
+                    <MudProgressLinear Class="w-50" Max="Item.QuotaMax!.Value" Value="Item.QuotaSold!.Value" Color="GetColor()">
+                    </MudProgressLinear>
+                    <MudText Typo="Typo.body2" Class="pl-4">@Item.QuotaLeft / @Item.QuotaMax Available</MudText>
+                </MudStack>
+            }
         </MudStack>
         <MudDivider Vertical="true" FlexItem="true" Style="width: 2px; height: 100%"/>
         <MudStack Class="px-3" Spacing="0" Justify="Justify.Center" AlignItems="AlignItems.End" Style="width: 18%">
@@ -26,4 +33,9 @@
     
     [Parameter]
     public EventCallback OnClickCallback { get; set; }
+
+    public Color GetColor()
+    {
+        return Item.SoldOut ? Color.Error : Color.Primary;
+    }
 }

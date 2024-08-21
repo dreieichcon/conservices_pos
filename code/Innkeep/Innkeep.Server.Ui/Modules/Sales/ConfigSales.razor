@@ -1,4 +1,5 @@
 ﻿@page "/config/sales"
+@using Innkeep.Api.Models.Internal
 <ConfigPage PageTitle="Sales Items">
     <ChildContent>
         <MudStack Wrap="Wrap.Wrap">
@@ -14,6 +15,20 @@
                             <MudCardContent>
                                 <MudText>Price: @salesItem.Price @salesItem.Currency</MudText>
                                 <MudText>Tax: @salesItem.TaxRate %</MudText>
+                                <MudStack Class="pt-6">
+                                    @if (!salesItem.Infinite)
+                                    {
+                                        <MudProgressLinear Max="@salesItem.QuotaMax!.Value" Value="@salesItem.QuotaSold!.Value" Color="GetColor(salesItem)">
+                                            <MudText Class="mb-6">@salesItem.QuotaLeft / @salesItem.QuotaMax Available</MudText>
+                                        </MudProgressLinear>
+                                    }
+                                    else
+                                    {
+                                        <MudProgressLinear Max="1" Value="1" Color="Color.Success">
+                                            <MudText Class="mb-6">∞ Available</MudText>
+                                        </MudProgressLinear>
+                                    }
+                                </MudStack>
                             </MudCardContent>
                         </MudCard>
                     </MudItem>
@@ -22,12 +37,15 @@
         </MudStack>
     </ChildContent>
     <ActionBar>
-        <MudButton Variant="Variant.Outlined" Color="Color.Primary">Reload</MudButton>
+        <MudButton Variant="Variant.Outlined" Color="Color.Primary" @onclick="Reload">Reload</MudButton>
     </ActionBar>
 </ConfigPage>
 
 @code {
 
-    
+    private Color GetColor(DtoSalesItem item)
+    {
+        return item.SoldOut ? Color.Error : Color.Primary;
+    }
 
 }

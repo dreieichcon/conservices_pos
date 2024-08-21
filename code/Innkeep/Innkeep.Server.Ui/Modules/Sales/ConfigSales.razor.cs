@@ -15,4 +15,9 @@ public partial class ConfigSales
 	{
 		SalesItemService.SalesItemsUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
 	}
+
+	private async Task Reload()
+	{
+		await SalesItemService.Load();
+	}
 }

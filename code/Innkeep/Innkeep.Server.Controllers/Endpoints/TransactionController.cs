@@ -18,18 +18,21 @@ public class TransactionController : AbstractServerController
 	private readonly IFiskalyTransactionService _transactionService;
 	private readonly IPretixOrderService _orderService;
 	private readonly ITransactionService _transactionDbService;
+	private readonly IPretixSalesItemService _salesItemService;
 
 	public TransactionController(
 		IFiskalyTransactionService transactionService,
 		IPretixOrderService orderService,
 		IRegisterService registerService,
-		ITransactionService transactionDbService
+		ITransactionService transactionDbService,
+		IPretixSalesItemService salesItemService
 	) : base(registerService)
 	{
 		ThreadCultureHelper.SetInvariant();
 		_transactionService = transactionService;
 		_orderService = orderService;
 		_transactionDbService = transactionDbService;
+		_salesItemService = salesItemService;
 	}
 
 	[HttpPost]
@@ -46,6 +49,9 @@ public class TransactionController : AbstractServerController
 
 		if (pretixOrder is null)
 			return new StatusCodeResult(500);
+
+		if (transaction.SalesItems.Any(x => !x.Infinite)) 
+			await _salesItemService.LoadQuotas();
 
 		var fiskalyTransaction = await _transactionService.StartTransaction();
 

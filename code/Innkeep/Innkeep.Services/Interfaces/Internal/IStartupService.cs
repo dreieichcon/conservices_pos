@@ -1,4 +1,4 @@
-﻿namespace Innkeep.Services.Client.Interfaces.Internal;
+﻿namespace Innkeep.Services.Interfaces.Internal;
 
 public interface IStartupService
 {

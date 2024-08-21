@@ -44,6 +44,18 @@ public class PretixEndpointBuilder() : BaseEndpointBuilder("https://pretix.eu/ap
 		Endpoints.Add(pEvent.Slug);
 		return this;
 	}
+
+	public PretixEndpointBuilder WithQuotas()
+	{
+		Endpoints.Add("quotas");
+		return this;
+	}
+
+	public PretixEndpointBuilder WithAvailability()
+	{
+		Parameters.Add("with_availability", "true");
+		return this;
+	}
 	
 	public PretixEndpointBuilder WithSettings()
 	{
