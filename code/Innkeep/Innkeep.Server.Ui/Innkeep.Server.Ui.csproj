@@ -24,6 +24,7 @@
       <ProjectReference Include="..\Innkeep.Db.Server\Innkeep.Db.Server.csproj" />
       <ProjectReference Include="..\Innkeep.Services.Server\Innkeep.Services.Server.csproj" />
       <ProjectReference Include="..\Innkeep.Services\Innkeep.Services.csproj" />
+      <ProjectReference Include="..\Innkeep.Startup\Innkeep.Startup.csproj" />
     </ItemGroup>
 
 </Project>

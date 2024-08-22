@@ -2,6 +2,7 @@
 using Innkeep.Services.Interfaces.Db;
 using Innkeep.Services.Server.Interfaces.Pretix;
 using Innkeep.Services.Server.Interfaces.Registers;
+using Innkeep.Startup.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace Innkeep.Server.Startup;
@@ -21,8 +22,7 @@ public static class ServerServiceInitializer
 		if (transactionSettingsService.DbExists)
 		{
 			var factory = provider.GetRequiredService<IDbContextFactory<InnkeepTransactionContext>>();
-			var db = await factory.CreateDbContextAsync();
-			await db.Database.MigrateAsync();
+			DatabaseCreator.EnsureDbCreated(factory);
 		}
 	}
 }

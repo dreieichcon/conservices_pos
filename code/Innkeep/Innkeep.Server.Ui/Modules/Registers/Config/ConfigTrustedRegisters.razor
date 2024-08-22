@@ -23,7 +23,7 @@
                 <MudDataGrid Items="@RegisterService.PendingRegisters">
                     <Columns>
                         <PropertyColumn Property="x => x.RegisterIdentifier" Title="Identifier"/>
-                        <PropertyColumn Property="x => x.RegisterIdentifier" Title="Description"/>
+                        <PropertyColumn Property="x => x.RegisterDescription" Title="Description"/>
                         <TemplateColumn Title="Actions">
                             <CellTemplate>
                                 <MudButton @onclick="() => Trust(context.Item!.RegisterIdentifier)">Trust</MudButton>

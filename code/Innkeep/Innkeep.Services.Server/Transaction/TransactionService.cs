@@ -72,6 +72,7 @@ public class TransactionService(IDbRepository<TransactionModel> transactionRepos
 			TssId = fiskalyTransaction.TssId,
 			ClientId = fiskalyTransaction.ClientId,
 			EventId = pretixOrder.EventId,
+			OrderCode = pretixOrder.Code,
 			OrderSecret = pretixOrder.Secret,
 			AmountRequested = transaction.AmountNeeded,
 			AmountGiven = transaction.AmountGiven,
