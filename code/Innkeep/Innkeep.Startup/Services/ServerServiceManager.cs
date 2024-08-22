@@ -1,6 +1,7 @@
 ﻿using Innkeep.Api.Auth;
 using Innkeep.Api.Client.Interfaces;
 using Innkeep.Api.Client.Repositories.Print;
+using Innkeep.Api.Client.Repositories.Reload;
 using Innkeep.Api.Fiskaly.Interfaces.Auth;
 using Innkeep.Api.Fiskaly.Interfaces.Transaction;
 using Innkeep.Api.Fiskaly.Interfaces.Tss;
@@ -31,6 +32,7 @@ using Innkeep.Services.Server.Authentication;
 using Innkeep.Services.Server.Database;
 using Innkeep.Services.Server.Fiskaly;
 using Innkeep.Services.Server.Interfaces.Fiskaly;
+using Innkeep.Services.Server.Interfaces.Internal;
 using Innkeep.Services.Server.Interfaces.Pretix;
 using Innkeep.Services.Server.Interfaces.Registers;
 using Innkeep.Services.Server.Interfaces.Transaction;
@@ -59,6 +61,7 @@ public static class ServerServiceManager
 		if (isKestrel)
 			ConfigureControllers(collection);
 
+		collection.AddSingleton<IEventStateService, EventStateService>();
 		collection.AddSingleton<IStartupService, StartupService>();
 	}
 	
@@ -123,6 +126,7 @@ public static class ServerServiceManager
 		collection.AddSingleton<IFiskalyTransactionRepository, FiskalyTransactionRepository>();
 		
 		collection.AddSingleton<IClientPrintRepository, ClientPrintRepository>();
+		collection.AddSingleton<IClientReloadRepository, ClientReloadRepository>();
 	}
 
 	private static void ConfigureHttpServices(IServiceCollection collection)

@@ -1,11 +1,13 @@
-﻿using Innkeep.Db.Enum;
+﻿using Innkeep.Api.Client.Interfaces;
+using Innkeep.Db.Enum;
 using Innkeep.Db.Interfaces;
 using Innkeep.Db.Server.Models;
 using Innkeep.Services.Server.Interfaces.Registers;
 
 namespace Innkeep.Services.Server.Registers;
 
-public class RegisterService(IDbRepository<Register> registerRepository) : IRegisterService
+public class RegisterService(IDbRepository<Register> registerRepository, IClientReloadRepository reloadRepository)
+	: IRegisterService
 {
 	public event EventHandler? PendingRegisterAdded;
 
@@ -14,7 +16,7 @@ public class RegisterService(IDbRepository<Register> registerRepository) : IRegi
 	public List<Register> KnownRegisters { get; set; } = [];
 
 	public List<Register> PendingRegisters { get; set; } = [];
-	
+
 	public bool IsKnown(string registerIdentifier) =>
 		KnownRegisters.Any(x => x.RegisterIdentifier == registerIdentifier);
 
@@ -39,7 +41,7 @@ public class RegisterService(IDbRepository<Register> registerRepository) : IRegi
 				OperationType = Operation.Created,
 			}
 		);
-		
+
 		PendingRegisterAdded?.Invoke(this, EventArgs.Empty);
 	}
 
@@ -74,8 +76,29 @@ public class RegisterService(IDbRepository<Register> registerRepository) : IRegi
 		await Load();
 	}
 
+	public async Task ReloadConnected()
+	{
+		await Load();
+
+		foreach (var register in KnownRegisters.Where(x => !string.IsNullOrEmpty(x.RegisterIp)))
+		{
+			var address = await GetAddress(register.Id, false);
+			await reloadRepository.Reload(register.RegisterIdentifier, address);
+		}
+	}
+
 	private Register Retrieve(string identifier)
 	{
 		return KnownRegisters.First(x => x.RegisterIdentifier == identifier);
+	}
+
+	public async Task<string> GetAddress(string clientId, bool reload = true)
+	{
+		if (reload)
+			await Load();
+#if DEBUG
+		return "https://localhost:42069";
+# endif
+		return $"https://{KnownRegisters.First(x => x.Id == clientId).RegisterIp}:42069";
 	}
 }

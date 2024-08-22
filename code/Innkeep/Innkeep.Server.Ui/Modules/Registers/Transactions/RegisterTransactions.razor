@@ -2,16 +2,17 @@
 @using System.Globalization
 @using System.Text.Json
 @using Innkeep.Api.Client.Interfaces
-@using Innkeep.Api.Enum.Fiskaly.Transaction
 @using Innkeep.Api.Json
 @using Innkeep.Api.Models.Internal.Transaction
 @using Innkeep.Api.Models.Internal.Transfer
 @using Innkeep.Db.Server.Models.Transaction
+@using Innkeep.Services.Server.Interfaces.Registers
 @using Innkeep.Services.Server.Interfaces.Transaction
 
 @inject ITransactionService TransactionService;
 @inject NavigationManager NavManager;
 @inject IClientPrintRepository PrintRepository;
+@inject IRegisterService RegisterService;
 
 <ConfigPage PageTitle="Transactions">
     <ChildContent>
@@ -72,6 +73,8 @@
 
     private async Task Reprint(TransactionModel contextItem)
     {
+        var address = await RegisterService.GetAddress(RegisterId);
+        
         if (contextItem.ReceiptType == "TRANSACTION")
         {
             var receipt = JsonSerializer.Deserialize<TransactionReceipt>(
@@ -81,7 +84,7 @@
             receipt.BookingTime = contextItem.TransactionDate;
             receipt.Header += $"{Environment.NewLine}Belegkopie";
         
-            await PrintRepository.PrintReceipt(receipt!, RegisterId);
+            await PrintRepository.PrintReceipt(receipt, RegisterId, address);
         }
 
         if (contextItem.ReceiptType == "TRANSFER")
@@ -92,7 +95,7 @@
             
             receipt.BookingTime = contextItem.TransactionDate;
             
-            await PrintRepository.PrintReceipt(receipt!, RegisterId);
+            await PrintRepository.PrintReceipt(receipt, RegisterId, address);
         }
     }
 

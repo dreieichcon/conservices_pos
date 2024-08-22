@@ -5,7 +5,7 @@ namespace Innkeep.Api.Client.Interfaces;
 
 public interface IClientPrintRepository
 {
-	public Task<bool> PrintReceipt(TransactionReceipt receipt, string identifier);
+	public Task<bool> PrintReceipt(TransactionReceipt receipt, string identifier, string address);
 
-	public Task<bool> PrintReceipt(TransferReceipt receipt, string identifier);
+	public Task<bool> PrintReceipt(TransferReceipt receipt, string identifier, string address, string? currency = null);
 }

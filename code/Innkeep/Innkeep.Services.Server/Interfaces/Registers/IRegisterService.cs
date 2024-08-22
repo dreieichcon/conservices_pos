@@ -25,4 +25,8 @@ public interface IRegisterService
 	public Task AddToKnown(string registerIdentifier);
 
 	public Task Delete(string identifier);
+
+	public Task ReloadConnected();
+
+	public Task<string> GetAddress(string clientId, bool reload = true);
 }
