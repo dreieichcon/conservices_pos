@@ -14,4 +14,6 @@ public interface IPretixSalesItemService
 	public Task Load();
 
 	public Task LoadQuotas();
+
+	public Task ReloadTimer();
 }

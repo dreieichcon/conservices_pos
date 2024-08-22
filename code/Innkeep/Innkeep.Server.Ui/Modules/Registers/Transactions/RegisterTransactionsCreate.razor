@@ -4,13 +4,16 @@
 @using Innkeep.Api.Json
 @using Innkeep.Api.Models.Internal.Transfer
 @using Innkeep.Services.Server.Interfaces.Fiskaly
+@using Innkeep.Services.Server.Interfaces.Internal
+@using Innkeep.Services.Server.Interfaces.Registers
 @using Innkeep.Services.Server.Interfaces.Transaction
 
 @inject IFiskalyTransactionService TransactionService;
 @inject ITransactionService LocalTransactionService;
 @inject IClientPrintRepository ClientPrintRepository;
 @inject NavigationManager NavManager;
-@inject ISnackbar Snackbar;
+@inject IRegisterService RegisterService;
+@inject IEventStateService EventStateService;
 
 <ConfigPage PageTitle="Update Cash State">
     <ChildContent>
@@ -57,6 +60,7 @@
         
         var transaction = await TransactionService.StartTransaction();
         var receipt = await TransactionService.CompleteTransferTransaction(ClientTransfer);
+        receipt.Currency = EventStateService.EventCurrency;
 
         var jsonForStorage = JsonSerializer.Serialize(receipt, SerializerOptions.GetServerOptions());
 
@@ -64,7 +68,8 @@
 
         receipt.TransactionId = dbResult;
 
-        await ClientPrintRepository.PrintReceipt(receipt, RegisterId);
+        var address = await RegisterService.GetAddress(RegisterId);
+        await ClientPrintRepository.PrintReceipt(receipt, RegisterId, address);
 
         NavManager.NavigateTo($"/register/transactions/{RegisterId}");
     }

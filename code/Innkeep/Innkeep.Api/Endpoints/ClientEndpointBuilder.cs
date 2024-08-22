@@ -21,6 +21,18 @@ public class ClientEndpointBuilder(string baseUri) : BaseEndpointBuilder($"{base
 		Endpoints.Add("transfer");
 		return this;
 	}
+
+	public ClientEndpointBuilder WithClient()
+	{
+		Endpoints.Add("client");
+		return this;
+	}
+
+	public ClientEndpointBuilder Reload()
+	{
+		Endpoints.Add("reload");
+		return this;
+	}
 	
 	public ClientEndpointBuilder WithIdentifier(string identifier)
 	{
