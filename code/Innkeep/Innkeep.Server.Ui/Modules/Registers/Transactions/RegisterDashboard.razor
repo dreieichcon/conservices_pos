@@ -1,30 +1,38 @@
 ﻿@page "/register/dashboard"
+@using Innkeep.Services.Server.Interfaces.Internal
 @using Innkeep.Services.Server.Interfaces.Transaction
 @inject ITransactionService TransactionService;
 @inject ISnackbar Snackbar;
 @inject NavigationManager NavManager;
+@inject IEventStateService EventStateService;
 
 <ConfigPage PageTitle="Register Overview">
     <ChildContent>
-        <MudGrid>
-            @foreach (var cashState in CashStates)
-            {
-                <MudItem xs="4">
-                    <MudPaper Class="flex-grow-1 cursor-pointer" @onclick="() => Navigate(cashState)">
-                        <MudStack>
-                            <MudPaper Class="mud-theme-primary flex-grow-1 p-2">
-                                <MudText>@cashState.Key</MudText>
-                            </MudPaper>
-                            <MudStack Class="p-2" Row="true">
-                                <MudText>Register Cash State:</MudText>
-                                <MudText>@cashState.Value</MudText>
+        <MudStack Class="flex-grow-1">
+            <MudText>Pending Transactions: @TransactionService.PendingTransactions.Count</MudText>
+            <MudGrid>
+                @foreach (var cashState in CashStates)
+                {
+                    <MudItem xs="4">
+                        <MudPaper Class="flex-grow-1 cursor-pointer" @onclick="() => Navigate(cashState)">
+                            <MudStack>
+                                <MudPaper Class="mud-theme-primary flex-grow-1 p-2">
+                                    <MudText>@cashState.Key</MudText>
+                                </MudPaper>
+                                <MudStack Class="p-2" Row="true">
+                                    <MudText>Register Cash State:</MudText>
+                                    <MudText>@cashState.Value @EventStateService.EventCurrency</MudText>
+                                </MudStack>
                             </MudStack>
-                        </MudStack>
-                    </MudPaper>
-                </MudItem>
-            }
-        </MudGrid>
+                        </MudPaper>
+                    </MudItem>
+                }
+            </MudGrid>
+        </MudStack>
     </ChildContent>
+    <ActionBar>
+        <MudButton Variant="Variant.Outlined" Color="Color.Success">Try Save Pending</MudButton>
+    </ActionBar>
 </ConfigPage>
 
 @code {
@@ -49,6 +57,11 @@
     private void Navigate(KeyValuePair<string, decimal> cashState)
     {
         NavManager.NavigateTo($"/register/transactions/{cashState.Key}");
+    }
+
+    private async Task TrySave()
+    {
+        await TransactionService.SavePending();
     }
 
 }

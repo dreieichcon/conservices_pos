@@ -6,6 +6,7 @@
 @using Innkeep.Api.Models.Internal.Transaction
 @using Innkeep.Api.Models.Internal.Transfer
 @using Innkeep.Db.Server.Models.Transaction
+@using Innkeep.Services.Server.Interfaces.Internal
 @using Innkeep.Services.Server.Interfaces.Registers
 @using Innkeep.Services.Server.Interfaces.Transaction
 
@@ -13,6 +14,7 @@
 @inject NavigationManager NavManager;
 @inject IClientPrintRepository PrintRepository;
 @inject IRegisterService RegisterService;
+@inject IEventStateService EventStateService;
 
 <ConfigPage PageTitle="Transactions">
     <ChildContent>
@@ -34,7 +36,7 @@
                     <PropertyColumn Property="x => x.OrderSecret" Title="Order Secret"/>
                     <PropertyColumn Property="x => x.TotalChange" Title="Cash Change">
                         <CellTemplate>
-                            @context.Item.TotalChange.ToString("F2", CultureInfo.InvariantCulture) EUR
+                            @(context.Item.TotalChange.ToString("F2", CultureInfo.InvariantCulture) + " " + EventStateService.EventCurrency)
                         </CellTemplate>
                     </PropertyColumn>
                     <TemplateColumn Title="Actions">
@@ -62,7 +64,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        TransactionModels = await TransactionService.GetForRegister(RegisterId);
+        TransactionModels = (await TransactionService.GetForRegister(RegisterId)).OrderByDescending(x => x.TransactionDate);
         await InvokeAsync(StateHasChanged);
     }
 
