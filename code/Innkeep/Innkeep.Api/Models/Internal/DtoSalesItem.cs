@@ -58,7 +58,7 @@ public class DtoSalesItem
 			Price = pretixSalesItem.DefaultPrice,
 			TaxRate = pretixSalesItem.TaxRate,
 			Currency = pretixSalesItem.Currency,
-			PrintCheckinVoucher = !pretixSalesItem.Admission,
+			PrintCheckinVoucher = pretixSalesItem.InternalName?.StartsWith("print") ?? false,
 		};
 	}
 }

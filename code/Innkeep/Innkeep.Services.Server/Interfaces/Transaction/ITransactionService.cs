@@ -8,11 +8,15 @@ namespace Innkeep.Services.Server.Interfaces.Transaction;
 
 public interface ITransactionService
 {
+	public IList<TransactionModel> PendingTransactions { get; set; }
+	
 	public Task<IEnumerable<TransactionModel>> GetAll();
 
 	public Task<IEnumerable<TransactionModel>> GetForRegister(string identifier);
 
 	public Task<Dictionary<string, decimal>> GetAllCashStates();
+
+	public Task SavePending();
 
 	public Task<TransactionModel?> CreateFromOrder(
 		PretixOrderResponse pretixOrder,

@@ -7,11 +7,14 @@ using Innkeep.Db.Enum;
 using Innkeep.Db.Interfaces;
 using Innkeep.Db.Server.Models.Transaction;
 using Innkeep.Services.Server.Interfaces.Transaction;
+using Serilog;
 
 namespace Innkeep.Services.Server.Transaction;
 
 public class TransactionService(IDbRepository<TransactionModel> transactionRepository) : ITransactionService
 {
+	public IList<TransactionModel> PendingTransactions { get; set; } = [];
+	
 	public async Task<IEnumerable<TransactionModel>> GetAll()
 	{
 		return await transactionRepository.GetAllAsync();
@@ -31,6 +34,25 @@ public class TransactionService(IDbRepository<TransactionModel> transactionRepos
 				.ToDictionary(group => group.Key, group => group.Sum(x => x.TotalChange));
 		
 		return t;
+	}
+
+	public async Task SavePending()
+	{
+		var newPending = new List<TransactionModel>();
+		
+		foreach (var transaction in PendingTransactions)
+		{
+			try
+			{
+				await transactionRepository.CrudAsync(transaction);
+			}
+			catch
+			{
+				newPending.Add(transaction);
+			}
+		}
+		
+		PendingTransactions = newPending;
 	}
 
 	public async Task<TransactionModel?> CreateFromOrder(
@@ -56,10 +78,23 @@ public class TransactionService(IDbRepository<TransactionModel> transactionRepos
 			AmountBack = transaction.AmountBack,
 			ReceiptJson = receiptJson,
 		};
-		
-		var result = await transactionRepository.CrudAsync(model);
 
-		return result.Success ? result.Item : null;
+		try
+		{
+			var result = await transactionRepository.CrudAsync(model);
+
+			if (!result.Success)
+				PendingTransactions.Add(model);
+
+			return result.Success ? result.Item : null;
+		}
+		catch (Exception ex)
+		{
+			Log.Error(ex, "Failed to create transaction");
+
+			return null;
+		}
+		
 	}
 
 	public async Task<string?> CreateFromTransfer(
