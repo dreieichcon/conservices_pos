@@ -10,8 +10,10 @@ public static class ServerServiceInitializer
 {
 	public static async Task InitializeServices(IServiceProvider provider)
 	{
-		provider.GetRequiredService<IPretixSalesItemService>();
+		var salesItemService = provider.GetRequiredService<IPretixSalesItemService>();
 		await provider.GetRequiredService<IRegisterService>().Load();
+
+		await Task.Run(async () => await salesItemService.ReloadTimer());
 
 		var transactionSettingsService = provider.GetRequiredService<ITransactionDbSettingsService>();
 		transactionSettingsService.LoadSettings();

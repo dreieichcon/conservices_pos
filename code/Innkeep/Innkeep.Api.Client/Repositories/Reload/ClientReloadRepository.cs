@@ -10,7 +10,7 @@ public class ClientReloadRepository : AbstractClientRepository, IClientReloadRep
 	{
 		var uri = new ClientEndpointBuilder(address).WithClient().Reload().WithIdentifier(identifier).Build();
 
-		var result = await Get(uri);
+		var result = await Post(uri, "{}");
 
 		return result.IsSuccess;
 	}

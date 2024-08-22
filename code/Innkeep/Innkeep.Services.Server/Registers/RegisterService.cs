@@ -2,6 +2,7 @@
 using Innkeep.Db.Enum;
 using Innkeep.Db.Interfaces;
 using Innkeep.Db.Server.Models;
+using Innkeep.Db.Server.Models.Server;
 using Innkeep.Services.Server.Interfaces.Registers;
 
 namespace Innkeep.Services.Server.Registers;
@@ -24,7 +25,7 @@ public class RegisterService(IDbRepository<Register> registerRepository, IClient
 	{
 		var register = KnownRegisters.First(x => x.RegisterIdentifier == registerIdentifier);
 		register.RegisterDescription = registerDescription;
-		register.RegisterIp = registerIp;
+		register.LastHostname = registerIp;
 		register.OperationType = Operation.Updated;
 
 		await Save();
@@ -78,9 +79,7 @@ public class RegisterService(IDbRepository<Register> registerRepository, IClient
 
 	public async Task ReloadConnected()
 	{
-		await Load();
-
-		foreach (var register in KnownRegisters.Where(x => !string.IsNullOrEmpty(x.RegisterIp)))
+		foreach (var register in KnownRegisters.Where(x => !string.IsNullOrEmpty(x.LastHostname)))
 		{
 			var address = await GetAddress(register.Id, false);
 			await reloadRepository.Reload(register.RegisterIdentifier, address);
@@ -94,11 +93,10 @@ public class RegisterService(IDbRepository<Register> registerRepository, IClient
 
 	public async Task<string> GetAddress(string clientId, bool reload = true)
 	{
-		if (reload)
-			await Load();
+		
 #if DEBUG
 		return "https://localhost:42069";
 # endif
-		return $"https://{KnownRegisters.First(x => x.Id == clientId).RegisterIp}:42069";
+		return $"https://{KnownRegisters.First(x => x.Id == clientId).LastHostname}:42069";
 	}
 }

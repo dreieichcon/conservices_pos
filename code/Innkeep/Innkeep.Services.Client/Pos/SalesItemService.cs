@@ -25,6 +25,7 @@ public class SalesItemService : ISalesItemService
 	public async Task Load()
 	{
 		SalesItems = (await _salesItemRepository.GetSalesItems()).ToList();
+		_router.SalesItemsReloaded();
 		ItemsUpdated?.Invoke(this, EventArgs.Empty);
 	}
 }

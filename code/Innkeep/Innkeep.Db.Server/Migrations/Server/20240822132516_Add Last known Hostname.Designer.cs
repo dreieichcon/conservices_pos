@@ -3,16 +3,19 @@ using System;
 using Innkeep.Db.Server.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Innkeep.Server.Db.Migrations.Server
+namespace Innkeep.Db.Server.Migrations.Server
 {
     [DbContext(typeof(InnkeepServerContext))]
-    partial class InnkeepServerContextModelSnapshot : ModelSnapshot
+    [Migration("20240822132516_Add Last known Hostname")]
+    partial class AddLastknownHostname
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
