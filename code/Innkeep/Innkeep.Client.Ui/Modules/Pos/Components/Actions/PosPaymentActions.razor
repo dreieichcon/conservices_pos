@@ -1,4 +1,5 @@
-﻿@using Innkeep.Client.Ui.Modules.Pos.Components.Dialog
+﻿@using Innkeep.Api.Models.Internal.Transaction
+@using Innkeep.Client.Ui.Modules.Pos.Components.Dialog
 @using Innkeep.Db.Client.Models
 @using Innkeep.Services.Client.Interfaces.Hardware
 @using Innkeep.Services.Client.Interfaces.Pos
@@ -76,18 +77,26 @@
             {
                 ClassBackground = "backdrop-blur",
             };
+            
+            if (result.ReceiptVouchers.Any())
+                PrintReceipt(result);
 
             var dialog = await DialogService.ShowAsync<TransactionCompleteDialog>("", parameters, options);
             var dialogResult = await dialog.Result;
 
-            if (!dialogResult.Canceled)
+            if (!dialogResult.Canceled && result.ReceiptVouchers.Count == 0)
             {
-                var printer = ClientConfigService.CurrentItem!.PrinterName;
-                PrinterService.PrintReceipt(printer, result);
+                PrintReceipt(result);
             }
                 
             ClearTransaction();
         }
+    }
+
+    private void PrintReceipt(TransactionReceipt result)
+    {
+        var printer = ClientConfigService.CurrentItem!.PrinterName;
+        PrinterService.PrintReceipt(printer, result);
     }
 
     private void ClearTransaction()

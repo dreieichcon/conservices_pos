@@ -7,6 +7,7 @@ public class DtoSalesItem
 {
 	public int Id { get; set; }
 	
+	#region Pricing
 	public required string Name { get; set; }
 	
 	public required decimal Price { get; set; }
@@ -27,6 +28,9 @@ public class DtoSalesItem
 	[JsonIgnore]
 	public decimal TotalTax => TaxAmount * CartCount;
 	
+	#endregion
+	
+	#region Quota
 	public int CartCount { get; set; }
 	
 	public int? QuotaMax { get; set; }
@@ -40,6 +44,10 @@ public class DtoSalesItem
 
 	[JsonIgnore]
 	public bool Infinite => QuotaLeft == null;
+	
+	#endregion
+	
+	public bool PrintCheckinVoucher { get; set; }
 
 	public static DtoSalesItem FromPretix(PretixSalesItem pretixSalesItem)
 	{
@@ -50,6 +58,7 @@ public class DtoSalesItem
 			Price = pretixSalesItem.DefaultPrice,
 			TaxRate = pretixSalesItem.TaxRate,
 			Currency = pretixSalesItem.Currency,
+			PrintCheckinVoucher = !pretixSalesItem.Admission,
 		};
 	}
 }

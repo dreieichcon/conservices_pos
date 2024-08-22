@@ -36,7 +36,8 @@ public class PrinterService : IPrinterService
 					.AddTransactionInfo(receipt)
 					.AddDashedLine()
 					.AddQrCode(receipt.QrCode)
-					.Cut();
+					.Cut()
+					.AddVouchers(receipt);
 		
 		manager.Print();
 	}

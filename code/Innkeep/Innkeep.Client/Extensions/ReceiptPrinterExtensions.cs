@@ -94,6 +94,28 @@ public static class ReceiptPrinterExtensions
 		return manager;
 	}
 
+	public static DocumentManager AddVouchers(this DocumentManager manager, TransactionReceipt receipt)
+	{
+		var i = 1;
+		
+		foreach (var voucher in receipt.ReceiptVouchers)
+		{
+			manager.AddTitle(receipt.Title);
+			manager.AddEmptyLine();
+			manager.AddLine(voucher.ItemName);
+			manager.AddEmptyLine();
+			manager.AddLine(SpaceEvenlyAcross("Id:", receipt.TransactionId));
+			manager.AddEmptyLine();
+			manager.AddQrCode(voucher.Secret, QRCodeModel.Model2, QRCodeSize.Large);
+			manager.AddLine(SpaceEvenlyAcross("", $"{i}/{receipt.ReceiptVouchers.Count}"));
+			manager.AddEmptyLine();
+			manager.Cut();
+			i++;
+		}
+
+		return manager;
+	}
+
 	private static string SpaceEvenlyAcross(params string[] strings)
 	{
 		var totalLength = strings.Sum(x => x.Length);
