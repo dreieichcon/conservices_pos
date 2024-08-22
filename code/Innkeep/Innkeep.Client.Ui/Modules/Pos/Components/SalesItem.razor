@@ -4,7 +4,7 @@
 <MudPaper Class="flex-grow-1 m-1 no-highlight" Style="max-height: 15% !important" @onclick="OnClickCallback" Elevation="0">
     <MudStack Row="true" Class="h-100">
         <MudStack Class="p-2 h-100" Style="width: 75% !important;" Spacing="0" Justify="Justify.Center">
-            <MudText>@Item.Name</MudText>
+            <MudText Color="GetTextColor()">@Item.Name</MudText>
             @if (Item.TaxRate > 0)
             {
                 <MudText Color="Color.Secondary" Typo="Typo.body2">@Item.TaxRate %</MudText>
@@ -20,8 +20,8 @@
         </MudStack>
         <MudDivider Vertical="true" FlexItem="true" Style="width: 2px; height: 100%"/>
         <MudStack Class="px-3" Spacing="0" Justify="Justify.Center" AlignItems="AlignItems.End" Style="width: 18%">
-            <MudText Color="Color.Primary" Typo="Typo.h6">@Item.PriceWithTax.ToString("F2", CultureInfo.InvariantCulture)</MudText>
-            <MudText Color="Color.Primary" Typo="Typo.h6">@Item.Currency</MudText>
+            <MudText Color="GetPriceColor()" Typo="Typo.h6">@Item.PriceWithTax.ToString("F2", CultureInfo.InvariantCulture)</MudText>
+            <MudText Color="GetPriceColor()" Typo="Typo.h6">@Item.Currency</MudText>
         </MudStack>
     </MudStack>
 </MudPaper>
@@ -36,6 +36,17 @@
 
     public Color GetColor()
     {
-        return Item.SoldOut ? Color.Error : Color.Primary;
+        return Item.SoldOut || Item.QuotaLeft == 0 ? Color.Error : Color.Primary;
     }
+
+    private Color GetTextColor()
+    {
+        return Item.SoldOut || Item.QuotaLeft == 0 ? Color.Error : Color.Dark;
+    }
+
+    private Color GetPriceColor()
+    {
+        return Item.SoldOut || Item.QuotaLeft == 0 ? Color.Error : Color.Primary;
+    }
+    
 }

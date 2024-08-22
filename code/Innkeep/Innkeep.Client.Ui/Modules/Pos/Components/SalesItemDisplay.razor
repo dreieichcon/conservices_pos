@@ -25,7 +25,17 @@
 
     private void AddToCart(DtoSalesItem item)
     {
-        if (!item.SoldOut)
+        if (CanAddToCart(item))
             ClientPosService.AddToCart(item);
+    }
+
+    private bool CanAddToCart(DtoSalesItem item)
+    {
+        if (item.Infinite)
+            return true;
+        
+        var countInCart = ClientPosService.CartItems.FirstOrDefault(x => x.Id == item.Id)?.CartCount ?? 0;
+
+        return !item.SoldOut && countInCart < item.QuotaLeft;
     }
 }

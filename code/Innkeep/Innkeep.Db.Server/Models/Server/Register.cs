@@ -1,14 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 using Innkeep.Db.Models;
 
-namespace Innkeep.Db.Server.Models;
+namespace Innkeep.Db.Server.Models.Server;
 
 public class Register : AbstractDbItem
 {
-	public string RegisterIdentifier { get; set; }
+	[MaxLength(255)]
+	public string RegisterIdentifier { get; set; } = "";
 	
-	public string RegisterDescription { get; set; }
+	[MaxLength(255)]
+	public string RegisterDescription { get; set; } = "";
 	
-	[NotMapped]
-	public string RegisterIp { get; set; }
+	[MaxLength(255)]
+	public string LastHostname { get; set; } = "";
 }

@@ -18,6 +18,7 @@ using Innkeep.Api.Pretix.Repositories.Sales;
 using Innkeep.Db.Interfaces;
 using Innkeep.Db.Server.Context;
 using Innkeep.Db.Server.Models;
+using Innkeep.Db.Server.Models.Server;
 using Innkeep.Db.Server.Models.Transaction;
 using Innkeep.Db.Server.Repositories.Config;
 using Innkeep.Db.Server.Repositories.Registers;

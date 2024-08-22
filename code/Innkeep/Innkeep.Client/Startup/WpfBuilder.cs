@@ -9,6 +9,10 @@ public static class WpfBuilder
 	{
 		collection.AddWpfBlazorWebView();
 		collection.AddBlazorWebViewDeveloperTools();
-		collection.AddMudServices();
+		collection.AddMudServices(
+			options =>
+			{
+				options.SnackbarConfiguration.VisibleStateDuration = 2000;
+			});
 	}
 }
