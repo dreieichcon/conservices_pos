@@ -75,7 +75,7 @@
     {
         var address = await RegisterService.GetAddress(RegisterId);
         
-        if (contextItem.ReceiptType == "TRANSACTION")
+        if (contextItem.ReceiptType == "RECEIPT")
         {
             var receipt = JsonSerializer.Deserialize<TransactionReceipt>(
                 contextItem.ReceiptJson, 

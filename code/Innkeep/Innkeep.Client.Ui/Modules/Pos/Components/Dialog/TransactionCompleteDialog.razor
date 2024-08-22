@@ -1,5 +1,4 @@
-﻿@using Innkeep.Api.Models.Internal
-@using Innkeep.Api.Models.Internal.Transaction
+﻿@using Innkeep.Api.Models.Internal.Transaction
 <MudDialog Style="height: 65vh; width: 55vw;">
     <DialogContent>
         <MudStack Style="height: 40vh; width: 40vw;" Justify="Justify.SpaceEvenly">
@@ -22,9 +21,12 @@
             <MudButton Style="height: 15vh; width: 15vh;" Color="Color.Error" Variant="Variant.Outlined" OnClick="CloseWithoutPrinting">
                 <MudText Typo="Typo.h5">Close</MudText>
             </MudButton>
-            <MudButton Style="height: 15vh; width: 15vh;" Color="Color.Success" Variant="Variant.Outlined" OnClick="CloseAndPrint">
-                <MudText Typo="Typo.h5">Receipt</MudText>
-            </MudButton>
+            @if (Receipt.ReceiptVouchers.Count == 0)
+            {
+                <MudButton Style="height: 15vh; width: 15vh;" Color="Color.Success" Variant="Variant.Outlined" OnClick="CloseAndPrint">
+                    <MudText Typo="Typo.h5">Receipt</MudText>
+                </MudButton>
+            }
         </MudStack>
     </DialogActions>
 </MudDialog>

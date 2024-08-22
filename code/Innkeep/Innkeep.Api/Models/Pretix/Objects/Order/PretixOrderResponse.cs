@@ -18,5 +18,8 @@ public class PretixOrderResponse
 	
 	[JsonIgnore]
 	public string EventTitle { get; set; }
+	
+	[JsonPropertyName("positions")]
+	public List<PretixOrderResponsePosition> OrderPositions { get; set; }
 
 }

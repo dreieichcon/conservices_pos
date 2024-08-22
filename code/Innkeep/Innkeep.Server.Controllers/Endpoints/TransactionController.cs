@@ -1,7 +1,8 @@
 ﻿using System.Text.Json;
 using Innkeep.Api.Json;
-using Innkeep.Api.Models.Internal;
+
 using Innkeep.Api.Models.Internal.Transaction;
+using Innkeep.Api.Models.Pretix.Objects.Order;
 using Innkeep.Resources;
 using Innkeep.Server.Controllers.Abstract;
 using Innkeep.Services.Server.Interfaces.Fiskaly;
@@ -52,7 +53,7 @@ public class TransactionController : AbstractServerController
 
 		if (transaction.SalesItems.Any(x => !x.Infinite)) 
 			await _salesItemService.LoadQuotas();
-
+		
 		var fiskalyTransaction = await _transactionService.StartTransaction();
 
 		if (fiskalyTransaction is null)
@@ -63,6 +64,8 @@ public class TransactionController : AbstractServerController
 		receipt.Title = pretixOrder.EventTitle;
 		receipt.Header = pretixOrder.ReceiptHeader;
 		receipt.Currency = transaction.SalesItems.First().Currency;
+
+		receipt.ReceiptVouchers = GenerateVouchers(pretixOrder, transaction);
 		
 		var json = JsonSerializer.Serialize(
 			receipt,
@@ -77,5 +80,26 @@ public class TransactionController : AbstractServerController
 		var newJson = JsonSerializer.Serialize(receipt, SerializerOptions.GetServerOptions());
 		
 		return new OkObjectResult(newJson);
+	}
+
+	private static List<ReceiptVoucher> GenerateVouchers(PretixOrderResponse pretixOrder, ClientTransaction transaction)
+	{
+		var lst = new List<ReceiptVoucher>();
+
+		foreach (var position in pretixOrder.OrderPositions)
+		{
+			var existingSalesItem = transaction.SalesItems.First(x => x.Id == position.Item);
+
+			if (existingSalesItem.PrintCheckinVoucher)
+			{
+				lst.Add(new ReceiptVoucher()
+				{
+					ItemName = existingSalesItem.Name,
+					Secret = position.Secret,
+				});
+			}
+		}
+
+		return lst;
 	}
 }

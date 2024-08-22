@@ -10,7 +10,14 @@
                     <MudItem xs="4">
                         <MudCard Class="p-1">
                             <MudCardHeader>
-                                <MudText>@salesItem.Name</MudText>
+                                <MudStack Row="true" Class="w-100" Justify="Justify.SpaceBetween">
+                                    <MudText>@salesItem.Name</MudText>
+                                    @if (salesItem.PrintCheckinVoucher)
+                                    {
+                                        <MudIcon Icon="@Icons.Material.Filled.Print"></MudIcon>
+                                    }
+                                </MudStack>
+                                
                             </MudCardHeader>
                             <MudCardContent>
                                 <MudText>Price: @salesItem.Price @salesItem.Currency</MudText>

@@ -17,8 +17,10 @@ public class TransactionReceipt
 	public List<ReceiptLine> Lines { get; set; } = [];
 	
 	public ReceiptSum Sum { get; set; }
-	
-	public List<ReceiptTaxInformation> TaxInformation { get; set; }
+
+	public List<ReceiptTaxInformation> TaxInformation { get; set; } = [];
 
 	public string QrCode { get; set; } = "";
+
+	public List<ReceiptVoucher> ReceiptVouchers { get; set; } = [];
 }
