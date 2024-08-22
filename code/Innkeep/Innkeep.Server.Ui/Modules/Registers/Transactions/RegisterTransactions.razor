@@ -31,9 +31,10 @@
             </MudPaper>
             <MudDataGrid T="TransactionModel" Dense="true" Items="@TransactionModels" RowsPerPage="15">
                 <Columns>
-                    <PropertyColumn Property="x => x.TransactionDate" Title="Transaction Date"/>
-                    <PropertyColumn Property="x => x.ReceiptType" Title="Type"/>
-                    <PropertyColumn Property="x => x.OrderSecret" Title="Order Secret"/>
+                    <PropertyColumn Property="x => x.TransactionDate" Title="Transaction Date" Filterable="true"/>
+                    <PropertyColumn Property="x => x.Id" Title="Transaction Id" Filterable="true"/>
+                    <PropertyColumn Property="x => x.ReceiptType" Title="Type" Filterable="true"/>
+                    <PropertyColumn Property="x => x.OrderCode" Title="Order Code" Filterable="true"/>
                     <PropertyColumn Property="x => x.TotalChange" Title="Cash Change">
                         <CellTemplate>
                             @(context.Item.TotalChange.ToString("F2", CultureInfo.InvariantCulture) + " " + EventStateService.EventCurrency)

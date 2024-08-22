@@ -1,27 +1,37 @@
 ﻿@page "/register/dashboard"
 @using Innkeep.Services.Server.Interfaces.Internal
+@using Innkeep.Services.Server.Interfaces.Registers
 @using Innkeep.Services.Server.Interfaces.Transaction
+@using Serilog
 @inject ITransactionService TransactionService;
 @inject ISnackbar Snackbar;
 @inject NavigationManager NavManager;
 @inject IEventStateService EventStateService;
+@inject IRegisterService RegisterService;
 
 <ConfigPage PageTitle="Register Overview">
     <ChildContent>
         <MudStack Class="flex-grow-1">
             <MudText>Pending Transactions: @TransactionService.PendingTransactions.Count</MudText>
             <MudGrid>
-                @foreach (var cashState in CashStates)
+                @foreach (var register in RegisterService.KnownRegisters)
                 {
                     <MudItem xs="4">
-                        <MudPaper Class="flex-grow-1 cursor-pointer" @onclick="() => Navigate(cashState)">
+                        <MudPaper Class="flex-grow-1 cursor-pointer" @onclick="() => Navigate(register.RegisterIdentifier)">
                             <MudStack>
                                 <MudPaper Class="mud-theme-primary flex-grow-1 p-2">
-                                    <MudText>@cashState.Key</MudText>
+                                    <MudText>@register.RegisterIdentifier @register.RegisterDescription</MudText>
                                 </MudPaper>
                                 <MudStack Class="p-2" Row="true">
                                     <MudText>Register Cash State:</MudText>
-                                    <MudText>@cashState.Value @EventStateService.EventCurrency</MudText>
+                                    @if (CashStates.TryGetValue(register.RegisterIdentifier, out var value))
+                                    {
+                                        <MudText>@value @EventStateService.EventCurrency</MudText>
+                                    }
+                                    else
+                                    {
+                                        <MudText>No Transactions</MudText>
+                                    }
                                 </MudStack>
                             </MudStack>
                         </MudPaper>
@@ -46,17 +56,18 @@
             var cashStates = await TransactionService.GetAllCashStates();
             CashStates = cashStates;
         }
-        catch
+        catch (Exception ex)
         {
+            Log.Error(ex, "Error while fetching transaction data");
             Snackbar.Add("Please configure a Transaction Database first.", Severity.Error);
         }
 
         await InvokeAsync(StateHasChanged);
     }
 
-    private void Navigate(KeyValuePair<string, decimal> cashState)
+    private void Navigate(string registerIdentifier)
     {
-        NavManager.NavigateTo($"/register/transactions/{cashState.Key}");
+        NavManager.NavigateTo($"/register/transactions/{registerIdentifier}");
     }
 
     private async Task TrySave()

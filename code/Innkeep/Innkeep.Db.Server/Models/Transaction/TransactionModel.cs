@@ -22,6 +22,9 @@ public class TransactionModel : AbstractDbItem
 
 	[MaxLength(40)]
 	public string OrderSecret { get; set; } = "";
+	
+	[MaxLength(40)]
+	public string OrderCode { get; set; } = "";
 
 	[MaxLength(40)]
 	public string RegisterId { get; set; } = "";
