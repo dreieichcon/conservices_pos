@@ -1,6 +1,5 @@
 ﻿using System.Text.Json.Serialization;
 using Innkeep.Api.Models.Pretix.Core;
-using Innkeep.Core.Utilities;
 
 namespace Innkeep.Api.Models.Pretix.Objects.General;
 
@@ -41,9 +40,4 @@ public class PretixEvent
     
     [JsonPropertyName("sales_channels")]
     public required IEnumerable<string> SalesChannels { get; set; }
-
-    public override string ToString()
-    {
-        return ClassDebugger.CreateDebugString(this);
-    }
 }

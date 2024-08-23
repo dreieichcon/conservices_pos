@@ -1,4 +1,6 @@
 ﻿@page "/register/dashboard"
+@using System.Text.Json
+@using Innkeep.Api.Json
 @using Innkeep.Services.Server.Interfaces.Internal
 @using Innkeep.Services.Server.Interfaces.Registers
 @using Innkeep.Services.Server.Interfaces.Transaction
@@ -41,7 +43,8 @@
         </MudStack>
     </ChildContent>
     <ActionBar>
-        <MudButton Variant="Variant.Outlined" Color="Color.Success">Try Save Pending</MudButton>
+        <MudButton Variant="Variant.Outlined" Color="Color.Success" @onclick="TrySave">Try Save Pending</MudButton>
+        <MudButton Variant="Variant.Outlined" Color="Color.Success" @onclick="Export">Export All</MudButton>
     </ActionBar>
 </ConfigPage>
 
@@ -73,6 +76,24 @@
     private async Task TrySave()
     {
         await TransactionService.SavePending();
+    }
+
+    private async Task Export()
+    {
+        var items = await TransactionService.GetAll();
+		
+        var outputFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "InnkeepExport");
+
+        if (!Directory.Exists(outputFolder))
+            Directory.CreateDirectory(outputFolder);
+
+        var outputPath = Path.Combine(outputFolder, DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".json");
+        
+        var json = JsonSerializer.Serialize(items, SerializerOptions.GetServerOptions());
+        
+        await File.WriteAllTextAsync(outputPath, json);
+
+        Snackbar.Add("Transactions Exported to Desktop", Severity.Success);
     }
 
 }
