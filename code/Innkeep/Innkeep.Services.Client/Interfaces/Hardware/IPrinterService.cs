@@ -12,4 +12,6 @@ public interface IPrinterService
 	public void PrintReceipt(string printerName, TransactionReceipt receipt);
 
 	public void PrintReceipt(string printerName, TransferReceipt receipt);
+
+	void OpenDrawer(string printerName);
 }

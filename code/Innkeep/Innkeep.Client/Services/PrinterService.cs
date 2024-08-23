@@ -59,6 +59,12 @@ public class PrinterService : IPrinterService
 		manager.Print();
 	}
 
+	public void OpenDrawer(string printerName)
+	{
+		var manager = new DocumentManager(printerName);
+		manager.Drawer();
+	}
+
 	public List<string> PrinterNames { get; set; } = RegistryHelper.GetInstalledPrinterNames().ToList();
 
 }

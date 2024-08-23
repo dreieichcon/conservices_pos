@@ -1,32 +1,34 @@
 ﻿@using Innkeep.Api.Models.Internal.Transaction
-<MudDialog Style="height: 65vh; width: 55vw;">
+<MudDialog>
     <DialogContent>
-        <MudStack Style="height: 40vh; width: 40vw;" Justify="Justify.SpaceEvenly">
+        <MudStack Class="flex-grow-1 p-5" Justify="Justify.SpaceEvenly" Spacing="4">
             <MudStack Row="true" Justify="Justify.SpaceBetween">
-                <MudText Typo="Typo.h3">Total</MudText>
-                <MudText Typo="Typo.h3">@Receipt.Sum.TotalAmountString @Receipt.Currency</MudText>
+                <MudText Typo="Typo.h1" Class="fw-bold">Total</MudText>
+                <MudText Typo="Typo.h1" Class="fw-bold">@Receipt.Sum.TotalAmountString @Receipt.Currency</MudText>
             </MudStack>
             <MudStack Row="true" Justify="Justify.SpaceBetween">
-                <MudText Typo="Typo.h3">Given</MudText>
-                <MudText Typo="Typo.h3">@Receipt.Sum.AmountGivenString @Receipt.Currency</MudText>
+                <MudText Typo="Typo.h1" Class="fw-bold">Given</MudText>
+                <MudText Typo="Typo.h1" Class="fw-bold">@Receipt.Sum.AmountGivenString @Receipt.Currency</MudText>
             </MudStack>
             <MudStack Row="true" Justify="Justify.SpaceBetween">
-                <MudText Typo="Typo.h3">Back</MudText>
-                <MudText Typo="Typo.h3">@Receipt.Sum.AmountReturnedString @Receipt.Currency</MudText>
+                <MudText Typo="Typo.h1" Class="fw-bold">Back</MudText>
+                <MudText Typo="Typo.h1" Class="fw-bold">@Receipt.Sum.AmountReturnedString @Receipt.Currency</MudText>
             </MudStack>
         </MudStack>
     </DialogContent>
     <DialogActions>
-        <MudStack Row="true" Justify="Justify.SpaceEvenly" Class="w-100">
-            <MudButton Style="height: 15vh; width: 15vh;" Color="Color.Error" Variant="Variant.Outlined" OnClick="CloseWithoutPrinting">
-                <MudText Typo="Typo.h5">Close</MudText>
-            </MudButton>
-            @if (Receipt.ReceiptVouchers.Count == 0)
-            {
-                <MudButton Style="height: 15vh; width: 15vh;" Color="Color.Success" Variant="Variant.Outlined" OnClick="CloseAndPrint">
-                    <MudText Typo="Typo.h5">Receipt</MudText>
+        <MudStack Class="flex-grow-1 p-5">
+            <MudStack Class="flex-grow-1" Row="true" Justify="Justify.SpaceEvenly">
+                @if (Receipt.ReceiptVouchers.Count == 0)
+                {
+                    <MudButton Style="width: 30vw; height: 15vh" Color="Color.Success" Variant="Variant.Filled" OnClick="CloseAndPrint">
+                        <MudText Typo="Typo.h5">Receipt</MudText>
+                    </MudButton>
+                }
+                <MudButton Style="width: 30vw" Color="Color.Error" Variant="Variant.Filled" OnClick="CloseWithoutPrinting">
+                    <MudText Typo="Typo.h5">Close</MudText>
                 </MudButton>
-            }
+            </MudStack>
         </MudStack>
     </DialogActions>
 </MudDialog>
@@ -35,10 +37,10 @@
 
     [CascadingParameter]
     public required MudDialogInstance DialogInstance { get; set; }
-    
+
     [Parameter]
     public required TransactionReceipt Receipt { get; set; }
-    
+
     public void CloseAndPrint()
     {
         DialogInstance.Close(DialogResult.Ok(true));
