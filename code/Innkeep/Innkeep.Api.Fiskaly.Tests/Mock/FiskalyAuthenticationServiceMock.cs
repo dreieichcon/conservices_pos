@@ -52,4 +52,8 @@ public class FiskalyAuthenticationServiceMock : IFiskalyAuthenticationService
 	public Task CreateTseConfig(string tseId) => throw new NotImplementedException();
 
 	public Task<bool> SaveTseConfig() => throw new NotImplementedException();
+
+	public Task<IEnumerable<FiskalyTseConfig>> GetAll() => throw new NotImplementedException();
+
+	public Task<bool> Import(FiskalyTseConfig? imported) => throw new NotImplementedException();
 }

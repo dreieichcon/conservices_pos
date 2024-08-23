@@ -16,17 +16,29 @@ class Build : NukeBuild
     ///   - Microsoft VisualStudio     https://nuke.build/visualstudio
     ///   - Microsoft VSCode           https://nuke.build/vscode
 
-    [Solution] readonly Solution Solution;
-    AbsolutePath SourceDirectory => RootDirectory / "source";
-    AbsolutePath TestsDirectory => RootDirectory / "tests";
-    AbsolutePath OutputDirectory => RootDirectory / "release";
+    [Solution(GenerateProjects = true)] 
+    readonly Solution Solution;
+
+    Project ServerProject => Solution.Ui.Server.Innkeep_Server;
+    
+    Project ClientProject => Solution.Ui.Client.Innkeep_Client;
+
+    static AbsolutePath SourceDirectory => RootDirectory / "source";
+
+    static AbsolutePath TestsDirectory => RootDirectory / "tests";
+
+    static AbsolutePath OutputDirectory => RootDirectory / "release";
+    
+    static AbsolutePath OutputDirectoryServer => OutputDirectory / "server";
+    
+    static AbsolutePath OutputDirectoryClient => OutputDirectory / "client";
     
     public static int Main () => Execute<Build>(x => x.Publish);
 
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
     readonly Configuration Configuration = Configuration.Release;
 
-    Target Clean => _ => _
+    Target Clean => definition => definition
         .Before(Restore)
         .Executes(() =>
         {
@@ -39,43 +51,60 @@ class Build : NukeBuild
             {
                 path.DeleteDirectory();
             }
-            
+
             OutputDirectory.CreateOrCleanDirectory();
         });
 
-    Target Restore => _ => _
+    Target Restore => definition => definition
         .DependsOn(Clean)
         .Executes(() =>
         {
             DotNetRestore(s => s
-                .SetProjectFile(Solution));
+                .SetProjectFile(ServerProject));
+            
+            DotNetRestore(s => s
+                .SetProjectFile(ClientProject));
         });
 
-    Target Compile => _ => _
+    Target Compile => definition => definition
         .DependsOn(Restore)
         .Executes(() =>
         {
             DotNetBuild(s => s
-                 .SetProjectFile(Solution)
+                 .SetProjectFile(ServerProject)
+                 .SetConfiguration(Configuration)
+                 .EnableNoRestore()
+            );
+            
+            DotNetBuild(s => s
+                 .SetProjectFile(ClientProject)
                  .SetConfiguration(Configuration)
                  .EnableNoRestore()
             );
         });
 
-    Target Publish => _ => _
+    Target Publish => definition => definition
          .DependsOn(Compile)
          .Executes(() =>
              {
                  DotNetPublish(s => s
-                    .SetOutput(OutputDirectory)
+                    .SetProject(ServerProject)
+                    .SetOutput(OutputDirectoryServer)
                     .SetConfiguration(Configuration.Release)
-                    .SetSelfContained(false)
+                    .SetPublishSingleFile(true)
+                    .SetSelfContained(true)
                     .SetPublishTrimmed(false)
                  );
                  
-                 var rootPath = Path.Combine(Solution.Directory, "Innkeep.Server.WebUi", "InnkeepServer.db");
-                 if (File.Exists(rootPath))
-                    CopyFile(rootPath, Path.Combine(rootPath, OutputDirectory, "InnkeepServer.db"), FileExistsPolicy.Skip);
+                 DotNetPublish(s => s
+                    .SetProject(ClientProject)
+                    .SetOutput(OutputDirectoryClient)
+                    .SetConfiguration(Configuration.Release)
+                    .SetPublishSingleFile(true)
+                    .SetSelfContained(true)
+                    .SetPublishTrimmed(false)
+                 );
+                 
              }
          );
 
