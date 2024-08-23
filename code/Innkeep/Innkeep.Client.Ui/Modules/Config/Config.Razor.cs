@@ -1,4 +1,8 @@
-﻿using Innkeep.Db.Client.Models;
+﻿using System.Runtime.InteropServices;
+using Innkeep.Api.Models.Internal;
+using Innkeep.Api.Models.Internal.Transaction;
+using Innkeep.Client.Ui.Modules.Pos.Components.Dialog;
+using Innkeep.Db.Client.Models;
 using Innkeep.Services.Client.Interfaces.Hardware;
 using Innkeep.Services.Client.Interfaces.Pos;
 using Innkeep.Services.Client.Interfaces.Registers;
@@ -30,7 +34,10 @@ public partial class Config
 
 	[Inject]
 	public ISnackbar Bar { get; set; } = null!;
-
+	
+	[Inject]
+	public IDialogService DialogService { get; set; } = null!;
+	
 	private bool _isDiscovering;
 
 	public ClientConfig? CurrentConfig => ClientConfigService.CurrentItem;
@@ -111,5 +118,43 @@ public partial class Config
 		{
 			PrinterService.TestPrint(CurrentConfig!.PrinterName);
 		}
+	}
+
+	private void OpenDrawer()
+	{
+		if (!string.IsNullOrEmpty(CurrentConfig!.PrinterName))
+		{
+			PrinterService.OpenDrawer(CurrentConfig!.PrinterName);
+		}
+	}
+
+	private async Task TestDialog()
+	{
+		var receipt = new TransactionReceipt()
+		{
+			Currency = "EUR",
+			Sum = new ReceiptSum()
+			{
+				AmountGiven = 1,
+				AmountReturned = -1,
+				TotalAmount = 0,
+			}
+		};
+		
+		var parameters = new DialogParameters<TransactionCompleteDialog>()
+		{
+			{
+				x => x.Receipt, receipt
+			},
+		};
+
+		var options = new DialogOptions()
+		{
+			FullWidth = true, MaxWidth = MaxWidth.Medium,
+			ClassBackground = "backdrop-blur",
+		};
+		
+		var dialog = await DialogService.ShowAsync<TransactionCompleteDialog>("", parameters, options);
+		var dialogResult = await dialog.Result;
 	}
 }

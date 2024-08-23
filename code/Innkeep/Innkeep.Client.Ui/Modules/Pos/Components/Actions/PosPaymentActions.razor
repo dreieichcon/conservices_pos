@@ -64,6 +64,9 @@
         
         if (result is not null)
         {
+            var printer = ClientConfigService.CurrentItem!.PrinterName;
+            PrinterService.OpenDrawer(printer);
+            
             await SalesItemService.Load();
             
             var parameters = new DialogParameters<TransactionCompleteDialog>()
@@ -75,6 +78,7 @@
 
             var options = new DialogOptions()
             {
+                FullWidth = true, MaxWidth = MaxWidth.Medium,
                 ClassBackground = "backdrop-blur",
             };
             

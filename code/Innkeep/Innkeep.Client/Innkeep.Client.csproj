@@ -15,7 +15,7 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageReference Include="DemoPOS" Version="0.0.1" />
+        <PackageReference Include="DemoPOS" Version="0.0.2" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="8.0.40" />
         <PackageReference Include="Microsoft.AspNetCore.Owin" Version="8.0.6" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
