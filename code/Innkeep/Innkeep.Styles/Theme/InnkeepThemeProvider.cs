@@ -12,6 +12,8 @@ public static class InnkeepThemeProvider
 			PaletteLight = new PaletteLight()
 			{
 				Primary = new MudColor("#196889"),
+				Tertiary = new MudColor("#66a08e"),
+				TextPrimary = new MudColor("#002840"),
 			},
 			PaletteDark = new PaletteDark(),
 		};
