@@ -3,6 +3,8 @@ using Innkeep.Db.Enum;
 using Innkeep.Db.Interfaces;
 using Innkeep.Db.Result;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Innkeep.Db.Repositories;
 
@@ -25,6 +27,7 @@ public abstract partial class AbstractBaseRepository<T, TContext>
         }
         catch (Exception ex)
         {
+            Log.Error(ex, "Error while saving {Type}", typeof(T));
             return DbResult<T>.Failed(item, ex.Message);
         }
     }

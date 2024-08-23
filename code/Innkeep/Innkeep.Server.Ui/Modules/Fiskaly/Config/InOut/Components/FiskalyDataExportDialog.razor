@@ -1,0 +1,35 @@
+﻿<MudDialog>
+    <TitleContent>
+        Provide a Password for the File
+    </TitleContent>
+    <DialogContent>
+        <MudTextField T="string" @bind-Value="@Password" Immediate="true" Variant="Variant.Outlined" Label="File Password" InputType="InputType.Password"/>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Class="flex-grow-1 px-4" Justify="Justify.SpaceBetween" Row="true">
+            <MudButton Variant="Variant.Outlined" Color="Color.Success" @onclick="Ok" Disabled="@OkDisabled">Export</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Error" @onclick="Cancel">Cancel</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    public required MudDialogInstance DialogInstance { get; set; }
+
+    public string Password { get; set; } = "";
+
+    private void Cancel()
+    {
+        DialogInstance.Close(DialogResult.Cancel());
+    }
+
+    private void Ok()
+    {
+        DialogInstance.Close(DialogResult.Ok(Password));
+    }
+
+    private bool OkDisabled => string.IsNullOrEmpty(Password);
+
+}

@@ -22,7 +22,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="MudBlazor" Version="6.19.1" />
+        <PackageReference Include="MudBlazor" Version="7.6.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
@@ -30,8 +30,14 @@
     <ItemGroup>
       <ProjectReference Include="..\Innkeep.Db.Client\Innkeep.Db.Client.csproj" />
       <ProjectReference Include="..\Innkeep.Client.Ui\Innkeep.Client.Ui.csproj" />
-      <ProjectReference Include="..\Innkeep.Resources\Innkeep.Resources.csproj" />
+      <ProjectReference Include="..\Innkeep.Strings\Innkeep.Strings.csproj" />
       <ProjectReference Include="..\Innkeep.Startup\Innkeep.Startup.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <Resource Include="resources\Innkeep.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Resource>
     </ItemGroup>
 
 </Project>

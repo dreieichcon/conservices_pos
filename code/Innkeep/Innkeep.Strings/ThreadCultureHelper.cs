@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Innkeep.Resources;
+namespace Innkeep.Strings;
 
 public static class ThreadCultureHelper
 {

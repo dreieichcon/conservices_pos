@@ -151,7 +151,7 @@ public partial class Config
 		var options = new DialogOptions()
 		{
 			FullWidth = true, MaxWidth = MaxWidth.Medium,
-			ClassBackground = "backdrop-blur",
+			BackgroundClass = "backdrop-blur",
 		};
 		
 		var dialog = await DialogService.ShowAsync<TransactionCompleteDialog>("", parameters, options);
