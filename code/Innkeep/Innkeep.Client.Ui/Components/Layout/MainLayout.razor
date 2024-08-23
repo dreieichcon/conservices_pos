@@ -1,14 +1,18 @@
-﻿@inherits LayoutComponentBase
+﻿@using Innkeep.Styles.Theme
+@inherits LayoutComponentBase
 
-<MudDialogProvider DisableBackdropClick="true" CloseOnEscapeKey="false" Position="DialogPosition.Center"/>
-<MudSnackbarProvider/>
 <MudThemeProvider IsDarkMode="false" Theme="_theme"/>
+<MudPopoverProvider />
+
+<MudDialogProvider BackdropClick="false" CloseOnEscapeKey="false" Position="DialogPosition.Center"/>
+<MudSnackbarProvider/>
+
 
 <MudLayout>
     <MudPaper Elevation="0" Class="vh-100 vw-100 mw-100 mh-100 overflow-hidden" Square="true">
         <div class="h-100 w-100 mw-100 mh-100 d-flex flex-column overflow-hidden">
             <NavBar/>
-            <div class="p-3 h-100 w-100 mw-100 mh-100 overflow-hidden d-flex" style="border-top: 2px solid @_theme.Palette.Primary;">
+            <div class="p-3 h-100 w-100 mw-100 mh-100 overflow-hidden d-flex" style="border-top: 2px solid @_theme.PaletteLight.Primary;">
                 @Body
             </div>
         </div>
@@ -17,10 +21,6 @@
 
 @code{
 
-    private readonly MudTheme _theme = new()
-    {
-        Palette = new PaletteLight(),
-        PaletteDark = new PaletteDark(),
-    };
+    private readonly MudTheme _theme = InnkeepThemeProvider.GetTheme();
 
 }

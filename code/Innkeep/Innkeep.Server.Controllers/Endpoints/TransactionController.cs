@@ -3,7 +3,7 @@ using Innkeep.Api.Json;
 
 using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Api.Models.Pretix.Objects.Order;
-using Innkeep.Resources;
+using Innkeep.Strings;
 using Innkeep.Server.Controllers.Abstract;
 using Innkeep.Services.Server.Interfaces.Fiskaly;
 using Innkeep.Services.Server.Interfaces.Pretix;

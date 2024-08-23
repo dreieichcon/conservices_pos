@@ -8,7 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using Innkeep.Client.Startup;
 using Innkeep.Db.Client.Context;
-using Innkeep.Resources;
+using Innkeep.Strings;
 using Innkeep.Startup.Database;
 using Innkeep.Startup.Services;
 using Microsoft.EntityFrameworkCore;

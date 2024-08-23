@@ -6,6 +6,7 @@ using Innkeep.Core.DomainModels.Authentication;
 using Innkeep.Db.Enum;
 using Innkeep.Db.Interfaces;
 using Innkeep.Db.Server.Models;
+using Innkeep.Db.Server.Models.Server;
 using Innkeep.Services.Interfaces;
 
 namespace Innkeep.Services.Server.Authentication;
@@ -80,6 +81,8 @@ public class FiskalyAuthenticationService : IFiskalyAuthenticationService
 		return result.Success;
 	}
 
+	public async Task<IEnumerable<FiskalyTseConfig>> GetAll() => await _tseConfigRepository.GetAllAsync();
+
 	private void UpdateAuthentication()
 	{
 		AuthenticationInfo.Key = _configService.CurrentItem.ApiKey;
@@ -97,5 +100,30 @@ public class FiskalyAuthenticationService : IFiskalyAuthenticationService
 			AuthenticationInfo.Token = result?.Token ?? string.Empty;
 			AuthenticationInfo.TokenValidUntil = result?.TokenValidUntil ?? DateTime.UtcNow;
 		}
+	}
+
+	public async Task<bool> Import(FiskalyTseConfig? imported)
+	{
+		if (imported is null)
+			return false;
+
+		var existing = await _tseConfigRepository.GetAsync(imported.Id);
+
+		if (existing is null)
+		{
+			var toSave = new FiskalyTseConfig()
+			{
+				OperationType = Operation.Created,
+				TseAdminPassword = imported.TseAdminPassword,
+				TseId = imported.TseId,
+				TsePuk = imported.TsePuk,
+			};
+
+			var result = await _tseConfigRepository.CrudAsync(toSave);
+			return result.Success;
+		}
+		
+		
+		return true;
 	}
 }

@@ -1,5 +1,6 @@
 ﻿@page "/config/transaction/db"
 @using System.Globalization
+@using Innkeep.Core.FileIo
 @using Innkeep.Db.Server.Context
 @using Innkeep.Db.Server.Models
 @using Innkeep.Services.Interfaces
@@ -75,10 +76,7 @@
     {
         if (DbSettingsService.DbExists)
         {
-            var outputFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "InnkeepExport");
-
-            if (!Directory.Exists(outputFolder))
-                Directory.CreateDirectory(outputFolder);
+            var outputFolder = PathHelper.GetDesktopExportPath();
 
             var outputPath = Path.Combine(outputFolder, DbSettingsService.CurrentDb);
             File.Copy(DbSettingsService.CurrentConnectionString, outputPath);

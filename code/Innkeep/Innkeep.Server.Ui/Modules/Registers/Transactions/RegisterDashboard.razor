@@ -1,6 +1,7 @@
 ﻿@page "/register/dashboard"
 @using System.Text.Json
 @using Innkeep.Api.Json
+@using Innkeep.Core.FileIo
 @using Innkeep.Services.Server.Interfaces.Internal
 @using Innkeep.Services.Server.Interfaces.Registers
 @using Innkeep.Services.Server.Interfaces.Transaction
@@ -82,10 +83,7 @@
     {
         var items = await TransactionService.GetAll();
 		
-        var outputFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "InnkeepExport");
-
-        if (!Directory.Exists(outputFolder))
-            Directory.CreateDirectory(outputFolder);
+        var outputFolder = PathHelper.GetDesktopExportPath();
 
         var outputPath = Path.Combine(outputFolder, DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".json");
         

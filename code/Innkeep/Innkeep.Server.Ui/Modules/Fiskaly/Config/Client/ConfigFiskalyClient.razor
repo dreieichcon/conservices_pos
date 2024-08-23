@@ -1,6 +1,5 @@
 ﻿@page "/config/fiskaly/client"
 @using Innkeep.Api.Enum.Fiskaly.Client
-@using Innkeep.Api.Models.Fiskaly.Objects
 @using Innkeep.Api.Models.Fiskaly.Objects.Client
 
 <ConfigPage PageTitle="Select Client">
@@ -46,6 +45,7 @@
     protected override async Task OnInitializedAsync()
     {
         await ClientService.Load();
+        await TssService.Load();
         await InvokeAsync(StateHasChanged);
     }
 

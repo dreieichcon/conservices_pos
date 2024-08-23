@@ -1,0 +1,51 @@
+﻿@page "/config/fiskaly/importexport"
+@using Innkeep.Db.Server.Models.Server
+
+<ConfigPage PageTitle="Import / Export TSS Data">
+    <ChildContent>
+        <MudStack Class="flex-grow-1">
+            <MudSelect T="FiskalyTseConfig" @bind-Value="CurrentConfig" Variant="Variant.Outlined" Label="Select TSS Config to Export">
+                @foreach (var config in Configs)
+                {
+                    <MudSelectItem T="FiskalyTseConfig" Value="config">
+                        <MudGrid>
+                            <MudItem xs="5">
+                                <MudText>
+                                    @GetTssName(config)
+                                </MudText>
+                            </MudItem>
+                            <MudItem xs="2">
+                                <MudText>
+                                    Puk: @(!string.IsNullOrEmpty(config.TsePuk))
+                                </MudText>
+                            </MudItem>
+                            <MudItem xs="2">
+                                <MudText>
+                                    Password: @(!string.IsNullOrEmpty(config.TseAdminPassword))
+                                </MudText>
+                            </MudItem>
+                            <MudItem xs="3">
+                                <MudText>
+                                    @config.TseId
+                                </MudText>
+                            </MudItem>
+                        </MudGrid>
+                    </MudSelectItem>
+                }
+            </MudSelect>
+        </MudStack>
+    </ChildContent>
+    <ActionBar>
+        <MudButton Variant="Variant.Outlined" Color="Color.Success" Disabled="CurrentConfig is null" @onclick="Export">Export Selected</MudButton>
+        <MudButton Variant="Variant.Outlined" Color="Color.Primary" @onclick="Import">Import from File</MudButton>
+    </ActionBar>
+</ConfigPage>
+
+@code
+{
+    protected override async Task OnInitializedAsync()
+    {
+        await Reload();
+        await InvokeAsync(StateHasChanged);
+    }
+}

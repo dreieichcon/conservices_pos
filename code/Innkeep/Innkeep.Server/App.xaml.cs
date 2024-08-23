@@ -3,7 +3,7 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using Innkeep.Db.Server.Context;
-using Innkeep.Resources;
+using Innkeep.Strings;
 using Innkeep.Server.Startup;
 using Innkeep.Startup.Database;
 using Innkeep.Startup.Services;

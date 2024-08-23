@@ -6,7 +6,8 @@
         xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation/blazor"
         xmlns:components="clr-namespace:Innkeep.Client.Ui.Components;assembly=Innkeep.Client.Ui"
         mc:Ignorable="d"
-        Title="Innkeep Client" Height="1020" Width="1280">
+        Title="Innkeep Client" Height="1020" Width="1280"
+        Icon="resources/Innkeep.png">
     <wpf:BlazorWebView HostPage="wwwroot\index.html" Services="{DynamicResource services}">
         <wpf:BlazorWebView.RootComponents>
             <wpf:RootComponent Selector="#app" ComponentType="{x:Type components:ClientUi}"/>

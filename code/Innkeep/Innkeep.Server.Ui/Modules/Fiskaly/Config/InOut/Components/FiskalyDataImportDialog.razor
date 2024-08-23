@@ -1,0 +1,58 @@
+﻿<MudDialog>
+    <TitleContent>
+        Choose a file and enter the password
+    </TitleContent>
+    <DialogContent>
+        <MudFileUpload T="IBrowserFile" FilesChanged="StoreFile">
+            <ActivatorContent>
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           StartIcon="@Icons.Material.Filled.CloudUpload">
+                    Upload Files
+                </MudButton>
+            </ActivatorContent>
+        </MudFileUpload>
+        <MudTextField T="string" @bind-Value="@Password" Immediate="true" Variant="Variant.Outlined" Label="File Password" InputType="InputType.Password"/>
+    </DialogContent>
+    <DialogActions>
+        <MudStack Class="flex-grow-1 px-4" Justify="Justify.SpaceBetween" Row="true">
+            <MudButton Variant="Variant.Outlined" Color="Color.Success" @onclick="Ok" Disabled="@OkDisabled">Import</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Error" @onclick="Cancel">Cancel</MudButton>
+        </MudStack>
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    [CascadingParameter]
+    public required MudDialogInstance DialogInstance { get; set; }
+
+    public string Password { get; set; } = "";
+
+    public IBrowserFile? File { get; set; }
+
+    private void Cancel()
+    {
+        DialogInstance.Close(DialogResult.Cancel());
+    }
+
+    private async Task Ok()
+    {
+        using var reader = new StreamReader(File!.OpenReadStream());
+
+        byte[] result;
+        var stream = File!.OpenReadStream();
+        result = new byte[stream.Length];
+
+        var t = await stream.ReadAsync(result);
+        DialogInstance.Close(DialogResult.Ok(new Tuple<byte[], string>(result, Password)));
+    }
+
+    private bool OkDisabled => string.IsNullOrEmpty(Password) || File is null;
+
+    private void StoreFile(IBrowserFile? obj)
+    {
+        File = obj;
+    }
+
+}

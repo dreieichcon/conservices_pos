@@ -5,6 +5,7 @@ using Innkeep.Api.Models.Fiskaly.Objects;
 using Innkeep.Api.Models.Fiskaly.Objects.Tss;
 using Innkeep.Core.DomainModels.Authentication;
 using Innkeep.Db.Server.Models;
+using Innkeep.Db.Server.Models.Server;
 
 namespace Innkeep.Api.Fiskaly.Tests.Mock;
 
