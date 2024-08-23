@@ -1,4 +1,6 @@
-﻿using Innkeep.Api.Models.Fiskaly.Objects.Transaction;
+﻿using System.Text.Json;
+using Innkeep.Api.Json;
+using Innkeep.Api.Models.Fiskaly.Objects.Transaction;
 using Innkeep.Api.Models.Internal;
 using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Api.Models.Internal.Transfer;
