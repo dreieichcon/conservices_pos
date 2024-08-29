@@ -2,7 +2,7 @@
 @inject IClientPosService ClientPosService;
 @inject ISalesItemService SalesItemService;
 
-<MudPaper Style="@PosStyles.DisplayStyle" Class="d-flex flex-grow-1 mh-100 overflow-hidden" Elevation="1">
+<MudPaper Style="@PosStyles.DisplayStyle" Class="d-flex flex-grow-1 mh-100 overflow-hidden border-1 mud-border-primary" Elevation="1">
     <ListBox Title="Quick Currency">
         <MudStack Class="flex-grow-1 mh-100 m-0" Justify="Justify.FlexStart" Spacing="0">
             <CurrencyItem Value="1" OnClickCallback="() => Add(1)"/>
