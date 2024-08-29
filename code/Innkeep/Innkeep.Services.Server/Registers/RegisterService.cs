@@ -96,7 +96,14 @@ public class RegisterService(IDbRepository<Register> registerRepository, IClient
 		
 #if DEBUG
 		return "https://localhost:42069";
+		
+#elif RELEASE
+		var register = KnownRegisters.FirstOrDefault(x => x.RegisterIdentifier == clientId);
+
+		if (register is null) return string.Empty;
+		
+		var address = $"https://{register.LastHostname}:42069";
+		return address;
 # endif
-		return $"https://{KnownRegisters.First(x => x.Id == clientId).LastHostname}:42069";
 	}
 }
