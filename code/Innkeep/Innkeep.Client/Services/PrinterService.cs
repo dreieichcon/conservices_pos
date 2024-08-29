@@ -1,5 +1,6 @@
 ﻿using DemoPOS.Document;
 using DemoPOS.Helpers;
+using ESCPOS;
 using Innkeep.Api.Models.Internal;
 using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Api.Models.Internal.Transfer;
@@ -46,6 +47,8 @@ public class PrinterService : IPrinterService
 	{
 		var manager = new DocumentManager(printerName)
 					.AddTitle("Transferbeleg")
+					.AddLine(receipt.Subtitle, Justification.Center)
+					.AddEmptyLine()
 					.AddLine(receipt.BookingTime.ToString("dd.MM.yyyy HH:mm:ss"))
 					.AddDashedLine()
 					.AddTransferLine(receipt)
@@ -53,6 +56,9 @@ public class PrinterService : IPrinterService
 					.AddDashedLine()
 					.AddLine("Unterschrift")
 					.AddEmptyLine()
+					.AddDashedLine()
+					.AddTransactionInfo(receipt)
+					.AddDashedLine()
 					.AddQrCode(receipt.QrCode)
 					.Cut();
 		

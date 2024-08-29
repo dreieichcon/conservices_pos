@@ -6,6 +6,8 @@ namespace Innkeep.Api.Models.Internal.Transfer;
 public class TransferReceipt
 {
 	public decimal Amount { get; set; }
+
+	public string Subtitle { get; set; } = "";
 	
 	public bool IsRetrieve { get; set; }
 	

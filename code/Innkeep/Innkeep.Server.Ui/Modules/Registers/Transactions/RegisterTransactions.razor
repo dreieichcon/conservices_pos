@@ -104,6 +104,7 @@
                 SerializerOptions.GetServerOptions())!;
             
             receipt.BookingTime = contextItem.TransactionDate;
+            receipt.Subtitle = "Belegkopie";
             
             await PrintRepository.PrintReceipt(receipt, RegisterId, address);
         }
