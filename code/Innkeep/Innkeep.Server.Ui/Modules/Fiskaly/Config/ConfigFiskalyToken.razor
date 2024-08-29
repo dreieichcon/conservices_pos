@@ -9,7 +9,7 @@
                     <MudTextField T="string" @bind-Text="@ConfigItem.ApiKey" Variant="Variant.Outlined" Label="Fiskaly Api Key"/>
                     <MudTextField T="string" @bind-Text="@ConfigItem.ApiSecret" Variant="Variant.Outlined" Label="Fiskaly Api Secret" InputType="InputType.Password"/>
                     <MudStack Row="true" Justify="Justify.FlexEnd">
-                        <MudButton Variant="Variant.Outlined">Test</MudButton>
+                        <MudButton Variant="Variant.Outlined" @onclick="Test">Test</MudButton>
                     </MudStack>
                 </MudStack>
             </MudPaper>
