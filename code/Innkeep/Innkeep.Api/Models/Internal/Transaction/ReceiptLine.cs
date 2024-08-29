@@ -21,7 +21,7 @@ public class ReceiptLine
 		{
 			Name = salesItem.Name,
 			Count = salesItem.CartCount,
-			Price = salesItem.PriceWithTax,
+			Price = salesItem.GrossPrice,
 			HasTax = salesItem.TaxRate > 0,
 			TaxRate = (salesItem.TaxRate / 100).ToString("P0", CultureInfo.InvariantCulture).Replace(" ", ""),
 		};

@@ -20,8 +20,17 @@
                                 
                             </MudCardHeader>
                             <MudCardContent>
-                                <MudText>Price: @salesItem.Price @salesItem.Currency</MudText>
-                                <MudText>Tax: @salesItem.TaxRate %</MudText>
+                                <MudStack Spacing="0">
+                                    <MudStack Row="true">
+                                        <MudText>Price: @salesItem.Price @salesItem.Currency</MudText>
+                                        @if (@salesItem.TaxRate > 0)
+                                        {
+                                            <MudText>(@salesItem.NetPrice @salesItem.Currency + @salesItem.TaxAmount @salesItem.Currency)</MudText>
+                                        }
+                                    </MudStack>
+                                    
+                                    <MudText>Tax: @salesItem.TaxRate %</MudText>
+                                </MudStack>
                                 <MudStack Class="pt-6">
                                     @if (!salesItem.Infinite)
                                     {

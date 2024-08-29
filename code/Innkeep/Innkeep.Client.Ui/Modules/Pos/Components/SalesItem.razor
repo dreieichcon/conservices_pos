@@ -7,7 +7,11 @@
             <MudText Color="GetTextColor()">@Item.Name</MudText>
             @if (Item.TaxRate > 0)
             {
-                <MudText Color="Color.Secondary" Typo="Typo.body2">@Item.TaxRate %</MudText>
+                <MudStack Row="true">
+                    <MudText Color="Color.Secondary" Typo="Typo.body2">@Item.TaxRate %</MudText>
+                    <MudText Color="Color.Secondary" Typo="Typo.body2">@Item.TaxAmount @Item.Currency</MudText>
+                </MudStack>
+                
             }
             @if (!Item.Infinite)
             {
@@ -20,7 +24,7 @@
         </MudStack>
         <MudDivider Vertical="true" FlexItem="true" Style="width: 2px; height: 100%"/>
         <MudStack Class="px-3" Spacing="0" Justify="Justify.Center" AlignItems="AlignItems.End" Style="width: 18%">
-            <MudText Color="GetPriceColor()" Typo="Typo.h6">@Item.PriceWithTax.ToString("F2", CultureInfo.InvariantCulture)</MudText>
+            <MudText Color="GetPriceColor()" Typo="Typo.h6">@Item.GrossPrice.ToString("F2", CultureInfo.InvariantCulture)</MudText>
             <MudText Color="GetPriceColor()" Typo="Typo.h6">@Item.Currency</MudText>
         </MudStack>
     </MudStack>

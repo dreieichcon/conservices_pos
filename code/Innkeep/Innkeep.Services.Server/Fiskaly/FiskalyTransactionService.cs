@@ -83,8 +83,8 @@ public partial class FiskalyTransactionService(
 		{
 			var vatRate = group.Key switch
 			{
-				0.19m => VatRate.Normal,
-				0.07m => VatRate.Reduced1,
+				19m => VatRate.Normal,
+				7m => VatRate.Reduced1,
 				0 => VatRate.Null,
 				var _ => VatRate.Null,
 			};
@@ -137,7 +137,7 @@ public partial class FiskalyTransactionService(
 					group => new ReceiptTaxInformation()
 					{
 						Name = (group.Key / 100).ToString("P0", CultureInfo.InvariantCulture),
-						Net = group.Sum(x => x.Price),
+						Net = group.Sum(x => x.NetPrice),
 						TaxAmount = group.Sum(x => x.TaxAmount),
 						Gross = group.Sum(x => x.TotalPrice),
 					}
