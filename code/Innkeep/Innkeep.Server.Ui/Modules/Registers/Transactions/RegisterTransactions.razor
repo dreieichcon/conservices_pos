@@ -15,6 +15,7 @@
 @inject IClientPrintRepository PrintRepository;
 @inject IRegisterService RegisterService;
 @inject IEventStateService EventStateService;
+@inject ISnackbar Snackbar;
 
 <ConfigPage PageTitle="Transactions">
     <ChildContent>
@@ -77,6 +78,12 @@
     private async Task Reprint(TransactionModel contextItem)
     {
         var address = await RegisterService.GetAddress(RegisterId);
+
+        if (string.IsNullOrEmpty(address))
+        {
+            Snackbar.Add($"A hostname for client {RegisterId} could not be found.", Severity.Error);
+            return;
+        }
         
         if (contextItem.ReceiptType == "RECEIPT")
         {
