@@ -93,6 +93,13 @@ public static class ReceiptPrinterExtensions
 		
 		return manager;
 	}
+	
+	public static DocumentManager AddTransactionInfo(this DocumentManager manager, TransferReceipt receipt)
+	{
+		manager.AddLine(SpaceEvenlyAcross("Transaktion:", receipt.TransactionCounter.ToString()));
+		
+		return manager;
+	}
 
 	public static DocumentManager AddVouchers(this DocumentManager manager, TransactionReceipt receipt)
 	{
