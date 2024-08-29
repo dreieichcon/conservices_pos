@@ -95,15 +95,21 @@ class Build : NukeBuild
                     .SetSelfContained(true)
                     .SetPublishTrimmed(false)
                  );
-                 
+
+                 Directory.CreateDirectory(Path.Combine(OutputDirectoryServer, "log"));
+                 Directory.CreateDirectory(Path.Combine(OutputDirectoryServer, "cert"));
+
                  DotNetPublish(s => s
-                    .SetProject(ClientProject)
-                    .SetOutput(OutputDirectoryClient)
-                    .SetConfiguration(Configuration.Release)
-                    .SetPublishSingleFile(true)
-                    .SetSelfContained(true)
-                    .SetPublishTrimmed(false)
+                                    .SetProject(ClientProject)
+                                    .SetOutput(OutputDirectoryClient)
+                                    .SetConfiguration(Configuration.Release)
+                                    .SetPublishSingleFile(true)
+                                    .SetSelfContained(true)
+                                    .SetPublishTrimmed(false)
                  );
+                     
+                 Directory.CreateDirectory(Path.Combine(OutputDirectoryClient, "log"));
+                 Directory.CreateDirectory(Path.Combine(OutputDirectoryClient, "cert"));
                  
              }
          );
