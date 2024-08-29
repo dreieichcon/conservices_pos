@@ -95,6 +95,7 @@ public partial class Config
 		if (result)
 		{
 			Bar.Add("Connected successfully!", Severity.Success);
+			await ClientConfigService.Save();
 		}
 		else
 		{

@@ -11,6 +11,8 @@ namespace Innkeep.Services.Client.Checkin;
 public class CheckinService(IDbService<ClientConfig> clientConfigService)
 	: AbstractServerRepository(clientConfigService), ICheckinService
 {
+	protected override int Timeout => 1000;
+
 	public LinkedList<PretixCheckinResponse> LastCheckins { get; set; } = [];
 
 	public async Task<PretixCheckinResponse?> CheckIn(string secret)
