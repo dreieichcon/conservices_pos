@@ -15,12 +15,14 @@ public static class LoggingManager
 					.WriteTo.Trace()
 					.WriteTo.Debug()
 					.WriteTo.Console()
-					.WriteTo.Discord(LogEventLevel.Information, config =>
+					.WriteTo.File("./log/log.txt", rollingInterval: RollingInterval.Day, restrictedToMinimumLevel:LogEventLevel.Information)
+					.WriteTo.Discord(LogEventLevel.Warning, config =>
 					{
 						config.WebhookUrl = auth.WebhookUrl;
 						config.ServiceName = serviceName;
 					})
 					.Enrich.FromLogContext()
+					.MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", LogEventLevel.Warning)
 					.CreateLogger();
 	}
 }

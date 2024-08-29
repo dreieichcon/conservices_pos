@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows;
+using Serilog;
 
 namespace Innkeep.Server;
 
@@ -18,7 +19,17 @@ public partial class MainWindow : Window
 
 		Resources.Add("services", _host.Services);
 
-		_ = _host.StartAsync(CancellationToken.None);
+		Task.Run(async () =>
+		{
+			try
+			{
+				await _host.StartAsync();
+			}
+			catch (Exception ex)
+			{
+				Log.Fatal(ex, "Host failed to start.");
+			}
+		});
 	}
 
 	protected override void OnClosing(CancelEventArgs e)

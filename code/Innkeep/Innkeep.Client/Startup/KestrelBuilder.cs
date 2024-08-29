@@ -1,4 +1,5 @@
-﻿using Innkeep.Client.Services;
+﻿using System.Security.Cryptography.X509Certificates;
+using Innkeep.Client.Services;
 using Innkeep.Services.Client.Interfaces.Hardware;
 using Innkeep.Startup.Services;
 using Microsoft.AspNetCore.Hosting;
@@ -24,11 +25,24 @@ public class KestrelBuilder
 				services.AddSwaggerGen();
 			}
 		);
+		
+		var certificate = new X509Certificate2("./cert/cert.pfx");
 
 		builder.ConfigureWebHostDefaults(
 			whb =>
 			{
-				whb.ConfigureKestrel(options => options.ListenAnyIP(42069, configure => configure.UseHttps()));
+				whb.ConfigureKestrel(options =>
+				{
+					options.ListenAnyIP(42069, configure =>
+					{
+						configure.UseHttps(
+							httpsOptions =>
+							{
+								httpsOptions.ServerCertificate = certificate;
+								httpsOptions.AllowAnyClientCertificate();
+							});
+					});
+				});
 				whb.UseStartup<KestrelStartup>();
 			}
 		);

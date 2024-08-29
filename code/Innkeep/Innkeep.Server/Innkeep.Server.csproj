@@ -28,6 +28,7 @@
         </PackageReference>
         <PackageReference Include="MudBlazor" Version="7.6.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4"/>
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 

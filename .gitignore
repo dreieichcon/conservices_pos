@@ -22,3 +22,6 @@ build/_build.csproj.DotSettings
 **/Auth.cs
 
 code/Innkeep/Innkeep.Server/db/transactions/
+
+**/cert/**
+**/log/**
