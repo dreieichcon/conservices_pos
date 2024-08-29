@@ -5,6 +5,7 @@ using Innkeep.Services.Client.Interfaces.Checkin;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
+using Serilog;
 
 namespace Innkeep.Client.Ui.Modules.Scan;
 
@@ -22,17 +23,27 @@ public partial class Scan
 	{
 		if (obj.Key != "Enter")
 			return;
-		
-		var result = await CheckinService.CheckIn(CurrentScan);
 
-		if (result is null)
-			Snackbar.Add("Critical Error", Severity.Error);
+		try
+		{
+			var result = await CheckinService.CheckIn(CurrentScan);
+
+			if (result is null)
+				Snackbar.Add("Critical Error", Severity.Error);
+
+			await Beep(result);
+			await _flasher.Flash(result);
+
+			CurrentScan = "";
+			await InvokeAsync(StateHasChanged);
+		}
+		catch (Exception ex)
+		{
+			Log.Error(ex, "Error while checking in!");
+			await Beep(null);
+			await _flasher.Flash(null);
+		}
 		
-		await Beep(result);
-		await _flasher.Flash(result);
-		
-		CurrentScan = "";
-		await InvokeAsync(StateHasChanged);
 	}
 
 	private static async Task Beep(PretixCheckinResponse? result)
