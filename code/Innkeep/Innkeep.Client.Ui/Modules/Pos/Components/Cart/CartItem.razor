@@ -8,7 +8,7 @@
         <MudText>@Item.CartCount x</MudText>
         <MudStack AlignItems="AlignItems.End" Style="width: 25% !important;" Spacing="0">
             <MudStack Row="true" Justify="Justify.FlexEnd" >
-                <MudText Color="Color.Primary" Style="font-weight: bold">@Item.PriceWithTax.ToString("F2") @Item.Currency</MudText>
+                <MudText Color="Color.Primary" Style="font-weight: bold">@Item.GrossPrice.ToString("F2") @Item.Currency</MudText>
             </MudStack>
             <MudStack Row="true" Justify="Justify.FlexEnd" >
                 <MudText Typo="Typo.body2" Color="Color.Primary" Style="font-weight: bold">(@Item.TotalPrice.ToString("F2") @Item.Currency)</MudText>
