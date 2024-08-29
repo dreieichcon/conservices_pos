@@ -34,8 +34,11 @@ public partial class FiskalyDataImportExport : ComponentBase
 		Configs = await AuthenticationService.GetAll();
 	}
 
-	private string GetTssName(FiskalyTseConfig config)
+	private string GetTssName(FiskalyTseConfig? config)
 	{
+		if (config is null)
+			return string.Empty;
+		
 		var item = TssService.TssObjects.First(x => x.Id == config.TseId);
 		return $"{item.Description} ({item.State})";
 	}
