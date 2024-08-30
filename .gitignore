@@ -27,3 +27,5 @@ code/Innkeep/Innkeep.Server/db/transactions/
 **/log/**
 
 .DS_Store
+
+**/.idea/**
