@@ -86,7 +86,10 @@ public static class ReceiptPrinterExtensions
 
 	public static DocumentManager AddTransactionInfo(this DocumentManager manager, TransactionReceipt receipt)
 	{
-		manager.AddLine(SpaceEvenlyAcross("Transaktion:", receipt.TransactionCounter.ToString()));
+		if (receipt.TransactionCounter > 0)
+			manager.AddLine(SpaceEvenlyAcross("Transaktion:", receipt.TransactionCounter.ToString()));
+		else
+			manager.AddLine(SpaceEvenlyAcross("Transaktion:", "ERR"));
 		
 		if (!string.IsNullOrEmpty(receipt.TransactionId))
 			manager.AddLine(SpaceEvenlyAcross("Id:", receipt.TransactionId));
