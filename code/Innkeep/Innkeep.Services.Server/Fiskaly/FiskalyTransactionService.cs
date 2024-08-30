@@ -17,22 +17,25 @@ public partial class FiskalyTransactionService(
 	IFiskalyTssService tssService
 ) : IFiskalyTransactionService
 {
-	private FiskalyClient CurrentClient => clientService.CurrentClient!;
+	private FiskalyClient? CurrentClient => clientService.CurrentClient;
 
-	private FiskalyTss CurrentTss => tssService.CurrentTss!;
+	private FiskalyTss? CurrentTss => tssService.CurrentTss;
 
 	private FiskalyTransaction? CurrentTransaction { get; set; }
 
 	private int TransactionRevision { get; set; } = 1;
 
-	public async Task<FiskalyTransaction> StartTransaction()
+	public async Task<FiskalyTransaction?> StartTransaction()
 	{
 		var transactionGuid = Guid.NewGuid();
 
+		if (CurrentTss is null || CurrentClient is null)
+			return null;
+		
 		CurrentTransaction = await transactionRepository.StartTransaction(
-			CurrentTss.Id,
+			CurrentTss!.Id,
 			transactionGuid.ToString(),
-			CurrentClient.Id
+			CurrentClient!.Id
 		);
 
 		if (CurrentTransaction != null)
@@ -43,30 +46,38 @@ public partial class FiskalyTransactionService(
 
 	public async Task<TransactionReceipt?> CompleteReceiptTransaction(ClientTransaction transaction)
 	{
-		var request = new FiskalyTransactionUpdateRequest()
+		TransactionReceipt? receipt = null;
+		
+		if (CurrentTransaction is not null)
 		{
-			TransactionRevision = TransactionRevision,
-			TransactionId = CurrentTransaction?.Id!,
-			ClientId = CurrentClient.Id,
-			TssId = CurrentTss.Id,
-			Schema = new FiskalyTransactionSchema
+			var request = new FiskalyTransactionUpdateRequest()
 			{
-				StandardV1 = new FiskalySchemaStandardV1()
+				TransactionRevision = TransactionRevision,
+				TransactionId = CurrentTransaction?.Id!,
+				ClientId = CurrentClient.Id,
+				TssId = CurrentTss.Id,
+				Schema = new FiskalyTransactionSchema
 				{
-					Receipt = new FiskalyReceipt()
+					StandardV1 = new FiskalySchemaStandardV1()
 					{
-						ReceiptType = ReceiptType.Receipt,
-						AmountsPerVatRate = TransactionVatRates(transaction),
-						AmountsPerPaymentType = TransactionPaymentTypes(transaction),
+						Receipt = new FiskalyReceipt()
+						{
+							ReceiptType = ReceiptType.Receipt,
+							AmountsPerVatRate = TransactionVatRates(transaction),
+							AmountsPerPaymentType = TransactionPaymentTypes(transaction),
+						},
 					},
 				},
-			},
-			State = TransactionState.Finished,
-		};
+				State = TransactionState.Finished,
+			};
 
-		var result = await transactionRepository.UpdateTransaction(request);
-		var receipt = CreateTransactionReceipt(result, transaction);
-
+			var result = await transactionRepository.UpdateTransaction(request);
+			receipt = CreateTransactionReceipt(result, transaction);
+		}
+		
+		if (CurrentTransaction is null)
+			receipt = CreateTransactionReceipt(null, transaction);
+		
 		TransactionRevision = 1;
 		CurrentTransaction = null;
 
