@@ -25,3 +25,5 @@ code/Innkeep/Innkeep.Server/db/transactions/
 
 **/cert/**
 **/log/**
+
+.DS_Store
