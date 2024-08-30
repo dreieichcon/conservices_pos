@@ -56,9 +56,6 @@ public class TransactionController : AbstractServerController
 		
 		var fiskalyTransaction = await _transactionService.StartTransaction();
 
-		if (fiskalyTransaction is null)
-			return new StatusCodeResult(500);
-
 		var receipt = await _transactionService.CompleteReceiptTransaction(transaction);
 		
 		receipt.Title = pretixOrder.EventTitle;
