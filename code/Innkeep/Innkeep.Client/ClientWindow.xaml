@@ -1,0 +1,15 @@
+﻿<Window x:Class="Innkeep.Client.ClientWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation/blazor"
+        xmlns:components="clr-namespace:Innkeep.Client.Ui.Components;assembly=Innkeep.Client.Ui"
+        mc:Ignorable="d"
+        Title="Client Screen" Height="450" Width="800">
+    <wpf:BlazorWebView HostPage="wwwroot\index.html" Services="{DynamicResource services}" StartPath="ClientScreen">
+        <wpf:BlazorWebView.RootComponents>
+            <wpf:RootComponent Selector="#app" ComponentType="{x:Type components:ClientUiNoNav}"/>
+        </wpf:BlazorWebView.RootComponents>
+    </wpf:BlazorWebView>
+</Window>

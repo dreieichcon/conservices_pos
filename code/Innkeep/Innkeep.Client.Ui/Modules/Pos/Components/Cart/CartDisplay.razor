@@ -1,8 +1,8 @@
 ﻿@using Innkeep.Services.Client.Interfaces.Pos
 @inject IClientPosService ClientPosService;
 
-<MudPaper Style="@PosStyles.DisplayStyle" Class="d-flex flex-grow-1 mh-100 overflow-hidden border-1 mud-border-primary" Elevation="1">
-    <ListBox Title="Cart">
+<MudPaper Style="@(IsDisplay ? PosStyles.Wider : PosStyles.DisplayStyle)" Class="d-flex flex-grow-1 mh-100 overflow-hidden border-1 mud-border-primary" Elevation="1">
+    <ListBox Title="@(IsDisplay ? "Warenkorb" : "Cart")">
         <MudStack Class="flex-grow-1 mh-100 m-0" Justify="Justify.FlexStart" Spacing="0">
         @foreach (var item in ClientPosService.CartItems)
         {
@@ -19,5 +19,8 @@
     {
         ClientPosService.CartUpdated += async (_, _) => await InvokeAsync(StateHasChanged);
     }
+    
+    [Parameter]
+    public bool IsDisplay { get; set; }
 
 }

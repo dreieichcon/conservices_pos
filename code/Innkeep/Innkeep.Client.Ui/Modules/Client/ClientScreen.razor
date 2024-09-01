@@ -1,0 +1,21 @@
+﻿@page "/ClientScreen"
+@using Innkeep.Services.Client.Interfaces.Pos
+@using Innkeep.Client.Ui.Modules.Pos.Components.Cart
+@using Innkeep.Client.Ui.Modules.Pos.Components.Payment
+@inject IClientPosService ClientPosService
+
+<MudStack Row="true" Class="flex-grow-1">
+    @if (ClientPosService.IsPaymentMode)
+    {
+        <PaymentTotalDisplay IsDisplay="true"/>
+    }
+    else
+    {
+        <CartTotalDisplay IsDisplay="true"/>
+    }
+    <CartDisplay IsDisplay="true"/>
+</MudStack>
+
+@code {
+    
+}

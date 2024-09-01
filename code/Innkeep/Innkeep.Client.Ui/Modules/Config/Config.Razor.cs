@@ -4,6 +4,7 @@ using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Client.Ui.Modules.Pos.Components.Dialog;
 using Innkeep.Db.Client.Models;
 using Innkeep.Services.Client.Interfaces.Hardware;
+using Innkeep.Services.Client.Interfaces.Internal;
 using Innkeep.Services.Client.Interfaces.Pos;
 using Innkeep.Services.Client.Interfaces.Registers;
 using Innkeep.Services.Interfaces;
@@ -37,6 +38,9 @@ public partial class Config
 	
 	[Inject]
 	public IDialogService DialogService { get; set; } = null!;
+	
+	[Inject]
+	public IClientScreenService ClientScreenService { get; set; } = null!;
 	
 	private bool _isDiscovering;
 
@@ -157,5 +161,10 @@ public partial class Config
 		
 		var dialog = await DialogService.ShowAsync<TransactionCompleteDialog>("", parameters, options);
 		var dialogResult = await dialog.Result;
+	}
+
+	private async Task OpenScreen()
+	{
+		await ClientScreenService.ShowClientWindow();
 	}
 }

@@ -5,6 +5,7 @@ using Innkeep.Services.Server.Interfaces.Internal;
 using Innkeep.Services.Server.Interfaces.Pretix;
 using Innkeep.Services.Server.Interfaces.Registers;
 using Innkeep.Services.Server.Internal;
+using Serilog;
 
 namespace Innkeep.Services.Server.Pretix;
 
@@ -43,6 +44,7 @@ public class PretixSalesItemService : IPretixSalesItemService
 		{
 			await LoadQuotas();
 			await _registerService.ReloadConnected();
+			Log.Debug("Reloaded Sales Items");
 		}
 	}
 

@@ -41,7 +41,7 @@ public class RegisterConnectionRepository(IDbService<ClientConfig> clientConfigS
 		}
 		catch (Exception ex)
 		{
-			Log.Error("Server {ServerAddress} does not seem to be running: {Exception}", serverAddress, ex.Message);
+			Log.Warning("Server {ServerAddress} does not seem to be running: {Exception}", serverAddress, ex.Message);
 			return false;
 		}
 	}

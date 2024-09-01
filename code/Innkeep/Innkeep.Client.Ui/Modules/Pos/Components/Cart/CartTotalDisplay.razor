@@ -2,15 +2,15 @@
 @using Innkeep.Services.Client.Interfaces.Pos
 @inject IClientPosService ClientPosService;
 
-<MudPaper Style="@PosStyles.DisplayStyle" Class="border-1 mud-border-primary">
+<MudPaper Style="@(IsDisplay ? PosStyles.Wider : PosStyles.DisplayStyle)" Class="border-1 mud-border-primary">
     <MudStack Class="h-100 p-3" Justify="Justify.SpaceAround">
         <MudStack Class="flex-grow-1" Row="true" Justify="Justify.SpaceBetween">
-            <MudText Typo="Typo.h4" Class="fw-bold" Color="Color.Primary">Total</MudText>
-            <MudText Typo="Typo.h4" Class="fw-bold" Color="Color.Primary">@MoneyRequired @Currency</MudText>
+            <MudText Typo="@(IsDisplay ? Typo.h3 : Typo.h4)" Class="fw-bold" Color="Color.Primary">@(IsDisplay ? "Gesamt" : "Total")</MudText>
+            <MudText Typo="@(IsDisplay ? Typo.h3 : Typo.h4)" Class="fw-bold" Color="Color.Primary">@MoneyRequired @Currency</MudText>
         </MudStack>
         <MudStack Class="flex-grow-1" Row="true" Justify="Justify.SpaceBetween">
-            <MudText Typo="Typo.h5" Class="fw-bold">Tax</MudText>
-            <MudText Typo="Typo.h5" Class="fw-bold">@TaxInRequired @Currency</MudText>
+            <MudText Typo="@(IsDisplay ? Typo.h4 : Typo.h5)" Class="fw-bold">@(IsDisplay ? "Steuer" : "Tax")</MudText>
+            <MudText Typo="@(IsDisplay ? Typo.h4 : Typo.h5)" Class="fw-bold">@TaxInRequired @Currency</MudText>
         </MudStack>
     </MudStack>
 </MudPaper>
@@ -27,5 +27,8 @@
     private string TaxInRequired => ClientPosService.TaxInRequired.ToString("F2", CultureInfo.InvariantCulture);
 
     private string Currency => ClientPosService.CartItems.FirstOrDefault()?.Currency ?? "EUR";
+    
+    [Parameter]
+    public bool IsDisplay { get; set; }
 
 }

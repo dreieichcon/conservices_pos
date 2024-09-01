@@ -2,19 +2,19 @@
 @using Innkeep.Services.Client.Interfaces.Pos
 @inject IClientPosService ClientPosService;
 
-<MudPaper Style="@PosStyles.DisplayStyle" Class="border-1 mud-border-primary">
+<MudPaper Style="@(IsDisplay ? PosStyles.Wider : PosStyles.DisplayStyle)" Class="border-1 mud-border-primary">
     <MudStack Class="h-100 p-3" Justify="Justify.Center" Spacing="1">
         <MudStack Class="flex-grow-1" Row="true" Justify="Justify.SpaceBetween">
-            <MudText Typo="Typo.h4" Class="fw-bold" Color="Color.Primary">Total</MudText>
-            <MudText Typo="Typo.h4" Class="fw-bold" Color="Color.Primary">@MoneyRequired @Currency</MudText>
+            <MudText Typo="@(IsDisplay ? Typo.h3 : Typo.h4)" Class="fw-bold" Color="Color.Primary">@(IsDisplay ? "Gesamt" : "Total")</MudText>
+            <MudText Typo="@(IsDisplay ? Typo.h3 : Typo.h4)" Class="fw-bold" Color="Color.Primary">@MoneyRequired @Currency</MudText>
         </MudStack>
         <MudStack Class="flex-grow-1" Row="true" Justify="Justify.SpaceBetween">
-            <MudText Typo="Typo.h5" Class="fw-bold">Given</MudText>
-            <MudText Typo="Typo.h5" Class="fw-bold">@MoneyGiven @Currency</MudText>
+            <MudText Typo="@(IsDisplay ? Typo.h4 : Typo.h5)" Class="fw-bold">@(IsDisplay ? "Gegeben" : "Given")</MudText>
+            <MudText Typo="@(IsDisplay ? Typo.h4 : Typo.h5)" Class="fw-bold">@MoneyGiven @Currency</MudText>
         </MudStack>
         <MudStack Class="flex-grow-1" Row="true" Justify="Justify.SpaceBetween">
-            <MudText Typo="Typo.h4" Class="fw-bold" Color="Color.Primary">Remaining</MudText>
-            <MudText Typo="Typo.h4" Class="fw-bold" Color="Color.Primary">@MoneyRemaining @Currency</MudText>
+            <MudText Typo="@(IsDisplay ? Typo.h3 : Typo.h4)" Class="fw-bold" Color="Color.Primary">@(IsDisplay ? "Verbleibend" : "Remaining")</MudText>
+            <MudText Typo="@(IsDisplay ? Typo.h3 : Typo.h4)" Class="fw-bold" Color="Color.Primary">@MoneyRemaining @Currency</MudText>
         </MudStack>
     </MudStack>
 </MudPaper>
@@ -34,4 +34,6 @@
 
     private string Currency => ClientPosService.CartItems.FirstOrDefault()?.Currency ?? "EUR";
     
+    [Parameter]
+    public bool IsDisplay { get; set; }
 }
