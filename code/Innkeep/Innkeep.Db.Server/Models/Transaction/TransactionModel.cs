@@ -37,5 +37,5 @@ public class TransactionModel : AbstractDbItem
 	public string ReceiptJson { get; set; } = "";
 
 	[NotMapped]
-	public decimal TotalChange => AmountGiven - AmountBack;
+	public decimal TotalChange => Math.Abs(AmountGiven) - Math.Abs(AmountBack);
 }
