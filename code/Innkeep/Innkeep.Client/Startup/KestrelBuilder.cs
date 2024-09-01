@@ -1,6 +1,7 @@
 ﻿using System.Security.Cryptography.X509Certificates;
 using Innkeep.Client.Services;
 using Innkeep.Services.Client.Interfaces.Hardware;
+using Innkeep.Services.Client.Interfaces.Internal;
 using Innkeep.Startup.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +19,7 @@ public class KestrelBuilder
 			services =>
 			{
 				services.AddSingleton<IPrinterService, PrinterService>();
+				services.AddSingleton<IClientScreenService, ClientScreenService>();
 				ClientServiceManager.ConfigureServices(services, true);
 				WpfBuilder.ConfigureServices(services);
 

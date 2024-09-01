@@ -40,5 +40,11 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Resource>
     </ItemGroup>
+    
+    <ItemGroup>
+      <None Update="cert\cert.pfx">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
 
 </Project>

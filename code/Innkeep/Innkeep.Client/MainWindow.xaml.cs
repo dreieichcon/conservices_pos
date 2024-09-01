@@ -17,7 +17,7 @@ public partial class MainWindow : Window
         
         InitializeComponent();
         
-        Resources.Add("services", _host.Services);
+        Application.Current.Resources.Add("services", _host.Services);
         
         _ = _host.StartAsync(CancellationToken.None);
     }

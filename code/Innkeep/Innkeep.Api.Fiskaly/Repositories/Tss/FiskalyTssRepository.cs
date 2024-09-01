@@ -49,7 +49,7 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 			}
 		);
 
-		var result = await Patch(endpoint, content, 30);
+		var result = await Patch(endpoint, content, 30000);
 
 		return DeserializeOrNull<FiskalyTss>(result);
 	}

@@ -50,7 +50,7 @@ public class FiskalyTss
 	public required DateTime TimeCreation { get; set; }
 
 	[JsonPropertyName("description")]
-	public required string Description { get; set; }
+	public string Description { get; set; } = "";
 
 	[JsonPropertyName("state")]
 	public required TssState State { get; set; }

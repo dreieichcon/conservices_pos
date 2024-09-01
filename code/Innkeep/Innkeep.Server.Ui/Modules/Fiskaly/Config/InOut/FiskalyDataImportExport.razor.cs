@@ -39,8 +39,8 @@ public partial class FiskalyDataImportExport : ComponentBase
 		if (config is null)
 			return string.Empty;
 		
-		var item = TssService.TssObjects.First(x => x.Id == config.TseId);
-		return $"{item.Description} ({item.State})";
+		var item = TssService.TssObjects.FirstOrDefault(x => x.Id == config.TseId);
+		return $"{item?.Description} ({item?.State})";
 	}
 
 	private async Task Export()

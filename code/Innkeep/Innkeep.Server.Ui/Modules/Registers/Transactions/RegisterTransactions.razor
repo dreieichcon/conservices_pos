@@ -9,6 +9,7 @@
 @using Innkeep.Services.Server.Interfaces.Internal
 @using Innkeep.Services.Server.Interfaces.Registers
 @using Innkeep.Services.Server.Interfaces.Transaction
+@using Serilog
 
 @inject ITransactionService TransactionService;
 @inject NavigationManager NavManager;
@@ -19,7 +20,7 @@
 
 <ConfigPage PageTitle="Transactions">
     <ChildContent>
-        <MudStack Class="flex-grow-1">
+        <MudStack Class="flex-grow-1" Style="max-height: 80vh">
             <MudPaper Class="mud-theme-primary">
                 <MudStack Row="true" Class="p-1">
                     <MudText>
@@ -77,37 +78,46 @@
 
     private async Task Reprint(TransactionModel contextItem)
     {
-        var address = await RegisterService.GetAddress(RegisterId);
-
-        if (string.IsNullOrEmpty(address))
+        try
         {
-            Snackbar.Add($"A hostname for client {RegisterId} could not be found.", Severity.Error);
-            return;
+            var address = await RegisterService.GetAddress(RegisterId);
+
+            if (string.IsNullOrEmpty(address))
+            {
+                Snackbar.Add($"A hostname for client {RegisterId} could not be found.", Severity.Error);
+                return;
+            }
+        
+            if (contextItem.ReceiptType == "RECEIPT")
+            {
+                var receipt = JsonSerializer.Deserialize<TransactionReceipt>(
+                    contextItem.ReceiptJson, 
+                    SerializerOptions.GetServerOptions())!;
+
+                receipt.BookingTime = contextItem.TransactionDate;
+                receipt.Header += $"{Environment.NewLine}Belegkopie";
+        
+                await PrintRepository.PrintReceipt(receipt, RegisterId, address);
+            }
+
+            if (contextItem.ReceiptType == "TRANSFER")
+            {
+                var receipt = JsonSerializer.Deserialize<TransferReceipt>(
+                    contextItem.ReceiptJson, 
+                    SerializerOptions.GetServerOptions())!;
+            
+                receipt.BookingTime = contextItem.TransactionDate;
+                receipt.Subtitle = "Belegkopie";
+            
+                await PrintRepository.PrintReceipt(receipt, RegisterId, address);
+            }
+        }
+        catch (Exception e)
+        {
+            Log.Error(e, "Error while reprinting receipt");
+            throw;
         }
         
-        if (contextItem.ReceiptType == "RECEIPT")
-        {
-            var receipt = JsonSerializer.Deserialize<TransactionReceipt>(
-                contextItem.ReceiptJson, 
-                SerializerOptions.GetServerOptions())!;
-
-            receipt.BookingTime = contextItem.TransactionDate;
-            receipt.Header += $"{Environment.NewLine}Belegkopie";
-        
-            await PrintRepository.PrintReceipt(receipt, RegisterId, address);
-        }
-
-        if (contextItem.ReceiptType == "TRANSFER")
-        {
-            var receipt = JsonSerializer.Deserialize<TransferReceipt>(
-                contextItem.ReceiptJson, 
-                SerializerOptions.GetServerOptions())!;
-            
-            receipt.BookingTime = contextItem.TransactionDate;
-            receipt.Subtitle = "Belegkopie";
-            
-            await PrintRepository.PrintReceipt(receipt, RegisterId, address);
-        }
     }
 
 }
