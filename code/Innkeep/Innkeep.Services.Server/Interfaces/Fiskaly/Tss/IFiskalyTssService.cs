@@ -1,15 +1,14 @@
-﻿using Innkeep.Api.Models.Fiskaly.Objects;
-using Innkeep.Api.Models.Fiskaly.Objects.Tss;
+﻿using Innkeep.Api.Models.Fiskaly.Objects.Tss;
 
-namespace Innkeep.Services.Server.Interfaces.Fiskaly;
+namespace Innkeep.Services.Server.Interfaces.Fiskaly.Tss;
 
 public interface IFiskalyTssService
 {
-	public event EventHandler? ItemsUpdated;
-	
 	public IEnumerable<FiskalyTss> TssObjects { get; set; }
-	
+
 	public FiskalyTss? CurrentTss { get; set; }
+
+	public event EventHandler? ItemsUpdated;
 
 	public Task Load();
 
@@ -22,5 +21,4 @@ public interface IFiskalyTssService
 	public Task<bool> ChangeAdminPin();
 
 	public Task<bool> InitializeTss();
-	
 }

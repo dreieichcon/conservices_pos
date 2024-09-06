@@ -15,13 +15,15 @@ namespace Innkeep.Api.Fiskaly.Repositories.Tss;
 public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationService)
 	: AbstractFiskalyRepository(authenticationService), IFiskalyTssRepository
 {
-	public async Task<IHttpResponse<FiskalyListResponse<FiskalyTss>>> GetAll()
+	public async Task<IHttpResponse<IEnumerable<FiskalyTss>>> GetAll()
 	{
 		var endpoint = new FiskalyEndpointBuilder().WithTss().Build();
 
 		var result = await Get(endpoint);
 
-		return DeserializeResult<FiskalyListResponse<FiskalyTss>>(result);
+		var response = DeserializeResult<FiskalyListResponse<FiskalyTss>>(result);
+
+		return HttpResponse<IEnumerable<FiskalyTss>>.FromResponse(response, x => x.Data);
 	}
 
 	public Task<FiskalyTss> GetOne(string id) => throw new NotImplementedException();

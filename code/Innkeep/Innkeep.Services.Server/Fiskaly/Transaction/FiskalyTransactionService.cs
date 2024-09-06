@@ -7,9 +7,11 @@ using Innkeep.Api.Models.Fiskaly.Objects.Tss;
 using Innkeep.Api.Models.Fiskaly.Request.Transaction;
 using Innkeep.Api.Models.Internal;
 using Innkeep.Api.Models.Internal.Transaction;
-using Innkeep.Services.Server.Interfaces.Fiskaly;
+using Innkeep.Services.Server.Interfaces.Fiskaly.Client;
+using Innkeep.Services.Server.Interfaces.Fiskaly.Transaction;
+using Innkeep.Services.Server.Interfaces.Fiskaly.Tss;
 
-namespace Innkeep.Services.Server.Fiskaly;
+namespace Innkeep.Services.Server.Fiskaly.Transaction;
 
 public partial class FiskalyTransactionService(
 	IFiskalyTransactionRepository transactionRepository,
@@ -31,26 +33,29 @@ public partial class FiskalyTransactionService(
 
 		if (CurrentTss is null || CurrentClient is null)
 			return null;
-		
-		CurrentTransaction = await transactionRepository.StartTransaction(
+
+		var result = await transactionRepository.StartTransaction(
 			CurrentTss!.Id,
 			transactionGuid.ToString(),
 			CurrentClient!.Id
 		);
 
-		if (CurrentTransaction != null)
-			TransactionRevision++;
-		
+		if (!result.IsSuccess)
+			return null;
+
+		CurrentTransaction = result.Object!;
+		TransactionRevision++;
+
 		return CurrentTransaction;
 	}
 
 	public async Task<TransactionReceipt?> CompleteReceiptTransaction(ClientTransaction transaction)
 	{
 		TransactionReceipt? receipt = null;
-		
+
 		if (CurrentTransaction is not null)
 		{
-			var request = new FiskalyTransactionUpdateRequest()
+			var request = new FiskalyTransactionUpdateRequest
 			{
 				TransactionRevision = TransactionRevision,
 				TransactionId = CurrentTransaction?.Id!,
@@ -58,9 +63,9 @@ public partial class FiskalyTransactionService(
 				TssId = CurrentTss.Id,
 				Schema = new FiskalyTransactionSchema
 				{
-					StandardV1 = new FiskalySchemaStandardV1()
+					StandardV1 = new FiskalySchemaStandardV1
 					{
-						Receipt = new FiskalyReceipt()
+						Receipt = new FiskalyReceipt
 						{
 							ReceiptType = ReceiptType.Receipt,
 							AmountsPerVatRate = TransactionVatRates(transaction),
@@ -72,12 +77,12 @@ public partial class FiskalyTransactionService(
 			};
 
 			var result = await transactionRepository.UpdateTransaction(request);
-			receipt = CreateTransactionReceipt(result, transaction);
+			receipt = CreateTransactionReceipt(result.Object, transaction);
 		}
-		
+
 		if (CurrentTransaction is null)
 			receipt = CreateTransactionReceipt(null, transaction);
-		
+
 		TransactionRevision = 1;
 		CurrentTransaction = null;
 
@@ -87,7 +92,7 @@ public partial class FiskalyTransactionService(
 	private static List<FiskalyAmountPerVatRate> TransactionVatRates(ClientTransaction transaction)
 	{
 		var list = new List<FiskalyAmountPerVatRate>();
-		
+
 		var groups = transaction.SalesItems.GroupBy(x => x.TaxRate);
 
 		foreach (var group in groups)
@@ -101,12 +106,14 @@ public partial class FiskalyTransactionService(
 			};
 
 			var sum = group.Sum(x => x.TotalPrice);
-			
-			list.Add(new FiskalyAmountPerVatRate()
-			{
-				Amount = sum,
-				VatRate = vatRate,
-			});
+
+			list.Add(
+				new FiskalyAmountPerVatRate
+				{
+					Amount = sum,
+					VatRate = vatRate,
+				}
+			);
 		}
 
 		return list;
@@ -115,19 +122,23 @@ public partial class FiskalyTransactionService(
 	private static List<FiskalyAmountPerPaymentType> TransactionPaymentTypes(ClientTransaction transaction)
 	{
 		var list = new List<FiskalyAmountPerPaymentType>();
-		
-		list.Add(new FiskalyAmountPerPaymentType()
-		{
-			Amount = transaction.AmountNeeded,
-			PaymentType = transaction.PaymentType,
-		});
+
+		list.Add(
+			new FiskalyAmountPerPaymentType
+			{
+				Amount = transaction.AmountNeeded,
+				PaymentType = transaction.PaymentType,
+			}
+		);
 
 		return list;
 	}
 
-	private static TransactionReceipt CreateTransactionReceipt(FiskalyTransaction? fiskalyTransaction, ClientTransaction clientTransaction)
-	{
-		return new TransactionReceipt()
+	private static TransactionReceipt CreateTransactionReceipt(
+		FiskalyTransaction? fiskalyTransaction,
+		ClientTransaction clientTransaction
+	) =>
+		new()
 		{
 			TransactionCounter = fiskalyTransaction?.Number ?? -1,
 			Lines = CreateLines(clientTransaction),
@@ -135,9 +146,9 @@ public partial class FiskalyTransactionService(
 			Sum = CreateSum(clientTransaction),
 			QrCode = fiskalyTransaction?.QrCodeData ?? "TSS ERROR",
 		};
-	}
 
-	private static List<ReceiptLine> CreateLines(ClientTransaction transaction) => transaction.SalesItems.Select(ReceiptLine.FromCart).ToList();
+	private static List<ReceiptLine> CreateLines(ClientTransaction transaction) =>
+		transaction.SalesItems.Select(ReceiptLine.FromCart).ToList();
 
 	private static List<ReceiptTaxInformation> CreateTaxInformation(ClientTransaction transaction)
 	{
@@ -145,7 +156,7 @@ public partial class FiskalyTransactionService(
 
 		return groups
 				.Select(
-					group => new ReceiptTaxInformation()
+					group => new ReceiptTaxInformation
 					{
 						Name = (group.Key / 100).ToString("P0", CultureInfo.InvariantCulture),
 						Net = group.Sum(x => x.NetPrice),

@@ -1,6 +1,7 @@
-﻿using Innkeep.Api.Server.Interfaces;
-using Innkeep.Api.Server.Repositories.Pos;
-using Innkeep.Api.Server.Repositories.Registers;
+﻿using Innkeep.Api.Internal.Interfaces.Server.Pos;
+using Innkeep.Api.Internal.Interfaces.Server.Register;
+using Innkeep.Api.Internal.Repositories.Server.Pos;
+using Innkeep.Api.Internal.Repositories.Server.Register;
 using Innkeep.Client.Controllers.Endpoints;
 using Innkeep.Db.Client.Context;
 using Innkeep.Db.Client.Models;
@@ -34,10 +35,10 @@ public static class ClientServiceManager
 		ConfigureDbServices(collection);
 		ConfigureHttpRepositories(collection);
 		ConfigureHttpServices(collection);
-		
+
 		if (isKestrel)
 			ConfigureControllers(collection);
-		
+
 		collection.AddSingleton<IStartupService, StartupService>();
 	}
 
@@ -54,13 +55,13 @@ public static class ClientServiceManager
 
 	private static void ConfigureDatabase(IServiceCollection collection)
 	{
-		if (!Directory.Exists("./db")) 
+		if (!Directory.Exists("./db"))
 			Directory.CreateDirectory("./db");
-		
+
 		collection.AddDbContextFactory<InnkeepClientContext>(options => options.UseSqlite("DataSource=./db/client.db"));
 		collection.AddDbContext<InnkeepClientContext>();
 	}
-	
+
 	private static void ConfigureDbRepositories(IServiceCollection collection)
 	{
 		collection.AddSingleton<IDbRepository<ClientConfig>, ClientConfigRepository>();

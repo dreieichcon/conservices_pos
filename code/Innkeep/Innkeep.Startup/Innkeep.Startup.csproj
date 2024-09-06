@@ -17,6 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Innkeep.Api.Internal\Innkeep.Api.Internal.csproj"/>
         <ProjectReference Include="..\Innkeep.Api.Pretix\Innkeep.Api.Pretix.csproj"/>
         <ProjectReference Include="..\Innkeep.Api\Innkeep.Api.csproj"/>
         <ProjectReference Include="..\Innkeep.Client.Controllers\Innkeep.Client.Controllers.csproj"/>

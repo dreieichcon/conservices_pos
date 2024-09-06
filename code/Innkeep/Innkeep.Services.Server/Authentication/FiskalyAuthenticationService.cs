@@ -77,8 +77,8 @@ public class FiskalyAuthenticationService : IFiskalyAuthenticationService
 			AuthenticationInfo.TokenValidUntil > DateTime.UtcNow - TimeSpan.FromMinutes(5))
 		{
 			var result = await _authenticationRepository.Authenticate(AuthenticationInfo);
-			AuthenticationInfo.Token = result?.Token ?? string.Empty;
-			AuthenticationInfo.TokenValidUntil = result?.TokenValidUntil ?? DateTime.UtcNow;
+			AuthenticationInfo.Token = result.Object?.Token ?? string.Empty;
+			AuthenticationInfo.TokenValidUntil = result.Object?.TokenValidUntil ?? DateTime.UtcNow;
 		}
 	}
 
@@ -87,7 +87,7 @@ public class FiskalyAuthenticationService : IFiskalyAuthenticationService
 		if (imported is null)
 			return false;
 
-		var existing = await _tseConfigRepository.GetAsync(imported.Id);
+		var existing = await _tseConfigRepository.GetCustomAsync(x => x.TseId == imported.TseId);
 
 		if (existing is null)
 		{
@@ -103,8 +103,16 @@ public class FiskalyAuthenticationService : IFiskalyAuthenticationService
 
 			return result.Success;
 		}
+		else
+		{
+			existing.OperationType = Operation.Updated;
+			existing.TseAdminPassword = imported.TseAdminPassword;
+			existing.TsePuk = imported.TsePuk;
 
-		return true;
+			var result = await _tseConfigRepository.CrudAsync(existing);
+
+			return result.Success;
+		}
 	}
 
 	private async Task RetrieveTseConfig()

@@ -1,15 +1,14 @@
-﻿using Innkeep.Api.Models.Fiskaly.Objects;
-using Innkeep.Api.Models.Fiskaly.Objects.Client;
+﻿using Innkeep.Api.Models.Fiskaly.Objects.Client;
 
-namespace Innkeep.Services.Server.Interfaces.Fiskaly;
+namespace Innkeep.Services.Server.Interfaces.Fiskaly.Client;
 
 public interface IFiskalyClientService
 {
-	public event EventHandler? ItemsUpdated;
-
 	public FiskalyClient? CurrentClient { get; set; }
-	
+
 	public IEnumerable<FiskalyClient> Clients { get; set; }
+
+	public event EventHandler? ItemsUpdated;
 
 	public Task Load();
 

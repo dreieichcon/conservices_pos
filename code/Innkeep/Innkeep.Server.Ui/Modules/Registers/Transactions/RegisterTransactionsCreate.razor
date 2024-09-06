@@ -1,9 +1,8 @@
 ﻿@page "/register/transactions/{RegisterId}/create"
 @using System.Text.Json
-@using Innkeep.Api.Client.Interfaces
 @using Innkeep.Api.Json
 @using Innkeep.Api.Models.Internal.Transfer
-@using Innkeep.Services.Server.Interfaces.Fiskaly
+@using Innkeep.Services.Server.Interfaces.Fiskaly.Transaction
 @using Innkeep.Services.Server.Interfaces.Internal
 @using Innkeep.Services.Server.Interfaces.Registers
 @using Innkeep.Services.Server.Interfaces.Transaction
@@ -26,13 +25,13 @@
                             <MudSelectItem Value="false">Einzahlung</MudSelectItem>
                             <MudSelectItem Value="true">Auszahlung</MudSelectItem>
                         </MudSelect>
-                        <MudNumericField 
+                        <MudNumericField
                             Variant="Variant.Outlined"
                             Label="Amount"
-                            T="decimal" 
-                            @bind-Value="ClientTransfer.Amount" 
-                            Format="F2" 
-                            Validation="@(new Func<decimal, bool>(x => x > 0))" 
+                            T="decimal"
+                            @bind-Value="ClientTransfer.Amount"
+                            Format="F2"
+                            Validation="@(new Func<decimal, bool>(x => x > 0))"
                             Immediate="true">
                         </MudNumericField>
                     </MudForm>
@@ -51,14 +50,13 @@
 
     private MudForm _form;
 
-    private ClientTransfer ClientTransfer { get; set; } = new();
+    private ClientTransfer ClientTransfer { get; } = new();
 
     [Parameter]
     public required string RegisterId { get; set; }
 
     private async Task UpdateCashState()
     {
-        
         var transaction = await TransactionService.StartTransaction();
         var receipt = await TransactionService.CompleteTransferTransaction(ClientTransfer);
         receipt.Currency = EventStateService.EventCurrency;
@@ -70,14 +68,15 @@
         receipt.TransactionId = dbResult;
 
         var address = await RegisterService.GetAddress(RegisterId);
-        
+
         if (string.IsNullOrEmpty(address))
         {
             Snackbar.Add($"A hostname for client {RegisterId} could not be found.", Severity.Error);
             NavManager.NavigateTo($"/register/transactions/{RegisterId}");
+
             return;
         }
-        
+
         await ClientPrintRepository.PrintReceipt(receipt, RegisterId, address);
 
         NavManager.NavigateTo($"/register/transactions/{RegisterId}");
