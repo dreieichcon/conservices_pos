@@ -2,7 +2,6 @@
 using Innkeep.Api.Endpoints;
 using Innkeep.Api.Enum.Fiskaly.Tss;
 using Innkeep.Api.Fiskaly.Interfaces.Tss;
-using Innkeep.Api.Fiskaly.Repositories.Core;
 using Innkeep.Api.Models.Fiskaly.Objects.Tss;
 using Innkeep.Api.Models.Fiskaly.Request.Auth;
 using Innkeep.Api.Models.Fiskaly.Request.Tss;
@@ -11,7 +10,7 @@ using Innkeep.Api.Models.Fiskaly.Response;
 namespace Innkeep.Api.Fiskaly.Repositories.Tss;
 
 public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationService)
-	: BaseFiskalyRepository(authenticationService), IFiskalyTssRepository
+	: Abstract(authenticationService), IFiskalyTssRepository
 {
 	public async Task<IEnumerable<FiskalyTss>> GetAll()
 	{
@@ -43,7 +42,7 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(current.Id).Build();
 
 		var content = Serialize(
-			new FiskalyTssStateRequest()
+			new FiskalyTssStateRequest
 			{
 				State = TssState.Uninitialized,
 			}
@@ -63,7 +62,7 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(current.Id).Build();
 
 		var content = Serialize(
-			new FiskalyTssStateRequest()
+			new FiskalyTssStateRequest
 			{
 				State = TssState.Initialized,
 				Description = current.Description,
@@ -84,7 +83,7 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 		var config = AuthenticationService.CurrentConfig;
 
 		var content = Serialize(
-			new FiskalyAdminPinRequest()
+			new FiskalyAdminPinRequest
 			{
 				AdminPuk = config.TsePuk!,
 				NewAdminPin = config.TseAdminPassword!,

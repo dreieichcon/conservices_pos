@@ -1,47 +1,45 @@
 ﻿using Innkeep.Api.Auth;
 using Innkeep.Api.Fiskaly.Interfaces.Auth;
 using Innkeep.Api.Fiskaly.Tests.Data;
-using Innkeep.Api.Models.Fiskaly.Objects;
 using Innkeep.Api.Models.Fiskaly.Objects.Tss;
 using Innkeep.Core.DomainModels.Authentication;
-using Innkeep.Db.Server.Models;
 using Innkeep.Db.Server.Models.Server;
 
 namespace Innkeep.Api.Fiskaly.Tests.Mock;
 
 public class FiskalyAuthenticationServiceMock : IFiskalyAuthenticationService
 {
-	public AuthenticationInfo AuthenticationInfo { get; set; }
+	private readonly IFiskalyAuthenticationRepository _authenticationRepository;
 
-	public FiskalyTseConfig CurrentConfig { get; set; }
-
-	private readonly IFiskalyAuthRepository _authRepository;
-
-	public FiskalyAuthenticationServiceMock(IFiskalyAuthRepository authRepository)
+	public FiskalyAuthenticationServiceMock(IFiskalyAuthenticationRepository authenticationRepository)
 	{
 		var testAuth = new TestAuth();
 
-		AuthenticationInfo = new AuthenticationInfo()
+		AuthenticationInfo = new AuthenticationInfo
 		{
 			Key = testAuth.FiskalyApiKey,
 			Secret = testAuth.FiskalyApiSecret,
 		};
 
-		CurrentConfig = new FiskalyTseConfig()
+		CurrentConfig = new FiskalyTseConfig
 		{
 			Id = Guid.NewGuid().ToString(),
-			TseId = string.Empty
+			TseId = string.Empty,
 		};
 
-		_authRepository = authRepository;
+		_authenticationRepository = authenticationRepository;
 	}
+
+	public AuthenticationInfo AuthenticationInfo { get; set; }
+
+	public FiskalyTseConfig CurrentConfig { get; set; }
 
 	public async Task GetOrUpdateToken()
 	{
 		if (string.IsNullOrEmpty(AuthenticationInfo.Token) ||
 			AuthenticationInfo.TokenValidUntil > DateTime.UtcNow - TimeSpan.FromMinutes(5))
 		{
-			var result = await _authRepository.Authenticate(AuthenticationInfo);
+			var result = await _authenticationRepository.Authenticate(AuthenticationInfo);
 			AuthenticationInfo.Token = result?.Token ?? string.Empty;
 			AuthenticationInfo.TokenValidUntil = result?.TokenValidUntil ?? DateTime.UtcNow;
 		}

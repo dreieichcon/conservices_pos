@@ -5,14 +5,15 @@ using Innkeep.Api.Fiskaly.Repositories.Core;
 using Innkeep.Api.Models.Fiskaly.Request.Auth;
 using Innkeep.Api.Models.Fiskaly.Response;
 using Innkeep.Core.DomainModels.Authentication;
+using Innkeep.Http.Interfaces;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Auth;
 
-public class FiskalyAuthRepository() : BaseFiskalyRepository(null!), IFiskalyAuthRepository
+public class FiskalyAuthenticationRepository() : AbstractFiskalyRepository(null!), IFiskalyAuthenticationRepository
 {
-	public async Task<FiskalyTokenResponse?> Authenticate(AuthenticationInfo authenticationInfo)
+	public async Task<IHttpResponse<FiskalyTokenResponse>> Authenticate(AuthenticationInfo authenticationInfo)
 	{
-		var request = new FiskalyTokenRequest()
+		var request = new FiskalyTokenRequest
 		{
 			Key = authenticationInfo.Key,
 			Secret = authenticationInfo.Secret,
@@ -21,15 +22,14 @@ public class FiskalyAuthRepository() : BaseFiskalyRepository(null!), IFiskalyAut
 		var endpoint = new FiskalyEndpointBuilder().Authenticate().Build();
 
 		var content = JsonSerializer.Serialize(request);
-		
+
 		var result = await Post(endpoint, content);
 
-		return !result.IsSuccess ? null : Deserialize<FiskalyTokenResponse>(result.Content);
+		return DeserializeResult<FiskalyTokenResponse>(result);
 	}
-	
+
 	// Since this repository is there to update the token, the token update call is skipped
-	protected override async Task PrepareRequest() 
-		=> await Task.CompletedTask;
+	protected override async Task PrepareRequest() => await Task.CompletedTask;
 
 	protected override void InitializePostHeaders()
 	{

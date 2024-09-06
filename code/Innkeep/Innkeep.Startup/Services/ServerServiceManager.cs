@@ -43,7 +43,6 @@ using Innkeep.Services.Server.Registers;
 using Innkeep.Services.Server.Transaction;
 using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.EntityFrameworkCore;
-
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Innkeep.Startup.Services;
@@ -58,14 +57,14 @@ public static class ServerServiceManager
 		ConfigureDbServices(collection);
 		ConfigureHttpRepositories(collection);
 		ConfigureHttpServices(collection);
-		
+
 		if (isKestrel)
 			ConfigureControllers(collection);
 
 		collection.AddSingleton<IEventStateService, EventStateService>();
 		collection.AddSingleton<IStartupService, StartupService>();
 	}
-	
+
 	private static void ConfigureLocalServices(IServiceCollection collection)
 	{
 		collection.AddSingleton<IHardwareService, HardwareService>();
@@ -80,9 +79,9 @@ public static class ServerServiceManager
 
 	private static void ConfigureDatabase(IServiceCollection collection)
 	{
-		if (!Directory.Exists("./db")) 
+		if (!Directory.Exists("./db"))
 			Directory.CreateDirectory("./db");
-		
+
 		collection.AddDbContextFactory<InnkeepServerContext>(options => options.UseSqlite("DataSource=./db/server.db"));
 		collection.AddDbContext<InnkeepServerContext>();
 		collection.AddSingleton<IDbContextFactory<InnkeepTransactionContext>, InnkeepTransactionContextFactory>();
@@ -96,12 +95,12 @@ public static class ServerServiceManager
 		collection.AddSingleton<IDbRepository<Register>, RegisterRepository>();
 		collection.AddSingleton<IDbRepository<TransactionModel>, TransactionRepository>();
 	}
-	
+
 	private static void ConfigureDbServices(IServiceCollection collection)
 	{
 		collection.AddSingleton<IDbService<PretixConfig>, PretixConfigService>();
 		collection.AddSingleton<IPretixAuthenticationService, PretixAuthenticationService>();
-		
+
 		collection.AddSingleton<IDbService<FiskalyConfig>, FiskalyConfigService>();
 		collection.AddSingleton<IFiskalyAuthenticationService, FiskalyAuthenticationService>();
 		collection.AddSingleton<IFiskalyTssService, FiskalyTssService>();
@@ -121,11 +120,11 @@ public static class ServerServiceManager
 		collection.AddSingleton<IPretixOrderRepository, PretixOrderRepository>();
 		collection.AddSingleton<IPretixQuotaRepository, PretixQuotaRepository>();
 
-		collection.AddSingleton<IFiskalyAuthRepository, FiskalyAuthRepository>();
+		collection.AddSingleton<IFiskalyAuthenticationRepository, FiskalyAuthenticationRepository>();
 		collection.AddSingleton<IFiskalyTssRepository, FiskalyTssRepository>();
 		collection.AddSingleton<IFiskalyClientRepository, FiskalyClientRepository>();
 		collection.AddSingleton<IFiskalyTransactionRepository, FiskalyTransactionRepository>();
-		
+
 		collection.AddSingleton<IClientPrintRepository, ClientPrintRepository>();
 		collection.AddSingleton<IClientReloadRepository, ClientReloadRepository>();
 	}
@@ -135,7 +134,7 @@ public static class ServerServiceManager
 		collection.AddSingleton<IPretixSalesItemService, PretixSalesItemService>();
 		collection.AddSingleton<IPretixCheckinService, PretixCheckinService>();
 		collection.AddSingleton<IPretixOrderService, PretixOrderService>();
-		
+
 		collection.AddSingleton<IFiskalyTssService, FiskalyTssService>();
 		collection.AddSingleton<IFiskalyClientService, FiskalyClientService>();
 		collection.AddSingleton<IFiskalyTransactionService, FiskalyTransactionService>();
