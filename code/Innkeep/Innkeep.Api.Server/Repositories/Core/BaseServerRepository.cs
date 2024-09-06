@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
-using Innkeep.Api.Core.Http;
 using Innkeep.Api.Json;
+using Innkeep.Http.Repository;
 
 namespace Innkeep.Api.Server.Repositories.Core;
 
@@ -9,14 +9,10 @@ public class BaseServerRepository : BaseHttpRepository
 {
 	protected override JsonSerializerOptions GetOptions() => SerializerOptions.GetServerOptions();
 
-	protected override Task PrepareRequest()
-	{
-		// do nothing here
-		return Task.CompletedTask;
-	}
+	protected override Task PrepareRequest() => Task.CompletedTask;
 
-	protected override HttpContent CreatePostMessage(string content) 
-		=> new StringContent(content, Encoding.UTF8, "application/json");
+	protected override HttpContent CreatePostMessage(string content) =>
+		new StringContent(content, Encoding.UTF8, "application/json");
 
 	protected override HttpContent CreatePutMessage(string content) => throw new NotImplementedException();
 

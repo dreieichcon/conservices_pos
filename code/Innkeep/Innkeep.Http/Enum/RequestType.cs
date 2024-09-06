@@ -1,4 +1,4 @@
-﻿namespace Innkeep.Api.Enum;
+﻿namespace Innkeep.Http.Enum;
 
 public enum RequestType
 {
