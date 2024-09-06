@@ -20,7 +20,7 @@ public class CheckinService(IDbService<ClientConfig> clientConfigService)
 		var baseUri = await GetAddress();
 		var uri = new ServerEndpointBuilder(baseUri).WithCheckin().Entry().WithIdentifier(Identifier).Build();
 
-		var data = new CheckinRequest()
+		var data = new CheckinRequest
 		{
 			Secret = secret,
 		};
@@ -29,7 +29,7 @@ public class CheckinService(IDbService<ClientConfig> clientConfigService)
 
 		var result = await Post(uri, serialized);
 
-		var deserialized = DeserializeOrNull<PretixCheckinResponse>(result);
+		var deserialized = DeserializeResult<PretixCheckinResponse>(result);
 
 		if (deserialized == null)
 			return deserialized;

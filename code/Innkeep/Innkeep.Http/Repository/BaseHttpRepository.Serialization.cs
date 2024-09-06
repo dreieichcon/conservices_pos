@@ -14,7 +14,7 @@ public abstract partial class BaseHttpRepository
 	/// <param name="forceDeserializeError">Will force deserialization, even the api result was unsuccessful.</param>
 	/// <typeparam name="T">Type to deserialize into.</typeparam>
 	/// <returns>A <see cref="IHttpResponse{T}" />.</returns>
-	protected IHttpResponse<T> DeserializeOrNull<T>(ApiResponse result, bool forceDeserializeError = false)
+	protected IHttpResponse<T> DeserializeResult<T>(ApiResponse result, bool forceDeserializeError = false)
 		where T : class
 	{
 		if (!result.IsSuccess && !forceDeserializeError)
@@ -32,7 +32,7 @@ public abstract partial class BaseHttpRepository
 	/// <param name="result">ApiResult to deserialize</param>
 	/// <typeparam name="T">Type to deserialize into.</typeparam>
 	/// <returns>A <see cref="IHttpResponse{T}" />.</returns>
-	protected IHttpResponse<T> Deserialize<T>(ApiResponse result) where T : class
+	private IHttpResponse<T> Deserialize<T>(ApiResponse result) where T : class
 	{
 		try
 		{

@@ -2,7 +2,6 @@
 using Innkeep.Api.Endpoints;
 using Innkeep.Api.Enum.Fiskaly.Client;
 using Innkeep.Api.Fiskaly.Interfaces.Tss;
-using Innkeep.Api.Fiskaly.Repositories.Core;
 using Innkeep.Api.Models.Fiskaly.Objects.Client;
 using Innkeep.Api.Models.Fiskaly.Request.Client;
 using Innkeep.Api.Models.Fiskaly.Response;
@@ -10,7 +9,7 @@ using Innkeep.Api.Models.Fiskaly.Response;
 namespace Innkeep.Api.Fiskaly.Repositories.Tss;
 
 public class FiskalyClientRepository(IFiskalyAuthenticationService authenticationService)
-	: BaseFiskalyRepository(authenticationService), IFiskalyClientRepository
+	: Abstract(authenticationService), IFiskalyClientRepository
 {
 	public async Task<IEnumerable<FiskalyClient>> GetAll(string tssId)
 	{
@@ -42,9 +41,9 @@ public class FiskalyClientRepository(IFiskalyAuthenticationService authenticatio
 		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(tssId).WithSpecificClient(id).Build();
 
 		var content = Serialize(
-			new FiskalyClientCreateRequest()
+			new FiskalyClientCreateRequest
 			{
-				SerialNumber = serialNumber
+				SerialNumber = serialNumber,
 			}
 		);
 
@@ -62,9 +61,9 @@ public class FiskalyClientRepository(IFiskalyAuthenticationService authenticatio
 		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(tssId).WithSpecificClient(id).Build();
 
 		var content = Serialize(
-			new FiskalyClientUpdateRequest()
+			new FiskalyClientUpdateRequest
 			{
-				State = state
+				State = state,
 			}
 		);
 

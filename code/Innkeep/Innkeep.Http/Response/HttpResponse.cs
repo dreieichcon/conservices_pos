@@ -17,6 +17,9 @@ public class HttpResponse<T> : IHttpResponse<T>
 	/// <inheritdoc />
 	public bool IsSuccess { get; set; }
 
+	public static HttpResponse<T> Parse(ApiResponse response, T? @object) =>
+		response.IsSuccess ? Ok(response, @object) : Error(response);
+
 	public static HttpResponse<T> Ok(ApiResponse response, T? @object) =>
 		new()
 		{

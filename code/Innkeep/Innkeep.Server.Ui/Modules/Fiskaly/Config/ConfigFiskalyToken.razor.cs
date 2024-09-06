@@ -1,5 +1,4 @@
-﻿using Innkeep.Api.Auth;
-using Innkeep.Api.Fiskaly.Interfaces.Auth;
+﻿using Innkeep.Api.Fiskaly.Interfaces.Auth;
 using Innkeep.Core.DomainModels.Authentication;
 using Innkeep.Db.Server.Models;
 using Innkeep.Services.Interfaces;
@@ -12,10 +11,10 @@ public partial class ConfigFiskalyToken
 {
 	[Inject]
 	public IDbService<FiskalyConfig> FiskalyConfigService { get; set; } = null!;
-	
+
 	[Inject]
-	public IFiskalyAuthRepository AuthRepository { get; set; } = null!;
-	
+	public IFiskalyAuthenticationRepository AuthenticationRepository { get; set; } = null!;
+
 	[Inject]
 	public ISnackbar Snackbar { get; set; } = null!;
 
@@ -36,8 +35,8 @@ public partial class ConfigFiskalyToken
 	{
 		try
 		{
-			var result = await AuthRepository.Authenticate(
-				new AuthenticationInfo()
+			var result = await AuthenticationRepository.Authenticate(
+				new AuthenticationInfo
 				{
 					Key = ConfigItem!.ApiKey,
 					Secret = ConfigItem!.ApiSecret,
@@ -47,6 +46,7 @@ public partial class ConfigFiskalyToken
 			if (result is not null)
 			{
 				Snackbar.Add("Success", Severity.Success);
+
 				return;
 			}
 		}
@@ -54,7 +54,7 @@ public partial class ConfigFiskalyToken
 		{
 			Snackbar.Add("Error", Severity.Error);
 		}
-		
+
 		Snackbar.Add("Invalid Credentials", Severity.Error);
 	}
 }

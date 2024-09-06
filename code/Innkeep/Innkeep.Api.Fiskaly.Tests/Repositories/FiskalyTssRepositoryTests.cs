@@ -8,7 +8,7 @@ namespace Innkeep.Api.Fiskaly.Tests.Repositories;
 [TestClass]
 public class FiskalyTssRepositoryTests
 {
-	private FiskalyAuthRepository _authRepository = null!;
+	private FiskalyAuthenticationRepository _authenticationRepository = null!;
 
 	private IFiskalyAuthenticationService _authenticationService;
 
@@ -17,8 +17,8 @@ public class FiskalyTssRepositoryTests
 	[TestInitialize]
 	public void Initialize()
 	{
-		_authRepository = new FiskalyAuthRepository();
-		_authenticationService = new FiskalyAuthenticationServiceMock(_authRepository);
+		_authenticationRepository = new FiskalyAuthenticationRepository();
+		_authenticationService = new FiskalyAuthenticationServiceMock(_authenticationRepository);
 		_tssRepository = new FiskalyTssRepository(_authenticationService);
 	}
 
@@ -28,5 +28,4 @@ public class FiskalyTssRepositoryTests
 		var result = await _tssRepository.GetAll();
 		Assert.IsTrue(result.Any());
 	}
-	
 }

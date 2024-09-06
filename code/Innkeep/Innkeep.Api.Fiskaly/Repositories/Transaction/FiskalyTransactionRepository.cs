@@ -2,20 +2,15 @@
 using Innkeep.Api.Endpoints;
 using Innkeep.Api.Enum.Fiskaly.Transaction;
 using Innkeep.Api.Fiskaly.Interfaces.Transaction;
-using Innkeep.Api.Fiskaly.Repositories.Core;
 using Innkeep.Api.Models.Fiskaly.Objects.Transaction;
 using Innkeep.Api.Models.Fiskaly.Request.Transaction;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Transaction;
 
 public class FiskalyTransactionRepository(IFiskalyAuthenticationService authenticationService)
-	: BaseFiskalyRepository(authenticationService), IFiskalyTransactionRepository
+	: Abstract(authenticationService), IFiskalyTransactionRepository
 {
-	public async Task<FiskalyTransaction?> StartTransaction(
-		string tssId,
-		string transactionId,
-		string clientId
-	)
+	public async Task<FiskalyTransaction?> StartTransaction(string tssId, string transactionId, string clientId)
 	{
 		var endpoint = new FiskalyEndpointBuilder()
 						.WithSpecificTss(tssId)
@@ -23,7 +18,7 @@ public class FiskalyTransactionRepository(IFiskalyAuthenticationService authenti
 						.WithTransactionRevision(1)
 						.Build();
 
-		var payload = new FiskalyTransactionStartRequest()
+		var payload = new FiskalyTransactionStartRequest
 		{
 			State = TransactionState.Active,
 			ClientId = clientId,
@@ -43,7 +38,7 @@ public class FiskalyTransactionRepository(IFiskalyAuthenticationService authenti
 						.WithSpecificTransaction(transactionUpdateRequest.TransactionId)
 						.WithTransactionRevision(transactionUpdateRequest.TransactionRevision)
 						.Build();
-		
+
 		var result = await Put(endpoint, Serialize(transactionUpdateRequest));
 
 		return DeserializeOrNull<FiskalyTransaction>(result);
