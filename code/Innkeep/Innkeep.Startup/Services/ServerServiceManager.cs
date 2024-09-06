@@ -10,6 +10,7 @@ using Innkeep.Api.Fiskaly.Repositories.Transaction;
 using Innkeep.Api.Fiskaly.Repositories.Tss;
 using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Api.Pretix.Interfaces.Auth;
+using Innkeep.Api.Pretix.Interfaces.Checkin;
 using Innkeep.Api.Pretix.Repositories.Auth;
 using Innkeep.Api.Pretix.Repositories.Checkin;
 using Innkeep.Api.Pretix.Repositories.General;

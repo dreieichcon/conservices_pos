@@ -17,6 +17,21 @@ public class HttpResponse<T> : IHttpResponse<T>
 	/// <inheritdoc />
 	public bool IsSuccess { get; set; }
 
+	public static HttpResponse<T> FromResponse<TR>(IHttpResponse<TR> response, Func<TR, T?> converter)
+	{
+		var newResponse = new HttpResponse<T>
+		{
+			StatusCode = response.StatusCode,
+			Content = response.Content,
+			IsSuccess = response.IsSuccess,
+		};
+
+		if (response.Object is not null)
+			newResponse.Object = converter(response.Object);
+
+		return newResponse;
+	}
+
 	public static HttpResponse<T> FromUnsuccessfulResponse(IHttpResponse response) =>
 		new()
 		{

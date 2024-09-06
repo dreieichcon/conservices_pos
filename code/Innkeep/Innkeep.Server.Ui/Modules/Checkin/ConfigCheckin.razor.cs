@@ -1,5 +1,5 @@
 ﻿using Innkeep.Api.Models.Pretix.Objects.Checkin;
-using Innkeep.Api.Pretix.Interfaces;
+using Innkeep.Api.Pretix.Interfaces.Checkin;
 using Innkeep.Db.Server.Models;
 using Innkeep.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
@@ -10,7 +10,7 @@ namespace Innkeep.Server.Ui.Modules.Checkin;
 public partial class ConfigCheckin : ComponentBase
 {
 	private PretixCheckinList? _currentCheckinList;
-	
+
 	[Inject]
 	public ISnackbar Snackbar { get; set; }
 
@@ -28,7 +28,7 @@ public partial class ConfigCheckin : ComponentBase
 		set
 		{
 			_currentCheckinList = value;
-			
+
 			CurrentItem.SelectedCheckinListId = value?.Id;
 			CurrentItem.SelectedCheckinListName = value?.Name;
 		}
@@ -42,9 +42,7 @@ public partial class ConfigCheckin : ComponentBase
 
 		if (string.IsNullOrEmpty(CurrentItem.SelectedOrganizerSlug) ||
 			string.IsNullOrEmpty(CurrentItem.SelectedEventSlug))
-		{
 			return;
-		}
 
 		CheckinLists = await CheckinListRepository.GetAll(
 			CurrentItem.SelectedOrganizerSlug,
