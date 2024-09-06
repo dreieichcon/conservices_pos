@@ -5,13 +5,15 @@ using Innkeep.Api.Models.Internal;
 using Innkeep.Api.Models.Pretix.Objects.Order;
 using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Api.Pretix.Repositories.Core;
+using Innkeep.Http.Interfaces;
+using Innkeep.Http.Response;
 
 namespace Innkeep.Api.Pretix.Repositories.Order;
 
 public class PretixOrderRepository(IPretixAuthenticationService authenticationService)
-	: AbstractPretixRepository<PretixOrder>(authenticationService), IPretixOrderRepository
+	: AbstractPretixRepository(authenticationService), IPretixOrderRepository
 {
-	public async Task<PretixOrderResponse?> CreateOrder(
+	public async Task<IHttpResponse<PretixOrderResponse>> CreateOrder(
 		string pretixOrganizer,
 		string pretixEvent,
 		IEnumerable<DtoSalesItem> cart,
@@ -28,8 +30,10 @@ public class PretixOrderRepository(IPretixAuthenticationService authenticationSe
 
 		var serialized = Serialize(payload);
 
-		var result = await Post(endpoint, serialized);
+		var response = await Post(endpoint, serialized);
 
-		return DeserializeOrNull<PretixOrderResponse>(result);
+		var result = DeserializePretixResult<PretixOrderResponse>(response);
+
+		return HttpResponse<PretixOrderResponse>.FromResponse(result, x => x.Results.FirstOrDefault());
 	}
 }
