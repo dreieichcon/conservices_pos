@@ -3,7 +3,10 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Innkeep.Api.Auth;
 using Innkeep.Api.Json;
+using Innkeep.Api.Models.Pretix.Response;
+using Innkeep.Http.Interfaces;
 using Innkeep.Http.Repository;
+using Innkeep.Http.Response;
 
 namespace Innkeep.Api.Pretix.Repositories.Core;
 
@@ -40,4 +43,10 @@ public abstract class AbstractPretixRepository(IPretixAuthenticationService auth
 				new JsonStringEnumConverter(new PretixEnumNamingPolicy()),
 			},
 		};
+
+	protected IHttpResponse<PretixResponse<T>> DeserializePretixResult<T>(ApiResponse result, bool forceDeserializeError = false)
+		where T : class
+	{
+		return DeserializeResult<PretixResponse<T>>(result, forceDeserializeError);
+	}
 }
