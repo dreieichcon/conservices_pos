@@ -7,13 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Innkeep.Api.Client\Innkeep.Api.Client.csproj" />
-      <ProjectReference Include="..\Innkeep.Api.Fiskaly\Innkeep.Api.Fiskaly.csproj" />
-      <ProjectReference Include="..\Innkeep.Api.Pretix\Innkeep.Api.Pretix.csproj" />
-      <ProjectReference Include="..\Innkeep.Api\Innkeep.Api.csproj" />
-      <ProjectReference Include="..\Innkeep.Db\Innkeep.Db.csproj" />
-      <ProjectReference Include="..\Innkeep.Db.Server\Innkeep.Db.Server.csproj" />
-      <ProjectReference Include="..\Innkeep.Services\Innkeep.Services.csproj" />
+        <ProjectReference Include="..\Innkeep.Api.Fiskaly\Innkeep.Api.Fiskaly.csproj"/>
+        <ProjectReference Include="..\Innkeep.Api.Pretix\Innkeep.Api.Pretix.csproj"/>
+        <ProjectReference Include="..\Innkeep.Api\Innkeep.Api.csproj"/>
+        <ProjectReference Include="..\Innkeep.Db\Innkeep.Db.csproj"/>
+        <ProjectReference Include="..\Innkeep.Db.Server\Innkeep.Db.Server.csproj"/>
+        <ProjectReference Include="..\Innkeep.Services\Innkeep.Services.csproj"/>
     </ItemGroup>
 
 </Project>

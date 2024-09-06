@@ -1,12 +1,12 @@
-﻿using Innkeep.Api.Server.Interfaces;
-using Innkeep.Api.Server.Repositories.Core;
+﻿using Innkeep.Api.Internal.Interfaces.Server.Register;
+using Innkeep.Api.Internal.Repositories.Server.Core;
 using Innkeep.Db.Client.Models;
 using Innkeep.Services.Interfaces;
 using Serilog;
 
-namespace Innkeep.Api.Server.Repositories.Registers;
+namespace Innkeep.Api.Internal.Repositories.Server.Register;
 
-public class RegisterConnectionRepository(IDbService<ClientConfig> clientConfigService) : BaseServerRepository, IRegisterConnectionRepository
+public class RegisterConnectionRepository(IDbService<ClientConfig> clientConfigService) : AbstractServerRepository(clientConfigService), IRegisterConnectionRepository
 {
 	protected override int Timeout => 500;
 

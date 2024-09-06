@@ -6,26 +6,25 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>Innkeep.Server.Ui</RootNamespace>
     </PropertyGroup>
-    
+
     <ItemGroup>
         <SupportedPlatform Include="browser"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="8.0.40" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.8" />
-        <PackageReference Include="MudBlazor" Version="7.6.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="8.0.40"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.8"/>
+        <PackageReference Include="MudBlazor" Version="7.6.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Innkeep.Api.Client\Innkeep.Api.Client.csproj" />
-      <ProjectReference Include="..\Innkeep.Api.Pretix\Innkeep.Api.Pretix.csproj" />
-      <ProjectReference Include="..\Innkeep.Api\Innkeep.Api.csproj" />
-      <ProjectReference Include="..\Innkeep.Db.Server\Innkeep.Db.Server.csproj" />
-      <ProjectReference Include="..\Innkeep.Services.Server\Innkeep.Services.Server.csproj" />
-      <ProjectReference Include="..\Innkeep.Services\Innkeep.Services.csproj" />
-      <ProjectReference Include="..\Innkeep.Startup\Innkeep.Startup.csproj" />
-      <ProjectReference Include="..\Innkeep.Styles\Innkeep.Styles.csproj" />
+        <ProjectReference Include="..\Innkeep.Api.Pretix\Innkeep.Api.Pretix.csproj"/>
+        <ProjectReference Include="..\Innkeep.Api\Innkeep.Api.csproj"/>
+        <ProjectReference Include="..\Innkeep.Db.Server\Innkeep.Db.Server.csproj"/>
+        <ProjectReference Include="..\Innkeep.Services.Server\Innkeep.Services.Server.csproj"/>
+        <ProjectReference Include="..\Innkeep.Services\Innkeep.Services.csproj"/>
+        <ProjectReference Include="..\Innkeep.Startup\Innkeep.Startup.csproj"/>
+        <ProjectReference Include="..\Innkeep.Styles\Innkeep.Styles.csproj"/>
     </ItemGroup>
 
 </Project>

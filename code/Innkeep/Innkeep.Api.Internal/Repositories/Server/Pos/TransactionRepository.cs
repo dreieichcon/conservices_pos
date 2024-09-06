@@ -1,16 +1,17 @@
 ﻿using Innkeep.Api.Endpoints;
+using Innkeep.Api.Internal.Interfaces.Server.Pos;
+using Innkeep.Api.Internal.Repositories.Server.Core;
 using Innkeep.Api.Models.Internal.Transaction;
-using Innkeep.Api.Server.Interfaces;
-using Innkeep.Api.Server.Repositories.Core;
 using Innkeep.Db.Client.Models;
+using Innkeep.Http.Interfaces;
 using Innkeep.Services.Interfaces;
 
-namespace Innkeep.Api.Server.Repositories.Pos;
+namespace Innkeep.Api.Internal.Repositories.Server.Pos;
 
 public class TransactionRepository(IDbService<ClientConfig> clientConfigService)
 	: AbstractServerRepository(clientConfigService), ITransactionRepository
 {
-	public async Task<TransactionReceipt?> CommitTransaction(ClientTransaction transaction)
+	public async Task<IHttpResponse<TransactionReceipt>> CommitTransaction(ClientTransaction transaction)
 	{
 		var baseUri = await GetAddress();
 

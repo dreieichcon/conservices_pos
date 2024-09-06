@@ -7,15 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Flurl.Http" Version="4.0.2"/>
-        <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\Innkeep.Api\Innkeep.Api.csproj"/>
         <ProjectReference Include="..\Innkeep.Db.Client\Innkeep.Db.Client.csproj"/>
         <ProjectReference Include="..\Innkeep.Http\Innkeep.Http.csproj"/>
-        <ProjectReference Include="..\Innkeep.Services\Innkeep.Services.csproj"/>
     </ItemGroup>
 
 </Project>

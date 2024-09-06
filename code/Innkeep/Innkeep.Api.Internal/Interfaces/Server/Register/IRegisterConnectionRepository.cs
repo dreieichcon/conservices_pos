@@ -1,4 +1,4 @@
-﻿namespace Innkeep.Api.Server.Interfaces;
+﻿namespace Innkeep.Api.Internal.Interfaces.Server.Register;
 
 public interface IRegisterConnectionRepository
 {
