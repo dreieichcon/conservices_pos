@@ -32,7 +32,7 @@ public abstract partial class BaseHttpRepository
 	/// <param name="result">ApiResult to deserialize</param>
 	/// <typeparam name="T">Type to deserialize into.</typeparam>
 	/// <returns>A <see cref="IHttpResponse{T}" />.</returns>
-	private IHttpResponse<T> Deserialize<T>(ApiResponse result) where T : class
+	private HttpResponse<T> Deserialize<T>(ApiResponse result) where T : class
 	{
 		try
 		{

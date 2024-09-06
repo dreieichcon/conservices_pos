@@ -7,7 +7,7 @@ using Innkeep.Api.Pretix.Repositories.Core;
 namespace Innkeep.Api.Pretix.Repositories.Checkin;
 
 public class PretixCheckinRepository(IPretixAuthenticationService authenticationService)
-	: BasePretixRepository<PretixCheckinResponse>(authenticationService), IPretixCheckinRepository
+	: AbstractPretixRepository<PretixCheckinResponse>(authenticationService), IPretixCheckinRepository
 {
 	public async Task<PretixCheckinResponse?> CheckIn(string organizerSlug, PretixCheckin checkin)
 	{

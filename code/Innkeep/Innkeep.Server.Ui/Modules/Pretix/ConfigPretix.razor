@@ -1,10 +1,10 @@
 ﻿@page "/config/pretix"
-@using Innkeep.Services.Interfaces
-@using Innkeep.Api.Pretix.Interfaces
+@using Innkeep.Api.Pretix.Interfaces.Auth
 @using Innkeep.Db.Server.Models
+@using Innkeep.Services.Interfaces
 
 @inject IDbService<PretixConfig> PretixConfigService;
-@inject IPretixAuthRepository PretixAuthRepository;
+@inject IPretixAuthenticationRepository PretixAuthenticationRepository;
 @inject ISnackbar Snackbar;
 
 <ConfigPage PageTitle="Pretix Config">
@@ -44,7 +44,7 @@
 
     private async Task Test()
     {
-        var result = await PretixAuthRepository.Authenticate();
+        var result = await PretixAuthenticationRepository.Authenticate();
 
         if (!result)
             Snackbar.Add("Error authenticating. Please check your credentials.", Severity.Error);

@@ -7,7 +7,7 @@ using Innkeep.Api.Pretix.Repositories.Core;
 namespace Innkeep.Api.Pretix.Repositories.General;
 
 public class PretixOrganizerRepository(IPretixAuthenticationService authenticationService)
-	: BasePretixRepository<PretixOrganizer>(authenticationService), IPretixOrganizerRepository
+	: AbstractPretixRepository<PretixOrganizer>(authenticationService), IPretixOrganizerRepository
 {
 	public async Task<IEnumerable<PretixOrganizer>> GetOrganizers()
 	{
@@ -16,7 +16,7 @@ public class PretixOrganizerRepository(IPretixAuthenticationService authenticati
 		var response = await Get(uri);
 
 		if (!response.IsSuccess) return new List<PretixOrganizer>();
-		
+
 		var result = Deserialize(response.Content);
 
 		return result is not null ? result.Results : new List<PretixOrganizer>();

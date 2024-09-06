@@ -9,9 +9,14 @@ using Innkeep.Api.Pretix.Repositories.Core;
 namespace Innkeep.Api.Pretix.Repositories.Order;
 
 public class PretixOrderRepository(IPretixAuthenticationService authenticationService)
-	: BasePretixRepository<PretixOrder>(authenticationService), IPretixOrderRepository
+	: AbstractPretixRepository<PretixOrder>(authenticationService), IPretixOrderRepository
 {
-	public async Task<PretixOrderResponse?> CreateOrder(string pretixOrganizer, string pretixEvent, IEnumerable<DtoSalesItem> cart, bool isTestMode)
+	public async Task<PretixOrderResponse?> CreateOrder(
+		string pretixOrganizer,
+		string pretixEvent,
+		IEnumerable<DtoSalesItem> cart,
+		bool isTestMode
+	)
 	{
 		var endpoint = new PretixEndpointBuilder()
 						.WithOrganizer(pretixOrganizer)

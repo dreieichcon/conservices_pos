@@ -7,7 +7,7 @@ using Innkeep.Api.Pretix.Repositories.Core;
 namespace Innkeep.Api.Pretix.Repositories.General;
 
 public class PretixEventRepository(IPretixAuthenticationService authenticationService)
-	: BasePretixRepository<PretixEvent>(authenticationService), IPretixEventRepository
+	: AbstractPretixRepository<PretixEvent>(authenticationService), IPretixEventRepository
 {
 	public async Task<IEnumerable<PretixEvent>> GetEvents(PretixOrganizer organizer)
 	{

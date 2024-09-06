@@ -7,7 +7,7 @@ using Innkeep.Api.Pretix.Repositories.Core;
 namespace Innkeep.Api.Pretix.Repositories.Checkin;
 
 public class PretixCheckinListListRepository(IPretixAuthenticationService authenticationService)
-	: BasePretixRepository<PretixCheckinList>(authenticationService), IPretixCheckinListRepository
+	: AbstractPretixRepository<PretixCheckinList>(authenticationService), IPretixCheckinListRepository
 {
 	public async Task<IEnumerable<PretixCheckinList>> GetAll(string organizerSlug, string eventSlug)
 	{

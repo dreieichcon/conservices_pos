@@ -7,7 +7,7 @@ using Innkeep.Api.Pretix.Repositories.Core;
 namespace Innkeep.Api.Pretix.Repositories.Quota;
 
 public class PretixQuotaRepository(IPretixAuthenticationService authenticationService)
-	: BasePretixRepository<PretixQuota>(authenticationService), IPretixQuotaRepository
+	: AbstractPretixRepository<PretixQuota>(authenticationService), IPretixQuotaRepository
 {
 	public async Task<List<PretixQuota>> GetAll(string organizerSlug, string eventSlug)
 	{

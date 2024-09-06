@@ -9,6 +9,7 @@ using Innkeep.Api.Fiskaly.Repositories.Auth;
 using Innkeep.Api.Fiskaly.Repositories.Transaction;
 using Innkeep.Api.Fiskaly.Repositories.Tss;
 using Innkeep.Api.Pretix.Interfaces;
+using Innkeep.Api.Pretix.Interfaces.Auth;
 using Innkeep.Api.Pretix.Repositories.Auth;
 using Innkeep.Api.Pretix.Repositories.Checkin;
 using Innkeep.Api.Pretix.Repositories.General;
@@ -111,7 +112,7 @@ public static class ServerServiceManager
 
 	private static void ConfigureHttpRepositories(IServiceCollection collection)
 	{
-		collection.AddSingleton<IPretixAuthRepository, PretixAuthRepository>();
+		collection.AddSingleton<IPretixAuthenticationRepository, PretixAuthenticationRepository>();
 		collection.AddSingleton<IPretixOrganizerRepository, PretixOrganizerRepository>();
 		collection.AddSingleton<IPretixEventRepository, PretixEventRepository>();
 		collection.AddSingleton<IPretixCheckinListRepository, PretixCheckinListListRepository>();
