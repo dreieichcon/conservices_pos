@@ -3,6 +3,7 @@ using Innkeep.Api.Models.Internal;
 using Innkeep.Api.Models.Pretix.Objects.General;
 using Innkeep.Api.Models.Pretix.Objects.Order;
 using Innkeep.Api.Pretix.Interfaces;
+using Innkeep.Api.Pretix.Interfaces.General;
 using Innkeep.Db.Server.Models;
 using Innkeep.Services.Interfaces;
 using Innkeep.Services.Server.Interfaces.Pretix;
@@ -19,12 +20,13 @@ public class PretixOrderService(
 	private string? PretixEventSlug => configService.CurrentItem!.SelectedEventSlug;
 
 	private string? PretixOrganizerSlug => configService.CurrentItem!.SelectedOrganizerSlug;
-	
+
 	public async Task<PretixOrderResponse?> CreateOrder(IEnumerable<DtoSalesItem> cart)
 	{
 		if (string.IsNullOrEmpty(PretixOrganizerSlug) || string.IsNullOrEmpty(PretixEventSlug))
 		{
 			Log.Error("Please make sure to select a Pretix organizer and Pretix event before creating orders");
+
 			return null;
 		}
 
@@ -44,7 +46,7 @@ public class PretixOrderService(
 
 		order.EventTitle = pretixEvent.Name.German ?? "NAME SETZEN";
 		order.ReceiptHeader = CreateHeader(pretixEventSettings);
-		
+
 		return order;
 	}
 
@@ -56,8 +58,10 @@ public class PretixOrderService(
 		sb.AppendLine(settings.InvoiceStreetAddress);
 		sb.AppendLine($"{settings.InvoiceZipCode} {settings.InvoiceCity}");
 		sb.AppendLine(settings.InvoiceCountry);
+
 		if (!string.IsNullOrEmpty(settings.InvoiceVatId))
 			sb.AppendLine($"Ust.Id: {settings.InvoiceVatId}");
+
 		return sb.ToString();
 	}
 }
