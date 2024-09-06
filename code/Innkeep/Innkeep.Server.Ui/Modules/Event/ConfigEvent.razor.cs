@@ -1,5 +1,5 @@
 ﻿using Innkeep.Api.Models.Pretix.Objects.General;
-using Innkeep.Api.Pretix.Interfaces;
+using Innkeep.Api.Pretix.Interfaces.General;
 using Innkeep.Db.Server.Models;
 using Innkeep.Services.Interfaces;
 using Innkeep.Services.Server.Interfaces.Pretix;
@@ -10,6 +10,10 @@ namespace Innkeep.Server.Ui.Modules.Event;
 
 public partial class ConfigEvent
 {
+	private PretixEvent? _selectedEvent;
+
+	private PretixOrganizer? _selectedOrganizer;
+
 	[Inject]
 	public IDbService<PretixConfig> PretixConfigService { get; set; } = null!;
 
@@ -22,7 +26,6 @@ public partial class ConfigEvent
 	[Inject]
 	public IPretixSalesItemService PretixSalesItemService { get; set; } = null!;
 
-	private PretixOrganizer? _selectedOrganizer;
 	private PretixOrganizer? SelectedOrganizer
 	{
 		get => _selectedOrganizer;
@@ -31,15 +34,13 @@ public partial class ConfigEvent
 			_selectedOrganizer = value;
 
 			if (ConfigItem is null) return;
-            
+
 			ConfigItem.SelectedOrganizerName = value?.Name;
 			ConfigItem.SelectedOrganizerSlug = value?.Slug;
 
 			Task.Run(async () => await LoadEvents());
 		}
 	}
-
-	private PretixEvent? _selectedEvent;
 
 	private PretixEvent? SelectedEvent
 	{
@@ -66,7 +67,7 @@ public partial class ConfigEvent
 	protected override async Task OnInitializedAsync()
 	{
 		await PretixConfigService.Load();
-		
+
 		AvailableOrganizers = await PretixOrganizerRepository.GetOrganizers();
 		SelectedOrganizer = AvailableOrganizers.FirstOrDefault(x => x.Slug == ConfigItem?.SelectedOrganizerSlug);
 
@@ -81,10 +82,10 @@ public partial class ConfigEvent
 		AvailableEvents = await PretixEventRepository.GetEvents(SelectedOrganizer);
 
 		SelectedEvent = AvailableEvents.FirstOrDefault(x => x.Slug == ConfigItem?.SelectedEventSlug);
-		
+
 		await InvokeAsync(StateHasChanged);
 	}
-    
+
 	private async Task Save()
 	{
 		var result = await PretixConfigService.Save();
@@ -94,9 +95,10 @@ public partial class ConfigEvent
 			Snackbar.Add("Saved Successfully", Severity.Success);
 			await PretixSalesItemService.Load();
 		}
-			
 
 		else
+		{
 			Snackbar.Add("Error while saving", Severity.Error);
+		}
 	}
 }
