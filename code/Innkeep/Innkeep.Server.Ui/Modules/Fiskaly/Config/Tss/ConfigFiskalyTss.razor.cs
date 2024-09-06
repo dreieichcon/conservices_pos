@@ -1,6 +1,6 @@
 ﻿using Innkeep.Api.Auth;
 using Innkeep.Api.Models.Fiskaly.Objects.Tss;
-using Innkeep.Services.Server.Interfaces.Fiskaly;
+using Innkeep.Services.Server.Interfaces.Fiskaly.Tss;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
@@ -16,10 +16,10 @@ public partial class ConfigFiskalyTss
 
 	[Inject]
 	public NavigationManager NavManager { get; set; } = null!;
-	
+
 	[Inject]
 	public ISnackbar Snackbar { get; set; }
-	
+
 	public bool TaskInProgress { get; set; }
 
 	public string TaskDescription { get; set; } = string.Empty;
@@ -51,7 +51,7 @@ public partial class ConfigFiskalyTss
 	{
 		TaskInProgress = true;
 		TaskDescription = "Deploying Tss. This can take some time, please be patient.";
-		
+
 		var result = await TssService.Deploy();
 
 		TaskInProgress = false;
@@ -73,7 +73,6 @@ public partial class ConfigFiskalyTss
 
 	private async Task Disable()
 	{
-		
 	}
 
 	private async Task Initialize()

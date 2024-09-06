@@ -1,7 +1,7 @@
-﻿using Innkeep.Api.Models.Fiskaly.Objects;
-using Innkeep.Api.Models.Fiskaly.Objects.Client;
+﻿using Innkeep.Api.Models.Fiskaly.Objects.Client;
 using Innkeep.Services.Interfaces.Hardware;
-using Innkeep.Services.Server.Interfaces.Fiskaly;
+using Innkeep.Services.Server.Interfaces.Fiskaly.Client;
+using Innkeep.Services.Server.Interfaces.Fiskaly.Tss;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Serilog;
@@ -34,7 +34,7 @@ public partial class ConfigFiskalyClient
 	{
 		await OnInitializedAsync();
 	}
-	
+
 	private async Task ActivateClient()
 	{
 		var result = await ClientService.Activate();
@@ -54,7 +54,7 @@ public partial class ConfigFiskalyClient
 		{
 			Snackbar.Add("Error while activating Client. Please check your logs.", Severity.Error);
 		}
-		
+
 		await InvokeAsync(StateHasChanged);
 	}
 
@@ -77,7 +77,7 @@ public partial class ConfigFiskalyClient
 		{
 			Snackbar.Add("Error while deactivating Client. Please check your logs.", Severity.Error);
 		}
-		
+
 		await InvokeAsync(StateHasChanged);
 	}
 
@@ -121,10 +121,10 @@ public partial class ConfigFiskalyClient
 		}
 
 		else
+		{
 			Snackbar.Add("Error while saving.", Severity.Error);
+		}
 
 		await InvokeAsync(StateHasChanged);
 	}
-
-	
 }

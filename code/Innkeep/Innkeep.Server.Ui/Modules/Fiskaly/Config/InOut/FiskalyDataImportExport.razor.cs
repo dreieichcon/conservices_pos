@@ -5,7 +5,7 @@ using Innkeep.Core.Cryptography;
 using Innkeep.Core.FileIo;
 using Innkeep.Db.Server.Models.Server;
 using Innkeep.Server.Ui.Modules.Fiskaly.Config.InOut.Components;
-using Innkeep.Services.Server.Interfaces.Fiskaly;
+using Innkeep.Services.Server.Interfaces.Fiskaly.Tss;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
@@ -15,13 +15,13 @@ public partial class FiskalyDataImportExport : ComponentBase
 {
 	[Inject]
 	public IFiskalyAuthenticationService AuthenticationService { get; set; } = null!;
-	
+
 	[Inject]
 	public IFiskalyTssService TssService { get; set; } = null!;
-	
+
 	[Inject]
 	public IDialogService DialogService { get; set; } = null!;
-	
+
 	[Inject]
 	public ISnackbar Snackbar { get; set; } = null!;
 
@@ -38,8 +38,9 @@ public partial class FiskalyDataImportExport : ComponentBase
 	{
 		if (config is null)
 			return string.Empty;
-		
+
 		var item = TssService.TssObjects.FirstOrDefault(x => x.Id == config.TseId);
+
 		return $"{item?.Description} ({item?.State})";
 	}
 
@@ -51,7 +52,7 @@ public partial class FiskalyDataImportExport : ComponentBase
 		var dialog = await DialogService.ShowAsync<FiskalyDataExportDialog>();
 		var result = await dialog.Result;
 
-		if (result is null || result.Canceled) 
+		if (result is null || result.Canceled)
 			return;
 
 		var password = result.Data!.ToString();
@@ -63,9 +64,9 @@ public partial class FiskalyDataImportExport : ComponentBase
 		var outputFolder = PathHelper.GetDesktopExportPath();
 
 		var outputPath = PathHelper.GetTimestampExportPath(outputFolder, $"{CurrentConfig.TseId}.tss");
-		
+
 		await File.WriteAllBytesAsync(outputPath, encrypted);
-		
+
 		Snackbar.Add("Exported File", Severity.Success);
 	}
 
@@ -82,14 +83,18 @@ public partial class FiskalyDataImportExport : ComponentBase
 		var decrypted = await EncryptionHelper.DecryptAsync(fileContent, password);
 
 		FiskalyTseConfig? deserialized;
-		
+
 		try
 		{
-			deserialized = JsonSerializer.Deserialize<FiskalyTseConfig>(decrypted, SerializerOptions.GetServerOptions());
+			deserialized = JsonSerializer.Deserialize<FiskalyTseConfig>(
+				decrypted,
+				SerializerOptions.GetServerOptions()
+			);
 		}
 		catch (Exception e)
 		{
 			Snackbar.Add("Incorrect Password or File Format", Severity.Error);
+
 			return;
 		}
 
@@ -98,15 +103,21 @@ public partial class FiskalyDataImportExport : ComponentBase
 
 		if (Configs.Any(x => x.Id == deserialized.Id || x.TseId == deserialized.TseId))
 		{
-			var overwriteResult = await DialogService.ShowMessageBox("Warning", "A config for this TSS already exists. Do you want to overwrite it?", "Ok", "Cancel");
+			var overwriteResult = await DialogService.ShowMessageBox(
+				"Warning",
+				"A config for this TSS already exists. Do you want to overwrite it?",
+				"Ok",
+				"Cancel"
+			);
 
 			if (overwriteResult is true)
 			{
 				await ImportConfig(deserialized);
+
 				return;
 			}
 		}
-		
+
 		await ImportConfig(deserialized);
 	}
 
@@ -115,12 +126,8 @@ public partial class FiskalyDataImportExport : ComponentBase
 		var importResult = await AuthenticationService.Import(config);
 
 		if (importResult)
-		{
 			Snackbar.Add("Import Successful", Severity.Success);
-		}
 		else
-		{
 			Snackbar.Add("Import Failed", Severity.Error);
-		}
 	}
 }

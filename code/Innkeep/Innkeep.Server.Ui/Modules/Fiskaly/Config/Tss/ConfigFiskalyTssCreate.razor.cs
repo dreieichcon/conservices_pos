@@ -1,4 +1,4 @@
-﻿using Innkeep.Services.Server.Interfaces.Fiskaly;
+﻿using Innkeep.Services.Server.Interfaces.Fiskaly.Tss;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
@@ -8,7 +8,7 @@ public partial class ConfigFiskalyTssCreate
 {
 	[Inject]
 	public IFiskalyTssService TssService { get; set; } = null!;
-	
+
 	[Inject]
 	public NavigationManager NavManager { get; set; } = null!;
 

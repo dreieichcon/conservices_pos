@@ -1,12 +1,11 @@
 ﻿using Innkeep.Api.Models.Fiskaly.Objects.Tss;
-using Innkeep.Api.Models.Fiskaly.Response;
 using Innkeep.Http.Interfaces;
 
 namespace Innkeep.Api.Fiskaly.Interfaces.Tss;
 
 public interface IFiskalyTssRepository
 {
-	public Task<IHttpResponse<FiskalyListResponse<FiskalyTss>>> GetAll();
+	public Task<IHttpResponse<IEnumerable<FiskalyTss>>> GetAll();
 
 	public Task<FiskalyTss> GetOne(string id);
 

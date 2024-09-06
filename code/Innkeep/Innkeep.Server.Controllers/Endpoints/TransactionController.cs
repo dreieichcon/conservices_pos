@@ -1,14 +1,13 @@
 ﻿using System.Text.Json;
 using Innkeep.Api.Json;
-
 using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Api.Models.Pretix.Objects.Order;
-using Innkeep.Strings;
 using Innkeep.Server.Controllers.Abstract;
-using Innkeep.Services.Server.Interfaces.Fiskaly;
+using Innkeep.Services.Server.Interfaces.Fiskaly.Transaction;
 using Innkeep.Services.Server.Interfaces.Pretix;
 using Innkeep.Services.Server.Interfaces.Registers;
 using Innkeep.Services.Server.Interfaces.Transaction;
+using Innkeep.Strings;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Innkeep.Server.Controllers.Endpoints;
@@ -16,10 +15,10 @@ namespace Innkeep.Server.Controllers.Endpoints;
 [Route("transaction")]
 public class TransactionController : AbstractServerController
 {
-	private readonly IFiskalyTransactionService _transactionService;
 	private readonly IPretixOrderService _orderService;
-	private readonly ITransactionService _transactionDbService;
 	private readonly IPretixSalesItemService _salesItemService;
+	private readonly ITransactionService _transactionDbService;
+	private readonly IFiskalyTransactionService _transactionService;
 
 	public TransactionController(
 		IFiskalyTransactionService transactionService,
@@ -51,31 +50,34 @@ public class TransactionController : AbstractServerController
 		if (pretixOrder is null)
 			return new StatusCodeResult(500);
 
-		if (transaction.SalesItems.Any(x => !x.Infinite)) 
+		if (transaction.SalesItems.Any(x => !x.Infinite))
 			await _salesItemService.LoadQuotas();
-		
+
 		var fiskalyTransaction = await _transactionService.StartTransaction();
 
 		var receipt = await _transactionService.CompleteReceiptTransaction(transaction);
-		
+
 		receipt.Title = pretixOrder.EventTitle;
 		receipt.Header = pretixOrder.ReceiptHeader;
 		receipt.Currency = transaction.SalesItems.First().Currency;
 
 		receipt.ReceiptVouchers = GenerateVouchers(pretixOrder, transaction);
-		
-		var json = JsonSerializer.Serialize(
-			receipt,
-			SerializerOptions.GetServerOptions()
+
+		var json = JsonSerializer.Serialize(receipt, SerializerOptions.GetServerOptions());
+
+		var item = await _transactionDbService.CreateFromOrder(
+			pretixOrder,
+			fiskalyTransaction,
+			transaction,
+			identifier,
+			json
 		);
-		
-		var item = await _transactionDbService.CreateFromOrder(pretixOrder, fiskalyTransaction, transaction, identifier, json);
 
 		receipt.TransactionId = item?.Id ?? "";
 		receipt.BookingTime = item?.TransactionDate ?? DateTime.Now;
 
 		var newJson = JsonSerializer.Serialize(receipt, SerializerOptions.GetServerOptions());
-		
+
 		return new OkObjectResult(newJson);
 	}
 
@@ -88,13 +90,13 @@ public class TransactionController : AbstractServerController
 			var existingSalesItem = transaction.SalesItems.First(x => x.Id == position.Item);
 
 			if (existingSalesItem.PrintCheckinVoucher)
-			{
-				lst.Add(new ReceiptVoucher()
-				{
-					ItemName = existingSalesItem.Name,
-					Secret = position.Secret,
-				});
-			}
+				lst.Add(
+					new ReceiptVoucher
+					{
+						ItemName = existingSalesItem.Name,
+						Secret = position.Secret,
+					}
+				);
 		}
 
 		return lst;

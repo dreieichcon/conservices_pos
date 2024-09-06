@@ -1,13 +1,14 @@
 ﻿@using Innkeep.Db.Server.Models
 @using Innkeep.Services.Interfaces
-@using Innkeep.Services.Server.Interfaces.Fiskaly
+@using Innkeep.Services.Server.Interfaces.Fiskaly.Client
+@using Innkeep.Services.Server.Interfaces.Fiskaly.Tss
 @using Innkeep.Styles.Theme
 @inherits LayoutComponentBase
 
 <MudDialogProvider/>
 <MudSnackbarProvider/>
 <MudThemeProvider IsDarkMode="false" Theme="_theme"/>
-<MudPopoverProvider />
+<MudPopoverProvider/>
 
 @inject IDbService<PretixConfig> PretixConfigService;
 @inject IFiskalyTssService TssService;
@@ -15,7 +16,7 @@
 
 <MudLayout>
     <MudAppBar Elevation="1" Color="Color.Primary">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@(e => DrawerToggle())"/>
         <MudText Typo="Typo.h5" Class="ml-3">Innkeep Server</MudText>
         <MudSpacer/>
         <MudStack Row="true">
@@ -43,7 +44,7 @@
 @code {
 
     private readonly MudTheme _theme = InnkeepThemeProvider.GetTheme();
-    
+
     protected override async Task OnInitializedAsync()
     {
         await PretixConfigService.Load();
@@ -60,4 +61,5 @@
     {
         _drawerOpen = !_drawerOpen;
     }
+
 }

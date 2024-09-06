@@ -1,9 +1,8 @@
 ﻿using Innkeep.Api.Models.Fiskaly.Objects.Transaction;
-using Innkeep.Api.Models.Internal;
 using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Api.Models.Internal.Transfer;
 
-namespace Innkeep.Services.Server.Interfaces.Fiskaly;
+namespace Innkeep.Services.Server.Interfaces.Fiskaly.Transaction;
 
 public interface IFiskalyTransactionService
 {
