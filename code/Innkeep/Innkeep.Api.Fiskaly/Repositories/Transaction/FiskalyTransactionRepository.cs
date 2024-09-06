@@ -2,15 +2,21 @@
 using Innkeep.Api.Endpoints;
 using Innkeep.Api.Enum.Fiskaly.Transaction;
 using Innkeep.Api.Fiskaly.Interfaces.Transaction;
+using Innkeep.Api.Fiskaly.Repositories.Core;
 using Innkeep.Api.Models.Fiskaly.Objects.Transaction;
 using Innkeep.Api.Models.Fiskaly.Request.Transaction;
+using Innkeep.Http.Interfaces;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Transaction;
 
 public class FiskalyTransactionRepository(IFiskalyAuthenticationService authenticationService)
-	: Abstract(authenticationService), IFiskalyTransactionRepository
+	: AbstractFiskalyRepository(authenticationService), IFiskalyTransactionRepository
 {
-	public async Task<FiskalyTransaction?> StartTransaction(string tssId, string transactionId, string clientId)
+	public async Task<IHttpResponse<FiskalyTransaction>> StartTransaction(
+		string tssId,
+		string transactionId,
+		string clientId
+	)
 	{
 		var endpoint = new FiskalyEndpointBuilder()
 						.WithSpecificTss(tssId)
@@ -28,19 +34,21 @@ public class FiskalyTransactionRepository(IFiskalyAuthenticationService authenti
 
 		var result = await Put(endpoint, serialized);
 
-		return DeserializeOrNull<FiskalyTransaction>(result);
+		return DeserializeResult<FiskalyTransaction>(result);
 	}
 
-	public async Task<FiskalyTransaction?> UpdateTransaction(FiskalyTransactionUpdateRequest transactionUpdateRequest)
+	public async Task<IHttpResponse<FiskalyTransaction>> UpdateTransaction(
+		FiskalyTransactionUpdateRequest updateRequest
+	)
 	{
 		var endpoint = new FiskalyEndpointBuilder()
-						.WithSpecificTss(transactionUpdateRequest.TssId)
-						.WithSpecificTransaction(transactionUpdateRequest.TransactionId)
-						.WithTransactionRevision(transactionUpdateRequest.TransactionRevision)
+						.WithSpecificTss(updateRequest.TssId)
+						.WithSpecificTransaction(updateRequest.TransactionId)
+						.WithTransactionRevision(updateRequest.TransactionRevision)
 						.Build();
 
-		var result = await Put(endpoint, Serialize(transactionUpdateRequest));
+		var result = await Put(endpoint, Serialize(updateRequest));
 
-		return DeserializeOrNull<FiskalyTransaction>(result);
+		return DeserializeResult<FiskalyTransaction>(result);
 	}
 }
