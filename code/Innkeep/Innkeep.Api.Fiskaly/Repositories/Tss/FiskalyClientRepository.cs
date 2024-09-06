@@ -2,41 +2,42 @@
 using Innkeep.Api.Endpoints;
 using Innkeep.Api.Enum.Fiskaly.Client;
 using Innkeep.Api.Fiskaly.Interfaces.Tss;
+using Innkeep.Api.Fiskaly.Repositories.Core;
 using Innkeep.Api.Models.Fiskaly.Objects.Client;
 using Innkeep.Api.Models.Fiskaly.Request.Client;
 using Innkeep.Api.Models.Fiskaly.Response;
+using Innkeep.Http.Interfaces;
+using Innkeep.Http.Response;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Tss;
 
 public class FiskalyClientRepository(IFiskalyAuthenticationService authenticationService)
-	: Abstract(authenticationService), IFiskalyClientRepository
+	: AbstractFiskalyRepository(authenticationService), IFiskalyClientRepository
 {
-	public async Task<IEnumerable<FiskalyClient>> GetAll(string tssId)
+	public async Task<IHttpResponse<FiskalyListResponse<FiskalyClient>>> GetAll(string tssId)
 	{
 		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(tssId).WithClient().Build();
 
 		var result = await Get(endpoint);
 
-		if (!result.IsSuccess)
-			return new List<FiskalyClient>();
-
-		var deserialized = Deserialize<FiskalyListResponse<FiskalyClient>>(result.Content);
-
-		return deserialized != null ? deserialized.Data : new List<FiskalyClient>();
+		return DeserializeResult<FiskalyListResponse<FiskalyClient>>(result);
 	}
 
-	public async Task<FiskalyClient?> GetOne(string tssId, string id)
+	public async Task<IHttpResponse<FiskalyClient>> GetOne(string tssId, string id)
 	{
 		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(tssId).WithSpecificClient(id).Build();
 
 		var result = await Get(endpoint);
 
-		return DeserializeOrNull<FiskalyClient>(result);
+		return DeserializeResult<FiskalyClient>(result);
 	}
 
-	public async Task<FiskalyClient?> CreateClient(string tssId, string id, string serialNumber)
+	public async Task<IHttpResponse<FiskalyClient>> CreateClient(string tssId, string id, string serialNumber)
 	{
-		await AuthenticateAdmin(tssId);
+		var authenticationResult = await AuthenticateAdmin(tssId);
+
+		if (!authenticationResult.IsSuccess)
+			return HttpResponse<FiskalyClient>.FromUnsuccessfulResponse(authenticationResult);
 
 		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(tssId).WithSpecificClient(id).Build();
 
@@ -51,12 +52,15 @@ public class FiskalyClientRepository(IFiskalyAuthenticationService authenticatio
 
 		await LogoutAdmin(tssId);
 
-		return DeserializeOrNull<FiskalyClient>(result);
+		return DeserializeResult<FiskalyClient>(result);
 	}
 
-	public async Task<FiskalyClient?> UpdateClient(string tssId, string id, ClientState state)
+	public async Task<IHttpResponse<FiskalyClient>> UpdateClient(string tssId, string id, ClientState state)
 	{
-		await AuthenticateAdmin(tssId);
+		var authenticationResult = await AuthenticateAdmin(tssId);
+
+		if (!authenticationResult.IsSuccess)
+			return HttpResponse<FiskalyClient>.FromUnsuccessfulResponse(authenticationResult);
 
 		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(tssId).WithSpecificClient(id).Build();
 
@@ -71,6 +75,6 @@ public class FiskalyClientRepository(IFiskalyAuthenticationService authenticatio
 
 		await LogoutAdmin(tssId);
 
-		return DeserializeOrNull<FiskalyClient>(result);
+		return DeserializeResult<FiskalyClient>(result);
 	}
 }

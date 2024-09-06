@@ -17,6 +17,14 @@ public class HttpResponse<T> : IHttpResponse<T>
 	/// <inheritdoc />
 	public bool IsSuccess { get; set; }
 
+	public static HttpResponse<T> FromUnsuccessfulResponse(IHttpResponse response) =>
+		new()
+		{
+			StatusCode = response.StatusCode,
+			Content = response.Content,
+			IsSuccess = false,
+		};
+
 	public static HttpResponse<T> Parse(ApiResponse response, T? @object) =>
 		response.IsSuccess ? Ok(response, @object) : Error(response);
 
