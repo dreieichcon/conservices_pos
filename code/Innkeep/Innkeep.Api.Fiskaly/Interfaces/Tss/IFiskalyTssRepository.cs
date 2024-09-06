@@ -1,18 +1,20 @@
 ﻿using Innkeep.Api.Models.Fiskaly.Objects.Tss;
+using Innkeep.Api.Models.Fiskaly.Response;
+using Innkeep.Http.Interfaces;
 
 namespace Innkeep.Api.Fiskaly.Interfaces.Tss;
 
 public interface IFiskalyTssRepository
 {
-	public Task<IEnumerable<FiskalyTss>> GetAll();
+	public Task<IHttpResponse<FiskalyListResponse<FiskalyTss>>> GetAll();
 
 	public Task<FiskalyTss> GetOne(string id);
 
-	public Task<FiskalyTss?> CreateTss(string id);
+	public Task<IHttpResponse<FiskalyTss>> CreateTss(string id);
 
-	public Task<FiskalyTss?> DeployTss(FiskalyTss current);
+	public Task<IHttpResponse<FiskalyTss>> DeployTss(FiskalyTss current);
 
-	public Task<bool> ChangeAdminPin(FiskalyTss current);
+	public Task<IHttpResponse<bool>> ChangeAdminPin(FiskalyTss current);
 
-	public Task<FiskalyTss?> InitializeTss(FiskalyTss current);
+	public Task<IHttpResponse<FiskalyTss>> InitializeTss(FiskalyTss current);
 }

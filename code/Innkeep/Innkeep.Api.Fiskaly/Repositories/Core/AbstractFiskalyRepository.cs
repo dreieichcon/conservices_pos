@@ -10,7 +10,7 @@ namespace Innkeep.Api.Fiskaly.Repositories.Core;
 public abstract partial class AbstractFiskalyRepository(IFiskalyAuthenticationService authenticationService)
 	: BaseHttpRepository
 {
-	private IFiskalyAuthenticationService AuthenticationService => authenticationService;
+	protected IFiskalyAuthenticationService AuthenticationService => authenticationService;
 
 	protected override void InitializeGetHeaders(HttpRequestMessage message)
 	{
