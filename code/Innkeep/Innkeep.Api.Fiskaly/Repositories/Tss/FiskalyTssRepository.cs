@@ -2,42 +2,40 @@
 using Innkeep.Api.Endpoints;
 using Innkeep.Api.Enum.Fiskaly.Tss;
 using Innkeep.Api.Fiskaly.Interfaces.Tss;
+using Innkeep.Api.Fiskaly.Repositories.Core;
 using Innkeep.Api.Models.Fiskaly.Objects.Tss;
 using Innkeep.Api.Models.Fiskaly.Request.Auth;
 using Innkeep.Api.Models.Fiskaly.Request.Tss;
 using Innkeep.Api.Models.Fiskaly.Response;
+using Innkeep.Http.Interfaces;
+using Innkeep.Http.Response;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Tss;
 
 public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationService)
-	: Abstract(authenticationService), IFiskalyTssRepository
+	: AbstractFiskalyRepository(authenticationService), IFiskalyTssRepository
 {
-	public async Task<IEnumerable<FiskalyTss>> GetAll()
+	public async Task<IHttpResponse<FiskalyListResponse<FiskalyTss>>> GetAll()
 	{
 		var endpoint = new FiskalyEndpointBuilder().WithTss().Build();
 
 		var result = await Get(endpoint);
 
-		if (!result.IsSuccess)
-			return new List<FiskalyTss>();
-
-		var deserialized = Deserialize<FiskalyListResponse<FiskalyTss>>(result.Content);
-
-		return deserialized != null ? deserialized.Data : new List<FiskalyTss>();
+		return DeserializeResult<FiskalyListResponse<FiskalyTss>>(result);
 	}
 
 	public Task<FiskalyTss> GetOne(string id) => throw new NotImplementedException();
 
-	public async Task<FiskalyTss?> CreateTss(string id)
+	public async Task<IHttpResponse<FiskalyTss>> CreateTss(string id)
 	{
 		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(id).Build();
 
 		var result = await Put(endpoint, "{}");
 
-		return DeserializeOrNull<FiskalyTss>(result);
+		return DeserializeResult<FiskalyTss>(result);
 	}
 
-	public async Task<FiskalyTss?> DeployTss(FiskalyTss current)
+	public async Task<IHttpResponse<FiskalyTss>> DeployTss(FiskalyTss current)
 	{
 		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(current.Id).Build();
 
@@ -50,14 +48,15 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 
 		var result = await Patch(endpoint, content, 30000);
 
-		return DeserializeOrNull<FiskalyTss>(result);
+		return DeserializeResult<FiskalyTss>(result);
 	}
 
-	public async Task<FiskalyTss?> InitializeTss(FiskalyTss current)
+	public async Task<IHttpResponse<FiskalyTss>> InitializeTss(FiskalyTss current)
 	{
 		var authResult = await AuthenticateAdmin(current.Id);
 
-		if (!authResult) return null;
+		if (!authResult.IsSuccess)
+			return HttpResponse<FiskalyTss>.FromUnsuccessfulResponse(authResult);
 
 		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(current.Id).Build();
 
@@ -73,10 +72,10 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 
 		await LogoutAdmin(current.Id);
 
-		return DeserializeOrNull<FiskalyTss>(result);
+		return DeserializeResult<FiskalyTss>(result);
 	}
 
-	public async Task<bool> ChangeAdminPin(FiskalyTss current)
+	public async Task<IHttpResponse<bool>> ChangeAdminPin(FiskalyTss current)
 	{
 		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(current.Id).WithAdmin().Build();
 
@@ -92,6 +91,6 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 
 		var result = await Patch(endpoint, content);
 
-		return result.IsSuccess;
+		return HttpResponse<bool>.Parse(result, result.IsSuccess);
 	}
 }
