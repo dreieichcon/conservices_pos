@@ -1,4 +1,5 @@
-﻿using Innkeep.Api.Pretix.Interfaces;
+﻿using Innkeep.Api.Pretix.Interfaces.Quota;
+using Innkeep.Api.Pretix.Interfaces.Sales;
 using Innkeep.Api.Pretix.Repositories.Quota;
 using Innkeep.Api.Pretix.Tests.Data;
 using Innkeep.Api.Pretix.Tests.Mock;
@@ -8,9 +9,8 @@ namespace Innkeep.Api.Pretix.Tests.Repositories;
 [TestClass]
 public class PretixQuotaRepositoryTests
 {
-	private IPretixQuotaRepository _quotaRepository = null!;
-	
 	private readonly ITestAuth _testAuth = new TestAuth();
+	private IPretixQuotaRepository _quotaRepository = null!;
 
 	[TestInitialize]
 	public void Initialize()

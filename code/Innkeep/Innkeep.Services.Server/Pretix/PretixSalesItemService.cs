@@ -1,21 +1,23 @@
 ﻿using Innkeep.Api.Models.Internal;
 using Innkeep.Api.Models.Pretix.Objects.Sales;
-using Innkeep.Api.Pretix.Interfaces;
+using Innkeep.Api.Pretix.Interfaces.Quota;
+using Innkeep.Api.Pretix.Interfaces.Sales;
 using Innkeep.Services.Server.Interfaces.Internal;
 using Innkeep.Services.Server.Interfaces.Pretix;
 using Innkeep.Services.Server.Interfaces.Registers;
-using Innkeep.Services.Server.Internal;
 using Serilog;
 
 namespace Innkeep.Services.Server.Pretix;
 
 public class PretixSalesItemService : IPretixSalesItemService
 {
-
-	private readonly IPretixSalesItemRepository _salesItemRepository;
+	private readonly IEventStateService _eventStateService;
 	private readonly IPretixQuotaRepository _quotaRepository;
 	private readonly IRegisterService _registerService;
-	private readonly IEventStateService _eventStateService;
+
+	private readonly PeriodicTimer _reloadTimer = new(TimeSpan.FromMinutes(2));
+
+	private readonly IPretixSalesItemRepository _salesItemRepository;
 
 	public PretixSalesItemService(
 		IPretixSalesItemRepository salesItemRepository,
@@ -36,8 +38,6 @@ public class PretixSalesItemService : IPretixSalesItemService
 
 	public IEnumerable<DtoSalesItem> DtoSalesItems { get; set; } = new List<DtoSalesItem>();
 
-	private readonly PeriodicTimer _reloadTimer = new (TimeSpan.FromMinutes(2));
-	
 	public async Task ReloadTimer()
 	{
 		while (await _reloadTimer.WaitForNextTickAsync())
@@ -60,7 +60,7 @@ public class PretixSalesItemService : IPretixSalesItemService
 
 		DtoSalesItems = SalesItems.Select(DtoSalesItem.FromPretix);
 		_eventStateService.EventCurrency = DtoSalesItems.FirstOrDefault()?.Currency ?? "EUR";
-		
+
 		await LoadQuotas();
 	}
 
