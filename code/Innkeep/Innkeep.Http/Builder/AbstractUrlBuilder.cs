@@ -8,12 +8,12 @@ namespace Lite.Http.Builder;
 /// <typeparam name="TB">Builder Type.</typeparam>
 /// <typeparam name="TPb">Parameter Builder Type.</typeparam>
 public abstract class AbstractUrlBuilder<TB, TPb> : IUrlBuilder<TPb>
-	where TB : new()
+	where TB : IUrlBuilder<TPb>, new()
 	where TPb : class, IParameterBuilder<TPb>
 {
 	public static TB Endpoints => new();
 
-	public IParameterBuilder<TPb> Parameters { get; init; } = null!;
+	public TPb Parameters { get; init; } = null!;
 
 	public IList<string> PathSegments { get; set; } = [];
 

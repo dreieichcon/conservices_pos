@@ -9,14 +9,42 @@ public class PretixUrlBuilder : AbstractUrlBuilder<PretixUrlBuilder, PretixParam
 		Parameters = new PretixParameterBuilder(this);
 	}
 
-	public override string BaseUrl => "https://api.pretix.com/v1/";
+	public override string BaseUrl => "https://pretix.eu/api/v1/";
 
-	public static PretixUrlBuilder Organizers => AddSegment("organizers");
+	public PretixUrlBuilder Organizers()
+		=> AddSegment("organizers");
 
-	private static PretixUrlBuilder AddSegment(string segment)
+	public PretixUrlBuilder Events()
+		=> AddSegment("events");
+
+	public PretixUrlBuilder Settings()
+		=> AddSegment("settings");
+
+	public PretixUrlBuilder Items()
+		=> AddSegment("items");
+
+	public PretixUrlBuilder Quotas()
+		=> AddSegment("quotas");
+
+	public PretixUrlBuilder CheckinLists()
+		=> AddSegment("checkinlists");
+
+	public PretixUrlBuilder Orders()
+		=> AddSegment("orders");
+
+	public PretixUrlBuilder Checkin()
+		=> AddSegment("checkinrpc").AddSegment("redeem");
+
+	public PretixUrlBuilder Organizer(string organizerSlug)
+		=> AddSegment("organizers").AddSegment(organizerSlug);
+
+	public PretixUrlBuilder Event(string eventSlug)
+		=> AddSegment("events").AddSegment(eventSlug);
+
+	private PretixUrlBuilder AddSegment(string segment)
 	{
-		Endpoints.PathSegments.Add(segment);
+		PathSegments.Add(segment);
 
-		return Endpoints;
+		return this;
 	}
 }

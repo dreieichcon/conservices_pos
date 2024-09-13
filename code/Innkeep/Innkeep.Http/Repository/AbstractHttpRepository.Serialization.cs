@@ -27,7 +27,7 @@ public abstract partial class AbstractHttpRepository<TPb>
 	/// <returns>A <see cref="IHttpResponse{T}" />.</returns>
 	protected async Task<IHttpResponse<T>> DeserializeResult<T>(IFlurlResponse result, T? defaultValue = default)
 	{
-		if (result.StatusCode > 199 && !DeserializeIfError)
+		if (result.StatusCode > 299 && !DeserializeIfError)
 			return await HttpResponse<T>.Error(result, defaultValue);
 
 		return await Deserialize(result, defaultValue);

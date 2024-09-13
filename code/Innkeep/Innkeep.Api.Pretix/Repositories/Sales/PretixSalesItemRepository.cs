@@ -1,6 +1,7 @@
 ﻿using Innkeep.Api.Auth;
-using Innkeep.Api.Endpoints;
+using Innkeep.Api.Endpoints.Pretix;
 using Innkeep.Api.Models.Pretix.Objects.Sales;
+using Innkeep.Api.Models.Pretix.Response;
 using Innkeep.Api.Pretix.Interfaces.Sales;
 using Innkeep.Api.Pretix.Repositories.Core;
 using Lite.Http.Interfaces;
@@ -13,11 +14,9 @@ public class PretixSalesItemRepository(IPretixAuthenticationService authenticati
 {
 	public async Task<IHttpResponse<IEnumerable<PretixSalesItem>>> GetItems(string organizerSlug, string eventSlug)
 	{
-		var uri = new PretixEndpointBuilder().WithOrganizer(organizerSlug).WithEvent(eventSlug).WithItems().Build();
+		var uri = PretixUrlBuilder.Endpoints.Organizer(organizerSlug).Event(eventSlug).Items();
 
-		var response = await Get(uri);
-
-		var result = DeserializePretixResult<PretixSalesItem>(response);
+		var result = await Get<PretixResponse<PretixSalesItem>>(uri);
 
 		return HttpResponse<IEnumerable<PretixSalesItem>>.FromResult(result, x => x.Results);
 	}

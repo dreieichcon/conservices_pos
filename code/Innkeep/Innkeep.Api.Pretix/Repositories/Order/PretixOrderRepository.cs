@@ -1,8 +1,9 @@
 ﻿using Innkeep.Api.Auth;
-using Innkeep.Api.Endpoints;
+using Innkeep.Api.Endpoints.Pretix;
 using Innkeep.Api.Helpers.Pretix;
 using Innkeep.Api.Models.Internal;
 using Innkeep.Api.Models.Pretix.Objects.Order;
+using Innkeep.Api.Models.Pretix.Response;
 using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Api.Pretix.Repositories.Core;
 using Lite.Http.Interfaces;
@@ -14,25 +15,17 @@ public class PretixOrderRepository(IPretixAuthenticationService authenticationSe
 	: AbstractPretixRepository(authenticationService), IPretixOrderRepository
 {
 	public async Task<IHttpResponse<PretixOrderResponse>> CreateOrder(
-		string pretixOrganizer,
-		string pretixEvent,
+		string organizerSlug,
+		string eventSlug,
 		IEnumerable<DtoSalesItem> cart,
 		bool isTestMode
 	)
 	{
-		var endpoint = new PretixEndpointBuilder()
-						.WithOrganizer(pretixOrganizer)
-						.WithEvent(pretixEvent)
-						.WithOrders()
-						.Build();
+		var uri = PretixUrlBuilder.Endpoints.Organizer(organizerSlug).Event(eventSlug).Orders();
 
 		var payload = PretixOrderHelper.CreateOrder(cart, isTestMode);
 
-		var serialized = Serialize(payload);
-
-		var response = await Post(endpoint, serialized);
-
-		var result = DeserializePretixResult<PretixOrderResponse>(response);
+		var result = await Post<PretixOrder, PretixResponse<PretixOrderResponse>>(uri, payload);
 
 		return HttpResponse<PretixOrderResponse>.FromResult(result, x => x.Results.FirstOrDefault());
 	}

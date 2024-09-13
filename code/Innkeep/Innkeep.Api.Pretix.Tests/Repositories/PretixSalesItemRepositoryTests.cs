@@ -7,9 +7,8 @@ namespace Innkeep.Api.Pretix.Tests.Repositories;
 [TestClass]
 public class PretixSalesItemRepositoryTests
 {
-	private PretixSalesItemRepository _itemRepository = null!;
-
 	private readonly ITestAuth _testAuth = new TestAuth();
+	private PretixSalesItemRepository _itemRepository = null!;
 
 	[TestInitialize]
 	public void Initialize()
@@ -23,8 +22,10 @@ public class PretixSalesItemRepositoryTests
 	{
 		var result = await _itemRepository.GetItems(_testAuth.PretixTestOrganizerSlug, _testAuth.PretixTestEventSlug);
 
-		var testResult = result.FirstOrDefault(x => x.Name.German.Equals(_testAuth.PretixTestItemName));
-		
+		Assert.IsTrue(result.Object?.Any());
+
+		var testResult = result.Object!.FirstOrDefault(x => x.Name.German.Equals(_testAuth.PretixTestItemName));
+
 		Assert.IsNotNull(testResult);
 	}
 
@@ -33,8 +34,10 @@ public class PretixSalesItemRepositoryTests
 	{
 		var result = await _itemRepository.GetItems(_testAuth.PretixTestOrganizerSlug, _testAuth.PretixTestEventSlug);
 
-		var testResult = result.First(x => x.Name.German.Equals(_testAuth.PretixTestItemName));
-		
+		Assert.IsTrue(result.Object?.Any());
+
+		var testResult = result.Object!.First(x => x.Name.German.Equals(_testAuth.PretixTestItemName));
+
 		Assert.AreEqual(10m, testResult.DefaultPrice);
 	}
 }

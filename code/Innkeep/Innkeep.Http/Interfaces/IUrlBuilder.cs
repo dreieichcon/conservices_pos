@@ -10,7 +10,7 @@ public interface IUrlBuilder<TPb>
 	/// <summary>
 	///     Reference to the parameter builder to allow for easy fluent linking.
 	/// </summary>
-	public IParameterBuilder<TPb> Parameters { get; init; }
+	public TPb Parameters { get; init; }
 
 	/// <summary>
 	///     Base Url for this builder.
