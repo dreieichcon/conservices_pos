@@ -44,6 +44,30 @@ public abstract partial class AbstractHttpRepository<TPb>
 		=> await SendRequestInternal(builder, RequestType.Post, data, defaultValue);
 
 	/// <summary>
+	///     Executes a PUT request.
+	/// </summary>
+	/// <param name="builder">Url builder.</param>
+	/// <param name="data">Data to be serialized and sent.</param>
+	/// <param name="defaultValue">Default return value.</param>
+	/// <typeparam name="T">Transmit type.</typeparam>
+	/// <typeparam name="TR">Return type.</typeparam>
+	/// <returns></returns>
+	protected async Task<IHttpResponse<TR>> Put<T, TR>(IUrlBuilder<TPb> builder, T? data, TR? defaultValue = default)
+		=> await SendRequestInternal(builder, RequestType.Put, data, defaultValue);
+	
+	/// <summary>
+	///     Executes a PATCH request.
+	/// </summary>
+	/// <param name="builder">Url builder.</param>
+	/// <param name="data">Data to be serialized and sent.</param>
+	/// <param name="defaultValue">Default return value.</param>
+	/// <typeparam name="T">Transmit type.</typeparam>
+	/// <typeparam name="TR">Return type.</typeparam>
+	/// <returns></returns>
+	protected async Task<IHttpResponse<TR>> Patch<T, TR>(IUrlBuilder<TPb> builder, T? data, TR? defaultValue = default)
+		=> await SendRequestInternal(builder, RequestType.Patch, data, defaultValue);
+
+	/// <summary>
 	///     Method with actually sends the request to the endpoint.
 	/// </summary>
 	/// <param name="request"></param>

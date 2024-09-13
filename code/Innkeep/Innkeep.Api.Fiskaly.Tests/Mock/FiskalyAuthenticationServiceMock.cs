@@ -40,8 +40,8 @@ public class FiskalyAuthenticationServiceMock : IFiskalyAuthenticationService
 			AuthenticationInfo.TokenValidUntil > DateTime.UtcNow - TimeSpan.FromMinutes(5))
 		{
 			var result = await _authenticationRepository.Authenticate(AuthenticationInfo);
-			AuthenticationInfo.Token = result?.Token ?? string.Empty;
-			AuthenticationInfo.TokenValidUntil = result?.TokenValidUntil ?? DateTime.UtcNow;
+			AuthenticationInfo.Token = result.Object?.Token ?? string.Empty;
+			AuthenticationInfo.TokenValidUntil = result.Object?.TokenValidUntil ?? DateTime.UtcNow;
 		}
 	}
 

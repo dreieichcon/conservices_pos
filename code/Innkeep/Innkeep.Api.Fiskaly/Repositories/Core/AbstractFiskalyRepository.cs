@@ -1,46 +1,48 @@
-﻿using System.Net.Http.Headers;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using Flurl.Http;
 using Innkeep.Api.Auth;
+using Innkeep.Api.Endpoints.Fiskaly;
 using Innkeep.Api.Json;
-using Innkeep.Http.Repository;
+using Lite.Http.Repository;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Core;
 
-public abstract partial class AbstractFiskalyRepository(IFiskalyAuthenticationService authenticationService)
-	: BaseHttpRepository
+public partial class AbstractFiskalyRepository(IFiskalyAuthenticationService authenticationService)
+	: AbstractHttpRepository<FiskalyParameterBuilder>
 {
 	protected IFiskalyAuthenticationService AuthenticationService => authenticationService;
 
-	protected override void InitializeGetHeaders(HttpRequestMessage message)
-	{
-		message.Headers.Add("Accept", "application/json");
+	protected override bool DeserializeIfError { get; }
 
-		message.Headers.Authorization = new AuthenticationHeaderValue(
-			"Bearer",
-			AuthenticationService.AuthenticationInfo.Token
-		);
-	}
-
-	protected override void InitializePostHeaders()
+	protected override void SetupClient()
 	{
-		Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
-			"Bearer",
-			AuthenticationService.AuthenticationInfo.Token
-		);
+		try
+		{
+			FlurlHttp
+				.ConfigureClientForUrl(FiskalyUrlBuilder.Endpoints.BaseUrl)
+				.WithTimeout(TimeSpan.FromMilliseconds(Timeout))
+				.AllowHttpStatus("*")
+				.Build()
+				.HttpClient.DefaultRequestHeaders.Accept.Clear();
+		}
+		catch (ArgumentException ex)
+		{
+			// do nothing, as the client was already configured at a different point
+		}
 	}
 
 	protected override async Task PrepareRequest() => await authenticationService.GetOrUpdateToken();
 
-	protected override JsonSerializerOptions GetOptions() =>
-		new()
-		{
-			Converters =
-			{
-				new PretixDecimalJsonConverter(),
-				new FiskalyDateTimeJsonConverter(),
-				new FiskalyLongJsonConverter(),
-				new JsonStringEnumConverter(new FiskalyEnumNamingPolicy()),
-			},
-		};
+	protected override JsonSerializerOptions GetOptions() => SerializerOptions.GetOptionsForFiskaly();
+
+	protected override void AttachGetHeaders(IFlurlRequest request)
+	{
+		request.Headers.Add("Accept", "application/json");
+		request.WithOAuthBearerToken(AuthenticationService.AuthenticationInfo.Token);
+	}
+
+	protected override void AttachPostHeaders(IFlurlRequest request)
+	{
+		AttachGetHeaders(request);
+	}
 }

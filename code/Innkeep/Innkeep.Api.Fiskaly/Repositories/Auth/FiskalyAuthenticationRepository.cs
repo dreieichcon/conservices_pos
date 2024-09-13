@@ -1,5 +1,5 @@
-﻿using System.Text.Json;
-using Innkeep.Api.Endpoints;
+﻿using Flurl.Http;
+using Innkeep.Api.Endpoints.Fiskaly;
 using Innkeep.Api.Fiskaly.Interfaces.Auth;
 using Innkeep.Api.Fiskaly.Repositories.Core;
 using Innkeep.Api.Models.Fiskaly.Request.Auth;
@@ -19,19 +19,17 @@ public class FiskalyAuthenticationRepository() : AbstractFiskalyRepository(null!
 			Secret = authenticationInfo.Secret,
 		};
 
-		var endpoint = new FiskalyEndpointBuilder().Authenticate().Build();
+		var uri = FiskalyUrlBuilder.Endpoints.Authenticate();
 
-		var content = JsonSerializer.Serialize(request);
+		var result = await Post<FiskalyTokenRequest, FiskalyTokenResponse>(uri, request);
 
-		var result = await Post(endpoint, content);
-
-		return DeserializeResult<FiskalyTokenResponse>(result);
+		return result;
 	}
 
 	// Since this repository is there to update the token, the token update call is skipped
 	protected override async Task PrepareRequest() => await Task.CompletedTask;
 
-	protected override void InitializePostHeaders()
+	protected override void AttachPostHeaders(IFlurlRequest request)
 	{
 		// do nothing here, as we have no token yet
 	}

@@ -1,5 +1,5 @@
 ﻿using Innkeep.Api.Auth;
-using Innkeep.Api.Endpoints;
+using Innkeep.Api.Endpoints.Fiskaly;
 using Innkeep.Api.Enum.Fiskaly.Client;
 using Innkeep.Api.Fiskaly.Interfaces.Tss;
 using Innkeep.Api.Fiskaly.Repositories.Core;
@@ -16,67 +16,59 @@ public class FiskalyClientRepository(IFiskalyAuthenticationService authenticatio
 {
 	public async Task<IHttpResponse<IEnumerable<FiskalyClient>>> GetAll(string tssId)
 	{
-		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(tssId).WithClient().Build();
+		var uri = FiskalyUrlBuilder.Endpoints.Tss(tssId).Client();
 
-		var result = await Get(endpoint);
+		var result = await Get<FiskalyListResponse<FiskalyClient>>(uri);
 
-		var response = DeserializeResult<FiskalyListResponse<FiskalyClient>>(result);
-
-		return HttpResponse<IEnumerable<FiskalyClient>>.FromResult(response, x => x.Data);
+		return HttpResponse<IEnumerable<FiskalyClient>>.FromResult(result, x => x.Data);
 	}
 
-	public async Task<IHttpResponse<FiskalyClient>> GetOne(string tssId, string id)
+	public async Task<IHttpResponse<FiskalyClient>> GetOne(string tssId, string clientId)
 	{
-		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(tssId).WithSpecificClient(id).Build();
+		var uri = FiskalyUrlBuilder.Endpoints.Tss(tssId).Client(clientId);
 
-		var result = await Get(endpoint);
-
-		return DeserializeResult<FiskalyClient>(result);
+		return await Get<FiskalyClient>(uri);
 	}
 
-	public async Task<IHttpResponse<FiskalyClient>> CreateClient(string tssId, string id, string serialNumber)
+	public async Task<IHttpResponse<FiskalyClient>> CreateClient(string tssId, string clientId, string serialNumber)
 	{
 		var authenticationResult = await AuthenticateAdmin(tssId);
 
 		if (!authenticationResult.IsSuccess)
-			return HttpResponse<FiskalyClient>.FromUnsuccessfulResponse(authenticationResult);
+			return HttpResponse<FiskalyClient>.FromResult(authenticationResult, _ => null);
 
-		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(tssId).WithSpecificClient(id).Build();
+		var uri = FiskalyUrlBuilder.Endpoints.Tss(tssId).Client(clientId);
 
-		var content = Serialize(
-			new FiskalyClientCreateRequest
-			{
-				SerialNumber = serialNumber,
-			}
-		);
+		var payload = new FiskalyClientCreateRequest
+		{
+			SerialNumber = serialNumber,
+		};
 
-		var result = await Put(endpoint, content);
+		var result = await Put<FiskalyClientCreateRequest, FiskalyClient>(uri, payload);
 
 		await LogoutAdmin(tssId);
 
-		return DeserializeResult<FiskalyClient>(result);
+		return result;
 	}
 
-	public async Task<IHttpResponse<FiskalyClient>> UpdateClient(string tssId, string id, ClientState state)
+	public async Task<IHttpResponse<FiskalyClient>> UpdateClient(string tssId, string clientId, ClientState state)
 	{
 		var authenticationResult = await AuthenticateAdmin(tssId);
 
 		if (!authenticationResult.IsSuccess)
-			return HttpResponse<FiskalyClient>.FromUnsuccessfulResponse(authenticationResult);
+			return HttpResponse<FiskalyClient>.FromResult(authenticationResult, _ => null);
 
-		var endpoint = new FiskalyEndpointBuilder().WithSpecificTss(tssId).WithSpecificClient(id).Build();
+		var uri = FiskalyUrlBuilder.Endpoints.Tss(tssId).Client(clientId);
 
-		var content = Serialize(
-			new FiskalyClientUpdateRequest
-			{
-				State = state,
-			}
-		);
+		var payload = new FiskalyClientUpdateRequest
+		{
+			State = state,
+		};
 
-		var result = await Patch(endpoint, content);
+		var result = await Patch<FiskalyClientUpdateRequest, FiskalyClient>(uri, payload);
 
 		await LogoutAdmin(tssId);
 
-		return DeserializeResult<FiskalyClient>(result);
+		return result;
 	}
 }

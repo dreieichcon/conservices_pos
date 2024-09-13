@@ -24,4 +24,15 @@ public static class SerializerOptions
 				new JsonStringEnumConverter(new PretixEnumNamingPolicy()),
 			},
 		};
+
+	public static JsonSerializerOptions GetOptionsForFiskaly() => new()
+	{
+		Converters =
+		{
+			new PretixDecimalJsonConverter(),
+			new FiskalyDateTimeJsonConverter(),
+			new FiskalyLongJsonConverter(),
+			new JsonStringEnumConverter(new FiskalyEnumNamingPolicy()),
+		},
+	};
 }
