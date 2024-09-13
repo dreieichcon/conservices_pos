@@ -26,6 +26,6 @@ public class FiskalyTssRepositoryTests
 	public async Task Get_MultipleTss_FetchedCorrectly()
 	{
 		var result = await _tssRepository.GetAll();
-		Assert.IsTrue(result.Any());
+		Assert.IsTrue(result.Object?.Any());
 	}
 }

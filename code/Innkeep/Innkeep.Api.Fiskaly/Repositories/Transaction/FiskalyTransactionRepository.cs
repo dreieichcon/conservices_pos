@@ -1,5 +1,5 @@
 ﻿using Innkeep.Api.Auth;
-using Innkeep.Api.Endpoints;
+using Innkeep.Api.Endpoints.Fiskaly;
 using Innkeep.Api.Enum.Fiskaly.Transaction;
 using Innkeep.Api.Fiskaly.Interfaces.Transaction;
 using Innkeep.Api.Fiskaly.Repositories.Core;
@@ -18,11 +18,11 @@ public class FiskalyTransactionRepository(IFiskalyAuthenticationService authenti
 		string clientId
 	)
 	{
-		var endpoint = new FiskalyEndpointBuilder()
-						.WithSpecificTss(tssId)
-						.WithSpecificTransaction(transactionId)
-						.WithTransactionRevision(1)
-						.Build();
+		var uri = FiskalyUrlBuilder
+				.Endpoints.Tss(tssId)
+				.Transaction(transactionId)
+				.Parameters.TransactionRevision(1)
+				.Build();
 
 		var payload = new FiskalyTransactionStartRequest
 		{
@@ -30,25 +30,19 @@ public class FiskalyTransactionRepository(IFiskalyAuthenticationService authenti
 			ClientId = clientId,
 		};
 
-		var serialized = Serialize(payload);
-
-		var result = await Put(endpoint, serialized);
-
-		return DeserializeResult<FiskalyTransaction>(result);
+		return await Put<FiskalyTransactionStartRequest, FiskalyTransaction>(uri, payload);
 	}
 
 	public async Task<IHttpResponse<FiskalyTransaction>> UpdateTransaction(
 		FiskalyTransactionUpdateRequest updateRequest
 	)
 	{
-		var endpoint = new FiskalyEndpointBuilder()
-						.WithSpecificTss(updateRequest.TssId)
-						.WithSpecificTransaction(updateRequest.TransactionId)
-						.WithTransactionRevision(updateRequest.TransactionRevision)
+		var endpoint = FiskalyUrlBuilder
+						.Endpoints.Tss(updateRequest.TssId)
+						.Transaction(updateRequest.TransactionId)
+						.Parameters.TransactionRevision(updateRequest.TransactionRevision)
 						.Build();
 
-		var result = await Put(endpoint, Serialize(updateRequest));
-
-		return DeserializeResult<FiskalyTransaction>(result);
+		return await Put<FiskalyTransactionUpdateRequest, FiskalyTransaction>(endpoint, updateRequest);
 	}
 }
