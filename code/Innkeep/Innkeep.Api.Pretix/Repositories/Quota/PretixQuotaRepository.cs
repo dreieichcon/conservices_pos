@@ -1,6 +1,7 @@
 ﻿using Innkeep.Api.Auth;
-using Innkeep.Api.Endpoints;
+using Innkeep.Api.Endpoints.Pretix;
 using Innkeep.Api.Models.Pretix.Objects.Sales;
+using Innkeep.Api.Models.Pretix.Response;
 using Innkeep.Api.Pretix.Interfaces.Quota;
 using Innkeep.Api.Pretix.Repositories.Core;
 using Lite.Http.Interfaces;
@@ -13,16 +14,14 @@ public class PretixQuotaRepository(IPretixAuthenticationService authenticationSe
 {
 	public async Task<IHttpResponse<IEnumerable<PretixQuota>>> GetAll(string organizerSlug, string eventSlug)
 	{
-		var uri = new PretixEndpointBuilder()
-				.WithOrganizer(organizerSlug)
-				.WithEvent(eventSlug)
-				.WithQuotas()
-				.WithAvailability()
+		var uri = PretixUrlBuilder
+				.Endpoints.Organizer(organizerSlug)
+				.Event(eventSlug)
+				.Quotas()
+				.Parameters.WithAvailability("true")
 				.Build();
 
-		var response = await Get(uri);
-
-		var result = DeserializePretixResult<PretixQuota>(response);
+		var result = await Get<PretixResponse<PretixQuota>>(uri);
 
 		return HttpResponse<IEnumerable<PretixQuota>>.FromResult(result, x => x.Results);
 	}

@@ -27,16 +27,29 @@ public abstract class AbstractPretixRepository(IPretixAuthenticationService auth
 
 	protected override void AttachGetHeaders(IFlurlRequest request)
 	{
-		request.Headers.Add("Authorization", $"Token {Token}");
-		request.Headers.Add("accept", "application/json");
+		FlurlHttp.GetClientForRequest(request).Headers.Add("Authorization", $"Token {Token}");
+
+		request.WithHeader("Authorization", $"Token {Token}");
+		request.WithHeader("Accept", "application/json");
 	}
 
 	protected override void AttachPostHeaders(IFlurlRequest request)
 		=> AttachGetHeaders(request);
 
 	protected override void SetupClient()
-		=> FlurlHttp
-			.ConfigureClientForUrl(PretixUrlBuilder.Endpoints.BaseUrl)
-			.WithTimeout(Timeout)
-			.AllowHttpStatus("*");
+	{
+		try
+		{
+			FlurlHttp
+				.ConfigureClientForUrl(PretixUrlBuilder.Endpoints.BaseUrl)
+				.WithTimeout(TimeSpan.FromMilliseconds(Timeout))
+				.AllowHttpStatus("*")
+				.Build()
+				.HttpClient.DefaultRequestHeaders.Accept.Clear();
+		}
+		catch (ArgumentException ex)
+		{
+			// do nothing, as the client was already configured at a different point
+		}
+	}
 }

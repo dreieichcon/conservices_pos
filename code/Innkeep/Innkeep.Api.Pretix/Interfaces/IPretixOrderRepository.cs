@@ -7,8 +7,8 @@ namespace Innkeep.Api.Pretix.Interfaces;
 public interface IPretixOrderRepository
 {
 	public Task<IHttpResponse<PretixOrderResponse>> CreateOrder(
-		string pretixOrganizer,
-		string pretixEvent,
+		string organizerSlug,
+		string eventSlug,
 		IEnumerable<DtoSalesItem> cart,
 		bool isTestMode
 	);

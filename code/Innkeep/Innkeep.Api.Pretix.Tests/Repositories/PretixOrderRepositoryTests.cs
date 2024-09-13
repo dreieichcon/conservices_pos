@@ -10,11 +10,10 @@ namespace Innkeep.Api.Pretix.Tests.Repositories;
 [TestClass]
 public class PretixOrderRepositoryTests
 {
-	private PretixSalesItemRepository _itemRepository = null!;
-	
-	private IPretixOrderRepository _orderRepository = null!;
-
 	private readonly ITestAuth _testAuth = new TestAuth();
+	private PretixSalesItemRepository _itemRepository = null!;
+
+	private IPretixOrderRepository _orderRepository = null!;
 
 	[TestInitialize]
 	public void Initialize()
@@ -29,10 +28,13 @@ public class PretixOrderRepositoryTests
 	{
 		var items = await _itemRepository.GetItems(_testAuth.PretixTestOrganizerSlug, _testAuth.PretixTestEventSlug);
 
-		var dto = DtoSalesItem.FromPretix(items.First());
+		Assert.IsTrue(items.Object?.Any());
+
+		var dto = DtoSalesItem.FromPretix(items.Object!.First());
+
 		dto.CartCount = 2;
 
-		var cart = new List<DtoSalesItem>()
+		var cart = new List<DtoSalesItem>
 		{
 			dto,
 		};
@@ -43,7 +45,7 @@ public class PretixOrderRepositoryTests
 			cart,
 			true
 		);
-		
+
 		Assert.IsNotNull(result);
 	}
 }

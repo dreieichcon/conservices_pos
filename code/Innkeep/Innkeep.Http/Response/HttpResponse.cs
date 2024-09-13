@@ -45,7 +45,7 @@ public class HttpResponse<T> : IHttpResponse<T>
 			IsSuccess = false,
 		};
 
-	public static HttpResponse<T> FromResult<TR>(IHttpResponse<TR> result, Func<TR, T> func)
+	public static HttpResponse<T> FromResult<TR>(IHttpResponse<TR> result, Func<TR, T?> func)
 	{
 		if (result.IsSuccess)
 			return new HttpResponse<T>

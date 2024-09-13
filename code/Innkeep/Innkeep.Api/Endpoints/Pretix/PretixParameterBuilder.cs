@@ -10,4 +10,14 @@ public class PretixParameterBuilder(PretixUrlBuilder pretixUrlBuilder) : IParame
 
 	public IUrlBuilder<PretixParameterBuilder> Build()
 		=> UrlBuilder;
+
+	public PretixParameterBuilder WithAvailability(string value)
+		=> AddParameter("with_availability", value);
+
+	private PretixParameterBuilder AddParameter(string parameter, string value)
+	{
+		Values.TryAdd(parameter, value);
+
+		return this;
+	}
 }

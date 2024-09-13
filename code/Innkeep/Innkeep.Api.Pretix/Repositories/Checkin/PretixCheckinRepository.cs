@@ -1,6 +1,7 @@
 ﻿using Innkeep.Api.Auth;
-using Innkeep.Api.Endpoints;
+using Innkeep.Api.Endpoints.Pretix;
 using Innkeep.Api.Models.Pretix.Objects.Checkin;
+using Innkeep.Api.Models.Pretix.Response;
 using Innkeep.Api.Pretix.Interfaces.Checkin;
 using Innkeep.Api.Pretix.Repositories.Core;
 using Lite.Http.Interfaces;
@@ -13,13 +14,9 @@ public class PretixCheckinRepository(IPretixAuthenticationService authentication
 {
 	public async Task<IHttpResponse<PretixCheckinResponse>> CheckIn(string organizerSlug, PretixCheckin checkin)
 	{
-		var uri = new PretixEndpointBuilder().WithOrganizer(organizerSlug).WithCheckin().Build();
+		var uri = PretixUrlBuilder.Endpoints.Organizer(organizerSlug).Checkin();
 
-		var payload = Serialize(checkin);
-
-		var response = await Post(uri, payload);
-
-		var result = DeserializePretixResult<PretixCheckinResponse>(response);
+		var result = await Post<PretixCheckin, PretixResponse<PretixCheckinResponse>>(uri, checkin);
 
 		return HttpResponse<PretixCheckinResponse>.FromResult(result, x => x.Results.FirstOrDefault());
 	}

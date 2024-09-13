@@ -1,5 +1,4 @@
 ﻿using Innkeep.Api.Pretix.Interfaces.Quota;
-using Innkeep.Api.Pretix.Interfaces.Sales;
 using Innkeep.Api.Pretix.Repositories.Quota;
 using Innkeep.Api.Pretix.Tests.Data;
 using Innkeep.Api.Pretix.Tests.Mock;
@@ -23,6 +22,6 @@ public class PretixQuotaRepositoryTests
 	public async Task Get_Quotas_ReturnsItems()
 	{
 		var result = await _quotaRepository.GetAll(_testAuth.PretixTestOrganizerSlug, _testAuth.PretixTestEventSlug);
-		Assert.IsTrue(result.Count > 0);
+		Assert.IsTrue(result.Object?.Any());
 	}
 }

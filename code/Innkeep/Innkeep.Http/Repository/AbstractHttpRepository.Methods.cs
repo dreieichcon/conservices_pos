@@ -32,6 +32,18 @@ public abstract partial class AbstractHttpRepository<TPb>
 		=> await SendRequestInternal(builder, RequestType.Get, formContent, defaultValue);
 
 	/// <summary>
+	///     Executes a POST request.
+	/// </summary>
+	/// <param name="builder">Url builder.</param>
+	/// <param name="data">Data to be serialized and sent.</param>
+	/// <param name="defaultValue">Default return value.</param>
+	/// <typeparam name="T">Transmit type.</typeparam>
+	/// <typeparam name="TR">Return type.</typeparam>
+	/// <returns></returns>
+	protected async Task<IHttpResponse<TR>> Post<T, TR>(IUrlBuilder<TPb> builder, T? data, TR? defaultValue = default)
+		=> await SendRequestInternal(builder, RequestType.Post, data, defaultValue);
+
+	/// <summary>
 	///     Method with actually sends the request to the endpoint.
 	/// </summary>
 	/// <param name="request"></param>
@@ -83,27 +95,22 @@ public abstract partial class AbstractHttpRepository<TPb>
 			case RequestType.Get:
 				AttachGetHeaders(request);
 				AttachGetFormContent(request, data);
-
 				break;
 
 			case RequestType.Post:
 				AttachPostHeaders(request);
-
 				break;
 
 			case RequestType.Patch:
 				AttachPatchHeaders(request);
-
 				break;
 
 			case RequestType.Put:
 				AttachPutHeaders(request);
-
 				break;
 
 			case RequestType.Delete:
 				AttachDeleteHeaders(request);
-
 				break;
 
 			default:

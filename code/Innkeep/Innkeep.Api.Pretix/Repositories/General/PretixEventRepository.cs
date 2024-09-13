@@ -1,6 +1,7 @@
 ﻿using Innkeep.Api.Auth;
-using Innkeep.Api.Endpoints;
+using Innkeep.Api.Endpoints.Pretix;
 using Innkeep.Api.Models.Pretix.Objects.General;
+using Innkeep.Api.Models.Pretix.Response;
 using Innkeep.Api.Pretix.Interfaces.General;
 using Innkeep.Api.Pretix.Repositories.Core;
 using Lite.Http.Interfaces;
@@ -11,48 +12,30 @@ namespace Innkeep.Api.Pretix.Repositories.General;
 public class PretixEventRepository(IPretixAuthenticationService authenticationService)
 	: AbstractPretixRepository(authenticationService), IPretixEventRepository
 {
-	public async Task<IHttpResponse<IEnumerable<PretixEvent>>> GetEvents(PretixOrganizer organizer)
+	public async Task<IHttpResponse<IEnumerable<PretixEvent>>> GetEvents(string organizerSlug)
 	{
-		var uri = new PretixEndpointBuilder().WithOrganizer(organizer).WithEvents().Build();
+		var uri = PretixUrlBuilder.Endpoints.Organizer(organizerSlug).Events();
 
-		return await GetEventsInternal(uri);
+		var result = await Get<PretixResponse<PretixEvent>>(uri);
+
+		return HttpResponse<IEnumerable<PretixEvent>>.FromResult(result, x => x.Results);
 	}
 
-	public async Task<IHttpResponse<IEnumerable<PretixEvent>>> GetEvents(string pretixOrganizerSlug)
+	public async Task<IHttpResponse<PretixEvent>> GetEvent(string organizerSlug, string eventSlug)
 	{
-		var uri = new PretixEndpointBuilder().WithOrganizer(pretixOrganizerSlug).WithEvents().Build();
+		var uri = PretixUrlBuilder.Endpoints.Organizer(organizerSlug).Event(eventSlug);
 
-		return await GetEventsInternal(uri);
-	}
-
-	public async Task<IHttpResponse<PretixEvent>> GetEvent(string pOrganizerSlug, string pEventSlug)
-	{
-		var uri = new PretixEndpointBuilder().WithOrganizer(pOrganizerSlug).WithEvent(pEventSlug).Build();
-
-		var response = await Get(uri);
-
-		var result = DeserializePretixResult<PretixEvent>(response);
+		var result = await Get<PretixResponse<PretixEvent>>(uri);
 
 		return HttpResponse<PretixEvent>.FromResult(result, x => x.Results.FirstOrDefault());
 	}
 
 	public async Task<IHttpResponse<PretixEventSettings>> GetEventSettings(string organizerSlug, string eventSlug)
 	{
-		var uri = new PretixEndpointBuilder().WithOrganizer(organizerSlug).WithEvent(eventSlug).WithSettings().Build();
+		var uri = PretixUrlBuilder.Endpoints.Organizer(organizerSlug).Event(eventSlug).Settings();
 
-		var response = await Get(uri);
-
-		var result = DeserializePretixResult<PretixEventSettings>(response);
+		var result = await Get<PretixResponse<PretixEventSettings>>(uri);
 
 		return HttpResponse<PretixEventSettings>.FromResult(result, x => x.Results.FirstOrDefault());
-	}
-
-	private async Task<HttpResponse<IEnumerable<PretixEvent>>> GetEventsInternal(string uri)
-	{
-		var response = await Get(uri);
-
-		var result = DeserializePretixResult<PretixEvent>(response);
-
-		return HttpResponse<IEnumerable<PretixEvent>>.FromResult(result, x => x.Results);
 	}
 }

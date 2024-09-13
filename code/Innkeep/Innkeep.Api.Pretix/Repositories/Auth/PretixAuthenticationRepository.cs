@@ -12,7 +12,7 @@ public class PretixAuthenticationRepository(IPretixAuthenticationService authent
 {
 	public async Task<bool> Authenticate()
 	{
-		var uri = PretixUrlBuilder.Organizers;
+		var uri = PretixUrlBuilder.Endpoints.Organizers();
 
 		var result = await Get<PretixResponse<PretixOrganizer>>(uri);
 
