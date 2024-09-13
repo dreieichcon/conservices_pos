@@ -3,8 +3,8 @@ using Innkeep.Api.Endpoints;
 using Innkeep.Api.Models.Pretix.Objects.Checkin;
 using Innkeep.Api.Pretix.Interfaces.Checkin;
 using Innkeep.Api.Pretix.Repositories.Core;
-using Innkeep.Http.Interfaces;
-using Innkeep.Http.Response;
+using Lite.Http.Interfaces;
+using Lite.Http.Response;
 
 namespace Innkeep.Api.Pretix.Repositories.Checkin;
 
@@ -21,6 +21,6 @@ public class PretixCheckinRepository(IPretixAuthenticationService authentication
 
 		var result = DeserializePretixResult<PretixCheckinResponse>(response);
 
-		return HttpResponse<PretixCheckinResponse>.FromResponse(result, x => x.Results.FirstOrDefault());
+		return HttpResponse<PretixCheckinResponse>.FromResult(result, x => x.Results.FirstOrDefault());
 	}
 }

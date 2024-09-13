@@ -1,6 +1,6 @@
 ﻿using Innkeep.Api.Models.Fiskaly.Response;
 using Innkeep.Core.DomainModels.Authentication;
-using Innkeep.Http.Interfaces;
+using Lite.Http.Interfaces;
 
 namespace Innkeep.Api.Fiskaly.Interfaces.Auth;
 

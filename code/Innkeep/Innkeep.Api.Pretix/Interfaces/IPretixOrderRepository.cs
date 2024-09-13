@@ -1,6 +1,6 @@
 ﻿using Innkeep.Api.Models.Internal;
 using Innkeep.Api.Models.Pretix.Objects.Order;
-using Innkeep.Http.Interfaces;
+using Lite.Http.Interfaces;
 
 namespace Innkeep.Api.Pretix.Interfaces;
 

@@ -2,10 +2,9 @@
 using Innkeep.Api.Endpoints;
 using Innkeep.Api.Models.Pretix.Objects.Sales;
 using Innkeep.Api.Pretix.Interfaces.Quota;
-using Innkeep.Api.Pretix.Interfaces.Sales;
 using Innkeep.Api.Pretix.Repositories.Core;
-using Innkeep.Http.Interfaces;
-using Innkeep.Http.Response;
+using Lite.Http.Interfaces;
+using Lite.Http.Response;
 
 namespace Innkeep.Api.Pretix.Repositories.Quota;
 
@@ -25,6 +24,6 @@ public class PretixQuotaRepository(IPretixAuthenticationService authenticationSe
 
 		var result = DeserializePretixResult<PretixQuota>(response);
 
-		return HttpResponse<IEnumerable<PretixQuota>>.FromResponse(result, x => x.Results);
+		return HttpResponse<IEnumerable<PretixQuota>>.FromResult(result, x => x.Results);
 	}
 }

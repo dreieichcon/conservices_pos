@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Innkeep.Http.Interfaces;
+namespace Lite.Http.Interfaces;
 
 public interface IHttpResponse<T> : IHttpResponse
 {

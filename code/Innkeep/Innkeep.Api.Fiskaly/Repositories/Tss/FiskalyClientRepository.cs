@@ -6,8 +6,8 @@ using Innkeep.Api.Fiskaly.Repositories.Core;
 using Innkeep.Api.Models.Fiskaly.Objects.Client;
 using Innkeep.Api.Models.Fiskaly.Request.Client;
 using Innkeep.Api.Models.Fiskaly.Response;
-using Innkeep.Http.Interfaces;
-using Innkeep.Http.Response;
+using Lite.Http.Interfaces;
+using Lite.Http.Response;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Tss;
 
@@ -22,7 +22,7 @@ public class FiskalyClientRepository(IFiskalyAuthenticationService authenticatio
 
 		var response = DeserializeResult<FiskalyListResponse<FiskalyClient>>(result);
 
-		return HttpResponse<IEnumerable<FiskalyClient>>.FromResponse(response, x => x.Data);
+		return HttpResponse<IEnumerable<FiskalyClient>>.FromResult(response, x => x.Data);
 	}
 
 	public async Task<IHttpResponse<FiskalyClient>> GetOne(string tssId, string id)

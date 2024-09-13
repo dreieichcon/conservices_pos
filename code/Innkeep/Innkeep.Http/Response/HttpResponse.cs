@@ -1,7 +1,8 @@
 ﻿using System.Net;
-using Innkeep.Http.Interfaces;
+using Flurl.Http;
+using Lite.Http.Interfaces;
 
-namespace Innkeep.Http.Response;
+namespace Lite.Http.Response;
 
 public class HttpResponse<T> : IHttpResponse<T>
 {
@@ -17,52 +18,49 @@ public class HttpResponse<T> : IHttpResponse<T>
 	/// <inheritdoc />
 	public bool IsSuccess { get; set; }
 
-	public static HttpResponse<T> FromResponse<TR>(IHttpResponse<TR> response, Func<TR, T?> converter)
-	{
-		var newResponse = new HttpResponse<T>
+	public static async Task<HttpResponse<T>> Ok(IFlurlResponse response, T? deserialized)
+		=> new()
 		{
-			StatusCode = response.StatusCode,
-			Content = response.Content,
-			IsSuccess = response.IsSuccess,
-		};
-
-		if (response.Object is not null)
-			newResponse.Object = converter(response.Object);
-
-		return newResponse;
-	}
-
-	public static HttpResponse<T> FromUnsuccessfulResponse(IHttpResponse response) =>
-		new()
-		{
-			StatusCode = response.StatusCode,
-			Content = response.Content,
-			IsSuccess = false,
-		};
-
-	public static HttpResponse<T> Parse(ApiResponse response, T? @object) =>
-		response.IsSuccess ? Ok(response, @object) : Error(response);
-
-	public static HttpResponse<T> Ok(ApiResponse response, T? @object) =>
-		new()
-		{
-			StatusCode = response.StatusCode,
-			Content = response.Content,
-			Object = @object,
+			StatusCode = (HttpStatusCode) response.StatusCode,
+			Content = await response.GetStringAsync(),
+			Object = deserialized,
 			IsSuccess = true,
 		};
 
-	public static HttpResponse<T> Error(ApiResponse response) => new()
-	{
-		StatusCode = response.StatusCode,
-		Content = response.Content,
-		Object = default,
-		IsSuccess = false,
-	};
+	public static async Task<HttpResponse<T>> Error(IFlurlResponse response, T? defaultValue)
+		=> new()
+		{
+			StatusCode = (HttpStatusCode) response.StatusCode,
+			Content = await response.GetStringAsync(),
+			Object = defaultValue,
+			IsSuccess = false,
+		};
 
-	public static HttpResponse<T> Exception(Exception ex) => new()
+	public static HttpResponse<T> Exception<T>(Exception exception, T? defaultValue)
+		=> new()
+		{
+			StatusCode = (HttpStatusCode) 500,
+			Content = exception.ToString(),
+			Object = defaultValue,
+			IsSuccess = false,
+		};
+
+	public static HttpResponse<T> FromResult<TR>(IHttpResponse<TR> result, Func<TR, T> func)
 	{
-		Content = ex.Message,
-		IsSuccess = false,
-	};
+		if (result.IsSuccess)
+			return new HttpResponse<T>
+			{
+				StatusCode = result.StatusCode,
+				Content = result.Content,
+				Object = result.Object != null ? func.Invoke(result.Object) : default,
+				IsSuccess = result.IsSuccess,
+			};
+
+		return new HttpResponse<T>
+		{
+			StatusCode = result.StatusCode,
+			Content = result.Content,
+			IsSuccess = result.IsSuccess,
+		};
+	}
 }

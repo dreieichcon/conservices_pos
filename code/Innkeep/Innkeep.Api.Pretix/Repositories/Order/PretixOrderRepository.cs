@@ -5,8 +5,8 @@ using Innkeep.Api.Models.Internal;
 using Innkeep.Api.Models.Pretix.Objects.Order;
 using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Api.Pretix.Repositories.Core;
-using Innkeep.Http.Interfaces;
-using Innkeep.Http.Response;
+using Lite.Http.Interfaces;
+using Lite.Http.Response;
 
 namespace Innkeep.Api.Pretix.Repositories.Order;
 
@@ -34,6 +34,6 @@ public class PretixOrderRepository(IPretixAuthenticationService authenticationSe
 
 		var result = DeserializePretixResult<PretixOrderResponse>(response);
 
-		return HttpResponse<PretixOrderResponse>.FromResponse(result, x => x.Results.FirstOrDefault());
+		return HttpResponse<PretixOrderResponse>.FromResult(result, x => x.Results.FirstOrDefault());
 	}
 }

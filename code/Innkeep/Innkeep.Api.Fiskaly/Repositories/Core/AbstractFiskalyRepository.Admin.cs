@@ -1,7 +1,7 @@
 ﻿using Innkeep.Api.Endpoints;
 using Innkeep.Api.Models.Fiskaly.Request.Auth;
-using Innkeep.Http.Interfaces;
-using Innkeep.Http.Response;
+using Lite.Http.Interfaces;
+using Lite.Http.Response;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Core;
 

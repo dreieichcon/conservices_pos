@@ -1,10 +1,12 @@
 ﻿using Innkeep.Api.Auth;
 using Innkeep.Api.Endpoints;
+using Innkeep.Api.Endpoints.Pretix;
 using Innkeep.Api.Models.Pretix.Objects.General;
+using Innkeep.Api.Models.Pretix.Response;
 using Innkeep.Api.Pretix.Interfaces.General;
 using Innkeep.Api.Pretix.Repositories.Core;
-using Innkeep.Http.Interfaces;
-using Innkeep.Http.Response;
+using Lite.Http.Interfaces;
+using Lite.Http.Response;
 
 namespace Innkeep.Api.Pretix.Repositories.General;
 
@@ -13,12 +15,10 @@ public class PretixOrganizerRepository(IPretixAuthenticationService authenticati
 {
 	public async Task<IHttpResponse<IEnumerable<PretixOrganizer>>> GetOrganizers()
 	{
-		var uri = new PretixEndpointBuilder().WithOrganizers().Build();
+		var uri = PretixUrlBuilder.Organizers;
+		
+		var result = await Get<PretixResponse<PretixOrganizer>>(uri);
 
-		var response = await Get(uri);
-
-		var result = DeserializePretixResult<PretixOrganizer>(response);
-
-		return HttpResponse<IEnumerable<PretixOrganizer>>.FromResponse(result, x => x.Results);
+		return HttpResponse<IEnumerable<PretixOrganizer>>.FromResult(result, x => x.Results);
 	}
 }

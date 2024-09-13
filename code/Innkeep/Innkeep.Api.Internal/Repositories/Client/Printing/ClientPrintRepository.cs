@@ -3,8 +3,8 @@ using Innkeep.Api.Internal.Interfaces.Client.Printing;
 using Innkeep.Api.Internal.Repositories.Client.Core;
 using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Api.Models.Internal.Transfer;
-using Innkeep.Http.Interfaces;
-using Innkeep.Http.Response;
+using Lite.Http.Interfaces;
+using Lite.Http.Response;
 
 namespace Innkeep.Api.Internal.Repositories.Client.Printing;
 
