@@ -1,9 +1,10 @@
-﻿namespace Innkeep.Http.Enum;
+﻿namespace Lite.Http.Enum;
 
 public enum RequestType
 {
-    Get,
-    Post,
-    Put,
-    Patch
+	Get,
+	Post,
+	Patch,
+	Put,
+	Delete,
 }

@@ -1,6 +1,6 @@
 ﻿using Innkeep.Api.Models.Fiskaly.Objects.Transaction;
 using Innkeep.Api.Models.Fiskaly.Request.Transaction;
-using Innkeep.Http.Interfaces;
+using Lite.Http.Interfaces;
 
 namespace Innkeep.Api.Fiskaly.Interfaces.Transaction;
 

@@ -1,8 +1,8 @@
 ﻿using Innkeep.Api.Endpoints;
 using Innkeep.Api.Internal.Interfaces.Client.Actions;
 using Innkeep.Api.Internal.Repositories.Client.Core;
-using Innkeep.Http.Interfaces;
-using Innkeep.Http.Response;
+using Lite.Http.Interfaces;
+using Lite.Http.Response;
 
 namespace Innkeep.Api.Internal.Repositories.Client.Actions;
 

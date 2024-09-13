@@ -5,7 +5,7 @@ using Innkeep.Api.Fiskaly.Interfaces.Transaction;
 using Innkeep.Api.Fiskaly.Repositories.Core;
 using Innkeep.Api.Models.Fiskaly.Objects.Transaction;
 using Innkeep.Api.Models.Fiskaly.Request.Transaction;
-using Innkeep.Http.Interfaces;
+using Lite.Http.Interfaces;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Transaction;
 

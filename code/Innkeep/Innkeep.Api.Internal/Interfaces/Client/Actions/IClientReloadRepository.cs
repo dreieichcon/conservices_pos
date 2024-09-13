@@ -1,4 +1,4 @@
-﻿using Innkeep.Http.Interfaces;
+﻿using Lite.Http.Interfaces;
 
 namespace Innkeep.Api.Internal.Interfaces.Client.Actions;
 

@@ -3,8 +3,8 @@ using Innkeep.Api.Endpoints;
 using Innkeep.Api.Models.Pretix.Objects.Sales;
 using Innkeep.Api.Pretix.Interfaces.Sales;
 using Innkeep.Api.Pretix.Repositories.Core;
-using Innkeep.Http.Interfaces;
-using Innkeep.Http.Response;
+using Lite.Http.Interfaces;
+using Lite.Http.Response;
 
 namespace Innkeep.Api.Pretix.Repositories.Sales;
 
@@ -19,6 +19,6 @@ public class PretixSalesItemRepository(IPretixAuthenticationService authenticati
 
 		var result = DeserializePretixResult<PretixSalesItem>(response);
 
-		return HttpResponse<IEnumerable<PretixSalesItem>>.FromResponse(result, x => x.Results);
+		return HttpResponse<IEnumerable<PretixSalesItem>>.FromResult(result, x => x.Results);
 	}
 }

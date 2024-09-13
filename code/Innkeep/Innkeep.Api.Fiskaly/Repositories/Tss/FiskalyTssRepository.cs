@@ -7,8 +7,8 @@ using Innkeep.Api.Models.Fiskaly.Objects.Tss;
 using Innkeep.Api.Models.Fiskaly.Request.Auth;
 using Innkeep.Api.Models.Fiskaly.Request.Tss;
 using Innkeep.Api.Models.Fiskaly.Response;
-using Innkeep.Http.Interfaces;
-using Innkeep.Http.Response;
+using Lite.Http.Interfaces;
+using Lite.Http.Response;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Tss;
 
@@ -23,7 +23,7 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 
 		var response = DeserializeResult<FiskalyListResponse<FiskalyTss>>(result);
 
-		return HttpResponse<IEnumerable<FiskalyTss>>.FromResponse(response, x => x.Data);
+		return HttpResponse<IEnumerable<FiskalyTss>>.FromResult(response, x => x.Data);
 	}
 
 	public Task<FiskalyTss> GetOne(string id) => throw new NotImplementedException();

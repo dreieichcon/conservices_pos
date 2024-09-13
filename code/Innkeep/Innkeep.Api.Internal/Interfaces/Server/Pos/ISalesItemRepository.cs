@@ -1,5 +1,5 @@
 ﻿using Innkeep.Api.Models.Internal;
-using Innkeep.Http.Interfaces;
+using Lite.Http.Interfaces;
 
 namespace Innkeep.Api.Internal.Interfaces.Server.Pos;
 

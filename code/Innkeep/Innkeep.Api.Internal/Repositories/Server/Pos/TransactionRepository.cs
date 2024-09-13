@@ -3,8 +3,8 @@ using Innkeep.Api.Internal.Interfaces.Server.Pos;
 using Innkeep.Api.Internal.Repositories.Server.Core;
 using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Db.Client.Models;
-using Innkeep.Http.Interfaces;
 using Innkeep.Services.Interfaces;
+using Lite.Http.Interfaces;
 
 namespace Innkeep.Api.Internal.Repositories.Server.Pos;
 

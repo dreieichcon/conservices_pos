@@ -1,5 +1,5 @@
 ﻿using Innkeep.Api.Models.Fiskaly.Objects.Tss;
-using Innkeep.Http.Interfaces;
+using Lite.Http.Interfaces;
 
 namespace Innkeep.Api.Fiskaly.Interfaces.Tss;
 

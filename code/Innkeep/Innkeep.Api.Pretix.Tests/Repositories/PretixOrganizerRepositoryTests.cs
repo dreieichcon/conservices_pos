@@ -24,7 +24,7 @@ public class PretixOrganizerRepositoryTests
 	{
 		var result = await _organizerRepository.GetOrganizers();
 
-		var testResult = result.FirstOrDefault(x => x.Slug.Equals(_testAuth.PretixTestOrganizerSlug));
+		var testResult = result.Object?.FirstOrDefault(x => x.Slug.Equals(_testAuth.PretixTestOrganizerSlug));
 		
 		Assert.IsNotNull(testResult);
 	}

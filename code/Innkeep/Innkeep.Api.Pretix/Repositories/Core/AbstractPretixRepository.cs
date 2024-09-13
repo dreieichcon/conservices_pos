@@ -1,18 +1,18 @@
-﻿using System.Net.Http.Headers;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json;
+using Flurl.Http;
 using Innkeep.Api.Auth;
+using Innkeep.Api.Endpoints.Pretix;
 using Innkeep.Api.Json;
-using Innkeep.Api.Models.Pretix.Response;
-using Innkeep.Http.Interfaces;
-using Innkeep.Http.Repository;
-using Innkeep.Http.Response;
+using Lite.Http.Repository;
 
 namespace Innkeep.Api.Pretix.Repositories.Core;
 
-public abstract class AbstractPretixRepository(IPretixAuthenticationService authenticationService) : BaseHttpRepository
+public abstract class AbstractPretixRepository(IPretixAuthenticationService authenticationService)
+	: AbstractHttpRepository<PretixParameterBuilder>
 {
 	private string Token => authenticationService.AuthenticationInfo.Token;
+
+	protected override bool DeserializeIfError => false;
 
 	protected override Task PrepareRequest()
 	{
@@ -22,31 +22,21 @@ public abstract class AbstractPretixRepository(IPretixAuthenticationService auth
 		return Task.CompletedTask;
 	}
 
-	protected override void InitializeGetHeaders(HttpRequestMessage message)
+	protected override JsonSerializerOptions GetOptions()
+		=> SerializerOptions.GetOptionsForPretix();
+
+	protected override void AttachGetHeaders(IFlurlRequest request)
 	{
-		message.Headers.Add("Accept", "application/json");
-		message.Headers.Authorization = new AuthenticationHeaderValue("Token", Token);
+		request.Headers.Add("Authorization", $"Token {Token}");
+		request.Headers.Add("accept", "application/json");
 	}
 
-	protected override void InitializePostHeaders()
-	{
-		Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", Token);
-	}
+	protected override void AttachPostHeaders(IFlurlRequest request)
+		=> AttachGetHeaders(request);
 
-	protected override JsonSerializerOptions GetOptions() =>
-		new()
-		{
-			Converters =
-			{
-				new PretixDecimalJsonConverter(),
-				new JsonStringEnumConverter(),
-				new JsonStringEnumConverter(new PretixEnumNamingPolicy()),
-			},
-		};
-
-	protected IHttpResponse<PretixResponse<T>> DeserializePretixResult<T>(ApiResponse result, bool forceDeserializeError = false)
-		where T : class
-	{
-		return DeserializeResult<PretixResponse<T>>(result, forceDeserializeError);
-	}
+	protected override void SetupClient()
+		=> FlurlHttp
+			.ConfigureClientForUrl(PretixUrlBuilder.Endpoints.BaseUrl)
+			.WithTimeout(Timeout)
+			.AllowHttpStatus("*");
 }

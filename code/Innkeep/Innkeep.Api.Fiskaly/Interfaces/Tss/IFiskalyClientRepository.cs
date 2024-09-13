@@ -1,6 +1,6 @@
 ﻿using Innkeep.Api.Enum.Fiskaly.Client;
 using Innkeep.Api.Models.Fiskaly.Objects.Client;
-using Innkeep.Http.Interfaces;
+using Lite.Http.Interfaces;
 
 namespace Innkeep.Api.Fiskaly.Interfaces.Tss;
 
