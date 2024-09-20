@@ -1,6 +1,7 @@
-﻿using Innkeep.Api.Endpoints;
+﻿using Innkeep.Api.Endpoints.Client;
 using Innkeep.Api.Internal.Interfaces.Client.Printing;
 using Innkeep.Api.Internal.Repositories.Client.Core;
+using Innkeep.Api.Models.General;
 using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Api.Models.Internal.Transfer;
 using Lite.Http.Interfaces;
@@ -12,13 +13,14 @@ public class ClientPrintRepository : AbstractClientRepository, IClientPrintRepos
 {
 	public async Task<IHttpResponse<bool>> PrintReceipt(TransactionReceipt receipt, string identifier, string address)
 	{
-		var uri = new ClientEndpointBuilder(address).WithPrint().Transaction().WithIdentifier(identifier).Build();
+		var uri = ClientUrlBuilder
+				.Endpoints.ClientAddress(address)
+				.Print.Transaction.Parameters.Identifier(identifier)
+				.Build();
 
-		var json = Serialize(receipt);
+		var result = await Post<TransactionReceipt, Empty>(uri, receipt);
 
-		var result = await Post(uri, json);
-
-		return HttpResponse<bool>.Parse(result, result.IsSuccess);
+		return HttpResponse<bool>.FromResult(result, _ => result.IsSuccess);
 	}
 
 	public async Task<IHttpResponse<bool>> PrintReceipt(
@@ -31,12 +33,13 @@ public class ClientPrintRepository : AbstractClientRepository, IClientPrintRepos
 		if (currency != null)
 			receipt.Currency = currency;
 
-		var uri = new ClientEndpointBuilder(address).WithPrint().Transfer().WithIdentifier(identifier).Build();
+		var uri = ClientUrlBuilder
+				.Endpoints.ClientAddress(address)
+				.Print.Transfer.Parameters.Identifier(identifier)
+				.Build();
 
-		var json = Serialize(receipt);
+		var result = await Post<TransferReceipt, Empty>(uri, receipt);
 
-		var result = await Post(uri, json);
-
-		return HttpResponse<bool>.Parse(result, result.IsSuccess);
+		return HttpResponse<bool>.FromResult(result, _ => result.IsSuccess);
 	}
 }

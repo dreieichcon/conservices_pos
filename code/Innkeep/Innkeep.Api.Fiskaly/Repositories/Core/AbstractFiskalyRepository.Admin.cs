@@ -1,6 +1,6 @@
 ﻿using Innkeep.Api.Endpoints.Fiskaly;
 using Innkeep.Api.Models.Fiskaly.Request.Auth;
-using Innkeep.Api.Models.Fiskaly.Response;
+using Innkeep.Api.Models.General;
 using Lite.Http.Interfaces;
 using Lite.Http.Response;
 
@@ -17,7 +17,7 @@ public partial class AbstractFiskalyRepository
 			AdminPin = authenticationService.CurrentConfig.TseAdminPassword!,
 		};
 
-		var result = await Post<FiskalyAdminAuth, FiskalyEmpty>(uri, content);
+		var result = await Post<FiskalyAdminAuth, Empty>(uri, content);
 
 		return HttpResponse<bool>.FromResult(result, _ => result.IsSuccess);
 	}
@@ -26,7 +26,7 @@ public partial class AbstractFiskalyRepository
 	{
 		var uri = FiskalyUrlBuilder.Endpoints.Tss(tssId).AdminLogout();
 
-		var result = await Post<FiskalyEmpty, FiskalyEmpty>(uri, new FiskalyEmpty());
+		var result = await Post<Empty, Empty>(uri, new Empty());
 
 		return HttpResponse<bool>.FromResult(result, _ => result.IsSuccess);
 	}

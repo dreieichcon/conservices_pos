@@ -1,4 +1,4 @@
-﻿using Innkeep.Api.Endpoints;
+﻿using Innkeep.Api.Endpoints.Server;
 using Innkeep.Api.Internal.Interfaces.Server.Pos;
 using Innkeep.Api.Internal.Repositories.Server.Core;
 using Innkeep.Api.Models.Internal.Transaction;
@@ -15,12 +15,11 @@ public class TransactionRepository(IDbService<ClientConfig> clientConfigService)
 	{
 		var baseUri = await GetAddress();
 
-		var uri = new ServerEndpointBuilder(baseUri).WithTransaction().Create().WithIdentifier(Identifier).Build();
+		var uri = ServerUrlBuilder
+				.Endpoints.Address(baseUri)
+				.Transaction.Create.Parameters.Identifier(Identifier)
+				.Build();
 
-		var serialized = Serialize(transaction);
-
-		var result = await Post(uri, serialized);
-
-		return DeserializeResult<TransactionReceipt>(result);
+		return await Post<ClientTransaction, TransactionReceipt>(uri, transaction);
 	}
 }

@@ -7,6 +7,7 @@ using Innkeep.Api.Models.Fiskaly.Objects.Tss;
 using Innkeep.Api.Models.Fiskaly.Request.Auth;
 using Innkeep.Api.Models.Fiskaly.Request.Tss;
 using Innkeep.Api.Models.Fiskaly.Response;
+using Innkeep.Api.Models.General;
 using Lite.Http.Interfaces;
 using Lite.Http.Response;
 
@@ -32,7 +33,7 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 	{
 		var uri = FiskalyUrlBuilder.Endpoints.Tss(id);
 
-		return await Put<FiskalyEmpty, FiskalyTss>(uri, new FiskalyEmpty());
+		return await Put<Empty, FiskalyTss>(uri, new Empty());
 	}
 
 	public async Task<IHttpResponse<FiskalyTss>> DeployTss(FiskalyTss current)
@@ -81,7 +82,7 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 			NewAdminPin = config.TseAdminPassword!,
 		};
 
-		var result = await Patch<FiskalyAdminPinRequest, FiskalyEmpty>(uri, payload);
+		var result = await Patch<FiskalyAdminPinRequest, Empty>(uri, payload);
 
 		return HttpResponse<bool>.FromResult(result, _ => result.IsSuccess);
 	}

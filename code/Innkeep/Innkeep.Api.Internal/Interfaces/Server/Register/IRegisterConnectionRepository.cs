@@ -1,10 +1,12 @@
-﻿namespace Innkeep.Api.Internal.Interfaces.Server.Register;
+﻿using Lite.Http.Interfaces;
+
+namespace Innkeep.Api.Internal.Interfaces.Server.Register;
 
 public interface IRegisterConnectionRepository
 {
-	public Task<bool> Test();
+	public Task<IHttpResponse<bool>> Test();
 
-	public Task<bool> Connect(string identifier, string description, string ip);
+	public Task<IHttpResponse<bool>> Connect(string identifier, string description, string ip);
 
-	public Task<bool> Discover(string address);
+	public Task<IHttpResponse<bool>> Discover(string address);
 }
