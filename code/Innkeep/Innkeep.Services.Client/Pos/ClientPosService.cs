@@ -1,18 +1,12 @@
 ﻿using Innkeep.Api.Enum.Fiskaly.Transaction;
-using Innkeep.Api.Models.Internal;
+using Innkeep.Api.Internal.Interfaces.Server.Pos;
 using Innkeep.Api.Models.Internal.Transaction;
-using Innkeep.Api.Server.Interfaces;
-using Innkeep.Db.Client.Models;
-using Innkeep.Services.Client.Interfaces.Hardware;
 using Innkeep.Services.Client.Interfaces.Pos;
-using Innkeep.Services.Interfaces;
 
 namespace Innkeep.Services.Client.Pos;
 
-public partial class ClientPosService(
-	ITransactionRepository transactionRepository,
-	ISalesItemService SalesItemService
-) : IClientPosService
+public partial class ClientPosService(ITransactionRepository transactionRepository, ISalesItemService SalesItemService)
+	: IClientPosService
 {
 	private decimal _moneyGiven;
 
@@ -36,7 +30,7 @@ public partial class ClientPosService(
 
 	public async Task<TransactionReceipt?> CommitTransaction()
 	{
-		var transaction = new ClientTransaction()
+		var transaction = new ClientTransaction
 		{
 			SalesItems = CartItems,
 			AmountGiven = MoneyGiven,
@@ -44,8 +38,8 @@ public partial class ClientPosService(
 			Currency = CartItems[0].Currency,
 		};
 
-		LastReceipt = await transactionRepository.CommitTransaction(transaction);
-		
+		LastReceipt = (await transactionRepository.CommitTransaction(transaction)).Object;
+
 		return LastReceipt;
 	}
 

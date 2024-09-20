@@ -9,11 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace Innkeep.Server.Controllers.Endpoints;
 
 [Route("checkin")]
-public class CheckinController(IRegisterService registerService, IPretixCheckinService checkinService) : AbstractServerController(registerService)
+public class CheckinController(IRegisterService registerService, IPretixCheckinService checkinService)
+	: AbstractServerController(registerService)
 {
 	[HttpPost]
 	[Route("entry")]
-	public async Task<IActionResult> Checkin(string identifier, [FromBody] CheckinRequest? request)
+	public async Task<IActionResult> Checkin([FromRoute] string identifier, [FromBody] CheckinRequest? request)
 	{
 		if (!ModelState.IsValid) return new BadRequestResult();
 		if (!IsKnown(identifier)) return new UnauthorizedResult();
@@ -21,15 +22,9 @@ public class CheckinController(IRegisterService registerService, IPretixCheckinS
 
 		var result = await checkinService.CheckIn(request);
 
-		if (result is null)
-		{
-			return new StatusCodeResult(500);
-		}
-		
-		var json = JsonSerializer.Serialize(
-			result,
-			SerializerOptions.GetServerOptions()
-		);
+		if (result is null) return new StatusCodeResult(500);
+
+		var json = JsonSerializer.Serialize(result, SerializerOptions.GetServerOptions());
 
 		return new OkObjectResult(json);
 	}

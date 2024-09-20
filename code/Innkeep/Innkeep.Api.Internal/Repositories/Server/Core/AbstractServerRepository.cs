@@ -28,6 +28,7 @@ public class AbstractServerRepository(IDbService<ClientConfig> clientConfigServi
 	{
 		var request = base.CreateRequest(urlBuilder);
 		request.WithTimeout(TimeSpan.FromMilliseconds(Timeout));
+		request.EnsureClient();
 		request.Client.HttpClient.DefaultRequestHeaders.Accept.Clear();
 		return request;
 	}
@@ -42,7 +43,7 @@ public class AbstractServerRepository(IDbService<ClientConfig> clientConfigServi
 		=> AttachGetHeaders(request);
 
 	protected override Task PrepareRequest()
-		=> throw new NotImplementedException();
+		=> Task.CompletedTask;
 
 	protected override void SetupClient()
 	{

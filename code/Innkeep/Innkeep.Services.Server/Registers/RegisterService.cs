@@ -1,7 +1,6 @@
-﻿using Innkeep.Api.Client.Interfaces;
+﻿using Innkeep.Api.Internal.Interfaces.Client.Actions;
 using Innkeep.Db.Enum;
 using Innkeep.Db.Interfaces;
-using Innkeep.Db.Server.Models;
 using Innkeep.Db.Server.Models.Server;
 using Innkeep.Services.Server.Interfaces.Registers;
 
@@ -18,8 +17,8 @@ public class RegisterService(IDbRepository<Register> registerRepository, IClient
 
 	public List<Register> PendingRegisters { get; set; } = [];
 
-	public bool IsKnown(string registerIdentifier) =>
-		KnownRegisters.Any(x => x.RegisterIdentifier == registerIdentifier);
+	public bool IsKnown(string registerIdentifier)
+		=> KnownRegisters.Any(x => x.RegisterIdentifier == registerIdentifier);
 
 	public async Task Update(string registerIdentifier, string registerDescription, string registerIp)
 	{
@@ -35,7 +34,7 @@ public class RegisterService(IDbRepository<Register> registerRepository, IClient
 	public void AddPending(string registerIdentifier, string registerDescription)
 	{
 		PendingRegisters.Add(
-			new Register()
+			new Register
 			{
 				RegisterIdentifier = registerIdentifier,
 				RegisterDescription = registerDescription,
@@ -86,17 +85,11 @@ public class RegisterService(IDbRepository<Register> registerRepository, IClient
 		}
 	}
 
-	private Register Retrieve(string identifier)
-	{
-		return KnownRegisters.First(x => x.RegisterIdentifier == identifier);
-	}
-
 	public async Task<string> GetAddress(string clientId, bool reload = true)
 	{
-		
 #if DEBUG
 		return "https://localhost:42069";
-		
+
 #elif RELEASE
 		var register = KnownRegisters.FirstOrDefault(x => x.RegisterIdentifier == clientId);
 
@@ -105,5 +98,10 @@ public class RegisterService(IDbRepository<Register> registerRepository, IClient
 		var address = $"https://{register.LastHostname}:42069";
 		return address;
 # endif
+	}
+
+	private Register Retrieve(string identifier)
+	{
+		return KnownRegisters.First(x => x.RegisterIdentifier == identifier);
 	}
 }

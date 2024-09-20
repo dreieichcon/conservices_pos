@@ -24,7 +24,7 @@ public class SalesItemController : AbstractServerController
 
 	[HttpGet]
 	[Route("get")]
-	public IActionResult Get(string identifier)
+	public IActionResult Get([FromRoute] string identifier)
 	{
 		if (!ModelState.IsValid) return new BadRequestResult();
 		if (!IsKnown(identifier)) return new UnauthorizedResult();

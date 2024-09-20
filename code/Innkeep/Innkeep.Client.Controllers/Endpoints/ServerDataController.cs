@@ -7,14 +7,13 @@ namespace Innkeep.Client.Controllers.Endpoints;
 [Route("client")]
 public class ServerDataController(IHardwareService hardwareService, ISalesItemService salesItemService) : Controller
 {
-
 	[HttpPost]
 	[Route("reload")]
-	public async Task<IActionResult> Reload(string identifier)
+	public async Task<IActionResult> Reload([FromRoute] string identifier)
 	{
 		if (!ModelState.IsValid)
 			return new BadRequestResult();
-		
+
 		if (!IsValid(identifier))
 			return new UnauthorizedResult();
 
@@ -23,7 +22,5 @@ public class ServerDataController(IHardwareService hardwareService, ISalesItemSe
 	}
 
 	private bool IsValid(string identifier)
-	{
-		return hardwareService.ClientIdentifier == identifier;
-	}
+		=> hardwareService.ClientIdentifier == identifier;
 }

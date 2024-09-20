@@ -1,4 +1,5 @@
-﻿using Innkeep.Services.Server.Interfaces.Registers;
+﻿using System.ComponentModel.DataAnnotations;
+using Innkeep.Services.Server.Interfaces.Registers;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -9,21 +10,25 @@ public class RegisterController(IRegisterService registerService) : Controller
 {
 	[HttpGet]
 	[Route("discover")]
-	public IActionResult Discover()
-	{
-		return new OkObjectResult("I am a register server.");
-	}
+	public IActionResult Discover() => new OkResult();
 
 	[HttpGet]
 	[Route("connect")]
-	public async Task<IActionResult> Connect(string identifier, string description, string ip)
+	public async Task<IActionResult> Connect(
+		[FromForm] [Length(11, 13)] string identifier,
+		[FromForm] string description,
+		[FromForm] string hostname
+	)
 	{
-		Log.Debug("Received Connection Request from Register: {Identifier} at {Ip}", identifier, ip);
+		if (!ModelState.IsValid)
+			return new BadRequestResult();
+
+		Log.Debug("Received Connection Request from Register: {Identifier} at {Hostname}", identifier, hostname);
 
 		if (registerService.IsKnown(identifier))
 		{
 			Log.Debug("Register {Identifier} found in trusted clients", identifier);
-			await registerService.Update(identifier, description, ip);
+			await registerService.Update(identifier, description, hostname);
 			return new OkObjectResult(identifier);
 		}
 

@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using Innkeep.Api.Models.Internal;
+﻿using Innkeep.Api.Models.Internal;
 using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Client.Ui.Modules.Pos.Components.Dialog;
 using Innkeep.Db.Client.Models;
@@ -16,9 +15,11 @@ namespace Innkeep.Client.Ui.Modules.Config;
 
 public partial class Config
 {
+	private bool _isDiscovering;
+
 	[Inject]
 	public IHardwareService HardwareService { get; set; } = null!;
-	
+
 	[Inject]
 	public IDbService<ClientConfig> ClientConfigService { get; set; } = null!;
 
@@ -35,17 +36,15 @@ public partial class Config
 
 	[Inject]
 	public ISnackbar Bar { get; set; } = null!;
-	
+
 	[Inject]
 	public IDialogService DialogService { get; set; } = null!;
-	
+
 	[Inject]
 	public IClientScreenService ClientScreenService { get; set; } = null!;
-	
-	private bool _isDiscovering;
 
 	public ClientConfig? CurrentConfig => ClientConfigService.CurrentItem;
-	
+
 	protected override async Task OnInitializedAsync()
 	{
 		await ClientConfigService.Load();
@@ -55,6 +54,8 @@ public partial class Config
 
 	private async Task Test()
 	{
+		var result = await RegisterConnectionService.Test();
+
 		if (await RegisterConnectionService.Test())
 		{
 			Bar.Add("Server Exists", Severity.Success);
@@ -68,7 +69,7 @@ public partial class Config
 	{
 		_isDiscovering = true;
 		TokenSource.TryReset();
-		
+
 		var result = await RegisterConnectionService.Discover(TokenSource.Token);
 
 		if (result is not null)
@@ -78,7 +79,7 @@ public partial class Config
 			_isDiscovering = false;
 			return;
 		}
-		
+
 		_isDiscovering = false;
 		Bar.Add("Could not find a running server.", Severity.Error);
 	}
@@ -89,7 +90,7 @@ public partial class Config
 		TokenSource.Dispose();
 		TokenSource = new CancellationTokenSource();
 	}
-	
+
 	private async Task Connect()
 	{
 		var description = ClientConfigService.CurrentItem!.ClientName;
@@ -111,54 +112,44 @@ public partial class Config
 	{
 		var result = await ClientConfigService.Save();
 
-		if (result)
-		{
-			Bar.Add("Saved", Severity.Success);
-		}
+		if (result) Bar.Add("Saved", Severity.Success);
 	}
 
 	private void TestPrinter()
 	{
-		if (!string.IsNullOrEmpty(CurrentConfig!.PrinterName))
-		{
-			PrinterService.TestPrint(CurrentConfig!.PrinterName);
-		}
+		if (!string.IsNullOrEmpty(CurrentConfig!.PrinterName)) PrinterService.TestPrint(CurrentConfig!.PrinterName);
 	}
 
 	private void OpenDrawer()
 	{
-		if (!string.IsNullOrEmpty(CurrentConfig!.PrinterName))
-		{
-			PrinterService.OpenDrawer(CurrentConfig!.PrinterName);
-		}
+		if (!string.IsNullOrEmpty(CurrentConfig!.PrinterName)) PrinterService.OpenDrawer(CurrentConfig!.PrinterName);
 	}
 
 	private async Task TestDialog()
 	{
-		var receipt = new TransactionReceipt()
+		var receipt = new TransactionReceipt
 		{
 			Currency = "EUR",
-			Sum = new ReceiptSum()
+			Sum = new ReceiptSum
 			{
 				AmountGiven = 1,
 				AmountReturned = -1,
 				TotalAmount = 0,
-			}
-		};
-		
-		var parameters = new DialogParameters<TransactionCompleteDialog>()
-		{
-			{
-				x => x.Receipt, receipt
 			},
 		};
 
-		var options = new DialogOptions()
+		var parameters = new DialogParameters<TransactionCompleteDialog>
 		{
-			FullWidth = true, MaxWidth = MaxWidth.Medium,
+			{ x => x.Receipt, receipt },
+		};
+
+		var options = new DialogOptions
+		{
+			FullWidth = true,
+			MaxWidth = MaxWidth.Medium,
 			BackgroundClass = "backdrop-blur",
 		};
-		
+
 		var dialog = await DialogService.ShowAsync<TransactionCompleteDialog>("", parameters, options);
 		var dialogResult = await dialog.Result;
 	}

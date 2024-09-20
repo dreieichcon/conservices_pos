@@ -44,10 +44,10 @@ public partial class ConfigCheckin : ComponentBase
 			string.IsNullOrEmpty(CurrentItem.SelectedEventSlug))
 			return;
 
-		CheckinLists = await CheckinListRepository.GetAll(
+		CheckinLists = (await CheckinListRepository.GetAll(
 			CurrentItem.SelectedOrganizerSlug,
 			CurrentItem.SelectedEventSlug
-		);
+		)).Object;
 
 		CurrentCheckinList = CheckinLists.FirstOrDefault(x => x.Id == CurrentItem.SelectedCheckinListId);
 

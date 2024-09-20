@@ -1,5 +1,5 @@
-﻿using Innkeep.Api.Models.Internal;
-using Innkeep.Api.Server.Interfaces;
+﻿using Innkeep.Api.Internal.Interfaces.Server.Pos;
+using Innkeep.Api.Models.Internal;
 using Innkeep.Services.Client.Interfaces.Internal;
 using Innkeep.Services.Client.Interfaces.Pos;
 
@@ -7,8 +7,8 @@ namespace Innkeep.Services.Client.Pos;
 
 public class SalesItemService : ISalesItemService
 {
-	private readonly ISalesItemRepository _salesItemRepository;
 	private readonly IEventRouter _router;
+	private readonly ISalesItemRepository _salesItemRepository;
 
 	public SalesItemService(ISalesItemRepository salesItemRepository, IEventRouter router)
 	{
@@ -20,11 +20,11 @@ public class SalesItemService : ISalesItemService
 
 	public event EventHandler? ItemsUpdated;
 
-	public IList<DtoSalesItem> SalesItems { get; set; } = new List<DtoSalesItem>();
+	public IEnumerable<DtoSalesItem> SalesItems { get; set; } = new List<DtoSalesItem>();
 
 	public async Task Load()
 	{
-		SalesItems = (await _salesItemRepository.GetSalesItems()).ToList();
+		SalesItems = (await _salesItemRepository.GetSalesItems()).Object!;
 		_router.SalesItemsReloaded();
 		ItemsUpdated?.Invoke(this, EventArgs.Empty);
 	}

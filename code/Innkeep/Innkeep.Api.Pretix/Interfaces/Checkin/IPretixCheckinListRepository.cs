@@ -5,5 +5,5 @@ namespace Innkeep.Api.Pretix.Interfaces.Checkin;
 
 public interface IPretixCheckinListRepository
 {
-	public Task<IHttpResponse<PretixCheckinList>> GetAll(string organizerSlug, string eventSlug);
+	public Task<IHttpResponse<IEnumerable<PretixCheckinList>>> GetAll(string organizerSlug, string eventSlug);
 }

@@ -54,7 +54,7 @@ public abstract partial class AbstractHttpRepository<TPb>
 	/// <returns></returns>
 	protected async Task<IHttpResponse<TR>> Put<T, TR>(IUrlBuilder<TPb> builder, T? data, TR? defaultValue = default)
 		=> await SendRequestInternal(builder, RequestType.Put, data, defaultValue);
-	
+
 	/// <summary>
 	///     Executes a PATCH request.
 	/// </summary>
@@ -89,6 +89,10 @@ public abstract partial class AbstractHttpRepository<TPb>
 
 		var flurlResponse = requestType switch
 		{
+			RequestType.Get when data is Dictionary<string, string> => await request.SendUrlEncodedAsync(
+				HttpMethod.Get,
+				request.Content
+			),
 			RequestType.Get => await request.GetAsync(),
 			RequestType.Post => await request.PostAsync(jsonData),
 			RequestType.Patch => await request.PatchAsync(jsonData),

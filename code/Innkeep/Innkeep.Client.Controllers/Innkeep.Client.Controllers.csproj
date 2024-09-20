@@ -9,13 +9,14 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4"/>
-        <PackageReference Include="Serilog" Version="4.0.0" />
+        <PackageReference Include="Serilog" Version="4.0.0"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Innkeep.Services.Client\Innkeep.Services.Client.csproj" />
-      <ProjectReference Include="..\Innkeep.Services\Innkeep.Services.csproj" />
+        <ProjectReference Include="..\Innkeep.Api\Innkeep.Api.csproj"/>
+        <ProjectReference Include="..\Innkeep.Services.Client\Innkeep.Services.Client.csproj"/>
+        <ProjectReference Include="..\Innkeep.Services\Innkeep.Services.csproj"/>
     </ItemGroup>
-    
+
 </Project>

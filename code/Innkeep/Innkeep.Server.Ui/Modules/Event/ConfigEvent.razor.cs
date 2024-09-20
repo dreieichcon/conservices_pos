@@ -68,7 +68,7 @@ public partial class ConfigEvent
 	{
 		await PretixConfigService.Load();
 
-		AvailableOrganizers = await PretixOrganizerRepository.GetOrganizers();
+		AvailableOrganizers = (await PretixOrganizerRepository.GetOrganizers()).Object!;
 		SelectedOrganizer = AvailableOrganizers.FirstOrDefault(x => x.Slug == ConfigItem?.SelectedOrganizerSlug);
 
 		await base.OnInitializedAsync();
@@ -79,7 +79,7 @@ public partial class ConfigEvent
 	{
 		if (SelectedOrganizer is null) return;
 
-		AvailableEvents = await PretixEventRepository.GetEvents(SelectedOrganizer);
+		AvailableEvents = (await PretixEventRepository.GetEvents(SelectedOrganizer.Slug)).Object!;
 
 		SelectedEvent = AvailableEvents.FirstOrDefault(x => x.Slug == ConfigItem?.SelectedEventSlug);
 

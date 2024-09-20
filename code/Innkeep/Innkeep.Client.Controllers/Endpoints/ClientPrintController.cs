@@ -8,19 +8,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Innkeep.Client.Controllers.Endpoints;
 
-[Route("print")]
-public class ServerPrintController(
-	IHardwareService hardwareService, 
+[Route("client/print")]
+public class ClientPrintController(
+	IHardwareService hardwareService,
 	IPrinterService printerService,
-	IDbService<ClientConfig> clientConfigService) : Controller
+	IDbService<ClientConfig> clientConfigService
+) : Controller
 {
 	[HttpPost]
 	[Route("transaction")]
-	public IActionResult Print(string identifier, [FromBody] TransactionReceipt receipt)
+	public IActionResult Print([FromRoute] string identifier, [FromBody] TransactionReceipt receipt)
 	{
 		if (!ModelState.IsValid)
 			return new BadRequestResult();
-		
+
 		if (!IsValid(identifier))
 			return new UnauthorizedResult();
 
@@ -29,14 +30,14 @@ public class ServerPrintController(
 
 		return new OkResult();
 	}
-	
+
 	[HttpPost]
 	[Route("transfer")]
-	public IActionResult PrintTransfer(string identifier, [FromBody] TransferReceipt receipt)
+	public IActionResult PrintTransfer([FromRoute] string identifier, [FromBody] TransferReceipt receipt)
 	{
 		if (!ModelState.IsValid)
 			return new BadRequestResult();
-		
+
 		if (!IsValid(identifier))
 			return new UnauthorizedResult();
 
@@ -45,9 +46,7 @@ public class ServerPrintController(
 
 		return new OkResult();
 	}
-	
+
 	private bool IsValid(string identifier)
-	{
-		return hardwareService.ClientIdentifier == identifier;
-	}
+		=> hardwareService.ClientIdentifier == identifier;
 }

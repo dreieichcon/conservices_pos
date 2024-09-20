@@ -1,7 +1,7 @@
 ﻿@page "/register/transactions/{registerid}"
 @using System.Globalization
 @using System.Text.Json
-@using Innkeep.Api.Client.Interfaces
+@using Innkeep.Api.Internal.Interfaces.Client.Printing
 @using Innkeep.Api.Json
 @using Innkeep.Api.Models.Internal.Transaction
 @using Innkeep.Api.Models.Internal.Transfer
@@ -87,28 +87,24 @@
                 Snackbar.Add($"A hostname for client {RegisterId} could not be found.", Severity.Error);
                 return;
             }
-        
+
             if (contextItem.ReceiptType == "RECEIPT")
             {
-                var receipt = JsonSerializer.Deserialize<TransactionReceipt>(
-                    contextItem.ReceiptJson, 
-                    SerializerOptions.GetServerOptions())!;
+                var receipt = JsonSerializer.Deserialize<TransactionReceipt>(contextItem.ReceiptJson, SerializerOptions.GetServerOptions())!;
 
                 receipt.BookingTime = contextItem.TransactionDate;
                 receipt.Header += $"{Environment.NewLine}Belegkopie";
-        
+
                 await PrintRepository.PrintReceipt(receipt, RegisterId, address);
             }
 
             if (contextItem.ReceiptType == "TRANSFER")
             {
-                var receipt = JsonSerializer.Deserialize<TransferReceipt>(
-                    contextItem.ReceiptJson, 
-                    SerializerOptions.GetServerOptions())!;
-            
+                var receipt = JsonSerializer.Deserialize<TransferReceipt>(contextItem.ReceiptJson, SerializerOptions.GetServerOptions())!;
+
                 receipt.BookingTime = contextItem.TransactionDate;
                 receipt.Subtitle = "Belegkopie";
-            
+
                 await PrintRepository.PrintReceipt(receipt, RegisterId, address);
             }
         }
@@ -117,7 +113,6 @@
             Log.Error(e, "Error while reprinting receipt");
             throw;
         }
-        
     }
 
 }
