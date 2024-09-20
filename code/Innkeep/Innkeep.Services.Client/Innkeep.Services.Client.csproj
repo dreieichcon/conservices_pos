@@ -7,6 +7,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Innkeep.Api.Internal\Innkeep.Api.Internal.csproj"/>
+        <ProjectReference Include="..\Innkeep.Api\Innkeep.Api.csproj"/>
         <ProjectReference Include="..\Innkeep.Db.Client\Innkeep.Db.Client.csproj"/>
         <ProjectReference Include="..\Innkeep.Services\Innkeep.Services.csproj"/>
     </ItemGroup>

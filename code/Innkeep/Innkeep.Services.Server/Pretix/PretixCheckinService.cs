@@ -22,7 +22,7 @@ public class PretixCheckinService(
 			CheckinLists = GetCheckinList(),
 		};
 
-		return await checkinRepository.CheckIn(item.SelectedOrganizerSlug!, data);
+		return (await checkinRepository.CheckIn(item.SelectedOrganizerSlug!, data)).Object;
 	}
 
 	private List<int> GetCheckinList()

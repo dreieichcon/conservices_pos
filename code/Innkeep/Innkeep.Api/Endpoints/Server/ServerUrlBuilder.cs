@@ -33,6 +33,10 @@ public class ServerUrlBuilder : AbstractUrlBuilder<ServerUrlBuilder, ServerParam
 
 	public ServerUrlBuilder Discover => (ServerUrlBuilder)AddSegment("discover");
 
+	public ServerUrlBuilder Checkin => (ServerUrlBuilder)AddSegment("checkin");
+
+	public ServerUrlBuilder Entry => (ServerUrlBuilder)AddSegment("entry");
+
 	public override string BaseUrl => _baseUrl;
 
 	public ServerUrlBuilder Address(string address)

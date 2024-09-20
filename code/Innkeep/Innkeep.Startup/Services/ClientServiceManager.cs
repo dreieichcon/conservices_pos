@@ -1,5 +1,7 @@
-﻿using Innkeep.Api.Internal.Interfaces.Server.Pos;
+﻿using Innkeep.Api.Internal.Interfaces.Server.Checkin;
+using Innkeep.Api.Internal.Interfaces.Server.Pos;
 using Innkeep.Api.Internal.Interfaces.Server.Register;
+using Innkeep.Api.Internal.Repositories.Server.Checkin;
 using Innkeep.Api.Internal.Repositories.Server.Pos;
 using Innkeep.Api.Internal.Repositories.Server.Register;
 using Innkeep.Client.Controllers.Endpoints;
@@ -77,6 +79,7 @@ public static class ClientServiceManager
 		collection.AddSingleton<IRegisterConnectionRepository, RegisterConnectionRepository>();
 		collection.AddSingleton<ISalesItemRepository, SalesItemRepository>();
 		collection.AddSingleton<ITransactionRepository, TransactionRepository>();
+		collection.AddSingleton<ICheckinRepository, CheckinRepository>();
 	}
 
 	private static void ConfigureHttpServices(IServiceCollection collection)

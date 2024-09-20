@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Innkeep.Api.Fiskaly\Innkeep.Api.Fiskaly.csproj"/>
+        <ProjectReference Include="..\Innkeep.Api.Internal\Innkeep.Api.Internal.csproj"/>
         <ProjectReference Include="..\Innkeep.Api.Pretix\Innkeep.Api.Pretix.csproj"/>
         <ProjectReference Include="..\Innkeep.Api\Innkeep.Api.csproj"/>
         <ProjectReference Include="..\Innkeep.Db\Innkeep.Db.csproj"/>

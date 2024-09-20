@@ -9,13 +9,14 @@ public abstract class AbstractServerController(IRegisterService registerService)
 	public bool IsKnown(string identifier)
 	{
 		Log.Debug("Received Request from Register: {Identifier}", identifier);
-		
+
 		if (registerService.IsKnown(identifier))
 		{
+			Log.Debug("Client {Identifier} is trusted", identifier);
 			return true;
 		}
 
-		Log.Error("Client {Identifier} is not trusted.", identifier);
+		Log.Error("Client {Identifier} is not trusted", identifier);
 		return false;
 	}
 }

@@ -52,11 +52,13 @@ public class PretixSalesItemService : IPretixSalesItemService
 	{
 		if (!_eventStateService.IsEventConfigured) return;
 
+		var itemResponse = await _salesItemRepository.GetItems(
+			_eventStateService.PretixOrganizerSlug,
+			_eventStateService.PretixEventSlug
+		);
+
 		SalesItems =
-			(await _salesItemRepository.GetItems(
-				_eventStateService.PretixOrganizerSlug,
-				_eventStateService.PretixEventSlug
-			)).Where(item => item.AllSalesChannels || item.SalesChannels.Contains("pretixpos"));
+			itemResponse.Object!.Where(item => item.AllSalesChannels || item.SalesChannels.Contains("pretixpos"));
 
 		DtoSalesItems = SalesItems.Select(DtoSalesItem.FromPretix);
 		_eventStateService.EventCurrency = DtoSalesItems.FirstOrDefault()?.Currency ?? "EUR";
@@ -75,7 +77,7 @@ public class PretixSalesItemService : IPretixSalesItemService
 
 		foreach (var item in toUpdate)
 		{
-			var itemQuotas = quotas.Where(x => x.Items.Contains(item.Id)).MaxBy(x => x.Size);
+			var itemQuotas = quotas.Object!.Where(x => x.Items.Contains(item.Id)).MaxBy(x => x.Size);
 
 			if (itemQuotas is null)
 			{

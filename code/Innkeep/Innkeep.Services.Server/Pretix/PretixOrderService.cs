@@ -33,21 +33,21 @@ public class PretixOrderService(
 		var pretixEvent = await eventRepository.GetEvent(PretixOrganizerSlug, PretixEventSlug);
 		var pretixEventSettings = await eventRepository.GetEventSettings(PretixOrganizerSlug, PretixEventSlug);
 
-		if (pretixEvent is null || pretixEventSettings is null) return null;
+		if (pretixEvent.Object is null || pretixEventSettings.Object is null) return null;
 
 		var order = await orderRepository.CreateOrder(
 			PretixOrganizerSlug,
 			PretixEventSlug,
 			cart,
-			pretixEvent.IsTestMode
+			pretixEvent.Object!.IsTestMode
 		);
 
-		if (order == null) return order;
+		if (order.Object == null) return order.Object;
 
-		order.EventTitle = pretixEvent.Name.German ?? "NAME SETZEN";
-		order.ReceiptHeader = CreateHeader(pretixEventSettings);
+		order.Object.EventTitle = pretixEvent.Object.Name.German ?? "NAME SETZEN";
+		order.Object.ReceiptHeader = CreateHeader(pretixEventSettings.Object);
 
-		return order;
+		return order.Object;
 	}
 
 	private string CreateHeader(PretixEventSettings settings)

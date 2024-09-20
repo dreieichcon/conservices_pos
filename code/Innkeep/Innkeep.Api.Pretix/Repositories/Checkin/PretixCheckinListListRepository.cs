@@ -12,12 +12,12 @@ namespace Innkeep.Api.Pretix.Repositories.Checkin;
 public class PretixCheckinListListRepository(IPretixAuthenticationService authenticationService)
 	: AbstractPretixRepository(authenticationService), IPretixCheckinListRepository
 {
-	public async Task<IHttpResponse<PretixCheckinList>> GetAll(string organizerSlug, string eventSlug)
+	public async Task<IHttpResponse<IEnumerable<PretixCheckinList>>> GetAll(string organizerSlug, string eventSlug)
 	{
 		var uri = PretixUrlBuilder.Endpoints.Organizer(organizerSlug).Event(eventSlug).CheckinLists();
 
 		var result = await Get<PretixResponse<PretixCheckinList>>(uri);
 
-		return HttpResponse<PretixCheckinList>.FromResult(result, x => x.Results.FirstOrDefault());
+		return HttpResponse<IEnumerable<PretixCheckinList>>.FromResult(result, x => x.Results);
 	}
 }
