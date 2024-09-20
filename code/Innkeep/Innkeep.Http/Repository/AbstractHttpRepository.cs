@@ -33,8 +33,7 @@ public abstract partial class AbstractHttpRepository<TPb>
 	{
 		var request = new FlurlRequest(urlBuilder.BaseUrl).AppendPathSegments(urlBuilder.PathSegments);
 
-		foreach (var parameterPair in urlBuilder.Parameters.Values) 
-			request.AppendQueryParam(parameterPair);
+		request.AppendQueryParam(urlBuilder.Parameters.Values);
 
 		return request;
 	}

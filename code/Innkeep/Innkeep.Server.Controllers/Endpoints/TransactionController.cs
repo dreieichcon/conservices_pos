@@ -37,7 +37,7 @@ public class TransactionController : AbstractServerController
 
 	[HttpPost]
 	[Route("create")]
-	public async Task<IActionResult> Create(string identifier, [FromBody] ClientTransaction? transaction)
+	public async Task<IActionResult> Create([FromQuery] string identifier, [FromBody] ClientTransaction? transaction)
 	{
 		if (!IsKnown(identifier))
 			return new UnauthorizedResult();
