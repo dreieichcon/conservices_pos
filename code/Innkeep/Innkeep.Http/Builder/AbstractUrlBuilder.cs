@@ -18,4 +18,10 @@ public abstract class AbstractUrlBuilder<TB, TPb> : IUrlBuilder<TPb>
 	public IList<string> PathSegments { get; set; } = [];
 
 	public abstract string BaseUrl { get; }
+
+	protected IUrlBuilder<TPb> AddSegment(string segment)
+	{
+		PathSegments.Add(segment);
+		return this;
+	}
 }

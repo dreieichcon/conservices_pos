@@ -12,7 +12,7 @@ public partial class AbstractFiskalyRepository(IFiskalyAuthenticationService aut
 {
 	protected IFiskalyAuthenticationService AuthenticationService => authenticationService;
 
-	protected override bool DeserializeIfError { get; }
+	protected override bool DeserializeIfError => true;
 
 	protected override void SetupClient()
 	{
