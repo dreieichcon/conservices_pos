@@ -28,6 +28,7 @@ public class AbstractServerRepository(IDbService<ClientConfig> clientConfigServi
 	{
 		var request = base.CreateRequest(urlBuilder);
 		request.WithTimeout(TimeSpan.FromMilliseconds(Timeout));
+		request.AllowAnyHttpStatus();
 		request.EnsureClient();
 		request.Client.HttpClient.DefaultRequestHeaders.Accept.Clear();
 		return request;

@@ -17,7 +17,7 @@ public class ClientPrintController(
 {
 	[HttpPost]
 	[Route("transaction")]
-	public IActionResult Print([FromRoute] string identifier, [FromBody] TransactionReceipt receipt)
+	public IActionResult Print([FromQuery] string identifier, [FromBody] TransactionReceipt receipt)
 	{
 		if (!ModelState.IsValid)
 			return new BadRequestResult();
@@ -33,7 +33,7 @@ public class ClientPrintController(
 
 	[HttpPost]
 	[Route("transfer")]
-	public IActionResult PrintTransfer([FromRoute] string identifier, [FromBody] TransferReceipt receipt)
+	public IActionResult PrintTransfer([FromQuery] string identifier, [FromBody] TransferReceipt receipt)
 	{
 		if (!ModelState.IsValid)
 			return new BadRequestResult();

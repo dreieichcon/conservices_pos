@@ -14,7 +14,7 @@ public class CheckinController(IRegisterService registerService, IPretixCheckinS
 {
 	[HttpPost]
 	[Route("entry")]
-	public async Task<IActionResult> Checkin([FromRoute] string identifier, [FromBody] CheckinRequest? request)
+	public async Task<IActionResult> Checkin([FromQuery] string identifier, [FromBody] CheckinRequest? request)
 	{
 		if (!ModelState.IsValid) return new BadRequestResult();
 		if (!IsKnown(identifier)) return new UnauthorizedResult();

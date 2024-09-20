@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Innkeep.Api.Models.Internal.Register;
 using Innkeep.Services.Server.Interfaces.Registers;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -12,28 +12,28 @@ public class RegisterController(IRegisterService registerService) : Controller
 	[Route("discover")]
 	public IActionResult Discover() => new OkResult();
 
-	[HttpGet]
+	[HttpPost]
 	[Route("connect")]
-	public async Task<IActionResult> Connect(
-		[FromForm] [Length(11, 13)] string identifier,
-		[FromForm] string description,
-		[FromForm] string hostname
-	)
+	public async Task<IActionResult> Connect([FromBody] ConnectionRequest request)
 	{
 		if (!ModelState.IsValid)
 			return new BadRequestResult();
 
-		Log.Debug("Received Connection Request from Register: {Identifier} at {Hostname}", identifier, hostname);
+		Log.Debug(
+			"Received Connection Request from Register: {Identifier} at {Hostname}",
+			request.Identifier,
+			request.HostName
+		);
 
-		if (registerService.IsKnown(identifier))
+		if (registerService.IsKnown(request.Identifier))
 		{
-			Log.Debug("Register {Identifier} found in trusted clients", identifier);
-			await registerService.Update(identifier, description, hostname);
-			return new OkObjectResult(identifier);
+			Log.Debug("Register {Identifier} found in trusted clients", request.Identifier);
+			await registerService.Update(request.Identifier, request.Description, request.HostName);
+			return new OkResult();
 		}
 
-		registerService.AddPending(identifier, description);
-		Log.Debug("Register {Identifier} is not trusted. Please confirm the connection", identifier);
+		registerService.AddPending(request.Identifier, request.Description);
+		Log.Debug("Register {Identifier} is not trusted. Please confirm the connection", request.Identifier);
 		return new UnauthorizedResult();
 	}
 }

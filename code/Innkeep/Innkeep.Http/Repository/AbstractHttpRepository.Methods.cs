@@ -89,10 +89,6 @@ public abstract partial class AbstractHttpRepository<TPb>
 
 		var flurlResponse = requestType switch
 		{
-			RequestType.Get when data is Dictionary<string, string> => await request.SendUrlEncodedAsync(
-				HttpMethod.Get,
-				request.Content
-			),
 			RequestType.Get => await request.GetAsync(),
 			RequestType.Post => await request.PostAsync(jsonData),
 			RequestType.Patch => await request.PatchAsync(jsonData),

@@ -15,6 +15,8 @@ public class AbstractClientRepository : AbstractHttpRepository<ClientParameterBu
 	{
 		var request = base.CreateRequest(urlBuilder);
 		request.WithTimeout(TimeSpan.FromMilliseconds(Timeout));
+		request.AllowAnyHttpStatus();
+		request.EnsureClient();
 		request.Client.HttpClient.DefaultRequestHeaders.Accept.Clear();
 		return request;
 	}
