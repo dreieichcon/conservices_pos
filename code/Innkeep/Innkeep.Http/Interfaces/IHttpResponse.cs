@@ -18,9 +18,14 @@ public interface IHttpResponse
 	public HttpStatusCode StatusCode { get; set; }
 
 	/// <summary>
-	///     Response or exception content.
+	///     Response content.
 	/// </summary>
 	public string Content { get; set; }
+
+	/// <summary>
+	///     Exception content.
+	/// </summary>
+	public string ErrorContent { get; set; }
 
 	/// <summary>
 	///     Whether the total response is successful or not.

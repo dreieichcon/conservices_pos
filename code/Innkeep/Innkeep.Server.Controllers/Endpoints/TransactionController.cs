@@ -48,7 +48,7 @@ public class TransactionController : AbstractServerController
 		var pretixOrder = await _orderService.CreateOrder(transaction.SalesItems);
 
 		if (pretixOrder is null)
-			return new StatusCodeResult(500);
+			return new BadRequestObjectResult("Failed to create pretix order");
 
 		if (transaction.SalesItems.Any(x => !x.Infinite))
 			await _salesItemService.LoadQuotas();

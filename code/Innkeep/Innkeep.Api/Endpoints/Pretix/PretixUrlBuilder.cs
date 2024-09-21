@@ -44,7 +44,6 @@ public class PretixUrlBuilder : AbstractUrlBuilder<PretixUrlBuilder, PretixParam
 	private PretixUrlBuilder AddSegment(string segment)
 	{
 		PathSegments.Add(segment);
-
 		return this;
 	}
 }

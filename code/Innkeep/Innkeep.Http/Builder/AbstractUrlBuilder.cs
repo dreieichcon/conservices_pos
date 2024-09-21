@@ -19,6 +19,8 @@ public abstract class AbstractUrlBuilder<TB, TPb> : IUrlBuilder<TPb>
 
 	public abstract string BaseUrl { get; }
 
+	public virtual string LastPathSegment => "/";
+
 	protected IUrlBuilder<TPb> AddSegment(string segment)
 	{
 		PathSegments.Add(segment);

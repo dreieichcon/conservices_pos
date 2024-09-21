@@ -57,7 +57,7 @@ public abstract partial class AbstractHttpRepository<TPb>
 		{
 			Log.Error(exception, "Error while deserializing into {Type}", typeof(T));
 
-			return HttpResponse<T>.Exception(exception, defaultValue);
+			return HttpResponse<T>.Exception(exception, resultText, defaultValue);
 		}
 	}
 
