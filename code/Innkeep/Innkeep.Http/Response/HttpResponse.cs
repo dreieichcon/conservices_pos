@@ -13,6 +13,9 @@ public class HttpResponse<T> : IHttpResponse<T>
 	public string Content { get; set; } = string.Empty;
 
 	/// <inheritdoc />
+	public string ErrorContent { get; set; } = string.Empty;
+
+	/// <inheritdoc />
 	public T? Object { get; set; }
 
 	/// <inheritdoc />
@@ -21,7 +24,7 @@ public class HttpResponse<T> : IHttpResponse<T>
 	public static async Task<HttpResponse<T>> Ok(IFlurlResponse response, T? deserialized)
 		=> new()
 		{
-			StatusCode = (HttpStatusCode) response.StatusCode,
+			StatusCode = (HttpStatusCode)response.StatusCode,
 			Content = await response.GetStringAsync(),
 			Object = deserialized,
 			IsSuccess = true,
@@ -30,17 +33,19 @@ public class HttpResponse<T> : IHttpResponse<T>
 	public static async Task<HttpResponse<T>> Error(IFlurlResponse response, T? defaultValue)
 		=> new()
 		{
-			StatusCode = (HttpStatusCode) response.StatusCode,
+			StatusCode = (HttpStatusCode)response.StatusCode,
 			Content = await response.GetStringAsync(),
+			ErrorContent = await response.GetStringAsync(),
 			Object = defaultValue,
 			IsSuccess = false,
 		};
 
-	public static HttpResponse<T> Exception<T>(Exception exception, T? defaultValue)
+	public static HttpResponse<T> Exception<T>(Exception exception, string content, T? defaultValue)
 		=> new()
 		{
-			StatusCode = (HttpStatusCode) 500,
-			Content = exception.ToString(),
+			StatusCode = (HttpStatusCode)500,
+			ErrorContent = exception.ToString(),
+			Content = content,
 			Object = defaultValue,
 			IsSuccess = false,
 		};
@@ -59,6 +64,7 @@ public class HttpResponse<T> : IHttpResponse<T>
 		return new HttpResponse<T>
 		{
 			StatusCode = result.StatusCode,
+			ErrorContent = result.ErrorContent,
 			Content = result.Content,
 			IsSuccess = result.IsSuccess,
 		};

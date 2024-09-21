@@ -32,7 +32,7 @@ public abstract partial class AbstractHttpRepository<TPb>
 	protected virtual IFlurlRequest CreateRequest(IUrlBuilder<TPb> urlBuilder)
 	{
 		var request = new FlurlRequest(urlBuilder.BaseUrl).AppendPathSegments(urlBuilder.PathSegments);
-
+		request.AppendPathSegment(urlBuilder.LastPathSegment);
 		request.AppendQueryParam(urlBuilder.Parameters.Values);
 
 		return request;

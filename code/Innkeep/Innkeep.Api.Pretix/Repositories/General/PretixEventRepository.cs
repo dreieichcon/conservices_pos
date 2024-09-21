@@ -24,18 +24,15 @@ public class PretixEventRepository(IPretixAuthenticationService authenticationSe
 	public async Task<IHttpResponse<PretixEvent>> GetEvent(string organizerSlug, string eventSlug)
 	{
 		var uri = PretixUrlBuilder.Endpoints.Organizer(organizerSlug).Event(eventSlug);
-
-		var result = await Get<PretixResponse<PretixEvent>>(uri);
-
-		return HttpResponse<PretixEvent>.FromResult(result, x => x.Results.FirstOrDefault());
+		return await Get<PretixEvent>(uri);
 	}
 
 	public async Task<IHttpResponse<PretixEventSettings>> GetEventSettings(string organizerSlug, string eventSlug)
 	{
 		var uri = PretixUrlBuilder.Endpoints.Organizer(organizerSlug).Event(eventSlug).Settings();
 
-		var result = await Get<PretixResponse<PretixEventSettings>>(uri);
+		var result = await Get<PretixEventSettings>(uri);
 
-		return HttpResponse<PretixEventSettings>.FromResult(result, x => x.Results.FirstOrDefault());
+		return result;
 	}
 }

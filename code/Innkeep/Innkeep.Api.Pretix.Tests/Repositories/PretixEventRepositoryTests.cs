@@ -28,4 +28,24 @@ public class PretixEventRepositoryTests
 
 		Assert.IsNotNull(testResult);
 	}
+
+	[TestMethod]
+	public async Task Get_Event_ReturnsPretixEvent()
+	{
+		var result = await _eventRepository.GetEvent(_testAuth.PretixTestOrganizerSlug, _testAuth.PretixTestEventSlug);
+
+		Assert.IsTrue(result.IsSuccess);
+		Assert.AreEqual(_testAuth.PretixTestEventSlug, result.Object?.Slug);
+	}
+
+	[TestMethod]
+	public async Task Get_EventSettings_ListIncludesTestEvent()
+	{
+		var result = await _eventRepository.GetEventSettings(
+			_testAuth.PretixTestOrganizerSlug,
+			_testAuth.PretixTestEventSlug
+		);
+
+		Assert.IsTrue(result.IsSuccess);
+	}
 }

@@ -31,14 +31,17 @@ public class RegisterConnectionRepository(IDbService<ClientConfig> clientConfigS
 			HostName = hostName,
 		};
 
+		var responseContent = string.Empty;
+
 		try
 		{
 			var result = await Post<ConnectionRequest, Empty>(uri, payload);
+			responseContent = result.Content;
 			return HttpResponse<bool>.FromResult(result, _ => result.IsSuccess);
 		}
 		catch (Exception ex)
 		{
-			return HttpResponse<bool>.Exception(ex, false);
+			return HttpResponse<bool>.Exception(ex, responseContent, false);
 		}
 	}
 
@@ -47,16 +50,19 @@ public class RegisterConnectionRepository(IDbService<ClientConfig> clientConfigS
 
 	private async Task<IHttpResponse<bool>> TryTest(string address)
 	{
+		var resultText = string.Empty;
+
 		try
 		{
 			var uri = ServerUrlBuilder.Endpoints.Address(address).Register.Discover;
 			var result = await Get<Empty>(uri);
+			resultText = result.Content;
 			return HttpResponse<bool>.FromResult(result, _ => result.IsSuccess);
 		}
 		catch (Exception ex)
 		{
 			Log.Error(ex, "Exception during Server connection Test");
-			return HttpResponse<bool>.Exception(ex, false);
+			return HttpResponse<bool>.Exception(ex, resultText, false);
 		}
 	}
 }
