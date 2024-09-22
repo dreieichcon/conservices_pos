@@ -19,8 +19,8 @@ public class FiskalyTransactionRepository(IFiskalyAuthenticationService authenti
 	)
 	{
 		var uri = FiskalyUrlBuilder
-				.Endpoints.Tss(tssId)
-				.Transaction(transactionId)
+				.Endpoints.SpecificTss(tssId)
+				.SpecificTransaction(transactionId)
 				.Parameters.TransactionRevision(1)
 				.Build();
 
@@ -38,8 +38,8 @@ public class FiskalyTransactionRepository(IFiskalyAuthenticationService authenti
 	)
 	{
 		var endpoint = FiskalyUrlBuilder
-						.Endpoints.Tss(updateRequest.TssId)
-						.Transaction(updateRequest.TransactionId)
+						.Endpoints.SpecificTss(updateRequest.TssId)
+						.SpecificTransaction(updateRequest.TransactionId)
 						.Parameters.TransactionRevision(updateRequest.TransactionRevision)
 						.Build();
 

@@ -78,6 +78,8 @@ public class TransactionController : AbstractServerController
 
 		var newJson = JsonSerializer.Serialize(receipt, SerializerOptions.GetServerOptions());
 
+		_transactionService.FinalizeTransactionFlow();
+
 		return new OkObjectResult(newJson);
 	}
 

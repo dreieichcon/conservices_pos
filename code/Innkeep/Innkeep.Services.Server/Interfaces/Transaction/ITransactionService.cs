@@ -20,7 +20,7 @@ public interface ITransactionService
 
 	public Task<TransactionModel?> CreateFromOrder(
 		PretixOrderResponse pretixOrder,
-		FiskalyTransaction fiskalyTransaction,
+		FiskalyTransaction? fiskalyTransaction,
 		ClientTransaction transaction,
 		string identifier,
 		string receiptJson

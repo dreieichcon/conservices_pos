@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-using Innkeep.Api.Json;
-using Innkeep.Api.Models.Fiskaly.Objects.Transaction;
-using Innkeep.Api.Models.Internal;
+﻿using Innkeep.Api.Models.Fiskaly.Objects.Transaction;
 using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Api.Models.Internal.Transfer;
 using Innkeep.Api.Models.Pretix.Objects.Order;
@@ -16,11 +13,9 @@ namespace Innkeep.Services.Server.Transaction;
 public class TransactionService(IDbRepository<TransactionModel> transactionRepository) : ITransactionService
 {
 	public IList<TransactionModel> PendingTransactions { get; set; } = [];
-	
+
 	public async Task<IEnumerable<TransactionModel>> GetAll()
-	{
-		return await transactionRepository.GetAllAsync();
-	}
+		=> await transactionRepository.GetAllAsync();
 
 	public async Task<IEnumerable<TransactionModel>> GetForRegister(string identifier)
 	{
@@ -34,16 +29,15 @@ public class TransactionService(IDbRepository<TransactionModel> transactionRepos
 		var t = items
 				.GroupBy(x => x.RegisterId)
 				.ToDictionary(group => group.Key, group => group.Sum(x => x.TotalChange));
-		
+
 		return t;
 	}
 
 	public async Task SavePending()
 	{
 		var newPending = new List<TransactionModel>();
-		
+
 		foreach (var transaction in PendingTransactions)
-		{
 			try
 			{
 				await transactionRepository.CrudAsync(transaction);
@@ -52,27 +46,26 @@ public class TransactionService(IDbRepository<TransactionModel> transactionRepos
 			{
 				newPending.Add(transaction);
 			}
-		}
-		
+
 		PendingTransactions = newPending;
 	}
 
 	public async Task<TransactionModel?> CreateFromOrder(
 		PretixOrderResponse pretixOrder,
-		FiskalyTransaction fiskalyTransaction,
+		FiskalyTransaction? fiskalyTransaction,
 		ClientTransaction transaction,
 		string identifier,
 		string receiptJson
 	)
 	{
-		var model = new TransactionModel()
+		var model = new TransactionModel
 		{
 			OperationType = Operation.Created,
 			TransactionDate = DateTime.Now,
 			ReceiptType = "RECEIPT",
 			RegisterId = identifier,
-			TssId = fiskalyTransaction.TssId,
-			ClientId = fiskalyTransaction.ClientId,
+			TssId = fiskalyTransaction?.TssId ?? string.Empty,
+			ClientId = fiskalyTransaction?.ClientId ?? string.Empty,
 			EventId = pretixOrder.EventId,
 			OrderCode = pretixOrder.Code,
 			OrderSecret = pretixOrder.Secret,
@@ -97,7 +90,6 @@ public class TransactionService(IDbRepository<TransactionModel> transactionRepos
 
 			return null;
 		}
-		
 	}
 
 	public async Task<string?> CreateFromTransfer(
@@ -107,7 +99,7 @@ public class TransactionService(IDbRepository<TransactionModel> transactionRepos
 		string receiptJson
 	)
 	{
-		var model = new TransactionModel()
+		var model = new TransactionModel
 		{
 			TransactionDate = DateTime.Now,
 			ReceiptType = "TRANSFER",

@@ -16,7 +16,7 @@ public class FiskalyClientRepository(IFiskalyAuthenticationService authenticatio
 {
 	public async Task<IHttpResponse<IEnumerable<FiskalyClient>>> GetAll(string tssId)
 	{
-		var uri = FiskalyUrlBuilder.Endpoints.Tss(tssId).Client();
+		var uri = FiskalyUrlBuilder.Endpoints.SpecificTss(tssId).Client;
 
 		var result = await Get<FiskalyListResponse<FiskalyClient>>(uri);
 
@@ -25,7 +25,7 @@ public class FiskalyClientRepository(IFiskalyAuthenticationService authenticatio
 
 	public async Task<IHttpResponse<FiskalyClient>> GetOne(string tssId, string clientId)
 	{
-		var uri = FiskalyUrlBuilder.Endpoints.Tss(tssId).Client(clientId);
+		var uri = FiskalyUrlBuilder.Endpoints.SpecificTss(tssId).SpecificClient(clientId);
 
 		return await Get<FiskalyClient>(uri);
 	}
@@ -37,7 +37,7 @@ public class FiskalyClientRepository(IFiskalyAuthenticationService authenticatio
 		if (!authenticationResult.IsSuccess)
 			return HttpResponse<FiskalyClient>.FromResult(authenticationResult, _ => null);
 
-		var uri = FiskalyUrlBuilder.Endpoints.Tss(tssId).Client(clientId);
+		var uri = FiskalyUrlBuilder.Endpoints.SpecificTss(tssId).SpecificClient(clientId);
 
 		var payload = new FiskalyClientCreateRequest
 		{
@@ -58,7 +58,7 @@ public class FiskalyClientRepository(IFiskalyAuthenticationService authenticatio
 		if (!authenticationResult.IsSuccess)
 			return HttpResponse<FiskalyClient>.FromResult(authenticationResult, _ => null);
 
-		var uri = FiskalyUrlBuilder.Endpoints.Tss(tssId).Client(clientId);
+		var uri = FiskalyUrlBuilder.Endpoints.SpecificTss(tssId).SpecificClient(clientId);
 
 		var payload = new FiskalyClientUpdateRequest
 		{

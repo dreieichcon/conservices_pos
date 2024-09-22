@@ -19,7 +19,7 @@ public class FiskalyAuthenticationRepository() : AbstractFiskalyRepository(null!
 			Secret = authenticationInfo.Secret,
 		};
 
-		var uri = FiskalyUrlBuilder.Endpoints.Authenticate();
+		var uri = FiskalyUrlBuilder.Endpoints.Authenticate;
 
 		var result = await Post<FiskalyTokenRequest, FiskalyTokenResponse>(uri, request);
 

@@ -6,6 +6,8 @@ namespace Innkeep.Services.Server.Interfaces.Fiskaly.Transaction;
 
 public interface IFiskalyTransactionService
 {
+	public void FinalizeTransactionFlow();
+
 	public Task<FiskalyTransaction?> StartTransaction();
 
 	public Task<TransactionReceipt> CompleteReceiptTransaction(ClientTransaction transaction);

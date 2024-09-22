@@ -1,4 +1,5 @@
-﻿using Innkeep.Api.Auth;
+﻿using Flurl.Http;
+using Innkeep.Api.Auth;
 using Innkeep.Api.Endpoints.Fiskaly;
 using Innkeep.Api.Enum.Fiskaly.Tss;
 using Innkeep.Api.Fiskaly.Interfaces.Tss;
@@ -20,8 +21,7 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 
 	public async Task<IHttpResponse<IEnumerable<FiskalyTss>>> GetAll()
 	{
-		var uri = FiskalyUrlBuilder.Endpoints.Tss();
-
+		var uri = FiskalyUrlBuilder.Endpoints.Tss;
 		var result = await Get<FiskalyListResponse<FiskalyTss>>(uri);
 
 		return HttpResponse<IEnumerable<FiskalyTss>>.FromResult(result, x => x.Data);
@@ -31,14 +31,14 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 
 	public async Task<IHttpResponse<FiskalyTss>> CreateTss(string id)
 	{
-		var uri = FiskalyUrlBuilder.Endpoints.Tss(id);
+		var uri = FiskalyUrlBuilder.Endpoints.SpecificTss(id);
 
 		return await Put<Empty, FiskalyTss>(uri, new Empty());
 	}
 
 	public async Task<IHttpResponse<FiskalyTss>> DeployTss(FiskalyTss current)
 	{
-		var endpoint = FiskalyUrlBuilder.Endpoints.Tss(current.Id);
+		var endpoint = FiskalyUrlBuilder.Endpoints.SpecificTss(current.Id);
 
 		var payload = new FiskalyTssStateRequest
 		{
@@ -55,7 +55,7 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 		if (!authResult.IsSuccess)
 			return HttpResponse<FiskalyTss>.FromResult(authResult, _ => null);
 
-		var endpoint = FiskalyUrlBuilder.Endpoints.Tss(current.Id);
+		var endpoint = FiskalyUrlBuilder.Endpoints.SpecificTss(current.Id);
 
 		var payload = new FiskalyTssStateRequest
 		{
@@ -72,7 +72,7 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 
 	public async Task<IHttpResponse<bool>> ChangeAdminPin(FiskalyTss current)
 	{
-		var uri = FiskalyUrlBuilder.Endpoints.Tss(current.Id).Admin();
+		var uri = FiskalyUrlBuilder.Endpoints.SpecificTss(current.Id).Admin;
 
 		var config = AuthenticationService.CurrentConfig;
 
@@ -85,5 +85,12 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 		var result = await Patch<FiskalyAdminPinRequest, Empty>(uri, payload);
 
 		return HttpResponse<bool>.FromResult(result, _ => result.IsSuccess);
+	}
+
+	protected override IFlurlRequest CreateRequest(IUrlBuilder<FiskalyParameterBuilder> urlBuilder)
+	{
+		var request = base.CreateRequest(urlBuilder);
+		request.WithTimeout(TimeSpan.FromMilliseconds(Timeout));
+		return request;
 	}
 }
