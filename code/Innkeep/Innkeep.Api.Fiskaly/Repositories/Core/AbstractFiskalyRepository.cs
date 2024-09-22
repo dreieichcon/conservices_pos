@@ -20,7 +20,6 @@ public partial class AbstractFiskalyRepository(IFiskalyAuthenticationService aut
 		{
 			FlurlHttp
 				.ConfigureClientForUrl(FiskalyUrlBuilder.Endpoints.BaseUrl)
-				.WithTimeout(TimeSpan.FromMilliseconds(Timeout))
 				.AllowHttpStatus("*")
 				.Build()
 				.HttpClient.DefaultRequestHeaders.Accept.Clear();

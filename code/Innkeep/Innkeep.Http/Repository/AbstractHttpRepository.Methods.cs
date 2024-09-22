@@ -84,7 +84,7 @@ public abstract partial class AbstractHttpRepository<TPb>
 		TR? defaultValue = default
 	)
 	{
-		var jsonString = JsonSerializer.Serialize(data);
+		var jsonString = JsonSerializer.Serialize(data, GetOptions());
 		var jsonData = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
 		var flurlResponse = requestType switch

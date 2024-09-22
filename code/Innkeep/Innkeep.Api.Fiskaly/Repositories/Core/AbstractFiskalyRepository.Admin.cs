@@ -10,7 +10,7 @@ public partial class AbstractFiskalyRepository
 {
 	protected async Task<IHttpResponse<bool>> AuthenticateAdmin(string tssId)
 	{
-		var uri = FiskalyUrlBuilder.Endpoints.Tss(tssId).AdminAuth();
+		var uri = FiskalyUrlBuilder.Endpoints.SpecificTss(tssId).AdminAuth;
 
 		var content = new FiskalyAdminAuth
 		{
@@ -24,7 +24,7 @@ public partial class AbstractFiskalyRepository
 
 	protected async Task<IHttpResponse<bool>> LogoutAdmin(string tssId)
 	{
-		var uri = FiskalyUrlBuilder.Endpoints.Tss(tssId).AdminLogout();
+		var uri = FiskalyUrlBuilder.Endpoints.SpecificTss(tssId).AdminLogout;
 
 		var result = await Post<Empty, Empty>(uri, new Empty());
 

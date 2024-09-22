@@ -83,10 +83,13 @@ public partial class FiskalyTransactionService(
 		if (CurrentTransaction is null)
 			receipt = CreateTransactionReceipt(null, transaction);
 
+		return receipt;
+	}
+
+	public void FinalizeTransactionFlow()
+	{
 		TransactionRevision = 1;
 		CurrentTransaction = null;
-
-		return receipt;
 	}
 
 	private static List<FiskalyAmountPerVatRate> TransactionVatRates(ClientTransaction transaction)
@@ -137,18 +140,17 @@ public partial class FiskalyTransactionService(
 	private static TransactionReceipt CreateTransactionReceipt(
 		FiskalyTransaction? fiskalyTransaction,
 		ClientTransaction clientTransaction
-	) =>
-		new()
-		{
-			TransactionCounter = fiskalyTransaction?.Number ?? -1,
-			Lines = CreateLines(clientTransaction),
-			TaxInformation = CreateTaxInformation(clientTransaction),
-			Sum = CreateSum(clientTransaction),
-			QrCode = fiskalyTransaction?.QrCodeData ?? "TSS ERROR",
-		};
+	) => new()
+	{
+		TransactionCounter = fiskalyTransaction?.Number ?? -1,
+		Lines = CreateLines(clientTransaction),
+		TaxInformation = CreateTaxInformation(clientTransaction),
+		Sum = CreateSum(clientTransaction),
+		QrCode = fiskalyTransaction?.QrCodeData ?? "TSS ERROR",
+	};
 
-	private static List<ReceiptLine> CreateLines(ClientTransaction transaction) =>
-		transaction.SalesItems.Select(ReceiptLine.FromCart).ToList();
+	private static List<ReceiptLine> CreateLines(ClientTransaction transaction)
+		=> transaction.SalesItems.Select(ReceiptLine.FromCart).ToList();
 
 	private static List<ReceiptTaxInformation> CreateTaxInformation(ClientTransaction transaction)
 	{
@@ -167,11 +169,10 @@ public partial class FiskalyTransactionService(
 				.ToList();
 	}
 
-	private static ReceiptSum CreateSum(ClientTransaction transaction) =>
-		new()
-		{
-			TotalAmount = transaction.AmountNeeded,
-			AmountReturned = transaction.AmountBack,
-			AmountGiven = transaction.AmountGiven,
-		};
+	private static ReceiptSum CreateSum(ClientTransaction transaction) => new()
+	{
+		TotalAmount = transaction.AmountNeeded,
+		AmountReturned = transaction.AmountBack,
+		AmountGiven = transaction.AmountGiven,
+	};
 }
