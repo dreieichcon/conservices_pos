@@ -3,6 +3,8 @@ using System.Text.Json;
 using Flurl.Http;
 using Lite.Http.Enum;
 using Lite.Http.Interfaces;
+using Lite.Http.Response;
+using Serilog;
 
 namespace Lite.Http.Repository;
 
@@ -84,24 +86,31 @@ public abstract partial class AbstractHttpRepository<TPb>
 		TR? defaultValue = default
 	)
 	{
-		var jsonString = JsonSerializer.Serialize(data, GetOptions());
-		var jsonData = new StringContent(jsonString, Encoding.UTF8, "application/json");
-
-		var flurlResponse = requestType switch
+		try
 		{
-			RequestType.Get => await request.GetAsync(),
-			RequestType.Post => await request.PostAsync(jsonData),
-			RequestType.Patch => await request.PatchAsync(jsonData),
-			RequestType.Put => await request.PutAsync(jsonData),
-			RequestType.Delete => await request.DeleteAsync(),
-			_ => throw new ArgumentOutOfRangeException(nameof(requestType), requestType, null),
-		};
+			var jsonString = JsonSerializer.Serialize(data, GetOptions());
+			var jsonData = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
-		await LogResponse(flurlResponse, request.Url);
+			var flurlResponse = requestType switch
+			{
+				RequestType.Get => await request.GetAsync(),
+				RequestType.Post => await request.PostAsync(jsonData),
+				RequestType.Patch => await request.PatchAsync(jsonData),
+				RequestType.Put => await request.PutAsync(jsonData),
+				RequestType.Delete => await request.DeleteAsync(),
+				_ => throw new ArgumentOutOfRangeException(nameof(requestType), requestType, null),
+			};
 
-		var response = await DeserializeResult(flurlResponse, defaultValue);
+			await LogResponse(flurlResponse, request.Url);
+			var response = await DeserializeResult(flurlResponse, defaultValue);
 
-		return response;
+			return response;
+		}
+		catch (Exception ex)
+		{
+			Log.Error(ex, "{RequestType} request to {Endpoint} failed:", requestType, request.Url);
+			return HttpResponse<T>.Exception(ex, string.Empty, defaultValue);
+		}
 	}
 
 	private async Task<IHttpResponse<TR>> SendRequestInternal<T, TR>(
