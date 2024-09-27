@@ -103,7 +103,7 @@ public partial class FiskalyTransactionService(
 			var vatRate = group.Key switch
 			{
 				19m => VatRate.Normal,
-				7m => VatRate.Reduced1,
+				7m => VatRate.Reduced_1,
 				0 => VatRate.Null,
 				var _ => VatRate.Null,
 			};

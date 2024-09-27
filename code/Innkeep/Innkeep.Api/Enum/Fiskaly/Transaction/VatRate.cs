@@ -8,13 +8,13 @@ public enum VatRate
 	Normal,
 
 	[EnumMember(Value = "REDUCED_1")]
-	Reduced1,
+	Reduced_1,
 
 	[EnumMember(Value = "SPECIAL_RATE_1")]
-	SpecialRate1,
+	Special_Rate_1,
 
 	[EnumMember(Value = "SPECIAL_RATE_2")]
-	SpecialRate2,
+	Special_Rate_2,
 
 	[EnumMember(Value = "NULL")]
 	Null,
