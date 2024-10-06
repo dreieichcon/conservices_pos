@@ -1,9 +1,9 @@
-﻿using Innkeep.Api.Models.Fiskaly.Objects.Transaction;
+﻿using Demolite.Db.Enum;
+using Demolite.Db.Interfaces;
+using Innkeep.Api.Models.Fiskaly.Objects.Transaction;
 using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Api.Models.Internal.Transfer;
 using Innkeep.Api.Models.Pretix.Objects.Order;
-using Innkeep.Db.Enum;
-using Innkeep.Db.Interfaces;
 using Innkeep.Db.Server.Models.Transaction;
 using Innkeep.Services.Server.Interfaces.Transaction;
 using Serilog;

@@ -2,7 +2,7 @@
 @using System.Globalization
 @using Innkeep.Core.FileIo
 @using Innkeep.Db.Server.Context
-@using Innkeep.Db.Server.Models
+@using Innkeep.Db.Server.Models.Config
 @using Innkeep.Services.Interfaces
 @using Innkeep.Services.Interfaces.Db
 @using Innkeep.Startup.Database
@@ -16,12 +16,12 @@
     <ChildContent>
         <MudStack Class="w-100 p-3">
             <MudStack Class="w-100 mh-25" Style="max-height: 15% !important;">
-                <MudSelect 
-                    Class="w-100" 
-                    T="string" 
-                    Style="max-height: 10% !important;" 
-                    @bind-Value="DbSettingsService.CurrentDb" 
-                    Variant="Variant.Outlined" 
+                <MudSelect
+                    Class="w-100"
+                    T="string"
+                    Style="max-height: 10% !important;"
+                    @bind-Value="DbSettingsService.CurrentDb"
+                    Variant="Variant.Outlined"
                     Label="Select Database for Transactions">
                     @foreach (var setting in DbSettingsService.AvailableDatabases)
                     {

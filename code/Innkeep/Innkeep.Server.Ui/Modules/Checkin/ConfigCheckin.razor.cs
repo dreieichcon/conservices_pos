@@ -1,6 +1,6 @@
 ﻿using Innkeep.Api.Models.Pretix.Objects.Checkin;
 using Innkeep.Api.Pretix.Interfaces.Checkin;
-using Innkeep.Db.Server.Models;
+using Innkeep.Db.Server.Models.Config;
 using Innkeep.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;

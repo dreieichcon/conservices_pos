@@ -1,7 +1,7 @@
 ﻿using Innkeep.Api.Auth;
 using Innkeep.Api.Fiskaly.Interfaces.Tss;
 using Innkeep.Api.Models.Fiskaly.Objects.Tss;
-using Innkeep.Db.Server.Models;
+using Innkeep.Db.Server.Models.Config;
 using Innkeep.Services.Interfaces;
 using Innkeep.Services.Server.Interfaces.Fiskaly.Tss;
 

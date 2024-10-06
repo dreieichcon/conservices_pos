@@ -1,19 +1,17 @@
-﻿using Innkeep.Db.Client.Context;
-using Innkeep.Db.Interfaces;
-using Innkeep.Db.Repositories;
+﻿using Demolite.Db.Interfaces;
+using Demolite.Db.Repositories;
+using Innkeep.Db.Client.Context;
 using Microsoft.EntityFrameworkCore;
 
 namespace Innkeep.Db.Client.Repositories.Core;
 
-public class BaseInnkeepClientRepository<T>(IDbContextFactory<InnkeepClientContext> contextFactory) : AbstractBaseRepository<T, InnkeepClientContext> where T : class, IHasOperation
+public class BaseInnkeepClientRepository<T>(IDbContextFactory<InnkeepClientContext> contextFactory)
+	: AbstractBaseRepository<T, InnkeepClientContext>
+	where T : class, IDbItem
 {
 	protected override InnkeepClientContext GetContext()
-	{
-		return contextFactory.CreateDbContext();
-	}
+		=> contextFactory.CreateDbContext();
 
 	protected override async Task<InnkeepClientContext> GetContextAsync()
-	{
-		return await contextFactory.CreateDbContextAsync();
-	}
+		=> await contextFactory.CreateDbContextAsync();
 }

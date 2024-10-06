@@ -1,4 +1,5 @@
-﻿using Innkeep.Api.Internal.Interfaces.Server.Checkin;
+﻿using Demolite.Db.Interfaces;
+using Innkeep.Api.Internal.Interfaces.Server.Checkin;
 using Innkeep.Api.Internal.Interfaces.Server.Pos;
 using Innkeep.Api.Internal.Interfaces.Server.Register;
 using Innkeep.Api.Internal.Repositories.Server.Checkin;
@@ -8,7 +9,6 @@ using Innkeep.Client.Controllers.Endpoints;
 using Innkeep.Db.Client.Context;
 using Innkeep.Db.Client.Models;
 using Innkeep.Db.Client.Repositories.Config;
-using Innkeep.Db.Interfaces;
 using Innkeep.Services.Client.Checkin;
 using Innkeep.Services.Client.Database;
 using Innkeep.Services.Client.Interfaces.Checkin;

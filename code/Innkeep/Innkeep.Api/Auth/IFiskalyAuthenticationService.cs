@@ -1,13 +1,13 @@
 ﻿using Innkeep.Api.Models.Fiskaly.Objects.Tss;
 using Innkeep.Core.DomainModels.Authentication;
-using Innkeep.Db.Server.Models.Server;
+using Innkeep.Db.Server.Models.Config;
 
 namespace Innkeep.Api.Auth;
 
 public interface IFiskalyAuthenticationService
 {
 	public AuthenticationInfo AuthenticationInfo { get; set; }
-	
+
 	public FiskalyTseConfig CurrentConfig { get; set; }
 
 	public Task GetOrUpdateToken();

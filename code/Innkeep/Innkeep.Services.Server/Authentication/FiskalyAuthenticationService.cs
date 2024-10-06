@@ -1,11 +1,10 @@
-﻿using Innkeep.Api.Auth;
+﻿using Demolite.Db.Enum;
+using Demolite.Db.Interfaces;
+using Innkeep.Api.Auth;
 using Innkeep.Api.Fiskaly.Interfaces.Auth;
 using Innkeep.Api.Models.Fiskaly.Objects.Tss;
 using Innkeep.Core.DomainModels.Authentication;
-using Innkeep.Db.Enum;
-using Innkeep.Db.Interfaces;
-using Innkeep.Db.Server.Models;
-using Innkeep.Db.Server.Models.Server;
+using Innkeep.Db.Server.Models.Config;
 using Innkeep.Services.Interfaces;
 
 namespace Innkeep.Services.Server.Authentication;

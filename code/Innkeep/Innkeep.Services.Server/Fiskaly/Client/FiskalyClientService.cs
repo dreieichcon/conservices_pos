@@ -1,6 +1,6 @@
 ﻿using Innkeep.Api.Fiskaly.Interfaces.Tss;
 using Innkeep.Api.Models.Fiskaly.Objects.Client;
-using Innkeep.Db.Server.Models;
+using Innkeep.Db.Server.Models.Config;
 using Innkeep.Services.Interfaces;
 using Innkeep.Services.Interfaces.Hardware;
 using Innkeep.Services.Server.Interfaces.Fiskaly.Client;
@@ -55,8 +55,7 @@ public partial class FiskalyClientService(
 
 	private bool IsTssNull() => string.IsNullOrEmpty(configService.CurrentItem?.TseId);
 
-	private string GenerateSerialNumber() =>
-		hardwareService.ClientIdentifier != "NO IDENTIFIER"
-			? hardwareService.ClientIdentifier
-			: Guid.NewGuid().ToString().Replace("-", "");
+	private string GenerateSerialNumber() => hardwareService.ClientIdentifier != "NO IDENTIFIER"
+		? hardwareService.ClientIdentifier
+		: Guid.NewGuid().ToString().Replace("-", "");
 }

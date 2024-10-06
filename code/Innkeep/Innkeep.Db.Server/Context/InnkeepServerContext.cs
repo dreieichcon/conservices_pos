@@ -1,5 +1,4 @@
-﻿using Innkeep.Db.Server.Models;
-using Innkeep.Db.Server.Models.Server;
+﻿using Innkeep.Db.Server.Models.Config;
 using Microsoft.EntityFrameworkCore;
 
 namespace Innkeep.Db.Server.Context;

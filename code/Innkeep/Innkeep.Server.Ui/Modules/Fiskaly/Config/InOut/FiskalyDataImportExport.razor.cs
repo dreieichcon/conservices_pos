@@ -3,7 +3,7 @@ using Innkeep.Api.Auth;
 using Innkeep.Api.Json;
 using Innkeep.Core.Cryptography;
 using Innkeep.Core.FileIo;
-using Innkeep.Db.Server.Models.Server;
+using Innkeep.Db.Server.Models.Config;
 using Innkeep.Server.Ui.Modules.Fiskaly.Config.InOut.Components;
 using Innkeep.Services.Server.Interfaces.Fiskaly.Tss;
 using Microsoft.AspNetCore.Components;
@@ -78,7 +78,7 @@ public partial class FiskalyDataImportExport : ComponentBase
 		if (result is null || result.Canceled)
 			return;
 
-		var (fileContent, password) = (Tuple<byte[], string>) result.Data!;
+		var (fileContent, password) = (Tuple<byte[], string>)result.Data!;
 
 		var decrypted = await EncryptionHelper.DecryptAsync(fileContent, password);
 
