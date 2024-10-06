@@ -1,11 +1,11 @@
-﻿using Innkeep.Api.Auth;
+﻿using Demolite.Http.Interfaces;
+using Demolite.Http.Response;
+using Innkeep.Api.Auth;
 using Innkeep.Api.Endpoints.Pretix;
 using Innkeep.Api.Models.Pretix.Objects.Checkin;
 using Innkeep.Api.Models.Pretix.Response;
 using Innkeep.Api.Pretix.Interfaces.Checkin;
 using Innkeep.Api.Pretix.Repositories.Core;
-using Lite.Http.Interfaces;
-using Lite.Http.Response;
 
 namespace Innkeep.Api.Pretix.Repositories.Checkin;
 

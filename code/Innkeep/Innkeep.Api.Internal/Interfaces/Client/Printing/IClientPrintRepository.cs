@@ -1,6 +1,6 @@
-﻿using Innkeep.Api.Models.Internal.Transaction;
+﻿using Demolite.Http.Interfaces;
+using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Api.Models.Internal.Transfer;
-using Lite.Http.Interfaces;
 
 namespace Innkeep.Api.Internal.Interfaces.Client.Printing;
 

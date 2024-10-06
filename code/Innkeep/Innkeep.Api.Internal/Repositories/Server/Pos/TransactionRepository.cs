@@ -1,10 +1,10 @@
-﻿using Innkeep.Api.Endpoints.Server;
+﻿using Demolite.Http.Interfaces;
+using Innkeep.Api.Endpoints.Server;
 using Innkeep.Api.Internal.Interfaces.Server.Pos;
 using Innkeep.Api.Internal.Repositories.Server.Core;
 using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Db.Client.Models;
 using Innkeep.Services.Interfaces;
-using Lite.Http.Interfaces;
 
 namespace Innkeep.Api.Internal.Repositories.Server.Pos;
 

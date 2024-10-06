@@ -1,4 +1,6 @@
-﻿using Flurl.Http;
+﻿using Demolite.Http.Interfaces;
+using Demolite.Http.Response;
+using Flurl.Http;
 using Innkeep.Api.Auth;
 using Innkeep.Api.Endpoints.Fiskaly;
 using Innkeep.Api.Enum.Fiskaly.Tss;
@@ -9,8 +11,6 @@ using Innkeep.Api.Models.Fiskaly.Request.Auth;
 using Innkeep.Api.Models.Fiskaly.Request.Tss;
 using Innkeep.Api.Models.Fiskaly.Response;
 using Innkeep.Api.Models.General;
-using Lite.Http.Interfaces;
-using Lite.Http.Response;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Tss;
 
@@ -19,6 +19,8 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 {
 	protected override int Timeout => 30000;
 
+	public Task<FiskalyTss> GetOne(string id) => throw new NotImplementedException();
+
 	public async Task<IHttpResponse<IEnumerable<FiskalyTss>>> GetAll()
 	{
 		var uri = FiskalyUrlBuilder.Endpoints.Tss;
@@ -26,8 +28,6 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 
 		return HttpResponse<IEnumerable<FiskalyTss>>.FromResult(result, x => x.Data);
 	}
-
-	public Task<FiskalyTss> GetOne(string id) => throw new NotImplementedException();
 
 	public async Task<IHttpResponse<FiskalyTss>> CreateTss(string id)
 	{

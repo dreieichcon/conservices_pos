@@ -1,5 +1,5 @@
-﻿using Innkeep.Api.Models.Fiskaly.Objects.Tss;
-using Lite.Http.Interfaces;
+﻿using Demolite.Http.Interfaces;
+using Innkeep.Api.Models.Fiskaly.Objects.Tss;
 
 namespace Innkeep.Api.Fiskaly.Interfaces.Tss;
 

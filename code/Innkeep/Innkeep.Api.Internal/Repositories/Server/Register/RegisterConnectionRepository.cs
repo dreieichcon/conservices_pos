@@ -1,12 +1,12 @@
-﻿using Innkeep.Api.Endpoints.Server;
+﻿using Demolite.Http.Interfaces;
+using Demolite.Http.Response;
+using Innkeep.Api.Endpoints.Server;
 using Innkeep.Api.Internal.Interfaces.Server.Register;
 using Innkeep.Api.Internal.Repositories.Server.Core;
 using Innkeep.Api.Models.General;
 using Innkeep.Api.Models.Internal.Register;
 using Innkeep.Db.Client.Models;
 using Innkeep.Services.Interfaces;
-using Lite.Http.Interfaces;
-using Lite.Http.Response;
 using Serilog;
 
 namespace Innkeep.Api.Internal.Repositories.Server.Register;

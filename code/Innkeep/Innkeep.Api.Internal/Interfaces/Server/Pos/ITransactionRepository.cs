@@ -1,5 +1,5 @@
-﻿using Innkeep.Api.Models.Internal.Transaction;
-using Lite.Http.Interfaces;
+﻿using Demolite.Http.Interfaces;
+using Innkeep.Api.Models.Internal.Transaction;
 
 namespace Innkeep.Api.Internal.Interfaces.Server.Pos;
 

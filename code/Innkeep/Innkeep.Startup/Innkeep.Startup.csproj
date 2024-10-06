@@ -9,6 +9,7 @@
     <ItemGroup>
         <PackageReference Include="Codelux.Serilog.Sinks.Discord" Version="1.1.0"/>
         <PackageReference Include="Demolite.Db" Version="0.0.3"/>
+        <PackageReference Include="Demolite.Http" Version="0.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.Certificate" Version="8.0.7"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8"/>

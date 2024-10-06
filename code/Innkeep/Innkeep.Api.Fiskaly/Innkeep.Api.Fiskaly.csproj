@@ -8,7 +8,10 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Innkeep.Api\Innkeep.Api.csproj"/>
-        <ProjectReference Include="..\Innkeep.Http\Innkeep.Http.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Demolite.Http" Version="0.0.1" />
     </ItemGroup>
 
 </Project>

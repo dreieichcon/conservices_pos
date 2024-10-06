@@ -1,5 +1,5 @@
-﻿using Lite.Http.Builder;
-using Lite.Http.Interfaces;
+﻿using Demolite.Http.Builder;
+using Demolite.Http.Interfaces;
 
 namespace Innkeep.Api.Endpoints.Fiskaly;
 

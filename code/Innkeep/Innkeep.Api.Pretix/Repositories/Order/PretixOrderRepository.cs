@@ -1,11 +1,11 @@
-﻿using Innkeep.Api.Auth;
+﻿using Demolite.Http.Interfaces;
+using Innkeep.Api.Auth;
 using Innkeep.Api.Endpoints.Pretix;
 using Innkeep.Api.Helpers.Pretix;
 using Innkeep.Api.Models.Internal;
 using Innkeep.Api.Models.Pretix.Objects.Order;
 using Innkeep.Api.Pretix.Interfaces;
 using Innkeep.Api.Pretix.Repositories.Core;
-using Lite.Http.Interfaces;
 
 namespace Innkeep.Api.Pretix.Repositories.Order;
 

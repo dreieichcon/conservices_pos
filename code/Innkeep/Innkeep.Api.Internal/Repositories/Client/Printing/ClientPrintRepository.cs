@@ -1,11 +1,11 @@
-﻿using Innkeep.Api.Endpoints.Client;
+﻿using Demolite.Http.Interfaces;
+using Demolite.Http.Response;
+using Innkeep.Api.Endpoints.Client;
 using Innkeep.Api.Internal.Interfaces.Client.Printing;
 using Innkeep.Api.Internal.Repositories.Client.Core;
 using Innkeep.Api.Models.General;
 using Innkeep.Api.Models.Internal.Transaction;
 using Innkeep.Api.Models.Internal.Transfer;
-using Lite.Http.Interfaces;
-using Lite.Http.Response;
 
 namespace Innkeep.Api.Internal.Repositories.Client.Printing;
 
