@@ -1,6 +1,6 @@
-﻿using Innkeep.Api.Enum.Fiskaly.Client;
+﻿using Demolite.Http.Interfaces;
+using Innkeep.Api.Enum.Fiskaly.Client;
 using Innkeep.Api.Models.Fiskaly.Objects.Client;
-using Lite.Http.Interfaces;
 
 namespace Innkeep.Api.Fiskaly.Interfaces.Tss;
 

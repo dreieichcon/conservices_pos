@@ -1,11 +1,11 @@
-﻿using Innkeep.Api.Endpoints.Server;
+﻿using Demolite.Http.Interfaces;
+using Innkeep.Api.Endpoints.Server;
 using Innkeep.Api.Internal.Interfaces.Server.Checkin;
 using Innkeep.Api.Internal.Repositories.Server.Core;
 using Innkeep.Api.Models.Internal;
 using Innkeep.Api.Models.Pretix.Objects.Checkin;
 using Innkeep.Db.Client.Models;
 using Innkeep.Services.Interfaces;
-using Lite.Http.Interfaces;
 
 namespace Innkeep.Api.Internal.Repositories.Server.Checkin;
 

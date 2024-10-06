@@ -1,4 +1,4 @@
-﻿using Lite.Http.Builder;
+﻿using Demolite.Http.Builder;
 
 namespace Innkeep.Api.Endpoints.Pretix;
 

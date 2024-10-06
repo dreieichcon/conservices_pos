@@ -1,8 +1,8 @@
-﻿using Innkeep.Api.Endpoints.Fiskaly;
+﻿using Demolite.Http.Interfaces;
+using Demolite.Http.Response;
+using Innkeep.Api.Endpoints.Fiskaly;
 using Innkeep.Api.Models.Fiskaly.Request.Auth;
 using Innkeep.Api.Models.General;
-using Lite.Http.Interfaces;
-using Lite.Http.Response;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Core;
 

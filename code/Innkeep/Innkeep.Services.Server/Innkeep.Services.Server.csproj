@@ -15,4 +15,8 @@
         <ProjectReference Include="..\Innkeep.Services\Innkeep.Services.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Demolite.Http" Version="0.0.1" />
+    </ItemGroup>
+
 </Project>

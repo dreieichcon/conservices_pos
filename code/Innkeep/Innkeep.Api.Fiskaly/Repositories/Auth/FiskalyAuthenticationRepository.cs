@@ -1,11 +1,11 @@
-﻿using Flurl.Http;
+﻿using Demolite.Http.Interfaces;
+using Flurl.Http;
 using Innkeep.Api.Endpoints.Fiskaly;
 using Innkeep.Api.Fiskaly.Interfaces.Auth;
 using Innkeep.Api.Fiskaly.Repositories.Core;
 using Innkeep.Api.Models.Fiskaly.Request.Auth;
 using Innkeep.Api.Models.Fiskaly.Response;
 using Innkeep.Core.DomainModels.Authentication;
-using Lite.Http.Interfaces;
 
 namespace Innkeep.Api.Fiskaly.Repositories.Auth;
 

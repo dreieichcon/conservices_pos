@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
+using Demolite.Http.Interfaces;
+using Demolite.Http.Repository;
 using Flurl.Http;
 using Innkeep.Api.Endpoints.Client;
 using Innkeep.Api.Json;
-using Lite.Http.Interfaces;
-using Lite.Http.Repository;
 
 namespace Innkeep.Api.Internal.Repositories.Client.Core;
 

@@ -1,5 +1,5 @@
-﻿using Innkeep.Api.Models.Pretix.Objects.Sales;
-using Lite.Http.Interfaces;
+﻿using Demolite.Http.Interfaces;
+using Innkeep.Api.Models.Pretix.Objects.Sales;
 
 namespace Innkeep.Api.Pretix.Interfaces.Sales;
 

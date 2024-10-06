@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
+using Demolite.Http.Repository;
 using Flurl.Http;
 using Innkeep.Api.Auth;
 using Innkeep.Api.Endpoints.Pretix;
 using Innkeep.Api.Json;
-using Lite.Http.Repository;
 
 namespace Innkeep.Api.Pretix.Repositories.Core;
 

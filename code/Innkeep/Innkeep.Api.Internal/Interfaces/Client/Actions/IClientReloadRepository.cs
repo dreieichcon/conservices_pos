@@ -1,4 +1,4 @@
-﻿using Lite.Http.Interfaces;
+﻿using Demolite.Http.Interfaces;
 
 namespace Innkeep.Api.Internal.Interfaces.Client.Actions;
 

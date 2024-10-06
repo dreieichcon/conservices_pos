@@ -1,6 +1,6 @@
-﻿using Innkeep.Api.Models.Internal;
+﻿using Demolite.Http.Interfaces;
+using Innkeep.Api.Models.Internal;
 using Innkeep.Api.Models.Pretix.Objects.Order;
-using Lite.Http.Interfaces;
 
 namespace Innkeep.Api.Pretix.Interfaces;
 
