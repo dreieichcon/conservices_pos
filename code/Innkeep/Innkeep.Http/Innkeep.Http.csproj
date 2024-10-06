@@ -9,6 +9,7 @@
         <Version>0.0.1</Version>
         <Title>Lite.Http</Title>
         <Authors>Demolite</Authors>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup>

@@ -1,4 +1,5 @@
-﻿using Innkeep.Api.Auth;
+﻿using Demolite.Db.Interfaces;
+using Innkeep.Api.Auth;
 using Innkeep.Api.Fiskaly.Interfaces.Auth;
 using Innkeep.Api.Fiskaly.Interfaces.Transaction;
 using Innkeep.Api.Fiskaly.Interfaces.Tss;
@@ -21,10 +22,8 @@ using Innkeep.Api.Pretix.Repositories.General;
 using Innkeep.Api.Pretix.Repositories.Order;
 using Innkeep.Api.Pretix.Repositories.Quota;
 using Innkeep.Api.Pretix.Repositories.Sales;
-using Innkeep.Db.Interfaces;
 using Innkeep.Db.Server.Context;
-using Innkeep.Db.Server.Models;
-using Innkeep.Db.Server.Models.Server;
+using Innkeep.Db.Server.Models.Config;
 using Innkeep.Db.Server.Models.Transaction;
 using Innkeep.Db.Server.Repositories.Config;
 using Innkeep.Db.Server.Repositories.Registers;

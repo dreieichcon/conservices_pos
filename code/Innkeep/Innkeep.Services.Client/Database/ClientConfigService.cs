@@ -1,33 +1,23 @@
-﻿using Innkeep.Db.Client.Models;
-using Innkeep.Db.Enum;
-using Innkeep.Db.Interfaces;
-using Innkeep.Services.Client.Interfaces.Hardware;
-using Innkeep.Services.Client.Interfaces.Internal;
+﻿using Demolite.Db.Enum;
+using Demolite.Db.Interfaces;
+using Innkeep.Db.Client.Models;
 using Innkeep.Services.Interfaces;
 using Innkeep.Services.Interfaces.Hardware;
 
 namespace Innkeep.Services.Client.Database;
 
-public class ClientConfigService : IDbService<ClientConfig>
+public class ClientConfigService(IDbRepository<ClientConfig> clientConfigRepository, IHardwareService hardwareService)
+	: IDbService<ClientConfig>
 {
-	private readonly IDbRepository<ClientConfig> _clientConfigRepository;
-	private readonly IHardwareService _hardwareService;
-
-	public ClientConfigService(IDbRepository<ClientConfig> clientConfigRepository, IHardwareService hardwareService)
-	{
-		_clientConfigRepository = clientConfigRepository;
-		_hardwareService = hardwareService;
-	}
-
 	public event EventHandler? ItemsUpdated;
 
 	public ClientConfig? CurrentItem { get; set; }
 
-	public IEnumerable<ClientConfig> Items { get; set; }
+	public IEnumerable<ClientConfig> Items { get; set; } = [];
 
 	public async Task Load()
 	{
-		var dbItem = (await _clientConfigRepository.GetAllAsync()).FirstOrDefault();
+		var dbItem = (await clientConfigRepository.GetAllAsync()).FirstOrDefault();
 
 		if (dbItem is null)
 		{
@@ -37,13 +27,13 @@ public class ClientConfigService : IDbService<ClientConfig>
 
 		dbItem.OperationType = Operation.Updated;
 		CurrentItem = dbItem;
-		CurrentItem.HardwareIdentifier = _hardwareService.ClientIdentifier;
+		CurrentItem.HardwareIdentifier = hardwareService.ClientIdentifier;
 		ItemsUpdated?.Invoke(this, EventArgs.Empty);
 	}
 
 	public async Task<bool> Save()
 	{
-		return (await _clientConfigRepository.CrudAsync(CurrentItem)).Success;
+		return (await clientConfigRepository.CrudAsync(CurrentItem!)).Success;
 	}
 
 	private async Task Create()

@@ -1,6 +1,6 @@
 ﻿using Innkeep.Api.Models.Pretix.Objects.General;
 using Innkeep.Api.Pretix.Interfaces.General;
-using Innkeep.Db.Server.Models;
+using Innkeep.Db.Server.Models.Config;
 using Innkeep.Services.Interfaces;
 using Innkeep.Services.Server.Interfaces.Pretix;
 using Microsoft.AspNetCore.Components;

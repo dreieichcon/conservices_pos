@@ -1,18 +1,17 @@
-﻿using Innkeep.Db.Server.Models;
-using Innkeep.Db.Server.Models.Server;
+﻿using Innkeep.Db.Server.Models.Config;
 
 namespace Innkeep.Services.Server.Interfaces.Registers;
 
 public interface IRegisterService
 {
+	public List<Register> KnownRegisters { get; set; }
+
+	public List<Register> PendingRegisters { get; set; }
+
 	public event EventHandler? PendingRegisterAdded;
 
 	public event EventHandler? ItemsUpdated;
-	
-	public List<Register> KnownRegisters { get; set; }
-	
-	public List<Register> PendingRegisters { get; set; }
-	
+
 	public bool IsKnown(string registerIdentifier);
 
 	public Task Update(string registerIdentifier, string registerDescription, string registerIp);

@@ -1,4 +1,4 @@
-﻿using Innkeep.Db.Interfaces;
+﻿using Demolite.Db.Interfaces;
 using Innkeep.Db.Server.Context;
 using Innkeep.Db.Server.Models.Transaction;
 using Innkeep.Db.Server.Repositories.Core;

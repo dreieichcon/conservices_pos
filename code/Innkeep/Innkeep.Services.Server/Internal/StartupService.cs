@@ -1,4 +1,4 @@
-﻿using Innkeep.Db.Server.Models;
+﻿using Innkeep.Db.Server.Models.Config;
 using Innkeep.Services.Interfaces;
 using Innkeep.Services.Interfaces.Internal;
 using Innkeep.Services.Server.Interfaces.Pretix;

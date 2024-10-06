@@ -1,6 +1,6 @@
-﻿using Innkeep.Db.Enum;
-using Innkeep.Db.Interfaces;
-using Innkeep.Db.Server.Models;
+﻿using Demolite.Db.Enum;
+using Demolite.Db.Interfaces;
+using Innkeep.Db.Server.Models.Config;
 using Innkeep.Services.Interfaces;
 
 namespace Innkeep.Services.Server.Database;
@@ -25,7 +25,7 @@ public class PretixConfigService(IDbRepository<PretixConfig> pretixConfigReposit
 
 		CurrentItem = item;
 		CurrentItem.OperationType = Operation.Updated;
-		
+
 		ItemsUpdated?.Invoke(this, EventArgs.Empty);
 	}
 
@@ -39,7 +39,7 @@ public class PretixConfigService(IDbRepository<PretixConfig> pretixConfigReposit
 
 	private async Task Create()
 	{
-		CurrentItem = new PretixConfig()
+		CurrentItem = new PretixConfig
 		{
 			OperationType = Operation.Created,
 		};

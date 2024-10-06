@@ -1,6 +1,6 @@
 ﻿using Innkeep.Api.Auth;
 using Innkeep.Core.DomainModels.Authentication;
-using Innkeep.Db.Server.Models;
+using Innkeep.Db.Server.Models.Config;
 using Innkeep.Services.Interfaces;
 
 namespace Innkeep.Services.Server.Authentication;
@@ -14,7 +14,7 @@ public class PretixAuthenticationService : IPretixAuthenticationService
 		_pretixService = pretixService;
 		_pretixService.ItemsUpdated += (_, _) => Load();
 	}
-	
+
 	public AuthenticationInfo AuthenticationInfo { get; set; } = new(string.Empty);
 
 	public void Load()

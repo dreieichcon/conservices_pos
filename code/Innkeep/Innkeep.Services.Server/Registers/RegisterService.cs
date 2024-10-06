@@ -1,7 +1,7 @@
-﻿using Innkeep.Api.Internal.Interfaces.Client.Actions;
-using Innkeep.Db.Enum;
-using Innkeep.Db.Interfaces;
-using Innkeep.Db.Server.Models.Server;
+﻿using Demolite.Db.Enum;
+using Demolite.Db.Interfaces;
+using Innkeep.Api.Internal.Interfaces.Client.Actions;
+using Innkeep.Db.Server.Models.Config;
 using Innkeep.Services.Server.Interfaces.Registers;
 
 namespace Innkeep.Services.Server.Registers;
