@@ -34,6 +34,7 @@
         <ProjectReference Include="..\Innkeep.Client.Ui\Innkeep.Client.Ui.csproj"/>
         <ProjectReference Include="..\Innkeep.Strings\Innkeep.Strings.csproj"/>
         <ProjectReference Include="..\Innkeep.Startup\Innkeep.Startup.csproj"/>
+        <ProjectReference Include="..\Innkeep.Updates\Innkeep.Updates.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
