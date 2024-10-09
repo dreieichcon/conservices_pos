@@ -28,6 +28,7 @@ public class KestrelBuilder
 			}
 		);
 		
+		
 		var certificate = new X509Certificate2("./cert/cert.pfx");
 
 		builder.ConfigureWebHostDefaults(

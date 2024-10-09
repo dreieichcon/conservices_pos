@@ -11,40 +11,41 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="db\" />
-      <Folder Include="wwwroot\" />
+        <Folder Include="db\"/>
+        <Folder Include="wwwroot\"/>
     </ItemGroup>
-    
+
     <ItemGroup>
-        <PackageReference Include="DemoPOS" Version="0.0.2" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="8.0.40" />
-        <PackageReference Include="Microsoft.AspNetCore.Owin" Version="8.0.6" />
+        <PackageReference Include="DemoPOS" Version="0.0.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Wpf" Version="8.0.40"/>
+        <PackageReference Include="Microsoft.AspNetCore.Owin" Version="8.0.6"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="MudBlazor" Version="7.6.0" />
+        <PackageReference Include="MudBlazor" Version="7.6.0"/>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.4"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+        <PackageReference Include="Velopack" Version="0.0.626"/>
     </ItemGroup>
-    
+
     <ItemGroup>
-      <ProjectReference Include="..\Innkeep.Db.Client\Innkeep.Db.Client.csproj" />
-      <ProjectReference Include="..\Innkeep.Client.Ui\Innkeep.Client.Ui.csproj" />
-      <ProjectReference Include="..\Innkeep.Strings\Innkeep.Strings.csproj" />
-      <ProjectReference Include="..\Innkeep.Startup\Innkeep.Startup.csproj" />
+        <ProjectReference Include="..\Innkeep.Db.Client\Innkeep.Db.Client.csproj"/>
+        <ProjectReference Include="..\Innkeep.Client.Ui\Innkeep.Client.Ui.csproj"/>
+        <ProjectReference Include="..\Innkeep.Strings\Innkeep.Strings.csproj"/>
+        <ProjectReference Include="..\Innkeep.Startup\Innkeep.Startup.csproj"/>
     </ItemGroup>
-    
+
     <ItemGroup>
-      <Resource Include="resources\Innkeep.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Resource>
+        <Resource Include="resources\Innkeep.png">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Resource>
     </ItemGroup>
-    
+
     <ItemGroup>
-      <None Update="cert\cert.pfx">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+        <None Update="cert\cert.pfx">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>
