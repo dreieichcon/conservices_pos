@@ -9,7 +9,7 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 class Build : NukeBuild
 {
-	const string Version = "0.2.0";
+	const string Version = "0.2.1";
 
 	[Nuke.Common.Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
 	readonly Configuration Configuration = Configuration.Release;

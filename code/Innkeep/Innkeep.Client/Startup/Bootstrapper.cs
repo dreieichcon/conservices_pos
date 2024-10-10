@@ -7,6 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Velopack;
 
+#if RELEASE
+using Innkeep.Updates;
+#endif
+
 namespace Innkeep.Client.Startup;
 
 public static partial class Bootstrapper

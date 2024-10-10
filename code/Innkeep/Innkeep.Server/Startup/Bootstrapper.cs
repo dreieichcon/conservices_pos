@@ -7,6 +7,10 @@ using Innkeep.Startup.Services;
 using Microsoft.EntityFrameworkCore;
 using Velopack;
 
+#if RELEASE
+using Innkeep.Updates;
+#endif
+
 namespace Innkeep.Server.Startup;
 
 public static partial class Bootstrapper
