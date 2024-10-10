@@ -38,12 +38,17 @@
         <ProjectReference Include="..\Innkeep.Server.Ui\Innkeep.Server.Ui.csproj"/>
         <ProjectReference Include="..\Innkeep.Startup\Innkeep.Startup.csproj"/>
     </ItemGroup>
-
+ 
     <ItemGroup>
-        <None Remove="resources\Innkeep.png"/>
         <Resource Include="resources\Innkeep.png">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Resource>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="cert\cert.pfx">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>
