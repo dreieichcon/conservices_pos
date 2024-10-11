@@ -6,7 +6,7 @@ using Innkeep.Api.Fiskaly.Tests.Mock;
 namespace Innkeep.Api.Fiskaly.Tests.Repositories;
 
 [TestClass]
-public class FiskalyTssRepositoryTests
+public class FiskalyTssRepositoryTests : AbstractFiskalyRepositoryTest
 {
 	private FiskalyAuthenticationRepository _authenticationRepository = null!;
 
@@ -15,8 +15,10 @@ public class FiskalyTssRepositoryTests
 	private FiskalyTssRepository _tssRepository;
 
 	[TestInitialize]
-	public void Initialize()
+	public override void Initialize()
 	{
+		base.Initialize();
+		
 		_authenticationRepository = new FiskalyAuthenticationRepository();
 		_authenticationService = new FiskalyAuthenticationServiceMock(_authenticationRepository);
 		_tssRepository = new FiskalyTssRepository(_authenticationService);

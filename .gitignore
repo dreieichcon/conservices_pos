@@ -21,9 +21,6 @@ code/Innkeep/Innkeep.Server/db/transactions/
 # ignore environment variables
 *.env
 
-**/TestAuth.cs
-
-
 build/_build.csproj.DotSettings
 
 **/Auth.cs
