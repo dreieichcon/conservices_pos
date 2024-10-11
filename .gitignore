@@ -1,5 +1,6 @@
 # ignore all idea files
 **/.idea/**
+build/_build.csproj.DotSettings
 
 # ignore all build directories
 **/bin/*
@@ -20,10 +21,6 @@ code/Innkeep/Innkeep.Server/db/transactions/
 
 # ignore environment variables
 *.env
-
-build/_build.csproj.DotSettings
-
-**/Auth.cs
 
 # gitignore for osx
 .DS_Store
