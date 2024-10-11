@@ -49,7 +49,7 @@ steps:
 
       $WebResponse = Invoke-WebRequest -Uri $url
       # get the list of links, skip the first one ("../") and download the files
-      $WebResponse.Links | Select-Object -ExpandProperty href -Skip 1 | ForEach-Object {
+      $WebResponse.Links | Select-Object -ExpandProperty href | Where-Object { $_ -match "^[^\?^/].+$" } | ForEach-Object {
           Write-Host "Downloading file '$_'"
           $filePath = Join-Path -Path $outputdir -ChildPath $_
           $fileUrl  = '{0}/{1}' -f $url.TrimEnd('/'), $_
