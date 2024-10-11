@@ -32,11 +32,9 @@ steps:
     Contents: 'tests.env'
     TargetFolder: '$(Build.SourcesDirectory)/code/Innkeep/Env'
 
-- task: VSBuild@1
+- task: CmdLine@2
   inputs:
-    solution: '$(solution)'
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    script: './build.cmd'
 
 - task: VSTest@2
   inputs:

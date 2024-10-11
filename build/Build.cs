@@ -2,11 +2,15 @@ using System;
 using System.IO;
 using System.Management.Automation;
 using Nuke.Common;
+using Nuke.Common.CI.AzurePipelines;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tools.DotNet;
 using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
+[AzurePipelines(
+	AzurePipelinesImage.WindowsLatest,
+	InvokedTargets = new[] { nameof(Pack) })]
 class Build : NukeBuild
 {
 	const string Version = "0.2.1";
