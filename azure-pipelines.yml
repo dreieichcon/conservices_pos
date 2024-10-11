@@ -3,11 +3,6 @@
 # Add steps that publish symbols, save build artifacts, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
-trigger:
-  branches:
-    include:
-    - /refs/heads/release
-
 pool:
   vmImage: 'windows-latest'
 
@@ -34,9 +29,11 @@ steps:
     Contents: 'tests.env'
     TargetFolder: '$(Build.SourcesDirectory)/code/Innkeep/Env'
 
-- task: CmdLine@2
+- task: VSBuild@1
   inputs:
-    script: '$(Build.SourcesDirectory)/code/Innkeep/build.cmd'
+    solution: '$(solution)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
 
 - task: VSTest@2
   inputs:
