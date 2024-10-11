@@ -86,29 +86,31 @@ steps:
     script: '$(Build.SourcesDirectory)/code/Innkeep/build.cmd'
 
 - task: CopyFiles@2
+  displayName: 'Copy server pack to staging directory'
   inputs:
-    displayName: 'Copy server pack to staging directory'
     SourceFolder: '$(Build.SourcesDirectory)/release/server/pack/'
     contents: '*'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/server/pack'
 
 - task: CopyFiles@2
+  displayName: 'Copy client pack to staging directory'
   inputs:
-    displayName: 'Copy client pack to staging directory'
     SourceFolder: '$(Build.SourcesDirectory)/release/client/pack/'
     contents: '*'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/client/pack'
 
 - task: CopyFilesOverSSH@0
+  displayName: 'Copy server pack to release server'
   inputs:
     sshEndpoint: 'Conservices Update Account'
     sourceFolder: '$(Build.ArtifactStagingDirectory)/server/pack'
     contents: '*'
-    targetFolder: '/var/www/hosts/update/innkeep/server'
+    targetFolder: '/var/www/hosts/updates/public/innkeep/server'
 
 - task: CopyFilesOverSSH@0
+  displayName: 'Copy server pack to release server'
   inputs:
     sshEndpoint: 'Conservices Update Account'
     sourceFolder: '$(Build.ArtifactStagingDirectory)/client/pack'
     contents: '*'
-    targetFolder: '/var/www/hosts/update/innkeep/client'
+    targetFolder: '/var/www/hosts/updates/public/innkeep/client'
