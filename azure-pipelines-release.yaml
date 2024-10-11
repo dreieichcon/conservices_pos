@@ -1,0 +1,43 @@
+# .NET Desktop
+# Build and run tests for .NET Desktop or Windows classic desktop solutions.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
+
+trigger:
+  branches:
+    include:
+    - 'refs/heads/release'
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: NuGetToolInstaller@1
+
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: DownloadSecureFile@1
+  name: testsEnv
+  inputs:
+    secureFile: tests.env
+  
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    Contents: 'tests.env'
+    TargetFolder: '$(Build.SourcesDirectory)/code/Innkeep/Env'
+
+- task: CmdLine@2
+  inputs:
+    script: '$(Build.SourcesDirectory)/code/Innkeep/build.cmd'
+
+- task: VSTest@2
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
