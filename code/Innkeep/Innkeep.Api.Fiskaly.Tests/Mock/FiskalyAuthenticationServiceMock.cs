@@ -1,6 +1,5 @@
 ﻿using Innkeep.Api.Auth;
 using Innkeep.Api.Fiskaly.Interfaces.Auth;
-using Innkeep.Api.Fiskaly.Tests.Data;
 using Innkeep.Api.Models.Fiskaly.Objects.Tss;
 using Innkeep.Core.DomainModels.Authentication;
 using Innkeep.Db.Server.Models.Config;
@@ -13,17 +12,19 @@ public class FiskalyAuthenticationServiceMock : IFiskalyAuthenticationService
 
 	public FiskalyAuthenticationServiceMock(IFiskalyAuthenticationRepository authenticationRepository)
 	{
-		var testAuth = new TestAuth();
+		var key = Environment.GetEnvironmentVariable("FISKALY_API_KEY") ?? string.Empty;
+		var secret = Environment.GetEnvironmentVariable("FISKALY_API_SECRET") ?? string.Empty;
 
 		AuthenticationInfo = new AuthenticationInfo
 		{
-			Key = testAuth.FiskalyApiKey,
-			Secret = testAuth.FiskalyApiSecret,
+			Key = key,
+			Secret = secret,
 		};
 
 		CurrentConfig = new FiskalyTseConfig
 		{
-			Id = Guid.NewGuid().ToString(),
+			Id = Guid.NewGuid()
+					.ToString(),
 			TseId = string.Empty,
 		};
 
