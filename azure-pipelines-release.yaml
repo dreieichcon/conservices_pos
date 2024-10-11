@@ -18,28 +18,68 @@ variables:
 steps:
 - task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
+- task: CmdLine@2
+  displayName: 'Install Velopack Tool'
   inputs:
-    restoreSolution: '$(solution)'
+    script: 'dotnet tool update -g vpk'
 
 - task: DownloadSecureFile@1
+  displayName: 'Download Env File'
   name: testsEnv
   inputs:
     secureFile: tests.env
   
 - task: CopyFiles@2
+  displayName: 'Copy Env File to Env Dir'
   inputs:
     SourceFolder: '$(Agent.TempDirectory)'
     Contents: 'tests.env'
     TargetFolder: '$(Build.SourcesDirectory)/code/Innkeep/Env'
 
 - task: CmdLine@2
+  displayName: 'Install directory-downloader'
+  inputs:
+    script: 'pip install directory-downloader'
+
+- task: PythonScript@0
+  displayName: 'Download latest client release'
+  inputs:
+    scriptSource: inline
+    script: |
+    import asyncio
+    from directory_downloader import DDownloader
+
+    url = "https://updates.conservices.de/innkeep/client/"
+    downloader = DDownloader()
+    await downloader.crawl(url)
+    await downloader.download_files(full_directory=r"$(Build.SourcesDirectory)/release/client/pack/")
+
+- task: CmdLine@2
   inputs:
     script: '$(Build.SourcesDirectory)/code/Innkeep/build.cmd'
 
-- task: CopyFilesOverSSH@0
+- task: CopyFiles@2
   inputs:
-    sshEndpoint: 'Conservices Update Account'
-    sourceFolder: '$(Build.SourcesDirectory)/release/client/pack'
+    SourceFolder: '$(Build.SourcesDirectory)/release/server/pack/'
     contents: '*'
-    targetFolder: '/var/www/hosts/update/innkeep/client'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/server/pack'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Build.SourcesDirectory)/release/client/pack/'
+    contents: '*'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/client/pack'
+
+#- task: CopyFilesOverSSH@0
+#  inputs:
+#    sshEndpoint: 'Conservices Update Account'
+#    sourceFolder: '$(Build.ArtifactStagingDirectory)/server/pack'
+#    contents: '*'
+#    targetFolder: '/var/www/hosts/update/innkeep/server'
+#
+#- task: CopyFilesOverSSH@0
+#  inputs:
+#    sshEndpoint: 'Conservices Update Account'
+#    sourceFolder: '$(Build.ArtifactStagingDirectory)/client/pack'
+#    contents: '*'
+#    targetFolder: '/var/www/hosts/update/innkeep/client'
