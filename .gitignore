@@ -1,31 +1,32 @@
+# ignore all idea files
+**/.idea/**
+
+# ignore all build directories
+**/bin/*
+**/obj/*
+**/release/*
+**/temp/*
+
+# ignore all local database files
 client.db*
 server.db*
+*.db-shm
+*.db-wal
+code/Innkeep/Innkeep.Server/db/transactions/
 
-**/bin/*
+# ignore certificate and log files
+**/cert/**
+**/log/**
 
-**/obj/*
-
-**/release/*
-
-**/temp/*
-code/Innkeep/Innkeep.Client.WebUi/config.json
-
-code/Innkeep/Innkeep.Client.WebUi/esc_pos.temp
+# ignore environment variables
+*.env
 
 **/TestAuth.cs
 
-*.db-shm
 
-*.db-wal
 build/_build.csproj.DotSettings
 
 **/Auth.cs
 
-code/Innkeep/Innkeep.Server/db/transactions/
-
-**/cert/**
-**/log/**
-
+# gitignore for osx
 .DS_Store
-
-**/.idea/**
