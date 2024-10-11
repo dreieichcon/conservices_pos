@@ -108,7 +108,7 @@ steps:
     targetFolder: '/var/www/hosts/updates/public/innkeep/server'
 
 - task: CopyFilesOverSSH@0
-  displayName: 'Copy server pack to release server'
+  displayName: 'Copy client pack to release server'
   inputs:
     sshEndpoint: 'Conservices Update Account'
     sourceFolder: '$(Build.ArtifactStagingDirectory)/client/pack'
