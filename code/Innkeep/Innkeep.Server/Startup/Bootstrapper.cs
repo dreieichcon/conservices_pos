@@ -1,4 +1,6 @@
-﻿using Innkeep.Db.Server.Context;
+﻿using System.Windows;
+using Innkeep.Core.Env;
+using Innkeep.Db.Server.Context;
 using Innkeep.Services.Interfaces.Db;
 using Innkeep.Services.Server.Interfaces.Pretix;
 using Innkeep.Services.Server.Interfaces.Registers;
@@ -6,7 +8,6 @@ using Innkeep.Startup.Database;
 using Innkeep.Startup.Services;
 using Microsoft.EntityFrameworkCore;
 using Velopack;
-
 #if RELEASE
 using Innkeep.Updates;
 #endif
@@ -17,6 +18,8 @@ public static partial class Bootstrapper
 {
 	public static void Run()
 	{
+		LoadEnvironmentVariables();
+
 		// Setup Serilog for the Client
 		LoggingManager.InitializeLogger("Innkeep Server");
 
@@ -35,7 +38,8 @@ public static partial class Bootstrapper
 		DatabaseCreator.EnsureDbCreated(host.Services.GetRequiredService<IDbContextFactory<InnkeepServerContext>>());
 
 		// Initialize service instances
-		Task.Run(async () => InitializeServices(host))
+		Task
+			.Run(async () => InitializeServices(host))
 			.GetAwaiter()
 			.GetResult();
 
@@ -49,8 +53,9 @@ public static partial class Bootstrapper
 	/// </summary>
 	private static void ConfigureUpdates()
 	{
-		VelopackApp.Build()
-					.Run();
+		VelopackApp
+			.Build()
+			.Run();
 
 # if RELEASE
 		Task.Run(async () => await InnkeepUpdater.CheckForUpdates("https://updates.conservices.de/innkeep/client"))
@@ -67,8 +72,9 @@ public static partial class Bootstrapper
 	{
 		var salesItemService = host.Services.GetRequiredService<IPretixSalesItemService>();
 
-		await host.Services.GetRequiredService<IRegisterService>()
-				.Load();
+		await host
+			.Services.GetRequiredService<IRegisterService>()
+			.Load();
 
 		Task.Run(async () => await salesItemService.ReloadTimer());
 
@@ -80,5 +86,19 @@ public static partial class Bootstrapper
 			var factory = host.Services.GetRequiredService<IDbContextFactory<InnkeepTransactionContext>>();
 			DatabaseCreator.EnsureDbCreated(factory);
 		}
+	}
+
+	private static void LoadEnvironmentVariables()
+	{
+		// load environment variables
+		var result = Env.Load("./env/app.env");
+
+		if (!result)
+			MessageBox.Show(
+				"Error while loading the environment variables. Logging to discord will be disabled.",
+				"Error",
+				MessageBoxButton.OK,
+				MessageBoxImage.Error
+			);
 	}
 }

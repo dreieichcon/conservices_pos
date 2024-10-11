@@ -50,9 +50,21 @@
         <None Update="cert\cert.pfx">
             <CopyToOutputDirectory>Never</CopyToOutputDirectory>
         </None>
+        <None Update="env\app.env">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+        <None Update="env\app.env.example">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <ItemGroup Condition=" '$(Configuration)' == 'Debug' ">
         <None Update="cert\cert.pfx">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="env\app.env.example">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <None Update="env\app.env">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>

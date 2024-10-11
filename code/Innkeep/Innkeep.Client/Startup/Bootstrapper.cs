@@ -1,4 +1,6 @@
-﻿using Innkeep.Db.Client.Context;
+﻿using System.Windows;
+using Innkeep.Core.Env;
+using Innkeep.Db.Client.Context;
 using Innkeep.Services.Client.Interfaces.Pos;
 using Innkeep.Startup.Database;
 using Innkeep.Startup.Services;
@@ -6,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Velopack;
-
 #if RELEASE
 using Innkeep.Updates;
 #endif
@@ -17,6 +18,8 @@ public static partial class Bootstrapper
 {
 	public static void Run()
 	{
+		LoadEnvironmentVariables();
+
 		// Setup Serilog for the Client
 		LoggingManager.InitializeLogger("Innkeep Client");
 
@@ -47,8 +50,9 @@ public static partial class Bootstrapper
 	/// </summary>
 	private static void ConfigureUpdates()
 	{
-		VelopackApp.Build()
-					.Run();
+		VelopackApp
+			.Build()
+			.Run();
 
 # if RELEASE
 		Task.Run(async () => await InnkeepUpdater.CheckForUpdates("https://updates.conservices.de/innkeep/client"))
@@ -64,5 +68,19 @@ public static partial class Bootstrapper
 	private static void InitializeServices(IHost host)
 	{
 		host.Services.GetRequiredService<ISalesItemService>();
+	}
+
+	private static void LoadEnvironmentVariables()
+	{
+		// load environment variables
+		var result = Env.Load("./env/app.env");
+
+		if (!result)
+			MessageBox.Show(
+				"Error while loading the environment variables. Logging to discord will be disabled.",
+				"Error",
+				MessageBoxButton.OK,
+				MessageBoxImage.Error
+			);
 	}
 }
