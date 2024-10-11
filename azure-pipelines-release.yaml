@@ -37,7 +37,9 @@ steps:
   inputs:
     script: '$(Build.SourcesDirectory)/code/Innkeep/build.cmd'
 
-- task: VSTest@2
+- task: CopyFilesOverSSH@0
   inputs:
-    platform: '$(buildPlatform)'
-    configuration: '$(buildConfiguration)'
+    sshEndpoint: 'Conservices Update Account'
+    sourceFolder: '$(Build.SourcesDirectory)/release/client/pack'
+    contents: '*'
+    targetFolder: '/var/www/hosts/update/innkeep/client'
