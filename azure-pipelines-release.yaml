@@ -37,38 +37,34 @@ steps:
     TargetFolder: '$(Build.SourcesDirectory)/code/Innkeep/Env'
 
 - task: CmdLine@2
-  displayName: 'Install directory-downloader'
-  inputs:
-    script: 'pip install directory-downloader'
-
-- task: PythonScript@0
   displayName: 'Download latest client release'
   inputs:
-    scriptSource: inline
-    script: |
-    import asyncio
-    from directory_downloader import DDownloader
-
-    url = "https://updates.conservices.de/innkeep/client/"
-    downloader = DDownloader()
-    await downloader.crawl(url)
-    await downloader.download_files(full_directory=r"$(Build.SourcesDirectory)/release/client/pack/")
+    script: wget -r -nH --cut-dirs=3 https://updates.conservices.de/innkeep/client/ -O '$(Build.SourcesDirectory)/release/client/pack/'
 
 - task: CmdLine@2
+  displayName: 'Run NUKE Tool'
   inputs:
     script: '$(Build.SourcesDirectory)/code/Innkeep/build.cmd'
 
 - task: CopyFiles@2
   inputs:
+    displayName: 'Copy server pack to staging directory'
     SourceFolder: '$(Build.SourcesDirectory)/release/server/pack/'
     contents: '*'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/server/pack'
 
 - task: CopyFiles@2
   inputs:
+    displayName: 'Copy client pack to staging directory'
     SourceFolder: '$(Build.SourcesDirectory)/release/client/pack/'
     contents: '*'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/client/pack'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/client/pack'
+    ArtifactName: 'client'
+    publishLocation: 'Container'
 
 #- task: CopyFilesOverSSH@0
 #  inputs:
