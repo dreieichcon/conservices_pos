@@ -37,18 +37,23 @@
         <ProjectReference Include="..\Innkeep.Strings\Innkeep.Strings.csproj"/>
         <ProjectReference Include="..\Innkeep.Server.Ui\Innkeep.Server.Ui.csproj"/>
         <ProjectReference Include="..\Innkeep.Startup\Innkeep.Startup.csproj"/>
-        <ProjectReference Include="..\Innkeep.Updates\Innkeep.Updates.csproj" />
+        <ProjectReference Include="..\Innkeep.Updates\Innkeep.Updates.csproj"/>
     </ItemGroup>
- 
+
     <ItemGroup>
         <Resource Include="resources\Innkeep.png">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Resource>
     </ItemGroup>
 
-    <ItemGroup>
+    <ItemGroup Condition=" '$(Configuration)' == 'Release' ">
         <None Update="cert\cert.pfx">
             <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <None Update="cert\cert.pfx">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 
