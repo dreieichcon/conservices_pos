@@ -21,6 +21,17 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
+- task: DownloadSecureFile@1
+  name: testsEnv
+  inputs:
+    secureFile: tests.env
+  
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(Agent.TempDirectory)'
+    Contents: 'tests.env'
+    TargetFolder: '$(Build.SourcesDirectory)/code/Innkeep/Env'
+
 - task: VSBuild@1
   inputs:
     solution: '$(solution)'
