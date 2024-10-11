@@ -4,7 +4,9 @@
 # https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
 
 trigger:
-- release
+  branches:
+    include:
+    - /refs/heads/release
 
 pool:
   vmImage: 'windows-latest'
@@ -34,7 +36,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: './build.cmd'
+    script: '$(Build.SourcesDirectory)/code/Innkeep/build.cmd'
 
 - task: VSTest@2
   inputs:
