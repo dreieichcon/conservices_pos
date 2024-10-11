@@ -44,6 +44,8 @@ steps:
       $outputdir = '$(Build.SourcesDirectory)/release/client/pack/'
       $url       = 'https://updates.conservices.de/innkeep/client/'
 
+      New-Item -ItemType Directory -Force -Path $outputdir
+
       # enable TLS 1.2 and TLS 1.1 protocols
       [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12, [Net.SecurityProtocolType]::Tls11
 
