@@ -1,18 +1,18 @@
 ﻿using Innkeep.Api.Pretix.Repositories.General;
-using Innkeep.Api.Pretix.Tests.Data;
 using Innkeep.Api.Pretix.Tests.Mock;
 
 namespace Innkeep.Api.Pretix.Tests.Repositories;
 
 [TestClass]
-public class PretixEventRepositoryTests
+public class PretixEventRepositoryTests : AbstractPretixRepositoryTest
 {
-	private readonly ITestAuth _testAuth = new TestAuth();
 	private PretixEventRepository _eventRepository = null!;
 
 	[TestInitialize]
-	public void Initialize()
+	public override void Initialize()
 	{
+		base.Initialize();
+
 		var authenticationService = new PretixAuthenticationServiceMock();
 		_eventRepository = new PretixEventRepository(authenticationService);
 	}
@@ -20,11 +20,11 @@ public class PretixEventRepositoryTests
 	[TestMethod]
 	public async Task Get_Events_ListIncludesTestEvent()
 	{
-		var result = await _eventRepository.GetEvents(_testAuth.PretixTestOrganizerSlug);
+		var result = await _eventRepository.GetEvents(PretixOrganizerSlug);
 
 		Assert.IsTrue(result.Object?.Any());
 
-		var testResult = result.Object!.FirstOrDefault(x => x.Slug.Equals(_testAuth.PretixTestEventSlug));
+		var testResult = result.Object!.FirstOrDefault(x => x.Slug.Equals(PretixEventSlug));
 
 		Assert.IsNotNull(testResult);
 	}
@@ -32,19 +32,16 @@ public class PretixEventRepositoryTests
 	[TestMethod]
 	public async Task Get_Event_ReturnsPretixEvent()
 	{
-		var result = await _eventRepository.GetEvent(_testAuth.PretixTestOrganizerSlug, _testAuth.PretixTestEventSlug);
+		var result = await _eventRepository.GetEvent(PretixOrganizerSlug, PretixEventSlug);
 
 		Assert.IsTrue(result.IsSuccess);
-		Assert.AreEqual(_testAuth.PretixTestEventSlug, result.Object?.Slug);
+		Assert.AreEqual(PretixEventSlug, result.Object?.Slug);
 	}
 
 	[TestMethod]
 	public async Task Get_EventSettings_ListIncludesTestEvent()
 	{
-		var result = await _eventRepository.GetEventSettings(
-			_testAuth.PretixTestOrganizerSlug,
-			_testAuth.PretixTestEventSlug
-		);
+		var result = await _eventRepository.GetEventSettings(PretixOrganizerSlug, PretixEventSlug);
 
 		Assert.IsTrue(result.IsSuccess);
 	}
