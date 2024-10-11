@@ -36,10 +36,25 @@ steps:
     Contents: 'tests.env'
     TargetFolder: '$(Build.SourcesDirectory)/code/Innkeep/Env'
 
-- task: CmdLine@2
+- task: PowerShell@2
   displayName: 'Download latest client release'
   inputs:
-    script: wget -r -nH --cut-dirs=3 https://updates.conservices.de/innkeep/client/ -O '$(Build.SourcesDirectory)/release/client/pack/'
+    targetType: 'inline'
+    script: |
+      $outputdir = '$(Build.SourcesDirectory)/release/client/pack/'
+      $url       = 'https://updates.conservices.de/innkeep/client/'
+
+      # enable TLS 1.2 and TLS 1.1 protocols
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12, [Net.SecurityProtocolType]::Tls11
+
+      $WebResponse = Invoke-WebRequest -Uri $url
+      # get the list of links, skip the first one ("../") and download the files
+      $WebResponse.Links | Select-Object -ExpandProperty href -Skip 1 | ForEach-Object {
+          Write-Host "Downloading file '$_'"
+          $filePath = Join-Path -Path $outputdir -ChildPath $_
+          $fileUrl  = '{0}/{1}' -f $url.TrimEnd('/'), $_
+          Invoke-WebRequest -Uri $fileUrl -OutFile $filePath
+      }
 
 - task: CmdLine@2
   displayName: 'Run NUKE Tool'
