@@ -58,6 +58,28 @@ steps:
           Invoke-WebRequest -Uri $fileUrl -OutFile $filePath
       }
 
+- task: PowerShell@2
+  displayName: 'Download latest server release'
+  inputs:
+    targetType: 'inline'
+    script: |
+      $outputdir = '$(Build.SourcesDirectory)/release/server/pack/'
+      $url       = 'https://updates.conservices.de/innkeep/server/'
+
+      New-Item -ItemType Directory -Force -Path $outputdir
+
+      # enable TLS 1.2 and TLS 1.1 protocols
+      [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12, [Net.SecurityProtocolType]::Tls11
+
+      $WebResponse = Invoke-WebRequest -Uri $url
+      # get the list of links, skip the first one ("../") and download the files
+      $WebResponse.Links | Select-Object -ExpandProperty href | Where-Object { $_ -match "^[^\?^/].+$" } | ForEach-Object {
+          Write-Host "Downloading file '$_'"
+          $filePath = Join-Path -Path $outputdir -ChildPath $_
+          $fileUrl  = '{0}/{1}' -f $url.TrimEnd('/'), $_
+          Invoke-WebRequest -Uri $fileUrl -OutFile $filePath
+      }
+
 - task: CmdLine@2
   displayName: 'Run NUKE Tool'
   inputs:
@@ -77,22 +99,16 @@ steps:
     contents: '*'
     TargetFolder: '$(Build.ArtifactStagingDirectory)/client/pack'
 
-- task: PublishBuildArtifacts@1
+- task: CopyFilesOverSSH@0
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/client/pack'
-    ArtifactName: 'client'
-    publishLocation: 'Container'
+    sshEndpoint: 'Conservices Update Account'
+    sourceFolder: '$(Build.ArtifactStagingDirectory)/server/pack'
+    contents: '*'
+    targetFolder: '/var/www/hosts/update/innkeep/server'
 
-#- task: CopyFilesOverSSH@0
-#  inputs:
-#    sshEndpoint: 'Conservices Update Account'
-#    sourceFolder: '$(Build.ArtifactStagingDirectory)/server/pack'
-#    contents: '*'
-#    targetFolder: '/var/www/hosts/update/innkeep/server'
-#
-#- task: CopyFilesOverSSH@0
-#  inputs:
-#    sshEndpoint: 'Conservices Update Account'
-#    sourceFolder: '$(Build.ArtifactStagingDirectory)/client/pack'
-#    contents: '*'
-#    targetFolder: '/var/www/hosts/update/innkeep/client'
+- task: CopyFilesOverSSH@0
+  inputs:
+    sshEndpoint: 'Conservices Update Account'
+    sourceFolder: '$(Build.ArtifactStagingDirectory)/client/pack'
+    contents: '*'
+    targetFolder: '/var/www/hosts/update/innkeep/client'
