@@ -112,11 +112,11 @@
                                     }
                                     @if (CurrentTss.State is TssState.Uninitialized or TssState.Initialized)
                                     {
-                                        <MudExpansionPanel Text="Disable Tss">
+                                        <MudExpansionPanel Text="Deactivate Tss">
                                             <MudStack Class="py-2">
                                                 <MudText>
-                                                    You can disable your Tss with the button below.
-                                                    Please note that this cannot be undone!
+                                                    You can deactivate your Tss with the button below.
+                                                    Please note that this is permanent and cannot be undone!
                                                 </MudText>
                                                 <MudButton
                                                     Color="Color.Primary"
@@ -127,6 +127,20 @@
                                             </MudStack>
                                         </MudExpansionPanel>
                                     }
+                                    <MudExpansionPanel Text="Set Tss PUK">
+                                        <MudStack Class="py-2">
+                                            <MudText>
+                                                You can set the PUK for this tss manually if it is not known in the database.
+                                            </MudText>
+                                            <MudTextField T="string" @bind-Value="TssPuk" Variant="Variant.Outlined" InputType="InputType.Password"/>
+                                            <MudButton
+                                                Color="Color.Primary"
+                                                Variant="Variant.Outlined"
+                                                @onclick="SaveTssPuk">
+                                                Save PUK
+                                            </MudButton>
+                                        </MudStack>
+                                    </MudExpansionPanel>
                                 </MudExpansionPanels>
                                 <MudStack>
                                     @if (TaskInProgress)

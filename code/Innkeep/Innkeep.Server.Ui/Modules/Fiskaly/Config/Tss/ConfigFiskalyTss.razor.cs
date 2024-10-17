@@ -32,6 +32,8 @@ public partial class ConfigFiskalyTss
 		set => TssService.CurrentTss = value;
 	}
 
+    private string TssPuk { get; set; } = string.Empty;
+
 	private async Task Save()
 	{
 		var result = await TssService.Save();
@@ -72,8 +74,10 @@ public partial class ConfigFiskalyTss
 	}
 
 	private async Task Disable()
-	{
-	}
+    {
+        var result = await TssService.DisableTss();
+        SetSnackbar(result, "Successfully disabled Tss.", "Error while disabling Tss.");
+    }
 
 	private async Task Initialize()
 	{
@@ -94,4 +98,12 @@ public partial class ConfigFiskalyTss
 		else
 			Snackbar.Add(failureMessage, Severity.Error);
 	}
+
+    private async Task SaveTssPuk()
+    {
+        if (string.IsNullOrEmpty(AuthenticationService.CurrentConfig.TsePuk))
+            AuthenticationService.CurrentConfig.TsePuk = TssPuk;
+
+        await Save();
+    }
 }

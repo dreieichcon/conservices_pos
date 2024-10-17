@@ -80,7 +80,23 @@ public partial class FiskalyDataImportExport : ComponentBase
 
 		var (fileContent, password) = (Tuple<byte[], string>)result.Data!;
 
-		var decrypted = await EncryptionHelper.DecryptAsync(fileContent, password);
+        string decrypted = "";
+        try
+        {
+            decrypted = await EncryptionHelper.DecryptAsync(fileContent, password);
+        }
+        catch (Exception ex)
+        {
+            try
+            {
+                decrypted = await EncryptionHelper.DecryptAsync(fileContent, password, false);
+            }
+            catch (Exception ex2)
+            {
+                Snackbar.Add("Could not import config.", Severity.Error);
+            }
+        }
+		
 
 		FiskalyTseConfig? deserialized;
 

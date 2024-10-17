@@ -18,6 +18,8 @@ public interface IFiskalyTssService
 
 	public Task<bool> Deploy();
 
+    public Task<bool> DisableTss();
+
 	public Task<bool> ChangeAdminPin();
 
 	public Task<bool> InitializeTss();

@@ -16,4 +16,6 @@ public interface IFiskalyTssRepository
 	public Task<IHttpResponse<bool>> ChangeAdminPin(FiskalyTss current);
 
 	public Task<IHttpResponse<FiskalyTss>> InitializeTss(FiskalyTss current);
+
+    public Task<IHttpResponse<FiskalyTss>> DisableTss(FiskalyTss current);
 }
