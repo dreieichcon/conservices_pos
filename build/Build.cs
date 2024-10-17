@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Management.Automation;
+using Innkeep.Strings;
 using Nuke.Common;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
@@ -9,7 +10,6 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 class Build : NukeBuild
 {
-	const string Version = "0.2.1";
 
 	[Nuke.Common.Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
 	readonly Configuration Configuration = Configuration.Release;
@@ -146,7 +146,7 @@ class Build : NukeBuild
 		var cdCommand = $"cd \"{outputDirectory}\"";
 
 		var packCommand =
-			$@"vpk pack --packId {packId} --packVersion {Version} --packDir .\build --mainExe {packId}.exe --outputDir .\pack";
+			$@"vpk pack --packId {packId} --packVersion {AppVersion.Version} --packDir .\build --mainExe {packId}.exe --outputDir .\pack";
 
 		ps.AddScript(cdCommand);
 		ps.AddScript(packCommand);

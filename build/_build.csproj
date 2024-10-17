@@ -16,4 +16,8 @@
     <PackageReference Include="Nuke.Common" Version="8.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\code\Innkeep\Innkeep.Strings\Innkeep.Strings.csproj" />
+  </ItemGroup>
+
 </Project>
