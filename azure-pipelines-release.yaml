@@ -8,6 +8,8 @@ trigger:
     include:
     - 'refs/heads/release'
 
+pr: none
+
 pool:
   vmImage: 'windows-latest'
 
