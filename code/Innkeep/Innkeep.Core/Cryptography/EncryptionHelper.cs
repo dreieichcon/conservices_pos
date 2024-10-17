@@ -25,11 +25,13 @@ public static class EncryptionHelper
 		0x16,
 	};
 
-	public static async Task<string> DecryptAsync(byte[] encrypted, string password)
+	public static async Task<string> DecryptAsync(byte[] encrypted, string password, bool padding = true)
 	{
 		using var aes = Aes.Create();
 		aes.Key = DeriveKeyFromPassword(password);
 		aes.IV = Iv;
+        if (padding)
+            aes.Padding = PaddingMode.PKCS7;
 		using MemoryStream input = new(encrypted);
 		await using CryptoStream cryptoStream = new(input, aes.CreateDecryptor(), CryptoStreamMode.Read);
 		using MemoryStream output = new();
@@ -37,11 +39,13 @@ public static class EncryptionHelper
 		return Encoding.Unicode.GetString(output.ToArray());
 	}
 
-	public static async Task<byte[]> EncryptAsync(string clearText, string password)
+	public static async Task<byte[]> EncryptAsync(string clearText, string password, bool padding = true)
 	{
 		using var aes = Aes.Create();
 		aes.Key = DeriveKeyFromPassword(password);
 		aes.IV = Iv;
+        if (padding)
+            aes.Padding = PaddingMode.PKCS7;
 		using MemoryStream output = new();
 		await using CryptoStream cryptoStream = new(output, aes.CreateEncryptor(), CryptoStreamMode.Write);
 		await cryptoStream.WriteAsync(Encoding.Unicode.GetBytes(clearText));

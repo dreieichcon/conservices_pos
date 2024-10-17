@@ -25,6 +25,13 @@ public partial class FiskalyTssService
 		return result.IsSuccess;
 	}
 
+    public async Task<bool> DisableTss()
+    {
+        var result = await tssRepository.DisableTss(CurrentTss!);
+        
+        return result.IsSuccess;
+    }
+
 	public async Task<bool> ChangeAdminPin()
 	{
 		var result = await tssRepository.ChangeAdminPin(CurrentTss!);

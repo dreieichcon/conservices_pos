@@ -48,29 +48,11 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 		return await Patch<FiskalyTssStateRequest, FiskalyTss>(endpoint, payload);
 	}
 
-	public async Task<IHttpResponse<FiskalyTss>> InitializeTss(FiskalyTss current)
-	{
-		var authResult = await AuthenticateAdmin(current.Id);
+	public async Task<IHttpResponse<FiskalyTss>> InitializeTss(FiskalyTss current) => await SetTssState(current, TssState.Initialized);
 
-		if (!authResult.IsSuccess)
-			return HttpResponse<FiskalyTss>.FromResult(authResult, _ => null);
+    public async Task<IHttpResponse<FiskalyTss>> DisableTss(FiskalyTss current) => await SetTssState(current, TssState.Disabled);
 
-		var endpoint = FiskalyUrlBuilder.Endpoints.SpecificTss(current.Id);
-
-		var payload = new FiskalyTssStateRequest
-		{
-			State = TssState.Initialized,
-			Description = current.Description,
-		};
-
-		var result = await Patch<FiskalyTssStateRequest, FiskalyTss>(endpoint, payload);
-
-		await LogoutAdmin(current.Id);
-
-		return result;
-	}
-
-	public async Task<IHttpResponse<bool>> ChangeAdminPin(FiskalyTss current)
+    public async Task<IHttpResponse<bool>> ChangeAdminPin(FiskalyTss current)
 	{
 		var uri = FiskalyUrlBuilder.Endpoints.SpecificTss(current.Id).Admin;
 
@@ -87,10 +69,32 @@ public class FiskalyTssRepository(IFiskalyAuthenticationService authenticationSe
 		return HttpResponse<bool>.FromResult(result, _ => result.IsSuccess);
 	}
 
-	protected override IFlurlRequest CreateRequest(IUrlBuilder<FiskalyParameterBuilder> urlBuilder)
+    protected override IFlurlRequest CreateRequest(IUrlBuilder<FiskalyParameterBuilder> urlBuilder)
 	{
 		var request = base.CreateRequest(urlBuilder);
 		request.WithTimeout(TimeSpan.FromMilliseconds(Timeout));
 		return request;
 	}
+
+    private async Task<IHttpResponse<FiskalyTss>> SetTssState(FiskalyTss current, TssState state)
+    {
+        var authResult = await AuthenticateAdmin(current.Id);
+
+        if (!authResult.IsSuccess)
+            return HttpResponse<FiskalyTss>.FromResult(authResult, _ => null);
+
+        var endpoint = FiskalyUrlBuilder.Endpoints.SpecificTss(current.Id);
+
+        var payload = new FiskalyTssStateRequest
+        {
+            State = state,
+            Description = current.Description,
+        };
+
+        var result = await Patch<FiskalyTssStateRequest, FiskalyTss>(endpoint, payload);
+
+        await LogoutAdmin(current.Id);
+
+        return result;
+    }
 }
