@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows;
+using Innkeep.Strings;
 using Microsoft.Extensions.Hosting;
 
 namespace Innkeep.Client;

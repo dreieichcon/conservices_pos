@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation/blazor"
         xmlns:components="clr-namespace:Innkeep.Server.Ui.Components;assembly=Innkeep.Server.Ui"
+        xmlns:strings="clr-namespace:Innkeep.Strings;assembly=Innkeep.Strings"
         mc:Ignorable="d"
-        Title="Innkeep Server" Height="1080" Width="1920"
+        Title="{x:Static strings:AppVersion.ServerAppTitle}" Height="1080" Width="1920"
         Icon="resources/Innkeep.png">
     <wpf:BlazorWebView HostPage="wwwroot\index.html" Services="{DynamicResource services}">
         <wpf:BlazorWebView.RootComponents>
