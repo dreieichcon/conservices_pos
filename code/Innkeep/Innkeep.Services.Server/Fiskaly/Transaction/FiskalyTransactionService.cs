@@ -30,6 +30,8 @@ public partial class FiskalyTransactionService(
 	public async Task<FiskalyTransaction?> StartTransaction()
 	{
 		var transactionGuid = Guid.NewGuid();
+		CurrentTransaction = null;
+		TransactionRevision = 1;
 
 		if (CurrentTss is null || CurrentClient is null)
 			return null;
