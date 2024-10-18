@@ -23,7 +23,7 @@ public static partial class Bootstrapper
 		LoadEnvironmentVariables();
 
 		// Setup Serilog for the Client
-		LoggingManager.InitializeLogger("Innkeep Server", ServerPaths.LogDirectory);
+		LoggingManager.InitializeLogger("Innkeep Server", ServerPaths.LogFilePath);
 
 		// Setup Velopack and Check for Updates
 		ConfigureUpdates();
