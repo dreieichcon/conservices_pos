@@ -52,7 +52,9 @@ public static class ClientServiceManager
 
 	private static void ConfigureControllers(IServiceCollection collection)
 	{
-		collection.AddControllers().AddApplicationPart(typeof(ServerDataController).Assembly);
+		collection
+			.AddControllers()
+			.AddApplicationPart(typeof(ServerDataController).Assembly);
 	}
 
 	private static void ConfigureDatabase(IServiceCollection collection)
