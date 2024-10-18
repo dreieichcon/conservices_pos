@@ -24,3 +24,6 @@ code/Innkeep/Innkeep.Server/db/transactions/
 
 # gitignore for osx
 .DS_Store
+*.sqlite-shm
+
+*.sqlite-wal
