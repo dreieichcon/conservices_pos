@@ -61,6 +61,8 @@
         var transaction = await TransactionService.StartTransaction();
         var receipt = await TransactionService.CompleteTransferTransaction(ClientTransfer);
         receipt.Currency = EventStateService.EventCurrency;
+        
+        TransactionService.FinalizeTransactionFlow();
 
         var jsonForStorage = JsonSerializer.Serialize(receipt, SerializerOptions.GetServerOptions());
 
