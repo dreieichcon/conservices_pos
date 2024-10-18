@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using Innkeep.Core.Constants;
+using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.Discord;
 
@@ -6,14 +7,14 @@ namespace Innkeep.Startup.Services;
 
 public static class LoggingManager
 {
-	public static void InitializeLogger(string serviceName)
+	public static void InitializeLogger(string serviceName, string directory)
 	{
 		var configuration = new LoggerConfiguration()
 							.WriteTo.Trace()
 							.WriteTo.Debug()
 							.WriteTo.Console()
 							.WriteTo.File(
-								"./log/log.txt",
+								directory,
 								rollingInterval: RollingInterval.Day,
 								restrictedToMinimumLevel: LogEventLevel.Information
 							)

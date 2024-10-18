@@ -1,5 +1,7 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows;
+using Innkeep.Core.Constants;
 using Innkeep.Startup.Services;
 using MudBlazor.Services;
 using Serilog;
@@ -68,9 +70,12 @@ public static partial class Bootstrapper
 	{
 		X509Certificate2 certificate = null;
 
+		if (!Directory.Exists(ServerPaths.CertDirectory))
+			Directory.CreateDirectory(ServerPaths.CertDirectory);
+
 		try
 		{
-			certificate = new X509Certificate2("./cert/cert.pfx");
+			certificate = new X509Certificate2(ServerPaths.CertPath);
 		}
 		catch (Exception ex)
 		{
