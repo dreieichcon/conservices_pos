@@ -6,6 +6,7 @@ using Innkeep.Api.Internal.Repositories.Server.Checkin;
 using Innkeep.Api.Internal.Repositories.Server.Pos;
 using Innkeep.Api.Internal.Repositories.Server.Register;
 using Innkeep.Client.Controllers.Endpoints;
+using Innkeep.Core.Constants;
 using Innkeep.Db.Client.Context;
 using Innkeep.Db.Client.Models;
 using Innkeep.Db.Client.Repositories.Config;
@@ -59,10 +60,13 @@ public static class ClientServiceManager
 
 	private static void ConfigureDatabase(IServiceCollection collection)
 	{
-		if (!Directory.Exists("./db"))
-			Directory.CreateDirectory("./db");
+		if (!Directory.Exists(ClientPaths.DatabaseDirectory))
+			Directory.CreateDirectory(ClientPaths.DatabaseDirectory);
 
-		collection.AddDbContextFactory<InnkeepClientContext>(options => options.UseSqlite("DataSource=./db/client.db"));
+		collection.AddDbContextFactory<InnkeepClientContext>(
+			options => options.UseSqlite($"DataSource={ClientPaths.DatabasePath}")
+		);
+
 		collection.AddDbContext<InnkeepClientContext>();
 	}
 
