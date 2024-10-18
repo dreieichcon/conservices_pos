@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
+using Innkeep.Core.Constants;
 using Innkeep.Core.Env;
 using Innkeep.Db.Server.Context;
 using Innkeep.Services.Interfaces.Db;
@@ -21,7 +23,7 @@ public static partial class Bootstrapper
 		LoadEnvironmentVariables();
 
 		// Setup Serilog for the Client
-		LoggingManager.InitializeLogger("Innkeep Server");
+		LoggingManager.InitializeLogger("Innkeep Server", ServerPaths.LogFilePath);
 
 		// Setup Velopack and Check for Updates
 		ConfigureUpdates();
@@ -58,7 +60,7 @@ public static partial class Bootstrapper
 			.Run();
 
 # if RELEASE
-		Task.Run(async () => await InnkeepUpdater.CheckForUpdates("https://updates.conservices.de/innkeep/client"))
+		Task.Run(async () => await InnkeepUpdater.CheckForUpdates("https://updates.conservices.de/innkeep/server"))
 			.GetAwaiter()
 			.GetResult();
 #endif
@@ -90,8 +92,14 @@ public static partial class Bootstrapper
 
 	private static void LoadEnvironmentVariables()
 	{
+		if (!Directory.Exists(ServerPaths.DataDirectory))
+			Directory.CreateDirectory(ServerPaths.DataDirectory);
+
+		if (!Directory.Exists(ServerPaths.EnvDirectory))
+			Directory.CreateDirectory(ServerPaths.EnvDirectory);
+
 		// load environment variables
-		var result = Env.Load("./env/app.env");
+		var result = Env.Load(ServerPaths.EnvFilePath);
 
 		if (!result)
 			MessageBox.Show(
