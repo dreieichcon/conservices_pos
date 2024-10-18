@@ -1,8 +1,6 @@
-﻿using System.IO;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using Innkeep.Client.Services;
-using Innkeep.Core.Constants;
 using Innkeep.Services.Client.Interfaces.Hardware;
 using Innkeep.Services.Client.Interfaces.Internal;
 using Innkeep.Startup.Services;
@@ -85,12 +83,9 @@ public static partial class Bootstrapper
 	{
 		X509Certificate2 certificate = null;
 
-		if (!Directory.Exists(ClientPaths.CertDirectory))
-			Directory.CreateDirectory(ClientPaths.CertDirectory);
-
 		try
 		{
-			certificate = new X509Certificate2(ClientPaths.CertPath);
+			certificate = new X509Certificate2("./cert/cert.pfx");
 		}
 		catch (Exception ex)
 		{

@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Folder Include="db\transactions\"/>
         <Folder Include="wwwroot\"/>
     </ItemGroup>
 

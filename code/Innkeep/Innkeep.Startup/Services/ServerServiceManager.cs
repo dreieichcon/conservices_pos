@@ -22,7 +22,6 @@ using Innkeep.Api.Pretix.Repositories.General;
 using Innkeep.Api.Pretix.Repositories.Order;
 using Innkeep.Api.Pretix.Repositories.Quota;
 using Innkeep.Api.Pretix.Repositories.Sales;
-using Innkeep.Core.Constants;
 using Innkeep.Db.Server.Context;
 using Innkeep.Db.Server.Models.Config;
 using Innkeep.Db.Server.Models.Transaction;
@@ -83,24 +82,16 @@ public static class ServerServiceManager
 
 	private static void ConfigureControllers(IServiceCollection collection)
 	{
-		collection
-			.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme)
-			.AddCertificate();
-
-		collection
-			.AddControllers()
-			.AddApplicationPart(typeof(RegisterController).Assembly);
+		collection.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate();
+		collection.AddControllers().AddApplicationPart(typeof(RegisterController).Assembly);
 	}
 
 	private static void ConfigureDatabase(IServiceCollection collection)
 	{
-		if (!Directory.Exists(ServerPaths.DatabaseDirectory))
-			Directory.CreateDirectory(ServerPaths.DatabaseDirectory);
+		if (!Directory.Exists("./db"))
+			Directory.CreateDirectory("./db");
 
-		collection.AddDbContextFactory<InnkeepServerContext>(
-			options => options.UseSqlite($"DataSource={ServerPaths.DatabasePath}")
-		);
-
+		collection.AddDbContextFactory<InnkeepServerContext>(options => options.UseSqlite("DataSource=./db/server.db"));
 		collection.AddDbContext<InnkeepServerContext>();
 		collection.AddSingleton<IDbContextFactory<InnkeepTransactionContext>, InnkeepTransactionContextFactory>();
 	}
