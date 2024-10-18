@@ -58,7 +58,7 @@ public static partial class Bootstrapper
 			.Run();
 
 # if RELEASE
-		Task.Run(async () => await InnkeepUpdater.CheckForUpdates("https://updates.conservices.de/innkeep/client"))
+		Task.Run(async () => await InnkeepUpdater.CheckForUpdates("https://updates.conservices.de/innkeep/server"))
 			.GetAwaiter()
 			.GetResult();
 #endif
