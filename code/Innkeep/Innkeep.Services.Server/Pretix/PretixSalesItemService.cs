@@ -9,28 +9,15 @@ using Serilog;
 
 namespace Innkeep.Services.Server.Pretix;
 
-public class PretixSalesItemService : IPretixSalesItemService
+public class PretixSalesItemService(
+	IPretixSalesItemRepository salesItemRepository,
+	IPretixQuotaRepository quotaRepository,
+	IEventStateService eventStateService
+) : IPretixSalesItemService
 {
-	private readonly IEventStateService _eventStateService;
-	private readonly IPretixQuotaRepository _quotaRepository;
-	private readonly IRegisterService _registerService;
+	private readonly PeriodicTimer _reloadTimer = new(TimeSpan.FromMinutes(QuotaRefreshInterval));
 
-	private readonly PeriodicTimer _reloadTimer = new(TimeSpan.FromMinutes(2));
-
-	private readonly IPretixSalesItemRepository _salesItemRepository;
-
-	public PretixSalesItemService(
-		IPretixSalesItemRepository salesItemRepository,
-		IPretixQuotaRepository quotaRepository,
-		IRegisterService registerService,
-		IEventStateService eventStateService
-	)
-	{
-		_salesItemRepository = salesItemRepository;
-		_quotaRepository = quotaRepository;
-		_registerService = registerService;
-		_eventStateService = eventStateService;
-	}
+	private const int QuotaRefreshInterval = 2;
 
 	public event EventHandler? SalesItemsUpdated;
 
@@ -38,46 +25,55 @@ public class PretixSalesItemService : IPretixSalesItemService
 
 	public IEnumerable<DtoSalesItem> DtoSalesItems { get; set; } = new List<DtoSalesItem>();
 
+	public DateTime LastQuotaUpdate { get; set; } = DateTime.Now;
+
+	public DateTime LastFullUpdate { get; set; } = DateTime.Now;
+
 	public async Task ReloadTimer()
 	{
 		while (await _reloadTimer.WaitForNextTickAsync())
 		{
 			await LoadQuotas();
-			await _registerService.ReloadConnected();
-			Log.Debug("Reloaded Sales Items");
+			Log.Debug("Reloaded Quotas");
 		}
 	}
 
 	public async Task Load()
 	{
-		if (!_eventStateService.IsEventConfigured) return;
+		if (!eventStateService.IsEventConfigured) return;
 
-		var itemResponse = await _salesItemRepository.GetItems(
-			_eventStateService.PretixOrganizerSlug,
-			_eventStateService.PretixEventSlug
+		var itemResponse = await salesItemRepository.GetItems(
+			eventStateService.PretixOrganizerSlug,
+			eventStateService.PretixEventSlug
 		);
 
 		SalesItems =
 			itemResponse.Object!.Where(item => item.AllSalesChannels || item.SalesChannels.Contains("pretixpos"));
 
 		DtoSalesItems = SalesItems.Select(DtoSalesItem.FromPretix);
-		_eventStateService.EventCurrency = DtoSalesItems.FirstOrDefault()?.Currency ?? "EUR";
+
+		eventStateService.EventCurrency = DtoSalesItems.FirstOrDefault()
+														?.Currency ?? "EUR";
+
+		LastFullUpdate = DateTime.Now;
 
 		await LoadQuotas();
 	}
 
 	public async Task LoadQuotas()
 	{
-		var quotas = await _quotaRepository.GetAll(
-			_eventStateService.PretixOrganizerSlug,
-			_eventStateService.PretixEventSlug
+		var quotas = await quotaRepository.GetAll(
+			eventStateService.PretixOrganizerSlug,
+			eventStateService.PretixEventSlug
 		);
 
 		var toUpdate = DtoSalesItems.ToList();
 
 		foreach (var item in toUpdate)
 		{
-			var itemQuotas = quotas.Object!.Where(x => x.Items.Contains(item.Id)).MaxBy(x => x.Size);
+			var itemQuotas = quotas.Object!
+									.Where(x => x.Items.Contains(item.Id))
+									.MaxBy(x => x.Size);
 
 			if (itemQuotas is null)
 			{
@@ -94,6 +90,8 @@ public class PretixSalesItemService : IPretixSalesItemService
 		}
 
 		DtoSalesItems = toUpdate;
+		
+		LastQuotaUpdate = DateTime.Now;
 
 		SalesItemsUpdated?.Invoke(this, EventArgs.Empty);
 	}
