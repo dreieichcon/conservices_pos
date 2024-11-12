@@ -9,7 +9,7 @@ public class ServerDataController(IHardwareService hardwareService, ISalesItemSe
 {
 	[HttpPost]
 	[Route("reload")]
-	public async Task<IActionResult> Reload([FromRoute] string identifier)
+	public async Task<IActionResult> Reload(string identifier)
 	{
 		if (!ModelState.IsValid)
 			return new BadRequestResult();

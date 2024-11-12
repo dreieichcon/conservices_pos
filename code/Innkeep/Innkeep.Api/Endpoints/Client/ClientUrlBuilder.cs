@@ -23,6 +23,8 @@ public class ClientUrlBuilder : AbstractUrlBuilder<ClientUrlBuilder, ClientParam
 
 	public override string BaseUrl => _baseUrl;
 
+	public override string LastPathSegment => "";
+
 	public ClientUrlBuilder ClientAddress(string address)
 	{
 		_baseUrl = address;

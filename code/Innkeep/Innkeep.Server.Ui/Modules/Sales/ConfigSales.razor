@@ -2,54 +2,59 @@
 @using Innkeep.Api.Models.Internal
 <ConfigPage PageTitle="Sales Items">
     <ChildContent>
-        <MudStack Wrap="Wrap.Wrap">
-            <MudText>Loaded Items:</MudText>
-            <MudGrid>
-                @foreach (var salesItem in SalesItems)
-                {
-                    <MudItem xs="4">
-                        <MudCard Class="p-1">
-                            <MudCardHeader>
-                                <MudStack Row="true" Class="w-100" Justify="Justify.SpaceBetween">
-                                    <MudText>@salesItem.Name</MudText>
-                                    @if (salesItem.PrintCheckinVoucher)
-                                    {
-                                        <MudIcon Icon="@Icons.Material.Filled.Print"></MudIcon>
-                                    }
-                                </MudStack>
-                                
-                            </MudCardHeader>
-                            <MudCardContent>
-                                <MudStack Spacing="0">
-                                    <MudStack Row="true">
-                                        <MudText>Price: @salesItem.Price @salesItem.Currency</MudText>
-                                        @if (@salesItem.TaxRate > 0)
+        <MudStack>
+            <MudStack Wrap="Wrap.Wrap">
+                <MudGrid>
+                    @foreach (var salesItem in SalesItems)
+                    {
+                        <MudItem xs="4">
+                            <MudCard Class="p-1">
+                                <MudCardHeader>
+                                    <MudStack Row="true" Class="w-100" Justify="Justify.SpaceBetween">
+                                        <MudText>@salesItem.Name</MudText>
+                                        @if (salesItem.PrintCheckinVoucher)
                                         {
-                                            <MudText>(@salesItem.NetPrice @salesItem.Currency + @salesItem.TaxAmount @salesItem.Currency)</MudText>
+                                            <MudIcon Icon="@Icons.Material.Filled.Print"></MudIcon>
                                         }
                                     </MudStack>
-                                    
-                                    <MudText>Tax: @salesItem.TaxRate %</MudText>
-                                </MudStack>
-                                <MudStack Class="pt-6">
-                                    @if (!salesItem.Infinite)
-                                    {
-                                        <MudProgressLinear Max="@salesItem.QuotaMax!.Value" Value="@salesItem.QuotaSold!.Value" Color="GetColor(salesItem)">
-                                            <MudText Class="mb-6">@salesItem.QuotaLeft / @salesItem.QuotaMax Available</MudText>
-                                        </MudProgressLinear>
-                                    }
-                                    else
-                                    {
-                                        <MudProgressLinear Max="1" Value="1" Color="Color.Success">
-                                            <MudText Class="mb-6">∞ Available</MudText>
-                                        </MudProgressLinear>
-                                    }
-                                </MudStack>
-                            </MudCardContent>
-                        </MudCard>
-                    </MudItem>
-                }
-            </MudGrid>
+
+                                </MudCardHeader>
+                                <MudCardContent>
+                                    <MudStack Spacing="0">
+                                        <MudStack Row="true">
+                                            <MudText>Price: @salesItem.Price @salesItem.Currency</MudText>
+                                            @if (salesItem.TaxRate > 0)
+                                            {
+                                                <MudText>(@salesItem.NetPrice @salesItem.Currency + @salesItem.TaxAmount @salesItem.Currency)</MudText>
+                                            }
+                                        </MudStack>
+
+                                        <MudText>Tax: @salesItem.TaxRate %</MudText>
+                                    </MudStack>
+                                    <MudStack Class="pt-6">
+                                        @if (!salesItem.Infinite)
+                                        {
+                                            <MudProgressLinear Max="@salesItem.QuotaMax!.Value" Value="@salesItem.QuotaSold!.Value" Color="GetColor(salesItem)">
+                                                <MudText Class="mb-6">@salesItem.QuotaLeft / @salesItem.QuotaMax Available</MudText>
+                                            </MudProgressLinear>
+                                        }
+                                        else
+                                        {
+                                            <MudProgressLinear Max="1" Value="1" Color="Color.Success">
+                                                <MudText Class="mb-6">∞ Available</MudText>
+                                            </MudProgressLinear>
+                                        }
+                                    </MudStack>
+                                </MudCardContent>
+                            </MudCard>
+                        </MudItem>
+                    }
+                </MudGrid>
+            </MudStack>
+            <MudStack Row="true" Justify="Justify.FlexEnd">
+                <MudText>Last full reload @SalesItemService.LastFullUpdate.ToString("HH:mm")</MudText>
+                <MudText>Last quota reload @SalesItemService.LastQuotaUpdate.ToString("HH:mm")</MudText>
+            </MudStack>
         </MudStack>
     </ChildContent>
     <ActionBar>
@@ -61,8 +66,6 @@
 @code {
 
     private Color GetColor(DtoSalesItem item)
-    {
-        return item.SoldOut ? Color.Error : Color.Primary;
-    }
+        => item.SoldOut ? Color.Error : Color.Primary;
 
 }
