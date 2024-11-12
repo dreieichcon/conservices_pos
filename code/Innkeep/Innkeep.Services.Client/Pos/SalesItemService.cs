@@ -28,10 +28,22 @@ public class SalesItemService : ISalesItemService
 
 	public async Task Load()
 	{
-		SalesItems = (await _salesItemRepository.GetSalesItems()).Object!;
-		_router.SalesItemsReloaded();
-		LastUpdated = DateTime.Now;
-		ItemsUpdated?.Invoke(this, EventArgs.Empty);
+		try
+		{
+			var items = await _salesItemRepository.GetSalesItems();
+
+			if (items.Object is null || !items.Object.Any())
+				return;
+
+			SalesItems = items.Object!;
+			_router.SalesItemsReloaded();
+			LastUpdated = DateTime.Now;
+			ItemsUpdated?.Invoke(this, EventArgs.Empty);
+		}
+		catch (Exception ex)
+		{
+			Log.Error(ex, "Error loading sales items");
+		}
 	}
 
 	public async Task ReloadTask()

@@ -24,7 +24,7 @@
         await base.OnInitializedAsync();
     }
 
-    private string ItemDisplayText => $"Items - Stand {SalesItemService.LastUpdated?.ToString("HH:mm")}";
+    private string ItemDisplayText => $"Items - {SalesItemService.LastUpdated?.ToString("HH:mm") ?? "Not Loaded"}";
 
     private void AddToCart(DtoSalesItem item)
     {
