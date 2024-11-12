@@ -2,11 +2,13 @@
 using Innkeep.Api.Models.Internal;
 using Innkeep.Services.Client.Interfaces.Internal;
 using Innkeep.Services.Client.Interfaces.Pos;
+using Serilog;
 
 namespace Innkeep.Services.Client.Pos;
 
 public class SalesItemService : ISalesItemService
 {
+	private readonly PeriodicTimer _reloadTimer = new(TimeSpan.FromMinutes(1));
 	private readonly IEventRouter _router;
 	private readonly ISalesItemRepository _salesItemRepository;
 
@@ -18,6 +20,8 @@ public class SalesItemService : ISalesItemService
 		_router.OnRegisterConnected += async (_, _) => await Load();
 	}
 
+	public DateTime? LastUpdated { get; set; }
+
 	public event EventHandler? ItemsUpdated;
 
 	public IEnumerable<DtoSalesItem> SalesItems { get; set; } = new List<DtoSalesItem>();
@@ -26,6 +30,16 @@ public class SalesItemService : ISalesItemService
 	{
 		SalesItems = (await _salesItemRepository.GetSalesItems()).Object!;
 		_router.SalesItemsReloaded();
+		LastUpdated = DateTime.Now;
 		ItemsUpdated?.Invoke(this, EventArgs.Empty);
+	}
+
+	public async Task ReloadTask()
+	{
+		while (await _reloadTimer.WaitForNextTickAsync())
+		{
+			await Load();
+			Log.Debug("Reloaded Sales Items");
+		}
 	}
 }

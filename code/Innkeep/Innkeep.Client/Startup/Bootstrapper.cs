@@ -69,7 +69,9 @@ public static partial class Bootstrapper
 	/// <param name="host">Current host, holding the services.</param>
 	private static void InitializeServices(IHost host)
 	{
-		host.Services.GetRequiredService<ISalesItemService>();
+		var salesItemSer = host.Services.GetRequiredService<ISalesItemService>();
+
+		Task.Run(async () => await salesItemSer.ReloadTask());
 	}
 
 	private static void LoadEnvironmentVariables()
