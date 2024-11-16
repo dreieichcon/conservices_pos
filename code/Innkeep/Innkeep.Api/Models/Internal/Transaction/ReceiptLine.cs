@@ -38,7 +38,7 @@ public class ReceiptLine
 	{
 		get
 		{
-			var maxLength = 16;
+			var maxLength = 14;
 			
 			if (!HasTax) 
 				maxLength += 4;
