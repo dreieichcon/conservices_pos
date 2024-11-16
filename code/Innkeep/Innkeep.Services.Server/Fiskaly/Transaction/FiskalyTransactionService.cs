@@ -163,8 +163,8 @@ public partial class FiskalyTransactionService(
 					group => new ReceiptTaxInformation
 					{
 						Name = (group.Key / 100).ToString("P0", CultureInfo.InvariantCulture),
-						Net = group.Sum(x => x.NetPrice),
-						TaxAmount = group.Sum(x => x.TaxAmount),
+						Net = group.Sum(x => x.TotalNetPrice),
+						TaxAmount = group.Sum(x => x.TotalTax),
 						Gross = group.Sum(x => x.TotalPrice),
 					}
 				)

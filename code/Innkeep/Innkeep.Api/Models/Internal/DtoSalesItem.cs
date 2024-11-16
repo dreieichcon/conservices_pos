@@ -21,6 +21,9 @@ public class DtoSalesItem
    
 	[JsonIgnore]
 	public decimal NetPrice => Price - TaxAmount;
+
+	[JsonIgnore]
+	public decimal TotalNetPrice => NetPrice * CartCount;
  
  	[JsonIgnore]
 	public decimal TaxAmount => Math.Round(Price / (1 + TaxRateCalculation) * TaxRateCalculation, 2);
