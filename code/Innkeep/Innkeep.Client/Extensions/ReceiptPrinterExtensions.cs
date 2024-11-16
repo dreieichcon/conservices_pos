@@ -25,10 +25,10 @@ public static class ReceiptPrinterExtensions
 	public static DocumentManager AddReceiptLines(this DocumentManager manager, TransactionReceipt receipt)
 	{
 		if (receipt.Lines.Exists(x => x.HasTax))
-			manager.AddLine(SpaceEvenlyAcross("Stk.", "Artikel  ", "MwSt.", receipt.Currency));
+			manager.AddLine(SpaceEvenlyAcross("Stk.", "Artikel  ", "MwSt.", receipt.Currency, "SUM"));
 
 		else
-			manager.AddLine(SpaceEvenlyAcross("Stk.", "Artikel  ", receipt.Currency));
+			manager.AddLine(SpaceEvenlyAcross("Stk.", "Artikel  ", receipt.Currency, "SUM"));
 
 		manager.AddDashedLine();
 
@@ -138,7 +138,7 @@ public static class ReceiptPrinterExtensions
 
 	private static string CreateReceiptLine(ReceiptLine line)
 	{
-		// 8 (20) 4 10
-		return $"{line.CountString}{line.NameString}{line.TaxRateString}{line.PriceString}";
+		// 8 (15) 4 5 5
+		return $"{line.CountString}{line.NameString}{line.TaxRateString}{line.PriceString}{line.TotalPrice}";
 	}
 }

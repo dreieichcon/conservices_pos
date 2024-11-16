@@ -11,6 +11,9 @@ public class ReceiptLine
 	
 	public decimal Price { get; set; }
 	
+	[JsonIgnore]
+	public decimal TotalPrice => Price * Count;
+	
 	public string TaxRate { get; set; } 
 	
 	public bool HasTax { get; set; }
@@ -35,7 +38,7 @@ public class ReceiptLine
 	{
 		get
 		{
-			var maxLength = 20;
+			var maxLength = 16;
 			
 			if (!HasTax) 
 				maxLength += 4;
